@@ -1,0 +1,7 @@
+News
+
+* 22.09.2009  Nouveau site
+
+    Je suis heureux de vous annoncer la mise en place d'un nouveau site pour JTheque Movies Module. Ce nouveau 
+    site est maintenant géré avec Maven 2. Cela m'évite beaucoup de travail et fournit une architecture
+    de site bien connue des développeurs Java. 

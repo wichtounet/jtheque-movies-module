@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Module-Context: org/jtheque/movies/spring/movies-beans.xml
+Resources: SWT.jar;NativeSwing.jar;NativeSwingSWT.jar

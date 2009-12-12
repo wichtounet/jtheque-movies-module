@@ -1,0 +1,56 @@
+Télécharger JTheque Memory Module 1.2
+
+   JTheque Movies Module est distribué sous forme d'une archive Jar, les sources de JTheque Movies Module sont 
+   distribués sous plusieurs formes pour votre convenance. 
+
+   JTheque Movies Module 1.2 est distribué sous licence {{{http://www.gnu.org/copyleft/gpl.html} GNU General Public License, version 3}}.
+
+*-------------------------+---------+----------------+-----------------+
+|                         |  Lien   | Checksum (MD5) | Checksum (SHA1) |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2 (jar)                | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-memory-module/1.2/jtheque-movies-module-1.2.jar} jtheque-movies-module-1.2.jar}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2.jar.md5} jtheque-movies-module-1.2.jar.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2.jar.sha1} jtheque-movies-module-1.2.jar.sha1}} | 
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2 (Source tar.bz2)     | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.bz2} jtheque-movies-module-1.2-src.tar.bz2}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.bz2.md5} jtheque-movies-module-1.2-src.tar.bz2.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.bz2.sha1} jtheque-movies-module-1.2-src.tar.bz2.sha1}} | 
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2 (Source tar.gz)      | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.gz} jtheque-movies-module-1.2-src.tar.gz}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.gz.md5} jtheque-movies-module-1.2-src.tar.gz.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.tar.gz.sha1} jtheque-movies-module-1.2-src.tar.gz.sha1}} | 
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2 (Source zip)         | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.zip} jtheque-movies-module-1.2-src.zip}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-src.zip.md5} jtheque-movies-module-1.2-src.zip.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2.jar.sha1} jtheque-movies-module-1.2-src.zip.sha1}} | 
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2 (Javadoc jar)        | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-javadoc.jar} jtheque-movies-module-1.2.jar}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-javadoc.jar.md5} jtheque-movies-module-1.2-javadoc.jar.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2/jtheque-movies-module-1.2-javadoc.jar.sha1} jtheque-movies-module-1.2-javadoc.jar.sha1}} | 
+*-------------------------+---------+----------------+-----------------+
+| Release Notes           | {{{versions.html} 1.2}} | | |
+*-------------------------+---------+----------------+-----------------+
+
+* {JTheque Movies Module 1.1}
+
+*-------------------------+---------+
+|                         |  Lien   |
+*-------------------------+---------+
+| JTheque Movies Module 1.1 (jar)                | {{{http://jtheque.developpez.com/archives/JTheque Movies Module/1.1/JTheque-Movies-Module.jar} JTheque-Movies-Module.jar}} | 
+*-------------------------+---------+
+| JTheque Movies Module 1.1 (Source zip)         | {{{http://jtheque.developpez.com/archives/JTheque Movies Module/1.1/JTheque-Movies-Module_src.zip} JTheque-Movies-Module_src.zip}} | 
+*-------------------------+---------+
+| JTheque Movies Module 1.1 (Javadoc zip)        | {{{http://jtheque.developpez.com/archives/JTheque Movies Module/1.1/JTheque-Movies-Module_doc.zip} JTheque-Movies-Module_doc.zip}} | 
+*-------------------------+---------+
+| Release Notes           | {{{versions.html} 1.1}} | 
+*-------------------------+---------+
+
+* {JTheque Movies Module 1.0}
+
+*-------------------------+---------+
+|                         |  Lien   |
+*-------------------------+---------+
+| JTheque Movies Module 1.0 (jar)                | {{{http://jtheque.developpez.com/archives/JTheque Movies Module/1.0/JTheque-Movies-Module.jar} JTheque-Movies-Module.jar}} | 
+*-------------------------+---------+
+| Release Notes           | {{{versions.html} 1.0}} | 
+*-------------------------+---------+
+
+* Pré-requis sytèmes
+
+*----------------------+---------------------------------------------------------------------------------------------+
+| <<JRE>>              | 6.0 ou supérieur |
+*----------------------+---------------------------------------------------------------------------------------------+
+| <<Librairies>> | JTheque Core | 
+*----------------------+---------------------------------------------------------------------------------------------+
+| <<Operating System>> | Aucun pré-requis. La librairie est multi-plateforme. |
+*----------------------+---------------------------------------------------------------------------------------------+

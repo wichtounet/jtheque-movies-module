@@ -1,0 +1,15 @@
+Versions
+
+This document present the different versions of JTheque Movies Module. 
+
+* 1.2 22.09.2009 Switch to JTheque Core 2.0 and Maven 2
+
+    * Switch to JTheque Core 2.0
+    * Switch to Maven 2
+    * Referential integrity
+
+* 1.1 01.06.2009 Refactorings
+
+* 1.0 08.04.2009 Base version
+
+    * Base version

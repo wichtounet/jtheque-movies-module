@@ -1,0 +1,40 @@
+<project name="JTheque Movies Module">
+    <skin>
+        <groupId>com.anasoft.os</groupId>
+        <artifactId>m2st-stylus-ext-skin</artifactId>
+        <version>2.0</version>
+    </skin>
+    
+    <publishDate position="right"/>
+    <version position="right" />
+    
+    <body>
+        <links>
+            <item name="Developpez.com" href="http://www.developpez.com"/>
+            <item name="Maven" href="http://maven.apache.org"/>
+        </links>
+        
+        <breadcrumbs>
+            <item name="JTheque Movies Module" href="http://jtheque.developpez.com/collections/movies/"/>
+        </breadcrumbs>
+        
+        <menu ref="parent"/>
+        
+        <menu name="JTheque Movies Module">
+            <item name="Introduction" href="index.html"/>
+            <item name="News" href="news.html"/>
+            <item name="Forum JTheque" href="http://www.developpez.net/forums/f751/applications/projets/jtheque/" />
+        </menu>
+        
+        <menu name="Obtenir JTheque Movies Module">
+            <item name="TÃ©lÃ©chargement" href="download.html"/>
+            <item name="Versions" href="versions.html"/>
+        </menu>
+        
+        <menu name="Autres langues">
+            <item name="English" href="en/index.html"/>
+        </menu>
+        
+        <menu ref="reports"/>
+    </body>
+</project>
