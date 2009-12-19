@@ -34,8 +34,6 @@
     <orderEntry type="library" exported="" name="Maven: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:2.5.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-logging:commons-logging:99.0-does-not-exist" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
-    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.easymock:easymock:2.4" level="project" />
     <orderEntry type="module" module-name="JTheque Primary Utils" exported="" />
     <orderEntry type="module" module-name="JTheque Core" exported="" />
@@ -66,6 +64,7 @@
     <orderEntry type="library" exported="" name="Maven: jfree:jfreechart:1.0.12" level="project" />
     <orderEntry type="library" exported="" name="Maven: eclipse:jdtcore:3.1.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: net.sourceforge.jexcelapi:jxl:2.6.3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.apache.poi:poi:3.0.2-FINAL" level="project" />
     <orderEntry type="library" exported="" name="Maven: net.sf.ehcache:ehcache:1.6.0" level="project" />
     <orderEntry type="library" exported="" name="Maven: com.h2database:h2:1.1.111" level="project" />
@@ -86,6 +85,7 @@
     <orderEntry type="library" exported="" name="Maven: javax.swing.native:swt-win32:3.5M6" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.swing.native:dj-native-swing:0.9.9-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: javax.swing.native:dj-native-swing-swt:0.9.9-SNAPSHOT" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.slf4j:slf4j-log4j12:1.5.8" level="project" />
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

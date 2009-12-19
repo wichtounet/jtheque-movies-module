@@ -20,6 +20,29 @@
 
     <url>http://jtheque.developpez.com/collections/movies/</url>
 
+    <repositories>
+        <repository>
+            <id>JTheque</id>
+            <url>http://jtheque.developpez.com/repository</url>
+        </repository>
+        <repository>
+            <id>com.anasoft.os.repository.releases</id>
+            <name>ANASOFT OpenSource releases</name>
+            <url>http://anasoft-os-repo.googlecode.com/svn/repository/releases</url>
+        </repository>
+        <repository>
+            <id>com.anasoft.os.repository.snapshots</id>
+            <name>ANASOFT OpenSource snapshots</name>
+            <url>http://anasoft-os-repo.googlecode.com/svn/repository/snapshots</url>
+        </repository>
+        <repository>
+            <id>Version99</id>
+            <name>Version 99 Does Not Exist Maven repository</name>
+            <layout>default</layout>
+            <url>http://no-commons-logging.zapto.org/mvn2</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <site>
             <id>jtheque-web-server</id>
@@ -151,13 +174,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>${slf4j.version}</version>
             <scope>test</scope>
         </dependency>
 
