@@ -5,7 +5,6 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 
 import javax.swing.JPanel;
-import java.io.File;
 import java.util.Collection;
 
 /*

@@ -190,7 +190,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     }
 
     /**
-     * A row mapper to map a resultset to a reéation between category and movie.
+     * A row mapper to map a resultset to a relation between category and movie.
      *
      * @author Baptiste Wicht
      */

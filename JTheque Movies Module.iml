@@ -27,6 +27,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="Maven: org.substance:substance-lite:5.3" level="project" />
     <orderEntry type="module" module-name="JTheque Primary Utils" exported="" />
     <orderEntry type="module" module-name="JTheque Core" exported="" />
     <orderEntry type="library" exported="" name="Maven: org.dbunit:dbunit:2.4.4" level="project" />
