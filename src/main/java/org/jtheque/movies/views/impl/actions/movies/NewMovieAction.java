@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.actions.movies;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.IMovieController;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -28,11 +29,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class NewMovieAction extends JThequeAction {
-    private static final long serialVersionUID = -7636108788149237216L;
-
-    @Resource
-    private IMovieController movieController;
-
     /**
      * Construct a new AcNewFilm.
      */
@@ -42,6 +38,6 @@ public final class NewMovieAction extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        movieController.createMovie();
+        Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").createMovie();
     }
 }

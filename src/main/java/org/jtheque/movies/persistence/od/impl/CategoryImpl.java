@@ -56,7 +56,7 @@ public final class CategoryImpl extends AbstractCategory {
 
     @Override
     public int hashCode(){
-        return HashCodeUtils.hashCode(this, "title", "theCollection");
+        return HashCodeUtils.hashCode(this, "id", "title", "theCollection");
     }
 
     @Override
@@ -75,11 +75,23 @@ public final class CategoryImpl extends AbstractCategory {
 
         final Category other = (Category) obj;
 
+        if(getId() != other.getId()){
+            return false;
+        }
+
         if (getTitle() == null){
             if (other.getTitle() != null){
                 return false;
             }
         } else if (!getTitle().equals(other.getTitle())){
+            return false;
+        }
+
+        if (getTheCollection() == null){
+            if (other.getTheCollection() != null){
+                return false;
+            }
+        } else if (!getTheCollection().equals(other.getTheCollection())){
             return false;
         }
 

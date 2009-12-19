@@ -44,7 +44,7 @@ public class MovieImplTest {
         category1.setId(1);
 
         Category category2 = new CategoryImpl();
-        category1.setId(2);
+        category2.setId(2);
 
         movie.addCategories(Arrays.asList(category1, category2));
 

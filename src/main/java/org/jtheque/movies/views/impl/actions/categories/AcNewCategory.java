@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.actions.categories;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.ICategoryController;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -28,9 +29,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcNewCategory extends JThequeAction {
-    @Resource
-    private ICategoryController categoryController;
-
     /**
      * Construct a new AcNewCategory.
      */
@@ -40,6 +38,6 @@ public final class AcNewCategory extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        categoryController.newCategory();
+        Managers.getManager(IBeansManager.class).<ICategoryController>getBean("categoryController").newCategory();
     }
 }

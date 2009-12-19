@@ -53,10 +53,6 @@ public final class ViewMovieState extends AbstractMovieState {
     @Override
     public void apply(){
         controller.getView().setDisplayedView(IMovieView.VIEW_VIEW);
-
-        if (getViewModel().getCurrentMovie() != null){
-            controller.getView().select(getViewModel().getCurrentMovie());
-        }
     }
 
     @Override

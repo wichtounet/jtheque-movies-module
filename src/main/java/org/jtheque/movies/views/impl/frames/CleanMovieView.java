@@ -17,15 +17,16 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
+import org.jtheque.core.managers.view.impl.actions.utils.CloseViewAction;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.movies.views.able.ICleanMovieView;
+import org.jtheque.movies.views.impl.actions.clean.AcValidateCleanViewAction;
 import org.jtheque.movies.views.impl.panel.CleanerContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.Action;
 import java.awt.Container;
 import java.awt.Frame;
 import java.util.ArrayList;
@@ -37,11 +38,6 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class CleanMovieView extends SwingDialogView implements ICleanMovieView {
-    private static final long serialVersionUID = -3525319522701158262L;
-
-    private final Action validateAction;
-    private final Action cancelAction;
-
     private final Collection<CleanerContainer> cleanerContainers;
     private final Collection<Movie> movies = new ArrayList<Movie>(25);
 
@@ -49,15 +45,10 @@ public final class CleanMovieView extends SwingDialogView implements ICleanMovie
      * Construct a new CleanMovieView.
      *
      * @param parent         The parent frame.
-     * @param validateAction The action to validate the view.
-     * @param cancelAction   The action to cancel the view.
      * @param cleaners       The name cleaners.
      */
-    public CleanMovieView(Frame parent, Action validateAction, Action cancelAction, Collection<NameCleaner> cleaners){
+    public CleanMovieView(Frame parent, Collection<NameCleaner> cleaners){
         super(parent);
-
-        this.validateAction = validateAction;
-        this.cancelAction = cancelAction;
 
         cleanerContainers = new ArrayList<CleanerContainer>(cleaners.size());
 
@@ -96,7 +87,10 @@ public final class CleanMovieView extends SwingDialogView implements ICleanMovie
             builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), validateAction, cancelAction);
+        CloseViewAction closeAction = new CloseViewAction("movie.auto.actions.cancel");
+        closeAction.setView(this);
+
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new AcValidateCleanViewAction(), closeAction);
 
         return builder.getPanel();
     }

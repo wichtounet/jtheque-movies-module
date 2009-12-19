@@ -33,8 +33,6 @@ import java.util.List;
  * @author Baptiste Wicht
  */
 public final class CategoriesListModel extends DefaultListModel implements DataListener {
-    private static final long serialVersionUID = 627034111249354845L;
-
     @Resource
     private ICategoriesService categoriesService;
 

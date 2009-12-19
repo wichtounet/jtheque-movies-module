@@ -73,7 +73,6 @@ public final class ModifyMovieState extends AbstractMovieState {
 
         if (!oldTitle.equals(movie.getTitle())){
             controller.getView().resort();
-            controller.getView().select(movie);
         }
 
         return controller.getViewState();

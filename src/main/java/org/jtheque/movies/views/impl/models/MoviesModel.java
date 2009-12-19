@@ -16,6 +16,8 @@ package org.jtheque.movies.views.impl.models;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.models.able.IMoviesModel;
@@ -23,8 +25,6 @@ import org.jtheque.primary.view.impl.listeners.ObjectChangedEvent;
 import org.jtheque.primary.view.impl.models.PrincipalDataModel;
 import org.jtheque.utils.collections.CollectionUtils;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,14 +38,13 @@ public final class MoviesModel extends PrincipalDataModel<Movie> implements IMov
 
     private List<Movie> displayList;
 
-    @Resource
-    private IMoviesService moviesService;
+    private final IMoviesService moviesService;
 
-    /**
-     * Init the model.
-     */
-    @PostConstruct
-    private void init(){
+    public MoviesModel(){
+        super();
+
+        moviesService = Managers.getManager(IBeansManager.class).getBean("moviesService");
+
         moviesService.addDataListener(this);
     }
 

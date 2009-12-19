@@ -28,8 +28,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcQuitView extends JThequeAction {
-    private static final long serialVersionUID = 1412326778227550519L;
-
     @Resource
     private IMovieController movieController;
 

@@ -1,9 +1,27 @@
-Download JTheque Movies Module 1.2
+Download JTheque Movies Module 1.2.1
 
    JTheque Movies Module is distributed as a Jar Archive, the sources are distributed in several
    formats for your convenience. 
 
-   JTheque Movies Module 1.2 is distributed under {{{http://www.gnu.org/copyleft/gpl.html} GNU General Public License, version 3}}.
+   JTheque Movies Module 1.2.1 is distributed under {{{http://www.gnu.org/copyleft/gpl.html} GNU General Public License, version 3}}.
+
+*-------------------------+---------+----------------+-----------------+
+|                         |  Lien   | Checksum (MD5) | Checksum (SHA1) |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2.1 (jar)                | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-memory-module/1.2.1/jtheque-movies-module-1.2.1.jar} jtheque-movies-module-1.2.1.jar}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1.jar.md5} jtheque-movies-module-1.2.1.jar.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1.jar.sha1} jtheque-movies-module-1.2.1.jar.sha1}} |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2.1 (Source tar.bz2)     | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.bz2} jtheque-movies-module-1.2.1-src.tar.bz2}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.bz2.md5} jtheque-movies-module-1.2.1-src.tar.bz2.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.bz2.sha1} jtheque-movies-module-1.2.1-src.tar.bz2.sha1}} |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2.1 (Source tar.gz)      | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.gz} jtheque-movies-module-1.2.1-src.tar.gz}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.gz.md5} jtheque-movies-module-1.2.1-src.tar.gz.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.tar.gz.sha1} jtheque-movies-module-1.2.1-src.tar.gz.sha1}} |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2.1 (Source zip)         | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.zip} jtheque-movies-module-1.2.1-src.zip}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-src.zip.md5} jtheque-movies-module-1.2.1-src.zip.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1.jar.sha1} jtheque-movies-module-1.2.1-src.zip.sha1}} |
+*-------------------------+---------+----------------+-----------------+
+| JTheque Movies Module 1.2.1 (Javadoc jar)        | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-javadoc.jar} jtheque-movies-module-1.2.1.jar}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-javadoc.jar.md5} jtheque-movies-module-1.2.1-javadoc.jar.md5}} | {{{http://jtheque.developpez.com/repository/org/jtheque/jtheque-movies-module/1.2.1/jtheque-movies-module-1.2.1-javadoc.jar.sha1} jtheque-movies-module-1.2.1-javadoc.jar.sha1}} |
+*-------------------------+---------+----------------+-----------------+
+| Release Notes           | {{{versions.html} 1.2.1}} | | |
+*-------------------------+---------+----------------+-----------------+
+
+* {JTheque Movies Module 1.2}
 
 *-------------------------+---------+----------------+-----------------+
 |                         |  Lien   | Checksum (MD5) | Checksum (SHA1) |

@@ -16,12 +16,13 @@ package org.jtheque.movies.views.impl.actions.clean;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.ICleanMovieView;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -30,14 +31,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcCleanMovie extends JThequeAction {
-    private static final long serialVersionUID = 1412326778227550519L;
-
-    @Resource
-    private IMovieController movieController;
-
-    @Resource
-    private ICleanMovieView cleanMovieView;
-
     /**
      * Construct a new AcPrintFilm.
      */
@@ -47,10 +40,10 @@ public final class AcCleanMovie extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        Movie movie = movieController.getViewModel().getCurrentMovie();
+        Movie movie = Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
 
         if (movie != null){
-            cleanMovieView.clean(movie);
+            Managers.getManager(IBeansManager.class).<ICleanMovieView>getBean("cleanMovieView").clean(movie);
         }
     }
 }

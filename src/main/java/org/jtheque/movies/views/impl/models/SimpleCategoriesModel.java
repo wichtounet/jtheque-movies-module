@@ -29,8 +29,6 @@ import java.util.List;
  * @author Baptiste Wicht
  */
 public final class SimpleCategoriesModel extends DefaultListModel {
-    private static final long serialVersionUID = 627034111249354845L;
-
     private final List<Category> categories;
 
     /**

@@ -17,7 +17,6 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -32,7 +31,6 @@ import org.jtheque.primary.controller.impl.PrincipalController;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.swing.Action;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.tree.TreePath;
@@ -50,8 +48,6 @@ public final class MovieController extends PrincipalController<Movie> implements
 
     private ViewerPanel current;
 
-    private Action quitPlayerAction;
-
     @Override
     public IMovieView getView(){
         return movieView;
@@ -63,8 +59,6 @@ public final class MovieController extends PrincipalController<Movie> implements
     @PostConstruct
     private void init(){
         setState(getViewState());
-
-        quitPlayerAction = Managers.getManager(IResourceManager.class).getAction("quitMovieViewAction");
     }
 
     @Override
@@ -104,9 +98,9 @@ public final class MovieController extends PrincipalController<Movie> implements
     @Override
     public void displayViewer(String view, File file){
         if (view.equals(IMovieView.WMP_VIEW)){
-            setCurrentViewer(file, new JPanelWMP(quitPlayerAction));
+            setCurrentViewer(file, new JPanelWMP());
         } else if (view.equals(IMovieView.VLC_VIEW)){
-            setCurrentViewer(file, new JPanelVLC(quitPlayerAction));
+            setCurrentViewer(file, new JPanelVLC());
         }
     }
 

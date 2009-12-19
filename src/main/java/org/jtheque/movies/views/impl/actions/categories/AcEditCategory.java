@@ -16,11 +16,12 @@ package org.jtheque.movies.views.impl.actions.categories;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.controller.able.IChoiceController;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -29,11 +30,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcEditCategory extends JThequeAction {
-    private static final long serialVersionUID = 750857307466422397L;
-
-    @Resource
-    private IChoiceController choiceController;
-
     /**
      * Construct a new AcEditKind.
      */
@@ -43,6 +39,8 @@ public final class AcEditCategory extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
+        IChoiceController choiceController = Managers.getManager(IBeansManager.class).getBean("choiceController");
+
         choiceController.setAction("edit");
         choiceController.setContent(ICategoriesService.DATA_TYPE);
         choiceController.displayView();

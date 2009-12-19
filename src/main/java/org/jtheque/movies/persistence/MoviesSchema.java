@@ -58,7 +58,7 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     @Override
-    public String[] getDependencies(){
+    public String[] getDependencies() {
         return new String[]{"PrimaryUtils-Schema"};
     }
 

@@ -28,7 +28,6 @@ import org.jtheque.movies.views.impl.models.able.ICategoryModel;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.annotation.PostConstruct;
 import javax.swing.Action;
 import javax.swing.JTextField;
 import java.awt.Container;
@@ -41,8 +40,6 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class CategoryView extends SwingDialogView implements ICategoryView {
-    private static final long serialVersionUID = -3525319522701158262L;
-
     private JTextField fieldName;
 
     private final Action saveAction;
@@ -63,6 +60,14 @@ public final class CategoryView extends SwingDialogView implements ICategoryView
 
         this.saveAction = saveAction;
         this.cancelAction = cancelAction;
+
+        setContentPane(buildContentPane());
+        setResizable(false);
+
+        reload();
+        pack();
+
+        setLocationRelativeTo(getOwner());
     }
 
     @Override
@@ -82,20 +87,6 @@ public final class CategoryView extends SwingDialogView implements ICategoryView
                 category.getDisplayableText());
 
         fieldName.setText(category.getTitle());
-    }
-
-    /**
-     * Build the view.
-     */
-    @PostConstruct
-    private void build(){
-        setContentPane(buildContentPane());
-        setResizable(false);
-
-        reload();
-        pack();
-
-        setLocationRelativeTo(getOwner());
     }
 
     /**

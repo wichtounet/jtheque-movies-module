@@ -37,8 +37,6 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class AcOpenMovie extends JThequeAction {
-    private static final long serialVersionUID = 1412326778227550519L;
-
     @Resource
     private IMovieController movieController;
 

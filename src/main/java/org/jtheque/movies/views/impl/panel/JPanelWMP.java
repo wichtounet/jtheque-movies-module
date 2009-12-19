@@ -1,9 +1,9 @@
 package org.jtheque.movies.views.impl.panel;
 
 import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
+import org.jtheque.movies.views.impl.actions.view.AcQuitView;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -42,10 +42,8 @@ public final class JPanelWMP extends ViewerPanel {
 
     /**
      * Construct a new VLC panel.
-     *
-     * @param quitAction The action to quit the player view.
      */
-    public JPanelWMP(Action quitAction){
+    public JPanelWMP(){
         super();
 
         setLayout(new BorderLayout());
@@ -69,7 +67,7 @@ public final class JPanelWMP extends ViewerPanel {
 
         cons.gridx++;
 
-        playerFilePanel.add(new JButton(quitAction), cons);
+        playerFilePanel.add(new JButton(new AcQuitView()), cons);
 
         add(playerFilePanel, BorderLayout.NORTH);
 

@@ -28,6 +28,9 @@ import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.ICategoriesView;
+import org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory;
+import org.jtheque.movies.views.impl.actions.categories.AcEditCategory;
+import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.movies.views.impl.models.IconListRenderer;
@@ -35,8 +38,6 @@ import org.jtheque.movies.views.impl.models.SimpleCategoriesModel;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
@@ -53,31 +54,17 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class JPanelCategories extends JPanel implements ICategoriesView {
-    private static final long serialVersionUID = 447863972139498415L;
-
     private JList listCategories;
     private JList listCategoriesForFilm;
 
     private CategoriesListModel categoriesModel;
     private SimpleCategoriesModel categoriesForMovieModel;
 
-    private final Action newAction;
-    private final Action editAction;
-    private final Action deleteAction;
-
     /**
      * Construct a new JPanelCategories with the given actions.
-     *
-     * @param newAction    The action to create a new category.
-     * @param deleteAction The action to delete a category.
-     * @param editAction   The action to edit a category.
      */
-    public JPanelCategories(Action newAction, Action editAction, Action deleteAction){
+    public JPanelCategories(){
         super();
-
-        this.newAction = newAction;
-        this.editAction = editAction;
-        this.deleteAction = deleteAction;
 
         build();
     }
@@ -113,11 +100,11 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         listCategoriesForFilm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         PanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
-
+        
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.add(new JButton(newAction), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.add(new JButton(editAction), builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.add(new JButton(deleteAction), builder.gbcSet(3, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
+        manageButtons.addButton(new AcNewCategory(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
+        manageButtons.addButton(new AcEditCategory(), builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
+        manageButtons.addButton(new AcDeleteCategory(), builder.gbcSet(3, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
 
     @Override
@@ -154,8 +141,6 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
      * @author Baptiste Wicht
      */
     private final class AcAddToList extends JThequeSimpleAction {
-        private static final long serialVersionUID = -1335864379997427135L;
-
         /**
          * Construct a new AcAddToList action with a text ">>".
          */
@@ -186,8 +171,6 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
      * @author Baptiste Wicht
      */
     private final class AcRemoveFromList extends JThequeSimpleAction {
-        private static final long serialVersionUID = -8163503906464833282L;
-
         /**
          * Construct a new AcRemoveFromList action with a text <<.
          */

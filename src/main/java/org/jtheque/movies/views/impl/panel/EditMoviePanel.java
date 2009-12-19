@@ -1,8 +1,6 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
 import org.jtheque.core.utils.db.DaoNotes;
@@ -13,6 +11,9 @@ import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.movies.views.impl.actions.clean.AcCleanMovie;
+import org.jtheque.movies.views.impl.actions.movies.AcCancel;
+import org.jtheque.movies.views.impl.actions.movies.AcSaveMovie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
 import org.jtheque.primary.view.impl.models.NotesComboBoxModel;
@@ -20,7 +21,6 @@ import org.jtheque.primary.view.impl.renderers.NoteComboRenderer;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.Action;
 import java.awt.Insets;
 import java.util.Collection;
 
@@ -45,7 +45,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-final class EditMoviePanel extends MoviePanel {
+public final class EditMoviePanel extends MoviePanel {
     private static final int MAX_LENGTH = 150;
 
     private FilthyTextField fieldTitle;
@@ -59,27 +59,19 @@ final class EditMoviePanel extends MoviePanel {
 
     /**
      * Construct a new EditMoviePanel.
-     *
-     * @param categoriesView The categories view.
      */
-    EditMoviePanel(ICategoriesView categoriesView){
+    public EditMoviePanel(){
         super(IMovieView.EDIT_VIEW);
 
         setOpaque(false);
 
-        IResourceManager resources = Managers.getManager(IResourceManager.class);
-
-        Action saveAction = resources.getAction("saveMovieAction");
-        Action cancelAction = resources.getAction("cancelMovieAction");
-        Action cleanAction = resources.getAction("cleanMovieAction");
-
-        this.categoriesView = categoriesView;
+        categoriesView = new JPanelCategories();
 
         PanelBuilder builder = new FilthyPanelBuilder(this);
 
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
-        addTitleField(builder, cleanAction);
+        addTitleField(builder);
         addFileField(builder);
         addNoteField(builder);
 
@@ -89,23 +81,22 @@ final class EditMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
-        buttons.addButton(saveAction, builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
-        buttons.addButton(cancelAction, builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
+        buttons.addButton(new AcSaveMovie(), builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
+        buttons.addButton(new AcCancel(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
 
     /**
      * Add the field for the title.
      *
      * @param builder     The builder of the view.
-     * @param cleanAction The action to clean the title.
      */
-    private void addTitleField(PanelBuilder builder, Action cleanAction){
+    private void addTitleField(PanelBuilder builder){
         builder.addI18nLabel("movie.title", builder.gbcSet(0, 0));
 
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, -1, 1, 1.0, 0.0));
         SwingUtils.addFieldLengthLimit(fieldTitle.getTextField(), 100);
 
-        builder.addButton(cleanAction, builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
+        builder.addButton(new AcCleanMovie(), builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     /**

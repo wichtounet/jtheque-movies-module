@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
  */
 
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.edt.SimpleTask;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
@@ -32,8 +33,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcImportFiles extends JThequeAction {
-    private static final long serialVersionUID = -8086054102467874235L;
-
     @Resource
     private IFilesService filesService;
 
@@ -45,6 +44,8 @@ public final class AcImportFiles extends JThequeAction {
      */
     public AcImportFiles(){
         super("generic.view.actions.search");
+
+        Managers.getManager(IBeansManager.class).inject(this);
     }
 
     @Override

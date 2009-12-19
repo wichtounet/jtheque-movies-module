@@ -1,5 +1,6 @@
 package org.jtheque.movies.persistence.od;
 
+import org.jtheque.core.managers.persistence.able.Entity;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class CategoryImplTest {
         category.setId(123);
         category.setTitle("Test");
 
-        CategoryImpl category2 = new CategoryImpl("Test");
+        Entity category2 = new CategoryImpl("Test");
         category2.setId(123);
 
         assertEquals(category.hashCode(), category2.hashCode());
@@ -53,7 +54,7 @@ public class CategoryImplTest {
         category.setId(123);
         category.setTitle("Test");
 
-        CategoryImpl category2 = new CategoryImpl("Test");
+        Entity category2 = new CategoryImpl("Test");
         category2.setId(123);
 
         assertTrue(category.equals(category2));

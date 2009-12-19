@@ -36,11 +36,13 @@ import org.jtheque.core.managers.state.IStateManager;
 import org.jtheque.core.managers.state.StateException;
 import org.jtheque.core.managers.view.ViewComponent;
 import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.managers.view.able.components.TabComponent;
 import org.jtheque.movies.persistence.MoviesSchema;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.IOpeningConfigView;
+import org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory;
+import org.jtheque.movies.views.impl.actions.categories.AcEditCategory;
+import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
 import org.jtheque.primary.PrimaryUtils;
 import org.jtheque.primary.services.able.ICollectionsService;
 import org.jtheque.primary.utils.DataTypeManager;
@@ -49,13 +51,15 @@ import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
 import org.jtheque.primary.view.impl.sort.Sorter;
 import org.jtheque.primary.view.impl.sort.SorterFactory;
 
+import javax.swing.Action;
+
 /**
  * A JTheque Module for managing movies.
  *
  * @author Baptiste Wicht
  */
-@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3-SNAPSHOT", core = "2.0.2",
-        jarFile = "jtheque-movies-module-1.3-SNAPSHOT.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
+@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3", core = "2.0.2",
+        jarFile = "jtheque-movies-module-1.3.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
 public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
     private final Sorter[] sorters;
     private final ChoiceAction[] choiceActions;
@@ -88,12 +92,12 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
      */
     @PrePlug
     private void prePlug(){
+        PrimaryUtils.setPrimaryImpl("Movies");
+        PrimaryUtils.prePlug();
+
         schema = new MoviesSchema();
 
         Managers.getManager(ISchemaManager.class).registerSchema(schema);
-
-        PrimaryUtils.setPrimaryImpl("Movies");
-        PrimaryUtils.prePlug();
     }
 
     /**
@@ -166,11 +170,20 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
 
         categoriesFeature = manager.createFeature(500, FeatureType.PACK, "category.menu.title");
 
-        manager.addSubFeature(categoriesFeature, "newCategoryAction", FeatureType.ACTION, 1);
-        manager.addSubFeature(categoriesFeature, "editCategoryAction", FeatureType.ACTION, 2);
-        manager.addSubFeature(categoriesFeature, "deleteCategoryAction", FeatureType.ACTION, 3);
-
+        addSubFeature(categoriesFeature, 1, new AcNewCategory());
+        addSubFeature(categoriesFeature, 2, new AcEditCategory());
+        addSubFeature(categoriesFeature, 3, new AcDeleteCategory());
+        
         Managers.getManager(IFeatureManager.class).addFeature(categoriesFeature);
+    }
+
+    private static void addSubFeature(Feature categoriesFeature, int position, Action action){
+        Feature newCategoryFeature = new Feature();
+        newCategoryFeature.setAction(action);
+        newCategoryFeature.setPosition(position);
+        newCategoryFeature.setType(FeatureType.ACTION);
+
+        categoriesFeature.addSubFeature(newCategoryFeature);
     }
 
     /**
@@ -193,8 +206,6 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
         for (Sorter sorter : sorters){
             SorterFactory.getInstance().removeSorter(sorter);
         }
-
-        Managers.getManager(IViewManager.class).removeTabComponent(Managers.getManager(IBeansManager.class).<TabComponent>getBean("movieView"));
 
         PrimaryUtils.unplug();
 

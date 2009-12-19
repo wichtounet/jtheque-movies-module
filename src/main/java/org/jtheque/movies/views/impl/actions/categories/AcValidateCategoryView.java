@@ -16,11 +16,12 @@ package org.jtheque.movies.views.impl.actions.categories;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.views.able.ICategoryView;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -29,11 +30,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcValidateCategoryView extends JThequeAction {
-    private static final long serialVersionUID = -6791055361978541369L;
-
-    @Resource
-    private ICategoryController categoryController;
-
     /**
      * Construct a new AcValidateKindView.
      */
@@ -43,10 +39,10 @@ public final class AcValidateCategoryView extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        ICategoryView view = (ICategoryView) categoryController.getView();
+        ICategoryView view = Managers.getManager(IBeansManager.class).getBean("categoryView");
 
         if (view.validateContent()){
-            categoryController.save(view.getFieldName().getText());
+            Managers.getManager(IBeansManager.class).<ICategoryController>getBean("categoryController").save(view.getFieldName().getText());
 
             view.closeDown();
         }

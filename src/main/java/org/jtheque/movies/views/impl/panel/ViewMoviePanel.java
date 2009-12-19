@@ -2,6 +2,7 @@ package org.jtheque.movies.views.impl.panel;
 
 import org.jdesktop.swingx.JXImagePanel;
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.language.ILanguageManager;
 import org.jtheque.core.managers.resource.IResourceManager;
@@ -15,14 +16,14 @@ import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.movies.views.impl.actions.movies.AcDelete;
+import org.jtheque.movies.views.impl.actions.movies.AcManualEdit;
+import org.jtheque.movies.views.impl.actions.view.AcOpenMovie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.IconListRenderer;
 import org.jtheque.movies.views.impl.models.SimpleCategoriesModel;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -54,7 +55,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-final class ViewMoviePanel extends MoviePanel {
+public final class ViewMoviePanel extends MoviePanel {
     private JLabel titleLabel;
     private JLabel labelFile;
     private JThequeI18nLabel labelDate;
@@ -63,28 +64,20 @@ final class ViewMoviePanel extends MoviePanel {
 
     private SimpleCategoriesModel categoriesModel;
 
-    @Resource
-    private Font filthyTitleFont;
-
     /**
      * Construct a new ViewMoviePanel.
      */
-    ViewMoviePanel(){
+    public ViewMoviePanel(){
         super(IMovieView.VIEW_VIEW);
 
-        setOpaque(false);
+        build();
     }
 
     /**
      * Build the panel.
      */
-    @PostConstruct
     private void build(){
-        IResourceManager resources = Managers.getManager(IResourceManager.class);
-
-        Action deleteAction = resources.getAction("deleteMovieAction");
-        Action editAction = resources.getAction("editMovieAction");
-        Action openAction = resources.getAction("openMovieAction");
+        setOpaque(false);
 
         PanelBuilder builder = new FilthyPanelBuilder(this);
 
@@ -92,18 +85,20 @@ final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));
 
+        Font filthyTitleFont = Managers.getManager(IBeansManager.class).getBean("filthyTitleFont");
+
         titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(18f), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(openAction, builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
+        JButton button = title.addButton(new AcOpenMovie(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(14f));
 
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
-        buttons.addButton(editAction, buttons.gbcSet(0, 0));
-        buttons.addButton(deleteAction, buttons.gbcSet(1, 0));
+        buttons.addButton(new AcManualEdit(), buttons.gbcSet(0, 0));
+        buttons.addButton(new AcDelete(), buttons.gbcSet(1, 0));
 
         addFileField(builder);
         addNoteField(builder);

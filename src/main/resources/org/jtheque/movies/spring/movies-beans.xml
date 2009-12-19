@@ -58,25 +58,7 @@
     <jtheque:proxy id="importFolderView" type="org.jtheque.movies.views.impl.frames.ImportFolderView"/>
     <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanMovieView"/>
 
-    <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView">
-        <constructor-arg>
-            <util:list>
-                <bean id="viewMoviePanel" class="org.jtheque.movies.views.impl.panel.ViewMoviePanel"/>
-                <bean id="editMoviePanel" class="org.jtheque.movies.views.impl.panel.EditMoviePanel">
-                    <constructor-arg>
-                        <bean id="categoriesPanel" class="org.jtheque.movies.views.impl.panel.JPanelCategories">
-                            <constructor-arg ref="newCategoryAction"/>
-                            <constructor-arg ref="editCategoryAction"/>
-                            <constructor-arg ref="deleteCategoryAction"/>
-                        </bean>
-                    </constructor-arg>
-                </bean>
-            </util:list>
-        </constructor-arg>
-        <property name="model">
-            <bean id="moviesModel" class="org.jtheque.movies.views.impl.models.MoviesModel"/>
-        </property>
-    </bean>
+    <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView" />
 
     <bean id="_categoryView" class="org.jtheque.movies.views.impl.CategoryView">
         <constructor-arg ref="_mainView"/>
@@ -89,17 +71,11 @@
 
     <bean id="_addFromFileView" class="org.jtheque.movies.views.impl.frames.AddFromFileView">
         <constructor-arg ref="_mainView"/>
-        <constructor-arg ref="validateAddFromFileViewAction"/>
-        <constructor-arg ref="cancelAddFromFileViewAction"/>
         <constructor-arg ref="fileParsers"/>
     </bean>
 
     <bean id="_importFolderView" class="org.jtheque.movies.views.impl.frames.ImportFolderView">
         <constructor-arg ref="_mainView"/>
-        <constructor-arg ref="searchFilesImportFolderViewAction"/>
-        <constructor-arg ref="deleteFileAction"/>
-        <constructor-arg ref="validateImportFolderViewAction"/>
-        <constructor-arg ref="cancelFolderViewAction"/>
         <constructor-arg ref="fileParsers"/>
     </bean>
 
@@ -120,8 +96,6 @@
 
     <bean id="_cleanMovieView" class="org.jtheque.movies.views.impl.frames.CleanMovieView">
         <constructor-arg ref="_mainView"/>
-        <constructor-arg ref="validateCleanViewAction"/>
-        <constructor-arg ref="cancelCleanViewAction"/>
         <constructor-arg ref="nameCleaners"/>
     </bean>
 
@@ -134,38 +108,11 @@
         </bean>
     </util:list>
 
-    <bean id="newCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcNewCategory"/>
-    <bean id="editCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcEditCategory"/>
-    <bean id="deleteCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory"/>
+    <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView"/>
 
     <bean id="cleanCategoryAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanCategory"/>
     <bean id="validateCategoryViewAction"
           class="org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView"/>
     <jtheque:close id="closeCategoryViewAction" key="category.actions.cancel" view="categoryView"/>
-
-    <bean id="cancelMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcCancel"/>
-    <bean id="deleteMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcDelete"/>
-    <bean id="editMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcManualEdit"/>
-    <bean id="newMovieAction" class="org.jtheque.movies.views.impl.actions.movies.NewMovieAction"/>
-    <bean id="saveMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcSaveMovie"/>
-    <bean id="cleanMovieAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanMovie"/>
-    <bean id="quitMovieViewAction" class="org.jtheque.movies.views.impl.actions.view.AcQuitView"/>
-    <bean id="openMovieAction" class="org.jtheque.movies.views.impl.actions.view.AcOpenMovie"/>
-
-    <bean id="validateAddFromFileViewAction"
-          class="org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction"/>
-    <jtheque:display id="autoAddMovieAction" key="movie.auto.actions.add" view="addFromFileView"/>
-    <jtheque:close id="cancelAddFromFileViewAction" key="movie.auto.actions.cancel" view="addFromFileView"/>
-
-    <bean id="validateCleanViewAction" class="org.jtheque.movies.views.impl.actions.clean.AcValidateCleanViewAction"/>
-    <jtheque:close id="cancelCleanViewAction" key="movie.auto.actions.cancel" view="cleanMovieView"/>
-
-    <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView"/>
-    <jtheque:close id="cancelFolderViewAction" key="movie.auto.folder.actions.cancel" view="importFolderView"/>
-    <bean id="validateImportFolderViewAction"
-          class="org.jtheque.movies.views.impl.actions.movies.folder.AcImportFiles"/>
-    <bean id="searchFilesImportFolderViewAction"
-          class="org.jtheque.movies.views.impl.actions.movies.folder.AcSearchFiles"/>
-    <bean id="deleteFileAction" class="org.jtheque.movies.views.impl.actions.movies.folder.AcDeleteFile"/>
 
 </beans>

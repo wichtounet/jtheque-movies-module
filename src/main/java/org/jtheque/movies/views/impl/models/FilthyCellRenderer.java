@@ -29,8 +29,6 @@ import java.awt.Component;
  * @author Baptiste Wicht
  */
 public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
-    private static final long serialVersionUID = 7137638623729268796L;
-
     /**
      * Construct a new FilthyCellRenderer.
      */

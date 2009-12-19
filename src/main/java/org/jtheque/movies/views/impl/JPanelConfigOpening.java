@@ -39,8 +39,6 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class JPanelConfigOpening extends JPanel implements IOpeningConfigView {
-    private static final long serialVersionUID = 1549545390644920034L;
-
     private JComboBox combo;
 
     @Override

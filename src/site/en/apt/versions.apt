@@ -1,6 +1,15 @@
 Versions
 
-This document present the different versions of JTheque Movies Module. 
+This document present the different versions of JTheque Movies Module.
+
+* 1.3 19.12.2009 Switch JTheque Core 2.0.2, New interface
+
+    * New user interface
+    * Switch to JTheque Core 2.0.2
+    * Import all movies of a folder
+    * Read movies in the application.
+    * Code refactorings
+    * Maven 2 Structure
 
 * 1.2 22.09.2009 Switch to JTheque Core 2.0 and Maven 2
 

@@ -56,7 +56,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     private DataSource dataSource;
 
     public DaoCategoriesTest(){
-        super("JTheque Collections/JTheque Movies Module/src/test/resources/org/jtheque/movies/persistence/categories.xml");
+        super("categories.xml");
     }
 
     @PostConstruct
@@ -85,7 +85,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
         Category cat = daoCategories.getCategory(2);
 
         assertNotNull(cat);
-        assertEquals("Catégorie 2", cat.getTitle());
+        assertEquals("Category 2", cat.getTitle());
         assertEquals(1, cat.getTheCollection().getId());
     }
 
@@ -98,23 +98,23 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
 
     @Test
     public void getExistingCategoryByName(){
-        Category cat = daoCategories.getCategory("Catégorie 2");
+        Category cat = daoCategories.getCategory("Category 2");
 
         assertNotNull(cat);
         assertEquals(2, cat.getId());
-        assertEquals("Catégorie 2", cat.getTitle());
+        assertEquals("Category 2", cat.getTitle());
     }
 
     @Test
     public void getNonExistingCategoryByName(){
-        Category cat = daoCategories.getCategory("Peutêtre 3");
+        Category cat = daoCategories.getCategory("Perhaps 3");
 
         assertNull(cat);
     }
 
     @Test
     public void getFalseCollectionCategoryByName(){
-        Category cat = daoCategories.getCategory("Catégorie 3");
+        Category cat = daoCategories.getCategory("Category 3");
 
         assertNull(cat);
     }

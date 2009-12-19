@@ -7,6 +7,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.primary.PrimaryUtils;
 import org.jtheque.primary.dao.able.IDaoCollections;
+import org.jtheque.primary.od.able.Collection;
 import org.jtheque.primary.od.impl.CollectionImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.util.Collection;
 
 import static org.junit.Assert.*;
 
@@ -60,7 +60,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     private DataSource dataSource;
 
     public DaoMoviesTest(){
-        super("JTheque Collections/JTheque Movies Module/src/test/resources/org/jtheque/movies/persistence/movies.xml");
+        super("movies.xml");
     }
 
     @PostConstruct
@@ -69,7 +69,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
 
         PrimaryUtils.setPrimaryImpl("Movies");
 
-        org.jtheque.primary.od.able.Collection collection = new CollectionImpl();
+        Collection collection = new CollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);
@@ -82,6 +82,11 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     @Test
     public void initOK(){
         assertNotNull(daoMovies);
+    }
+
+    @Test
+    public void getMovies(){
+        assertEquals(5, daoMovies.getMovies().size());
     }
 
     @Test
@@ -110,13 +115,6 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
         for (Category c : movie.getCategories()){
             assertTrue(c.getId() == 2 || c.getId() == 3);
         }
-    }
-
-    @Test
-    public void getMovies(){
-        Collection<Movie> categories = daoMovies.getMovies();
-
-        assertEquals(5, categories.size());
     }
 
     @Test

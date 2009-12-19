@@ -20,16 +20,17 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.core.managers.view.impl.actions.utils.CloseViewAction;
 import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
+import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
 import org.jtheque.movies.views.impl.panel.ParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.Action;
 import java.awt.Container;
 import java.awt.Frame;
 import java.util.ArrayList;
@@ -41,12 +42,7 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class AddFromFileView extends SwingDialogView implements IAddFromFileView {
-    private static final long serialVersionUID = -3525319522701158262L;
-
     private FileChooserPanel fileChooser;
-
-    private final Action validateAction;
-    private final Action cancelAction;
 
     private final Collection<ParserContainer> parserContainers;
 
@@ -54,15 +50,10 @@ public final class AddFromFileView extends SwingDialogView implements IAddFromFi
      * Construct a new Category View.
      *
      * @param parent         The parent frame.
-     * @param validateAction The action to validate the view.
-     * @param cancelAction   The action to cancel the view.
      * @param parsers        The category parsers.
      */
-    public AddFromFileView(Frame parent, Action validateAction, Action cancelAction, Collection<FileParser> parsers){
+    public AddFromFileView(Frame parent, Collection<FileParser> parsers){
         super(parent);
-
-        this.validateAction = validateAction;
-        this.cancelAction = cancelAction;
 
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
 
@@ -105,7 +96,10 @@ public final class AddFromFileView extends SwingDialogView implements IAddFromFi
             builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), validateAction, cancelAction);
+        CloseViewAction closeAction = new CloseViewAction("movie.auto.actions.cancel");
+        closeAction.setView(this);
+
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(), closeAction);
 
         return builder.getPanel();
     }

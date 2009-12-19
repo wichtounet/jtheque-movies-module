@@ -16,6 +16,8 @@ package org.jtheque.movies.views.impl.actions.clean;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -31,8 +33,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcValidateCleanViewAction extends JThequeAction {
-    private static final long serialVersionUID = 1412326778227550519L;
-
     @Resource
     private ICleanMovieView cleanMovieView;
 
@@ -47,6 +47,8 @@ public final class AcValidateCleanViewAction extends JThequeAction {
      */
     public AcValidateCleanViewAction(){
         super("movie.actions.clean.validate");
+
+        Managers.getManager(IBeansManager.class).inject(this);
     }
 
     @Override

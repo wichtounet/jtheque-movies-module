@@ -16,16 +16,15 @@ package org.jtheque.movies.views.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.view.able.components.TabComponent;
+import org.jtheque.core.managers.view.able.IView;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
-import org.jtheque.primary.view.able.PrincipalDataView;
 
 /**
  * @author Baptiste Wicht
  */
-public interface IMovieView extends TabComponent, PrincipalDataView {
+public interface IMovieView extends IView {
     String EDIT_VIEW = "edit_movie";
     String VIEW_VIEW = "view_movie";
     String VLC_VIEW = "vlc_view";
@@ -58,4 +57,8 @@ public interface IMovieView extends TabComponent, PrincipalDataView {
      * @return The current view to display.
      */
     MoviePanel getCurrentView();
+
+    void resort();
+
+    void selectFirst();
 }

@@ -16,12 +16,12 @@ package org.jtheque.movies.views.impl.actions.clean;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.views.able.ICleanMovieView;
 import org.jtheque.primary.controller.able.IChoiceController;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -30,14 +30,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcCleanCategory extends JThequeAction {
-    private static final long serialVersionUID = 1412326778227550519L;
-
-    @Resource
-    private IChoiceController choiceController;
-
-    @Resource
-    private ICleanMovieView cleanMovieView;
-
     /**
      * Construct a new AcPrintFilm.
      */
@@ -47,6 +39,8 @@ public final class AcCleanCategory extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
+        IChoiceController choiceController = Managers.getManager(IBeansManager.class).getBean("choiceController");
+
         choiceController.setAction("clean");
         choiceController.setContent(ICategoriesService.DATA_TYPE);
         choiceController.displayView();
