@@ -1,8 +1,8 @@
 package org.jtheque.movies.services.impl.cleaners;
 
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.utils.StringUtils;
 
 /*
@@ -24,14 +24,14 @@ import org.jtheque.utils.StringUtils;
 /**
  * @author Baptiste Wicht
  */
-public final class NumberCleaner implements NameCleaner{
+public final class NumberCleaner implements NameCleaner {
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.clen.cleaner.number");
     }
 
     @Override
-    public String clearName(Movie movie, String name) {
+    public String clearName(Movie movie, String name){
         return StringUtils.removeNumbers(name);
     }
 }

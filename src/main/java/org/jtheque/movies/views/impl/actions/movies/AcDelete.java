@@ -35,22 +35,22 @@ public final class AcDelete extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcDelete.
      */
-    public AcDelete() {
+    public AcDelete(){
         super("movie.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
-                Managers.getManager(ILanguageManager.class).getMessage("movie.dialogs.confirmDelete", 
+                Managers.getManager(ILanguageManager.class).getMessage("movie.dialogs.confirmDelete",
                         movieController.getViewModel().getCurrentMovie().getDisplayableText()),
                 Managers.getManager(ILanguageManager.class).getMessage("movie.dialogs.confirmDelete.title"));
 
-        if (yes) {
+        if (yes){
             movieController.deleteCurrentMovie();
         }
     }

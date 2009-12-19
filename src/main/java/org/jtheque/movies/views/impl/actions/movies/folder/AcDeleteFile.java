@@ -32,16 +32,16 @@ public final class AcDeleteFile extends JThequeAction {
 
     @Resource
     private IImportFolderView importFolderView;
-    
+
     /**
      * Create a new AcDeleteTitle action.
      */
-    public AcDeleteFile() {
+    public AcDeleteFile(){
         super("generic.view.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0) {
+    public void actionPerformed(ActionEvent arg0){
         importFolderView.removeSelectedFile();
     }
 }

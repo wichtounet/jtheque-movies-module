@@ -25,54 +25,54 @@ import org.jtheque.primary.od.able.Data;
  */
 public class AbstractMovieState implements ControllerState {
     @Override
-    public void apply() {
+    public void apply(){
         //No action
     }
 
     @Override
-    public ControllerState save(FormBean infos) {
+    public ControllerState save(FormBean infos){
         //No action
-        
+
         return null;
     }
 
     @Override
-    public ControllerState cancel() {
+    public ControllerState cancel(){
         //No action
-        
+
         return null;
     }
 
     @Override
-    public ControllerState create() {
+    public ControllerState create(){
         //No action
-        
-        return null; 
-    }
 
-    @Override
-    public ControllerState delete() {
-        //No action
-        
         return null;
     }
 
     @Override
-    public ControllerState manualEdit() {
+    public ControllerState delete(){
         //No action
-        
+
         return null;
     }
 
     @Override
-    public ControllerState view(Data data) {
+    public ControllerState manualEdit(){
         //No action
-        
+
         return null;
     }
 
     @Override
-    public ControllerState autoEdit(Data data) {
+    public ControllerState view(Data data){
+        //No action
+
+        return null;
+    }
+
+    @Override
+    public ControllerState autoEdit(Data data){
         throw new UnsupportedOperationException();
     }
 }

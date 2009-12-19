@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <T_COLLECTIONS ID='1' TITLE="Collection 1" PROTECTED="FALSE" PASSWORD="" IMPL="Movies" />
-    <T_COLLECTIONS ID='2' TITLE="Collection 1" PROTECTED="FALSE" PASSWORD="" IMPL="Movies" />
-    
+    <T_COLLECTIONS ID='1' TITLE="Collection 1" PROTECTED="FALSE" PASSWORD="" IMPL="Movies"/>
+    <T_COLLECTIONS ID='2' TITLE="Collection 1" PROTECTED="FALSE" PASSWORD="" IMPL="Movies"/>
+
     <T_MOVIE_CATEGORIES ID='1' TITLE="Catégorie 1" THE_COLLECTION_FK="1"/>
     <T_MOVIE_CATEGORIES ID='2' TITLE="Catégorie 2" THE_COLLECTION_FK="1"/>
     <T_MOVIE_CATEGORIES ID='3' TITLE="Catégorie 3" THE_COLLECTION_FK="2"/>

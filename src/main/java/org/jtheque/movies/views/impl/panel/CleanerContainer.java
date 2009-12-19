@@ -16,39 +16,39 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 
 import javax.swing.JCheckBox;
 
 /**
- * A check box to select a name cleaner. 
- * 
+ * A check box to select a name cleaner.
+ *
  * @author Baptiste Wicht
  */
 public final class CleanerContainer extends JCheckBox {
     private final NameCleaner cleaner;
 
     /**
-     * Construct a new CleanerContainer for the specified name cleaner. 
-     * 
-     * @param cleaner The name cleaner. 
+     * Construct a new CleanerContainer for the specified name cleaner.
+     *
+     * @param cleaner The name cleaner.
      */
-    public CleanerContainer(NameCleaner cleaner) {
+    public CleanerContainer(NameCleaner cleaner){
         super(cleaner.getTitle());
-        
+
         this.cleaner = cleaner;
-        
+
         setBackground(Managers.getManager(IViewManager.class).getViewDefaults().getBackgroundColor());
     }
 
     /**
-     * Return the name cleaner for this checkbox. 
-     * 
-     * @return The name cleaner. 
+     * Return the name cleaner for this checkbox.
+     *
+     * @return The name cleaner.
      */
-    public NameCleaner getCleaner() {
+    public NameCleaner getCleaner(){
         return cleaner;
     }
 }

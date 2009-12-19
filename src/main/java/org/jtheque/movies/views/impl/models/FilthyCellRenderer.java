@@ -32,30 +32,30 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
     private static final long serialVersionUID = 7137638623729268796L;
 
     /**
-     * Construct a new FilthyCellRenderer. 
+     * Construct a new FilthyCellRenderer.
      */
-    public FilthyCellRenderer() {
+    public FilthyCellRenderer(){
         super();
-        
+
         setOpaque(false);
-        
+
         setBackground(new Color(0, 0, 0, 0));
         setBackgroundNonSelectionColor(new Color(0, 0, 0, 0));
-        
+
         setTextSelectionColor(Color.white);
         setTextNonSelectionColor(Color.white);
     }
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                  boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                                                  boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus){
 
         super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 
-        TreeElement element = (TreeElement)value;
-        
+        TreeElement element = (TreeElement) value;
+
         setText(element.getElementName());
-        
+
         if (element.isLeaf()){
             setIcon(element.getIcon());
         }

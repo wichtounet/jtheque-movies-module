@@ -1,10 +1,10 @@
 package org.jtheque.movies.services.cleaners;
 
-import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
-
-import static org.junit.Assert.*;
+import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /*
  * This file is part of JTheque.
@@ -29,7 +29,7 @@ public class ExtensionCleanerTest {
     @Test
     public void clearName(){
         ExtensionCleaner cleaner = new ExtensionCleaner();
-        
+
         assertEquals(cleaner.clearName(new MovieImpl(), "super fichier.wma"), "super fichier");
     }
 }

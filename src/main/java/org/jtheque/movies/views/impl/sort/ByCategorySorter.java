@@ -26,8 +26,8 @@ import org.jtheque.primary.view.impl.sort.Sorter;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Baptiste Wicht
@@ -35,45 +35,45 @@ import java.util.Collection;
 public final class ByCategorySorter implements Sorter {
     @Resource
     private IMoviesService moviesService;
-    
+
     @Resource
     private ICategoriesService categoriesService;
 
     @Override
-    public boolean canSort(String content, String sortType) {
+    public boolean canSort(String content, String sortType){
         return IMoviesService.SORT_BY_CATEGORY.equals(sortType);
     }
 
     @Override
-    public void sort(JThequeTreeModel model) {
+    public void sort(JThequeTreeModel model){
         TreeElement root = model.getRoot();
 
         org.jtheque.movies.persistence.od.able.Category noCategory = categoriesService.getEmptyCategory();
         noCategory.setTitle("...");
-        
+
         List<org.jtheque.movies.persistence.od.able.Category> groups = new ArrayList<org.jtheque.movies.persistence.od.able.Category>(10);
         Collection<Movie> movies = moviesService.getMovies();
 
-        for (Movie movie : movies) {
-            if (movie.hasCategories()) {
-                for (org.jtheque.movies.persistence.od.able.Category category : movie.getCategories()) {
-                    if (!groups.contains(category)) {
+        for (Movie movie : movies){
+            if (movie.hasCategories()){
+                for (org.jtheque.movies.persistence.od.able.Category category : movie.getCategories()){
+                    if (!groups.contains(category)){
                         root.add(new Category(category.getDisplayableText()));
                         groups.add(category);
                     }
-    
+
                     int index = groups.indexOf(category);
-    
+
                     root.getChild(index).add(movie);
                 }
             } else {
-                if (!groups.contains(noCategory)) {
+                if (!groups.contains(noCategory)){
                     root.add(new Category(noCategory.getDisplayableText()));
                     groups.add(noCategory);
                 }
-                
+
                 int index = groups.indexOf(noCategory);
-    
+
                 root.getChild(index).add(movie);
             }
         }

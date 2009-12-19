@@ -59,27 +59,25 @@ public interface ICategoriesService extends DataContainer<Category> {
     void save(Category category);
 
     /**
-     * Test if a category exists or not. 
-     * 
-     * @param category The category to test. 
-     * 
-     * @return true if the category exists else false. 
+     * Test if a category exists or not.
+     *
+     * @param category The category to test.
+     * @return true if the category exists else false.
      */
     boolean exists(String category);
 
     /**
-     * Return the category of the specified name. 
-     * 
-     * @param name The name of the category. 
-     * 
-     * @return The category. 
+     * Return the category of the specified name.
+     *
+     * @param name The name of the category.
+     * @return The category.
      */
     Category getCategory(String name);
 
     /**
-     * Return an empty category. 
-     * 
-     * @return An empty category. 
+     * Return an empty category.
+     *
+     * @return An empty category.
      */
     Category getEmptyCategory();
 }

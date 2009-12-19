@@ -32,16 +32,16 @@ public final class NewMovieAction extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcNewFilm.
      */
-    public NewMovieAction() {
+    public NewMovieAction(){
         super("movie.actions.add");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         movieController.createMovie();
     }
 }

@@ -93,24 +93,24 @@ public interface IMovieController extends Controller, TreeSelectionListener {
     ControllerState getModifyState();
 
     /**
-     * Display the movie on the view. 
-     * 
-     * @param movie The movie to display. 
+     * Display the movie on the view.
+     *
+     * @param movie The movie to display.
      */
     void view(Movie movie);
 
     /**
-     * Indicate if we currently edit a movie. 
-     * 
-     * @return <code>true</code> if we currently edit a movie else <code>false</code>. 
+     * Indicate if we currently edit a movie.
+     *
+     * @return <code>true</code> if we currently edit a movie else <code>false</code>.
      */
     boolean isEditing();
 
     /**
-     * Display the viewer. 
-     * 
-     * @param wmpView The viewer id to display. 
-     * @param file The file to play. 
+     * Display the viewer.
+     *
+     * @param wmpView The viewer id to display.
+     * @param file    The file to play.
      */
     void displayViewer(String wmpView, File file);
 

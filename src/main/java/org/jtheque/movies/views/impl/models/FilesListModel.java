@@ -17,10 +17,10 @@ package org.jtheque.movies.views.impl.models;
  */
 
 import javax.swing.DefaultListModel;
-import java.util.List;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.io.File;
+import java.util.List;
 
 /**
  * A list model for files.
@@ -29,33 +29,33 @@ import java.io.File;
  */
 public final class FilesListModel extends DefaultListModel {
     private final List<File> files = new ArrayList<File>(25);
-    
+
     @Override
-    public Object getElementAt(int index) {
+    public Object getElementAt(int index){
         return files.get(index);
     }
 
     @Override
-    public Object get(int index) {
+    public Object get(int index){
         return getElementAt(index);
     }
 
     @Override
-    public int getSize() {
+    public int getSize(){
         return files.size();
     }
 
     @Override
-    public Object remove(int i) {
+    public Object remove(int i){
         File category = files.remove(i);
         fireIntervalRemoved(this, i, i);
         return category;
     }
 
     @Override
-    public boolean removeElement(Object obj) {
-        File category = (File)obj;
-        
+    public boolean removeElement(Object obj){
+        File category = (File) obj;
+
         int index = files.indexOf(category);
         boolean remove = files.remove(category);
         fireIntervalRemoved(this, index, index);
@@ -63,34 +63,34 @@ public final class FilesListModel extends DefaultListModel {
     }
 
     @Override
-    public void addElement(Object obj) {
+    public void addElement(Object obj){
         files.add((File) obj);
         fireIntervalAdded(this, getSize(), getSize());
     }
 
     @Override
-    public void removeAllElements() {
+    public void removeAllElements(){
         files.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
     /**
-     * Set the files contained on the model. 
-     * 
-     * @param files The files to set on the model. 
+     * Set the files contained on the model.
+     *
+     * @param files The files to set on the model.
      */
-    public void setFiles(Collection<File> files) {
+    public void setFiles(Collection<File> files){
         this.files.clear();
         this.files.addAll(files);
         fireContentsChanged(this, 0, getSize());
     }
 
     /**
-     * Return all the files of the model. 
-     * 
-     * @return A List containing all the files of the model. 
+     * Return all the files of the model.
+     *
+     * @return A List containing all the files of the model.
      */
-    public Collection<File> getFiles() {
+    public Collection<File> getFiles(){
         return files;
     }
 }

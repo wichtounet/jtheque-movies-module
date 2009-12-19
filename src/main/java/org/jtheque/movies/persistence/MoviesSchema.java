@@ -18,9 +18,9 @@ package org.jtheque.movies.persistence;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
-import org.jtheque.core.managers.schema.Insert;
-import org.jtheque.core.managers.schema.HSQLImporter;
 import org.jtheque.core.managers.schema.AbstractSchema;
+import org.jtheque.core.managers.schema.HSQLImporter;
+import org.jtheque.core.managers.schema.Insert;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.primary.dao.able.IDaoCollections;
@@ -48,38 +48,37 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     @Override
-    public Version getVersion() {
+    public Version getVersion(){
         return new Version("1.1");
     }
 
     @Override
-    public String getId() {
+    public String getId(){
         return "Movies-Schema";
     }
 
     @Override
-    public String[] getDependencies() {
+    public String[] getDependencies(){
         return new String[]{"PrimaryUtils-Schema"};
     }
 
     @Override
-    public void install() {
+    public void install(){
         createDataTables();
         createReferentialIntegrityConstraints();
     }
 
     @Override
-    public void update(Version from) {
-        if("1.0".equals(from.getVersion())){
-            createReferentialIntegrityConstraints();            
+    public void update(Version from){
+        if ("1.0".equals(from.getVersion())){
+            createReferentialIntegrityConstraints();
         }
     }
 
     /**
-     * Create the data tables. 
-     * 
+     * Create the data tables.
      */
-    private void createDataTables() {
+    private void createDataTables(){
         jdbcTemplate.update("CREATE TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK INT NOT NULL, THE_CATEGORY_FK INT NOT NULL)");
         jdbcTemplate.update("CREATE TABLE " + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_COLLECTION_FK INT NOT NULL)");
         jdbcTemplate.update("CREATE TABLE " + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, NOTE INT NULL, FILE VARCHAR(200) NOT NULL, THE_COLLECTION_FK INT NOT NULL)");
@@ -89,10 +88,9 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     /**
-     * Create the constraints to maintain a referential integrity in the database. 
-     * 
+     * Create the constraints to maintain a referential integrity in the database.
      */
-    private void createReferentialIntegrityConstraints() {
+    private void createReferentialIntegrityConstraints(){
         jdbcTemplate.update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "  (ID) ON UPDATE SET NULL");
         jdbcTemplate.update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
         jdbcTemplate.update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
@@ -100,14 +98,14 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     @Override
-    public void importDataFromHSQL(Iterable<Insert> inserts) {
+    public void importDataFromHSQL(Iterable<Insert> inserts){
         HSQLImporter importer = new HSQLImporter();
-        
+
         importer.match("MOVIE_CATEGORY", "INSERT INTO " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?, ?)", 0, 1);
         importer.match("OD_CATEGORY", "INSERT INTO " + IDaoCategories.TABLE + " (ID, TITLE, THE_COLLECTION_FK) VALUES(?, ?, ?)", 0, 2, 3);
         importer.match("OD_MOVIE", "INSERT INTO " + IDaoMovies.TABLE + " (ID, TITLE, NOTE, FILE, THE_COLLECTION_FK) VALUES(?, ?, ?, ?, ?)", 0, 4, 3, 2, 5);
         importer.match("OD_MOVIE_COLLECTION", "INSERT INTO " + IDaoCollections.TABLE + " (ID, TITLE, PROTECTED, PASSWORD, IMPL) VALUES(?,?,?,?,?)", "Movies", 0, 4, 3, 2);
-        
+
         importer.importInserts(inserts);
     }
 }

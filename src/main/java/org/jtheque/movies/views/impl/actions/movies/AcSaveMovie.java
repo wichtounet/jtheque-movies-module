@@ -32,16 +32,16 @@ public final class AcSaveMovie extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcSaveFilm.
      */
-    public AcSaveMovie() {
+    public AcSaveMovie(){
         super("movie.actions.save");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         movieController.save();
     }
 }

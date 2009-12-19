@@ -1,9 +1,9 @@
 package org.jtheque.movies.views.impl.fb;
 
-import org.jtheque.primary.controller.able.FormBean;
+import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.core.utils.db.Note;
+import org.jtheque.primary.controller.able.FormBean;
 
 import java.util.Collection;
 
@@ -40,9 +40,9 @@ public interface IMovieFormBean extends FormBean {
     void setNote(Note note);
 
     /**
-     * Fill the movie with the infos of the form bean. 
-     * 
-     * @param movie The movie to fill. 
+     * Fill the movie with the infos of the form bean.
+     *
+     * @param movie The movie to fill.
      */
     void fillMovie(Movie movie);
 }

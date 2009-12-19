@@ -32,16 +32,16 @@ public final class AcQuitView extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcQuitView() {
+    public AcQuitView(){
         super("movie.actions.view.quit");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         movieController.closeViewer();
     }
 }

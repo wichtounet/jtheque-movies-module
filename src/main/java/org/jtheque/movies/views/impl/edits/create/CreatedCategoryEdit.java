@@ -45,7 +45,7 @@ public final class CreatedCategoryEdit extends AbstractUndoableEdit {
      *
      * @param category The created editor.
      */
-    public CreatedCategoryEdit(Category category) {
+    public CreatedCategoryEdit(Category category){
         super();
 
         Managers.getManager(IBeansManager.class).inject(this);
@@ -54,21 +54,21 @@ public final class CreatedCategoryEdit extends AbstractUndoableEdit {
     }
 
     @Override
-    public void undo() throws CannotUndoException {
+    public void undo() throws CannotUndoException{
         super.undo();
 
         categoriesService.delete(category);
     }
 
     @Override
-    public void redo() throws CannotRedoException {
+    public void redo() throws CannotRedoException{
         super.redo();
 
         categoriesService.create(category);
     }
 
     @Override
-    public String getPresentationName() {
+    public String getPresentationName(){
         return Managers.getManager(ILanguageManager.class).getMessage("undo.edits.create");
     }
 }

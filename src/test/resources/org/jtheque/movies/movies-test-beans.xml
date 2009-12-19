@@ -3,21 +3,21 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories" />
-    <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies" />
-    
-    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService" />
-    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService" />
-    
+    <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories"/>
+    <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies"/>
+
+    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService"/>
+    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService"/>
+
     <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
-        <constructor-arg value="{" />
-        <constructor-arg value="}" />
+        <constructor-arg value="{"/>
+        <constructor-arg value="}"/>
     </bean>
-    
+
     <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser">
-        <constructor-arg value="-" />
+        <constructor-arg value="-"/>
     </bean>
-    
-    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser" />
-    
+
+    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"/>
+
 </beans>

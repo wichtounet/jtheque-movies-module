@@ -20,8 +20,8 @@ import org.jtheque.movies.persistence.od.able.Category;
 
 import javax.swing.DefaultListModel;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A simple model for actors.
@@ -36,64 +36,64 @@ public final class SimpleCategoriesModel extends DefaultListModel {
     /**
      * Construct a new SimpleActorsModel.
      */
-    public SimpleCategoriesModel() {
+    public SimpleCategoriesModel(){
         super();
 
         categories = new ArrayList<Category>(6);
     }
 
     @Override
-    public Object getElementAt(int index) {
+    public Object getElementAt(int index){
         return categories.get(index);
     }
 
     @Override
-    public Object get(int index) {
+    public Object get(int index){
         return categories.get(index);
     }
 
     @Override
-    public int getSize() {
+    public int getSize(){
         return categories.size();
     }
 
     @Override
-    public Object remove(int index) {
+    public Object remove(int index){
         Category category = categories.remove(index);
         fireIntervalRemoved(this, index, index);
         return category;
     }
 
     @Override
-    public void addElement(Object obj) {
+    public void addElement(Object obj){
         categories.add((Category) obj);
         fireIntervalAdded(this, getSize(), getSize());
     }
 
     /**
-     * Add the elements to the model. 
-     * 
-     * @param elements The elements to add. 
+     * Add the elements to the model.
+     *
+     * @param elements The elements to add.
      */
     public void addElements(Iterable<Category> elements){
         int index = categories.size();
-        
-        for(Category category : elements){
+
+        for (Category category : elements){
             categories.add(category);
         }
-        
+
         fireIntervalAdded(this, index, getSize());
     }
 
     @Override
-    public void clear() {
+    public void clear(){
         categories.clear();
     }
 
     @Override
-    public boolean removeElement(Object obj) {
-        Category category = (Category)obj;
-        
+    public boolean removeElement(Object obj){
+        Category category = (Category) obj;
+
         int index = categories.indexOf(category);
         boolean remove = categories.remove(category);
         fireIntervalRemoved(this, index, index);
@@ -101,17 +101,17 @@ public final class SimpleCategoriesModel extends DefaultListModel {
     }
 
     @Override
-    public void removeAllElements() {
+    public void removeAllElements(){
         categories.clear();
         fireContentsChanged(this, 0, getSize());
     }
-        
+
     /**
      * Return the categories.
      *
      * @return A List containing all the categories of the model.
      */
-    public Collection<Category> getCategories() {
+    public Collection<Category> getCategories(){
         return categories;
     }
 }

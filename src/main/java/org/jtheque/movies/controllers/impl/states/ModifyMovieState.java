@@ -43,16 +43,16 @@ public final class ModifyMovieState extends AbstractMovieState {
     private IMoviesService moviesService;
 
     /**
-     * Return the model of the view. 
-     * 
-     * @return The model of the view. 
+     * Return the model of the view.
+     *
+     * @return The model of the view.
      */
-    private IMoviesModel getViewModel() {
+    private IMoviesModel getViewModel(){
         return controller.getViewModel();
     }
 
     @Override
-    public void apply() {
+    public void apply(){
         controller.getView().setDisplayedView(IMovieView.EDIT_VIEW);
         controller.getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
 
@@ -60,7 +60,7 @@ public final class ModifyMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState save(FormBean bean) {
+    public ControllerState save(FormBean bean){
         IMovieFormBean infos = (IMovieFormBean) bean;
 
         Movie movie = getViewModel().getCurrentMovie();
@@ -68,10 +68,10 @@ public final class ModifyMovieState extends AbstractMovieState {
         String oldTitle = movie.getTitle();
 
         infos.fillMovie(movie);
-        
+
         moviesService.save(movie);
 
-        if (!oldTitle.equals(movie.getTitle())) {
+        if (!oldTitle.equals(movie.getTitle())){
             controller.getView().resort();
             controller.getView().select(movie);
         }
@@ -80,26 +80,26 @@ public final class ModifyMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState cancel() {
+    public ControllerState cancel(){
         getViewModel().getCurrentMovie().restoreMemento();
 
         return controller.getViewState();
     }
 
     @Override
-    public ControllerState autoEdit(Data data) {
+    public ControllerState autoEdit(Data data){
         Managers.getManager(IViewManager.class).displayI18nText("movie.dialogs.currentEdit");
 
         return null;
     }
 
     @Override
-    public ControllerState view(Data data) {
+    public ControllerState view(Data data){
         Movie movie = (Movie) data;
 
         if (Managers.getManager(IViewManager.class).askI18nUserForConfirmation(
                 "movie.dialogs.confirmSave",
-                "movie.dialogs.confirmSave.title")) {
+                "movie.dialogs.confirmSave.title")){
             controller.save();
         } else {
             getViewModel().getCurrentMovie().restoreMemento();

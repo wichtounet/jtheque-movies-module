@@ -16,140 +16,136 @@ package org.jtheque.movies.services;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.junit.Test;
-import org.junit.Before;
-import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.services.impl.MoviesService;
-import org.jtheque.movies.services.impl.CategoriesService;
-import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
+import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.services.impl.CategoriesService;
 import org.jtheque.utils.collections.CollectionUtils;
-import static org.easymock.EasyMock.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
+
+import static org.easymock.EasyMock.*;
 
 /**
  * @author Baptiste Wicht
  */
 public class CategoriesServiceTest {
     private ICategoriesService categoriesService;
-    
+
     private IDaoCategories daoCategories;
-    
+
     @Before
     public void setUp(){
         categoriesService = new CategoriesService();
-        
+
         daoCategories = createMock(IDaoCategories.class);
 
         try {
             Field field = CategoriesService.class.getDeclaredField("daoCategories");
-            
+
             field.setAccessible(true);
-            
+
             field.set(categoriesService, daoCategories);
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e){
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e){
             e.printStackTrace();
         }
     }
-    
+
     @Test
-    public void testGetCategories() {
+    public void testGetCategories(){
         expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
-        
+
         replay(daoCategories);
-        
+
         categoriesService.getCategories();
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete(){
         expect(daoCategories.delete(new CategoryImpl())).andReturn(true);
-        
+
         replay(daoCategories);
-        
+
         categoriesService.delete(new CategoryImpl());
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate(){
         daoCategories.create(new CategoryImpl());
-        
+
         replay(daoCategories);
-        
+
         categoriesService.create(new CategoryImpl());
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testSave() {
+    public void testSave(){
         daoCategories.save(new CategoryImpl());
-        
+
         replay(daoCategories);
-        
+
         categoriesService.save(new CategoryImpl());
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testExists() {
+    public void testExists(){
         // Add your code here
     }
 
     @Test
-    public void testGetCategory() {
+    public void testGetCategory(){
         expect(daoCategories.getCategory("asdf")).andReturn(null);
-        
+
         replay(daoCategories);
-        
+
         categoriesService.getCategory("asdf");
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testGetEmptyCategory() {
+    public void testGetEmptyCategory(){
         expect(daoCategories.createCategory()).andReturn(new CategoryImpl(""));
-        
+
         replay(daoCategories);
-        
+
         categoriesService.getEmptyCategory();
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testGetDatas() {
+    public void testGetDatas(){
         expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
-        
+
         replay(daoCategories);
-        
+
         categoriesService.getDatas();
-        
+
         verify(daoCategories);
     }
 
     @Test
-    public void testClearAll() {
+    public void testClearAll(){
         daoCategories.clearAll();
-        
+
         replay(daoCategories);
-        
+
         categoriesService.clearAll();
-        
+
         verify(daoCategories);
     }
 }

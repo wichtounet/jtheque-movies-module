@@ -40,7 +40,7 @@ import java.io.File;
 import java.util.Collection;
 
 /**
- * The Swing controller for the film view. This principal controller has no auto add state. 
+ * The Swing controller for the film view. This principal controller has no auto add state.
  *
  * @author Baptiste Wicht
  */
@@ -49,74 +49,74 @@ public final class MovieController extends PrincipalController<Movie> implements
     private IMovieView movieView;
 
     private ViewerPanel current;
-    
+
     private Action quitPlayerAction;
 
     @Override
-    public IMovieView getView() {
+    public IMovieView getView(){
         return movieView;
     }
 
     /**
-     * Init the controller. 
+     * Init the controller.
      */
     @PostConstruct
-    private void init() {
+    private void init(){
         setState(getViewState());
-        
+
         quitPlayerAction = Managers.getManager(IResourceManager.class).getAction("quitMovieViewAction");
     }
 
     @Override
-    public void valueChanged(TreeSelectionEvent event) {
+    public void valueChanged(TreeSelectionEvent event){
         TreePath current = ((JTree) event.getSource()).getSelectionPath();
 
-        if (current != null && current.getLastPathComponent() instanceof Movie) {
+        if (current != null && current.getLastPathComponent() instanceof Movie){
             Movie movie = (Movie) current.getLastPathComponent();
 
-            if (movie != null) {
+            if (movie != null){
                 view(movie);
-                
+
                 Managers.getCore().getLifeCycleManager().setCurrentFunction(movie.getTitle());
             }
         }
     }
 
     @Override
-    public void save() {
+    public void save(){
         ControllerState newState = getState().save(movieView.fillMovieFormBean());
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public IMoviesModel getViewModel() {
+    public IMoviesModel getViewModel(){
         return (IMoviesModel) movieView.getModel();
     }
 
     @Override
-    public boolean isEditing() {
+    public boolean isEditing(){
         return getState() == getNewObjectState() || getState() == getModifyState();
     }
 
     @Override
-    public void displayViewer(String view, File file) {
-        if(view.equals(IMovieView.WMP_VIEW)){
+    public void displayViewer(String view, File file){
+        if (view.equals(IMovieView.WMP_VIEW)){
             setCurrentViewer(file, new JPanelWMP(quitPlayerAction));
-        } else if(view.equals(IMovieView.VLC_VIEW)){
+        } else if (view.equals(IMovieView.VLC_VIEW)){
             setCurrentViewer(file, new JPanelVLC(quitPlayerAction));
         }
     }
 
     /**
-     * Set the current viewer. 
-     * 
-     * @param file The file to open in the viewer. 
-     * @param viewer The viewer to display. 
+     * Set the current viewer.
+     *
+     * @param file   The file to open in the viewer.
+     * @param viewer The viewer to display.
      */
-    private void setCurrentViewer(File file, ViewerPanel viewer) {
+    private void setCurrentViewer(File file, ViewerPanel viewer){
         Managers.getManager(IViewManager.class).getViews().getMainView().setGlassPane(viewer);
         viewer.setFile(file);
         viewer.setVisible(true);
@@ -125,66 +125,66 @@ public final class MovieController extends PrincipalController<Movie> implements
 
     @Override
     public void closeViewer(){
-        if(current != null){
+        if (current != null){
             current.stop();
             current.setVisible(false);
             Managers.getManager(IViewManager.class).getViews().getMainView().setGlassPane(null);
             current = null;
         }
     }
-    
+
     @Override
-    public void view(Movie movie) {
+    public void view(Movie movie){
         ControllerState newState = getState().view(movie);
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public void manualEdit() {
+    public void manualEdit(){
         ControllerState newState = getState().manualEdit();
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public void createMovie() {
+    public void createMovie(){
         ControllerState newState = getState().create();
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public void deleteCurrentMovie() {
+    public void deleteCurrentMovie(){
         ControllerState newState = getState().delete();
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public void cancel() {
+    public void cancel(){
         ControllerState newState = getState().cancel();
 
-        if (newState != null) {
+        if (newState != null){
             setAndApplyState(newState);
         }
     }
 
     @Override
-    public String getDataType() {
+    public String getDataType(){
         return IMoviesService.DATA_TYPE;
     }
 
     @Override
-    public Collection<Movie> getDisplayList() {
+    public Collection<Movie> getDisplayList(){
         return getViewModel().getDisplayList();
     }
 }

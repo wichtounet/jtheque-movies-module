@@ -7,7 +7,7 @@ import org.jtheque.core.managers.view.impl.components.config.ConfigTabComponent;
  */
 public interface IOpeningConfigView extends ConfigTabComponent {
     /**
-     * Build the view. 
+     * Build the view.
      */
     void build();
 }

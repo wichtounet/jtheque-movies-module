@@ -17,8 +17,8 @@ package org.jtheque.movies.services.able;
  */
 
 import org.jtheque.core.managers.persistence.able.DataContainer;
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 
 import java.util.Collection;
@@ -67,19 +67,18 @@ public interface IMoviesService extends DataContainer<Movie> {
     void create(Movie movie);
 
     /**
-     * Clean all the movies using the specified cleaners. 
-     * 
-     * @param movies The movies to clean. 
-     * @param cleaners The cleaners to use to clean the movies. 
+     * Clean all the movies using the specified cleaners.
+     *
+     * @param movies   The movies to clean.
+     * @param cleaners The cleaners to use to clean the movies.
      */
     void clean(Collection<Movie> movies, Collection<NameCleaner> cleaners);
 
     /**
-     * Return all the movies of the specified category. 
-     * 
-     * @param category The searched category. 
-     * 
-     * @return A Collection containing all the movies of the specified category. 
+     * Return all the movies of the specified category.
+     *
+     * @param category The searched category.
+     * @return A Collection containing all the movies of the specified category.
      */
     Collection<Movie> getMoviesOf(Category category);
 }

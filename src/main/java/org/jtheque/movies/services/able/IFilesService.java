@@ -3,8 +3,8 @@ package org.jtheque.movies.services.able;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import java.util.Collection;
 import java.io.File;
+import java.util.Collection;
 
 /*
  * This file is part of JTheque.
@@ -29,29 +29,27 @@ import java.io.File;
  */
 public interface IFilesService {
     /**
-     * Create a movie based on the file path and the specified parsers. 
-     * 
-     * @param filePath The path to the file of the movie. 
-     * @param parsers The parsers. 
-     * 
-     * @return The created Movie. 
+     * Create a movie based on the file path and the specified parsers.
+     *
+     * @param filePath The path to the file of the movie.
+     * @param parsers  The parsers.
+     * @return The created Movie.
      */
     Movie createMovie(String filePath, Collection<FileParser> parsers);
 
     /**
-     * Return all the files who are movies on the specified folder. 
-     * 
-     * @param folder The folder to read. 
-     * 
-     * @return All the files of the specified folder. 
+     * Return all the files who are movies on the specified folder.
+     *
+     * @param folder The folder to read.
+     * @return All the files of the specified folder.
      */
     Collection<File> getMovieFiles(File folder);
 
     /**
-     * Import all the movies from the specified files. 
-     * 
-     * @param files The files to import movies from. 
-     * @param parsers The parsers to use. 
+     * Import all the movies from the specified files.
+     *
+     * @param files   The files to import movies from.
+     * @param parsers The parsers to use.
      */
     void importMovies(Collection<File> files, Collection<FileParser> parsers);
 }

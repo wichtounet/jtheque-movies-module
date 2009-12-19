@@ -30,22 +30,22 @@ import java.awt.event.ActionEvent;
  */
 public final class AcValidateCategoryView extends JThequeAction {
     private static final long serialVersionUID = -6791055361978541369L;
-    
+
     @Resource
     private ICategoryController categoryController;
 
     /**
      * Construct a new AcValidateKindView.
      */
-    public AcValidateCategoryView() {
+    public AcValidateCategoryView(){
         super("category.actions.ok");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         ICategoryView view = (ICategoryView) categoryController.getView();
 
-        if (view.validateContent()) {
+        if (view.validateContent()){
             categoryController.save(view.getFieldName().getText());
 
             view.closeDown();

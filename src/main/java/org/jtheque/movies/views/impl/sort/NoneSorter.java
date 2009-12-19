@@ -24,7 +24,7 @@ import org.jtheque.primary.view.impl.sort.Sorter;
 import javax.annotation.Resource;
 
 /**
- * Only add the elements in the order given by the display list. 
+ * Only add the elements in the order given by the display list.
  *
  * @author Baptiste Wicht
  */
@@ -33,14 +33,14 @@ public final class NoneSorter implements Sorter {
     private IMovieView movieView;
 
     @Override
-    public boolean canSort(String content, String sortType) {
+    public boolean canSort(String content, String sortType){
         return "None".equals(sortType);
     }
 
     @Override
-    public void sort(JThequeTreeModel model) {
+    public void sort(JThequeTreeModel model){
         TreeElement root = model.getRoot();
-        
+
         root.addAll(movieView.getDisplayList());
 
         model.setRootElement(root);

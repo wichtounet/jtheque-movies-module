@@ -45,22 +45,22 @@ public final class CreateMovieState extends AbstractMovieState {
     private IMoviesService moviesService;
 
     /**
-     * Return the model of the view. 
-     * 
-     * @return The model of the view. 
+     * Return the model of the view.
+     *
+     * @return The model of the view.
      */
-    private IMoviesModel getViewModel() {
+    private IMoviesModel getViewModel(){
         return controller.getViewModel();
     }
 
     @Override
-    public void apply() {
+    public void apply(){
         getViewModel().setCurrentMovie(moviesService.getEmptyMovie());
         controller.getView().setDisplayedView(IMovieView.EDIT_VIEW);
     }
 
     @Override
-    public ControllerState save(FormBean bean) {
+    public ControllerState save(FormBean bean){
         IMovieFormBean infos = (IMovieFormBean) bean;
 
         Movie movie = moviesService.getEmptyMovie();
@@ -77,12 +77,12 @@ public final class CreateMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState cancel() {
+    public ControllerState cancel(){
         ControllerState nextState = null;
 
         controller.getView().selectFirst();
 
-        if (moviesService.getMovies().size() <= 0) {
+        if (moviesService.getMovies().size() <= 0){
             nextState = controller.getViewState();
         }
 
@@ -90,14 +90,14 @@ public final class CreateMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState autoEdit(Data data) {
+    public ControllerState autoEdit(Data data){
         switchMovie(data);
 
         return controller.getAutoAddState();
     }
 
     @Override
-    public ControllerState view(Data data) {
+    public ControllerState view(Data data){
         switchMovie(data);
 
         return controller.getViewState();
@@ -106,14 +106,14 @@ public final class CreateMovieState extends AbstractMovieState {
     /**
      * Switch the current movie.
      *
-     * @param data The new movie to display. 
+     * @param data The new movie to display.
      */
     private void switchMovie(Data data){
         Movie movie = (Movie) data;
 
         if (Managers.getManager(IViewManager.class).askI18nUserForConfirmation(
                 "movie.dialogs.confirmSave",
-                "movie.dialogs.confirmSave.title")) {
+                "movie.dialogs.confirmSave.title")){
             controller.save();
         }
 

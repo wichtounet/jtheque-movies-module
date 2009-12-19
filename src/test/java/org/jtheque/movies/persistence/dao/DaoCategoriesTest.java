@@ -16,23 +16,24 @@ package org.jtheque.movies.persistence.dao;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.ContextConfiguration;
+import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.od.impl.CollectionImpl;
 import org.jtheque.primary.dao.able.IDaoCollections;
+import org.jtheque.primary.od.impl.CollectionImpl;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.Collection;
+
+import static org.junit.Assert.*;
 
 /**
  * A test for DaoCategories.
@@ -47,40 +48,40 @@ import java.util.Collection;
 public class DaoCategoriesTest extends AbstractDBUnitTest {
     @Resource
     private IDaoCategories daoCategories;
-    
+
     @Resource
     private IDaoCollections daoCollections;
 
     @Resource
     private DataSource dataSource;
 
-    public DaoCategoriesTest() {
+    public DaoCategoriesTest(){
         super("JTheque Collections/JTheque Movies Module/src/test/resources/org/jtheque/movies/persistence/categories.xml");
     }
 
     @PostConstruct
     public void init(){
         initDB(dataSource);
-        
+
         PrimaryUtils.setPrimaryImpl("Movies");
-        
+
         org.jtheque.primary.od.able.Collection collection = new CollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
         collection.setPrimaryImpl("Movies");
-        
+
         daoCollections.setCurrentCollection(collection);
     }
 
     @Test
-    public void initOK() {
+    public void initOK(){
         assertNotNull(daoCategories);
     }
 
     @Test
-    public void getCategoryById() {
+    public void getCategoryById(){
         Category cat = daoCategories.getCategory(2);
 
         assertNotNull(cat);
@@ -89,51 +90,51 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getCategories() {
+    public void getCategories(){
         Collection<Category> categories = daoCategories.getCategories();
-        
+
         assertEquals(2, categories.size());
     }
-    
+
     @Test
-    public void getExistingCategoryByName() {
+    public void getExistingCategoryByName(){
         Category cat = daoCategories.getCategory("Catégorie 2");
-        
+
         assertNotNull(cat);
         assertEquals(2, cat.getId());
         assertEquals("Catégorie 2", cat.getTitle());
     }
-    
+
     @Test
-    public void getNonExistingCategoryByName() {
+    public void getNonExistingCategoryByName(){
         Category cat = daoCategories.getCategory("Peutêtre 3");
-        
-        assertNull(cat);
-    }
-    
-    @Test
-    public void getFalseCollectionCategoryByName() {
-        Category cat = daoCategories.getCategory("Catégorie 3");
-        
+
         assertNull(cat);
     }
 
     @Test
-    public void createCategory() {
+    public void getFalseCollectionCategoryByName(){
+        Category cat = daoCategories.getCategory("Catégorie 3");
+
+        assertNull(cat);
+    }
+
+    @Test
+    public void createCategory(){
         Category cat = new CategoryImpl("Created category");
-        
+
         daoCategories.create(cat);
-        
+
         assertEquals(4, getRowCount("T_MOVIE_CATEGORIES"));
     }
 
     @Test
-    public void saveCategory() {
+    public void saveCategory(){
         Category cat = daoCategories.getCategory(1);
         cat.setTitle("New title");
-        
+
         daoCategories.save(cat);
-        
+
         assertEquals("New title", getValue("T_MOVIE_CATEGORIES", 0, "TITLE").toString());
     }
 
@@ -141,15 +142,15 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     public void deleteCategory(){
         Category cat = daoCategories.getCategory(1);
         daoCategories.delete(cat);
-        
+
         assertEquals(2, getTable("T_MOVIE_CATEGORIES").getRowCount());
         assertNull(daoCategories.getCategory(1));
     }
-    
+
     @Test
     public void clearAll(){
         daoCategories.clearAll();
-        
+
         assertEquals(0, getTable("T_MOVIE_CATEGORIES").getRowCount());
         assertEquals(0, daoCategories.getCategories().size());
     }

@@ -15,143 +15,157 @@
     <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" lazy-init="false">
         <constructor-arg index="0">
             <util:list>
-                <bean class="org.jtheque.movies.views.impl.choiceActions.ModifyChoiceAction" />
-                <bean class="org.jtheque.movies.views.impl.choiceActions.DeleteChoiceAction" />
-                <bean class="org.jtheque.movies.views.impl.choiceActions.CleanChoiceAction" />
+                <bean class="org.jtheque.movies.views.impl.choiceActions.ModifyChoiceAction"/>
+                <bean class="org.jtheque.movies.views.impl.choiceActions.DeleteChoiceAction"/>
+                <bean class="org.jtheque.movies.views.impl.choiceActions.CleanChoiceAction"/>
             </util:list>
         </constructor-arg>
         <constructor-arg index="1">
             <util:list>
-                <bean class="org.jtheque.movies.views.impl.sort.ByCategorySorter" />
-                <bean class="org.jtheque.movies.views.impl.sort.NoneSorter" />
+                <bean class="org.jtheque.movies.views.impl.sort.ByCategorySorter"/>
+                <bean class="org.jtheque.movies.views.impl.sort.NoneSorter"/>
             </util:list>
         </constructor-arg>
         <constructor-arg index="2">
-            <jtheque:swing-bean class="org.jtheque.movies.views.impl.JPanelConfigOpening" />
+            <jtheque:swing-bean class="org.jtheque.movies.views.impl.JPanelConfigOpening"/>
         </constructor-arg>
     </bean>
-    
-    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController" />
-    
+
+    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController"/>
+
     <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
-        <property name="viewState"><bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState" /></property>
-        <property name="newObjectState"><bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState" /></property>
-        <property name="modifyState"><bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState" /></property>
+        <property name="viewState">
+            <bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/>
+        </property>
+        <property name="newObjectState">
+            <bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState"/>
+        </property>
+        <property name="modifyState">
+            <bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState"/>
+        </property>
     </bean>
-        
-    <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories" />
-    <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies" />
-    
-    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService" />
-    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService" />
-    <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService" />
-    
-    <jtheque:proxy id="movieView" type="org.jtheque.movies.views.impl.MovieView" />
-    <jtheque:proxy id="categoryView" type="org.jtheque.movies.views.impl.CategoryView" />
-    <jtheque:proxy id="addFromFileView" type="org.jtheque.movies.views.impl.frames.AddFromFileView" />
-    <jtheque:proxy id="importFolderView" type="org.jtheque.movies.views.impl.frames.ImportFolderView" />
-    <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanMovieView" />
-    
+
+    <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories"/>
+    <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies"/>
+
+    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService"/>
+    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService"/>
+    <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
+
+    <jtheque:proxy id="movieView" type="org.jtheque.movies.views.impl.MovieView"/>
+    <jtheque:proxy id="categoryView" type="org.jtheque.movies.views.impl.CategoryView"/>
+    <jtheque:proxy id="addFromFileView" type="org.jtheque.movies.views.impl.frames.AddFromFileView"/>
+    <jtheque:proxy id="importFolderView" type="org.jtheque.movies.views.impl.frames.ImportFolderView"/>
+    <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanMovieView"/>
+
     <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView">
         <constructor-arg>
             <util:list>
-                <bean id="viewMoviePanel" class="org.jtheque.movies.views.impl.panel.ViewMoviePanel" />
+                <bean id="viewMoviePanel" class="org.jtheque.movies.views.impl.panel.ViewMoviePanel"/>
                 <bean id="editMoviePanel" class="org.jtheque.movies.views.impl.panel.EditMoviePanel">
                     <constructor-arg>
                         <bean id="categoriesPanel" class="org.jtheque.movies.views.impl.panel.JPanelCategories">
-                            <constructor-arg ref="newCategoryAction" />
-                            <constructor-arg ref="editCategoryAction" />
-                            <constructor-arg ref="deleteCategoryAction" />
+                            <constructor-arg ref="newCategoryAction"/>
+                            <constructor-arg ref="editCategoryAction"/>
+                            <constructor-arg ref="deleteCategoryAction"/>
                         </bean>
-                     </constructor-arg>
+                    </constructor-arg>
                 </bean>
             </util:list>
         </constructor-arg>
-        <property name="model"><bean id="moviesModel" class="org.jtheque.movies.views.impl.models.MoviesModel" /></property>
+        <property name="model">
+            <bean id="moviesModel" class="org.jtheque.movies.views.impl.models.MoviesModel"/>
+        </property>
     </bean>
-    
+
     <bean id="_categoryView" class="org.jtheque.movies.views.impl.CategoryView">
-        <constructor-arg ref="_mainView" />
-        <constructor-arg ref="validateCategoryViewAction" />
-        <constructor-arg ref="closeCategoryViewAction" />
-        <property name="model"><bean id="categoryModel" class="org.jtheque.movies.views.impl.models.CategoryModel" /></property>
+        <constructor-arg ref="_mainView"/>
+        <constructor-arg ref="validateCategoryViewAction"/>
+        <constructor-arg ref="closeCategoryViewAction"/>
+        <property name="model">
+            <bean id="categoryModel" class="org.jtheque.movies.views.impl.models.CategoryModel"/>
+        </property>
     </bean>
-    
+
     <bean id="_addFromFileView" class="org.jtheque.movies.views.impl.frames.AddFromFileView">
-        <constructor-arg ref="_mainView" />
-        <constructor-arg ref="validateAddFromFileViewAction" />
-        <constructor-arg ref="cancelAddFromFileViewAction" />
-        <constructor-arg ref="fileParsers" />
+        <constructor-arg ref="_mainView"/>
+        <constructor-arg ref="validateAddFromFileViewAction"/>
+        <constructor-arg ref="cancelAddFromFileViewAction"/>
+        <constructor-arg ref="fileParsers"/>
     </bean>
-    
+
     <bean id="_importFolderView" class="org.jtheque.movies.views.impl.frames.ImportFolderView">
-        <constructor-arg ref="_mainView" />
-        <constructor-arg ref="searchFilesImportFolderViewAction" />
-        <constructor-arg ref="deleteFileAction" />
-        <constructor-arg ref="validateImportFolderViewAction" />
-        <constructor-arg ref="cancelFolderViewAction" />
-        <constructor-arg ref="fileParsers" />
+        <constructor-arg ref="_mainView"/>
+        <constructor-arg ref="searchFilesImportFolderViewAction"/>
+        <constructor-arg ref="deleteFileAction"/>
+        <constructor-arg ref="validateImportFolderViewAction"/>
+        <constructor-arg ref="cancelFolderViewAction"/>
+        <constructor-arg ref="fileParsers"/>
     </bean>
-    
+
     <util:list id="fileParsers">
-        <bean class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser" />
+        <bean class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"/>
         <bean class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser">
-            <constructor-arg value="-" />
+            <constructor-arg value="-"/>
         </bean>
         <bean class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
-            <constructor-arg value="[" />
-            <constructor-arg value="]" />
+            <constructor-arg value="["/>
+            <constructor-arg value="]"/>
         </bean>
         <bean class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
-            <constructor-arg value="{" />
-            <constructor-arg value="}" />
+            <constructor-arg value="{"/>
+            <constructor-arg value="}"/>
         </bean>
     </util:list>
-    
+
     <bean id="_cleanMovieView" class="org.jtheque.movies.views.impl.frames.CleanMovieView">
-        <constructor-arg ref="_mainView" />
-        <constructor-arg ref="validateCleanViewAction" />
-        <constructor-arg ref="cancelCleanViewAction" />
-        <constructor-arg ref="nameCleaners" />
+        <constructor-arg ref="_mainView"/>
+        <constructor-arg ref="validateCleanViewAction"/>
+        <constructor-arg ref="cancelCleanViewAction"/>
+        <constructor-arg ref="nameCleaners"/>
     </bean>
-    
+
     <util:list id="nameCleaners">
-        <bean class="org.jtheque.movies.services.impl.cleaners.CategoryNameCleaner" />
-        <bean class="org.jtheque.movies.services.impl.cleaners.NumberCleaner" />
-        <bean class="org.jtheque.movies.services.impl.cleaners.ExtensionCleaner" />
+        <bean class="org.jtheque.movies.services.impl.cleaners.CategoryNameCleaner"/>
+        <bean class="org.jtheque.movies.services.impl.cleaners.NumberCleaner"/>
+        <bean class="org.jtheque.movies.services.impl.cleaners.ExtensionCleaner"/>
         <bean class="org.jtheque.movies.services.impl.cleaners.CharCleaner">
-            <constructor-arg value="-" />
+            <constructor-arg value="-"/>
         </bean>
     </util:list>
-    
-    <bean id="newCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcNewCategory" />
-    <bean id="editCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcEditCategory" />
-    <bean id="deleteCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory" />
-    
-    <bean id="cleanCategoryAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanCategory" />
-    <bean id="validateCategoryViewAction" class="org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView" />
-    <jtheque:close id="closeCategoryViewAction" key="category.actions.cancel" view="categoryView" />
-    
-    <bean id="cancelMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcCancel" />
-    <bean id="deleteMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcDelete" />
-    <bean id="editMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcManualEdit" />
-    <bean id="newMovieAction" class="org.jtheque.movies.views.impl.actions.movies.NewMovieAction" />
-    <bean id="saveMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcSaveMovie" />
-    <bean id="cleanMovieAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanMovie" />
-    <bean id="quitMovieViewAction" class="org.jtheque.movies.views.impl.actions.view.AcQuitView" />
-    <bean id="openMovieAction" class="org.jtheque.movies.views.impl.actions.view.AcOpenMovie" />
-    
-    <bean id="validateAddFromFileViewAction" class="org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction" />
-    <jtheque:display id="autoAddMovieAction" key="movie.auto.actions.add" view="addFromFileView" />
-    <jtheque:close id="cancelAddFromFileViewAction" key="movie.auto.actions.cancel" view="addFromFileView" />
-    
-    <bean id="validateCleanViewAction" class="org.jtheque.movies.views.impl.actions.clean.AcValidateCleanViewAction" />
-    <jtheque:close id="cancelCleanViewAction" key="movie.auto.actions.cancel" view="cleanMovieView" />
-    
-    <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView" />
-    <jtheque:close id="cancelFolderViewAction" key="movie.auto.folder.actions.cancel" view="importFolderView" />
-    <bean id="validateImportFolderViewAction" class="org.jtheque.movies.views.impl.actions.movies.folder.AcImportFiles" />
-    <bean id="searchFilesImportFolderViewAction" class="org.jtheque.movies.views.impl.actions.movies.folder.AcSearchFiles" />
-    <bean id="deleteFileAction" class="org.jtheque.movies.views.impl.actions.movies.folder.AcDeleteFile" />
-    
+
+    <bean id="newCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcNewCategory"/>
+    <bean id="editCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcEditCategory"/>
+    <bean id="deleteCategoryAction" class="org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory"/>
+
+    <bean id="cleanCategoryAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanCategory"/>
+    <bean id="validateCategoryViewAction"
+          class="org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView"/>
+    <jtheque:close id="closeCategoryViewAction" key="category.actions.cancel" view="categoryView"/>
+
+    <bean id="cancelMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcCancel"/>
+    <bean id="deleteMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcDelete"/>
+    <bean id="editMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcManualEdit"/>
+    <bean id="newMovieAction" class="org.jtheque.movies.views.impl.actions.movies.NewMovieAction"/>
+    <bean id="saveMovieAction" class="org.jtheque.movies.views.impl.actions.movies.AcSaveMovie"/>
+    <bean id="cleanMovieAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanMovie"/>
+    <bean id="quitMovieViewAction" class="org.jtheque.movies.views.impl.actions.view.AcQuitView"/>
+    <bean id="openMovieAction" class="org.jtheque.movies.views.impl.actions.view.AcOpenMovie"/>
+
+    <bean id="validateAddFromFileViewAction"
+          class="org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction"/>
+    <jtheque:display id="autoAddMovieAction" key="movie.auto.actions.add" view="addFromFileView"/>
+    <jtheque:close id="cancelAddFromFileViewAction" key="movie.auto.actions.cancel" view="addFromFileView"/>
+
+    <bean id="validateCleanViewAction" class="org.jtheque.movies.views.impl.actions.clean.AcValidateCleanViewAction"/>
+    <jtheque:close id="cancelCleanViewAction" key="movie.auto.actions.cancel" view="cleanMovieView"/>
+
+    <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView"/>
+    <jtheque:close id="cancelFolderViewAction" key="movie.auto.folder.actions.cancel" view="importFolderView"/>
+    <bean id="validateImportFolderViewAction"
+          class="org.jtheque.movies.views.impl.actions.movies.folder.AcImportFiles"/>
+    <bean id="searchFilesImportFolderViewAction"
+          class="org.jtheque.movies.views.impl.actions.movies.folder.AcSearchFiles"/>
+    <bean id="deleteFileAction" class="org.jtheque.movies.views.impl.actions.movies.folder.AcDeleteFile"/>
+
 </beans>

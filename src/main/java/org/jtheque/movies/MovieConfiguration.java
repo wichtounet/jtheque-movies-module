@@ -19,26 +19,26 @@ import org.jtheque.core.managers.state.AbstractState;
  */
 
 /**
- * A movies configuration implementation. 
- * 
+ * A movies configuration implementation.
+ *
  * @author Baptiste Wicht
  */
 public final class MovieConfiguration extends AbstractState implements IMovieConfiguration {
     @Override
     public Opening getOpeningSystem(){
         String opening = getProperty("opening", "system");
-        
-        if(Opening.SYSTEM.getValue().equals(opening)){
+
+        if (Opening.SYSTEM.getValue().equals(opening)){
             return Opening.SYSTEM;
-        } else if(Opening.VLC.getValue().equals(opening)){
+        } else if (Opening.VLC.getValue().equals(opening)){
             return Opening.VLC;
-        } else if(Opening.WMP.getValue().equals(opening)){
+        } else if (Opening.WMP.getValue().equals(opening)){
             return Opening.WMP;
         } else {
             return Opening.SYSTEM;
         }
     }
-    
+
     @Override
     public void setOpeningSystem(Opening opening){
         setProperty("opening", opening.getValue());

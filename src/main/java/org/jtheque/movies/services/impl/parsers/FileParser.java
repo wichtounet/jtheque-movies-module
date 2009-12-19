@@ -22,38 +22,37 @@ import java.util.Collection;
  */
 
 /**
- * A parser to extract the categories from the path of a file.  
- * 
+ * A parser to extract the categories from the path of a file.
+ *
  * @author Baptiste Wicht
  */
 public interface FileParser {
     /**
-     * Return the internationalized title of the parser. 
-     * 
-     * @return The internationalized title of the parser. 
+     * Return the internationalized title of the parser.
+     *
+     * @return The internationalized title of the parser.
      */
     String getTitle();
 
     /**
-     * Parse the file path of the file to extract the categories. 
-     * 
-     * @param file The file to parse. 
+     * Parse the file path of the file to extract the categories.
+     *
+     * @param file The file to parse.
      */
     void parseFilePath(File file);
 
     /**
-     * Clear the filename. It seems delete the parts referring to categories. 
-     * 
-     * @param fileName The file name to clear. 
-     * 
-     * @return the cleared filename. 
+     * Clear the filename. It seems delete the parts referring to categories.
+     *
+     * @param fileName The file name to clear.
+     * @return the cleared filename.
      */
     String clearFileName(String fileName);
 
     /**
-     * Return all the extracted categories. 
-     * 
-     * @return A collection containing all the extracted categories. 
+     * Return all the extracted categories.
+     *
+     * @return A collection containing all the extracted categories.
      */
-    Collection<Category> getExtractedCategories() ;
+    Collection<Category> getExtractedCategories();
 }

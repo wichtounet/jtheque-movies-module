@@ -38,12 +38,12 @@ import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * A Data Access Object implementation for movies. 
+ * A Data Access Object implementation for movies.
  *
  * @author Baptiste Wicht
  */
@@ -69,13 +69,13 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     /**
      * Construct a new DaoMovies.
      */
-    public DaoMovies() {
+    public DaoMovies(){
         super(TABLE);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public Collection<Movie> getMovies() {
+    public Collection<Movie> getMovies(){
         List<Movie> films = (List<Movie>) getMovies(daoCollections.getCurrentCollection());
 
         Collections.sort(films);
@@ -89,8 +89,8 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
      * @param collection The collection.
      * @return A List containing all the films of the collections.
      */
-    private Collection<? extends Data> getMovies(org.jtheque.primary.od.able.Collection collection) {
-        if (collection == null || !collection.isSaved()) {
+    private Collection<? extends Data> getMovies(org.jtheque.primary.od.able.Collection collection){
+        if (collection == null || !collection.isSaved()){
             return getAll();
         }
 
@@ -98,8 +98,8 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
         Collection<Movie> movies = new ArrayList<Movie>(getCache().size() / 2);
 
-        for (Movie movie : getCache().values()) {
-            if (movie.isInCollection(collection)) {
+        for (Movie movie : getCache().values()){
+            if (movie.isInCollection(collection)){
                 movies.add(movie);
             }
         }
@@ -108,7 +108,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     }
 
     @Override
-    public boolean delete(Movie movie) {
+    public boolean delete(Movie movie){
         boolean deleted = super.delete(movie);
 
         jdbcTemplate.update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
@@ -117,12 +117,12 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     }
 
     @Override
-    public Movie getMovie(int id) {
+    public Movie getMovie(int id){
         return get(id);
     }
 
     @Override
-    public void save(Movie movie) {
+    public void save(Movie movie){
         super.save(movie);
 
         jdbcTemplate.update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
@@ -133,16 +133,16 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     /**
      * Create the links between the movie and the categories.
      *
-     * @param movie The movie. 
+     * @param movie The movie.
      */
-    private void createLinks(Movie movie) {
-        for (Category category : movie.getCategories()) {
+    private void createLinks(Movie movie){
+        for (Category category : movie.getCategories()){
             jdbcTemplate.update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
         }
     }
 
     @Override
-    public void create(Movie movie) {
+    public void create(Movie movie){
         movie.setTheCollection(daoCollections.getCurrentCollection());
 
         //First we create the movie in the table
@@ -156,24 +156,24 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     public Movie createMovie(){
         return new MovieImpl();
     }
-    
+
     @Override
-    protected ParameterizedRowMapper<Movie> getRowMapper() {
+    protected ParameterizedRowMapper<Movie> getRowMapper(){
         return rowMapper;
     }
 
     @Override
-    protected QueryMapper getQueryMapper() {
+    protected QueryMapper getQueryMapper(){
         return queryMapper;
     }
 
     @Override
-    protected void loadCache() {
+    protected void loadCache(){
         relationsToCategories = jdbcTemplate.query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE, relationRowMapper);
 
         Collection<Movie> movies = persistenceContext.getSortedList(TABLE, rowMapper);
 
-        for (Movie movie : movies) {
+        for (Movie movie : movies){
             getCache().put(movie.getId(), movie);
         }
 
@@ -183,7 +183,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     }
 
     @Override
-    protected void load(int i) {
+    protected void load(int i){
         Movie book = persistenceContext.getDataByID(TABLE, i, rowMapper);
 
         getCache().put(i, book);
@@ -196,7 +196,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
      */
     private static final class RelationRowMapper implements ParameterizedRowMapper<MovieCategoryRelation> {
         @Override
-        public MovieCategoryRelation mapRow(ResultSet rs, int i) throws SQLException {
+        public MovieCategoryRelation mapRow(ResultSet rs, int i) throws SQLException{
             MovieCategoryRelation relation = new MovieCategoryRelation();
 
             relation.setMovie(rs.getInt("THE_MOVIE_FK"));
@@ -213,7 +213,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
      */
     private final class MovieRowMapper implements ParameterizedRowMapper<Movie> {
         @Override
-        public Movie mapRow(ResultSet rs, int i) throws SQLException {
+        public Movie mapRow(ResultSet rs, int i) throws SQLException{
             Movie movie = createMovie();
 
             movie.setId(rs.getInt("ID"));
@@ -222,16 +222,16 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
             movie.setFile(rs.getString("FILE"));
             movie.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
 
-            if (relationsToCategories != null && !relationsToCategories.isEmpty()) {
-                for (MovieCategoryRelation relation : relationsToCategories) {
-                    if (relation.getMovie() == movie.getId()) {
+            if (relationsToCategories != null && !relationsToCategories.isEmpty()){
+                for (MovieCategoryRelation relation : relationsToCategories){
+                    if (relation.getMovie() == movie.getId()){
                         movie.addCategory(daoCategories.getCategory(relation.getCategory()));
                     }
                 }
             } else {
                 relationsToCategories = jdbcTemplate.query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", relationRowMapper, movie.getId());
 
-                for (MovieCategoryRelation relation : relationsToCategories) {
+                for (MovieCategoryRelation relation : relationsToCategories){
                     movie.addCategory(daoCategories.getCategory(relation.getCategory()));
                 }
 
@@ -249,7 +249,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
      */
     private static final class MovieQueryMapper implements QueryMapper {
         @Override
-        public Query constructInsertQuery(Entity entity) {
+        public Query constructInsertQuery(Entity entity){
             Movie movie = (Movie) entity;
 
             String query = "INSERT INTO " + TABLE + " (TITLE, NOTE, FILE, THE_COLLECTION_FK) VALUES(?,?,?,?)";
@@ -265,7 +265,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
         }
 
         @Override
-        public Query constructUpdateQuery(Entity entity) {
+        public Query constructUpdateQuery(Entity entity){
             Movie movie = (Movie) entity;
 
             String query = "UPDATE " + TABLE + " SET TITLE = ?, NOTE = ?, FILE = ?, THE_COLLECTION_FK = ? WHERE ID = ?";

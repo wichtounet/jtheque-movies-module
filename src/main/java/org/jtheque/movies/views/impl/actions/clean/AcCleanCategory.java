@@ -37,16 +37,16 @@ public final class AcCleanCategory extends JThequeAction {
 
     @Resource
     private ICleanMovieView cleanMovieView;
-    
+
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcCleanCategory() {
+    public AcCleanCategory(){
         super("movie.actions.clean.category");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         choiceController.setAction("clean");
         choiceController.setContent(ICategoriesService.DATA_TYPE);
         choiceController.displayView();

@@ -28,40 +28,40 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * A file parser who extracts the category from the start of the file name to a specified character. 
- * 
+ * A file parser who extracts the category from the start of the file name to a specified character.
+ *
  * @author Baptiste Wicht
  */
-public final class ToCharCategoryParser implements FileParser{
+public final class ToCharCategoryParser implements FileParser {
     private Category category;
     private final String character;
-    
+
     @Resource
     private ICategoriesService categoriesService;
 
     /**
-     * Construct a new ToCharCategoryParser with the specified end character. 
-     * 
-     * @param character The end character. 
+     * Construct a new ToCharCategoryParser with the specified end character.
+     *
+     * @param character The end character.
      */
-    public ToCharCategoryParser(String character) {
+    public ToCharCategoryParser(String character){
         super();
-        
+
         this.character = character;
     }
 
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.auto.parser.to.char", "-");
     }
 
     @Override
-    public void parseFilePath(File file) {
-        if(file.isFile()){
+    public void parseFilePath(File file){
+        if (file.isFile()){
             String name = file.getName().substring(0, file.getName().indexOf(character)).trim();
-            
-            if(categoriesService.exists(name)){
-                 category = categoriesService.getCategory(name);
+
+            if (categoriesService.exists(name)){
+                category = categoriesService.getCategory(name);
             } else {
                 category = categoriesService.getEmptyCategory();
                 category.setTitle(name);
@@ -70,20 +70,20 @@ public final class ToCharCategoryParser implements FileParser{
     }
 
     @Override
-    public String clearFileName(String fileName) {
-        if(!fileName.contains(character)){
+    public String clearFileName(String fileName){
+        if (!fileName.contains(character)){
             return fileName;
         }
-        
+
         return fileName.substring(fileName.indexOf(character) + 1);
     }
 
     @Override
-    public Collection<Category> getExtractedCategories() {
-        if(category == null){
+    public Collection<Category> getExtractedCategories(){
+        if (category == null){
             return CollectionUtils.emptyList();
         }
-        
+
         return Arrays.asList(category);
     }
 }

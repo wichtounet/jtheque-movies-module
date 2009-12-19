@@ -67,19 +67,18 @@ public interface IDaoCategories extends JThequeDao {
     boolean delete(Category category);
 
     /**
-     * Return the category of the specified name. 
-     * 
-     * @param name The name of the category. 
-     * 
-     * @return the category of the specified name if it exists else null. 
+     * Return the category of the specified name.
+     *
+     * @param name The name of the category.
+     * @return the category of the specified name if it exists else null.
      */
     Category getCategory(String name);
 
     /**
-     * Create a category and return it. This category must be empty. This category is not in the 
-     * database. To made it persistent, use the the <strong>create(Category category)</strong> method. 
-     * 
-     * @return the created, empty, category. 
+     * Create a category and return it. This category must be empty. This category is not in the
+     * database. To made it persistent, use the the <strong>create(Category category)</strong> method.
+     *
+     * @return the created, empty, category.
      */
     Category createCategory();
 

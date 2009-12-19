@@ -17,17 +17,17 @@ package org.jtheque.movies;
  */
 
 /**
- * A movies module specification. 
- * 
+ * A movies module specification.
+ *
  * @author Baptiste Wicht
  */
 public interface IMoviesModule {
     String IMAGES_BASE_NAME = "org/jtheque/movies/images";
 
     /**
-     * Return the configuration of the module. 
-     * 
-     * @return The configuration of the module. 
+     * Return the configuration of the module.
+     *
+     * @return The configuration of the module.
      */
     IMovieConfiguration getConfig();
 }

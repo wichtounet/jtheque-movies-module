@@ -20,8 +20,8 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.edt.SimpleTask;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
-import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.services.able.IFilesService;
+import org.jtheque.movies.views.able.IImportFolderView;
 
 import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
@@ -43,16 +43,16 @@ public final class AcImportFiles extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      */
-    public AcImportFiles() {
+    public AcImportFiles(){
         super("generic.view.actions.search");
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FILES)) {
+    public void actionPerformed(ActionEvent arg0){
+        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FILES)){
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run() {
+                public void run(){
                     importFolderView.startWait();
 
                     new Thread(new ImportFilesRunnable()).start();
@@ -68,12 +68,12 @@ public final class AcImportFiles extends JThequeAction {
      */
     private final class ImportFilesRunnable implements Runnable {
         @Override
-        public void run() {
+        public void run(){
             filesService.importMovies(importFolderView.getFiles(), importFolderView.getSelectedParsers());
 
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run() {
+                public void run(){
                     importFolderView.stopWait();
                     importFolderView.closeDown();
                 }

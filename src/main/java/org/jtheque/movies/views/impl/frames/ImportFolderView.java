@@ -21,23 +21,23 @@ import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
-import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.movies.views.able.IImportFolderView;
-import org.jtheque.movies.views.impl.panel.ParserContainer;
-import org.jtheque.movies.views.impl.models.FilesListModel;
 import org.jtheque.movies.services.impl.parsers.FileParser;
+import org.jtheque.movies.views.able.IImportFolderView;
+import org.jtheque.movies.views.impl.models.FilesListModel;
+import org.jtheque.movies.views.impl.panel.ParserContainer;
+import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-import javax.swing.KeyStroke;
 import javax.swing.Action;
+import javax.swing.JList;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import java.awt.Container;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
-import java.util.Collection;
-import java.util.ArrayList;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * View for the auto-import function.
@@ -53,7 +53,7 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
     private FilesListModel modelListFiles;
 
     private Phase phase = Phase.CHOOSE_FOLDER;
-    
+
     private final Action searchTitlesAction;
     private final Action deleteTitleAction;
     private final Action validateAction;
@@ -62,38 +62,37 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
     private final Collection<ParserContainer> parserContainers;
 
     /**
-     * Construct a new ImportFolderView. 
-     * 
-     * @param frame The parent frame. 
-     * @param searchTitlesAction The action to search for files. 
-     * @param deleteTitleAction The action to delete a file. 
-     * @param validateAction The actions to validate the view. 
-     * @param cancelAction The action to cancel the view. 
-     * @param parsers A List of parsers used to extract the categories from the file name. 
+     * Construct a new ImportFolderView.
+     *
+     * @param frame              The parent frame.
+     * @param searchTitlesAction The action to search for files.
+     * @param deleteTitleAction  The action to delete a file.
+     * @param validateAction     The actions to validate the view.
+     * @param cancelAction       The action to cancel the view.
+     * @param parsers            A List of parsers used to extract the categories from the file name.
      */
     public ImportFolderView(Frame frame, Action searchTitlesAction, Action deleteTitleAction,
-                            Action validateAction, Action cancelAction, Collection<FileParser> parsers) {
+                            Action validateAction, Action cancelAction, Collection<FileParser> parsers){
         super(frame);
-        
+
         this.searchTitlesAction = searchTitlesAction;
         this.deleteTitleAction = deleteTitleAction;
         this.validateAction = validateAction;
         this.cancelAction = cancelAction;
-        
+
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
 
-        for(FileParser p : parsers){
+        for (FileParser p : parsers){
             parserContainers.add(new ParserContainer(p));
         }
-             
+
         build();
     }
 
     /**
-     * Build the view. 
-     * 
+     * Build the view.
      */
-    private void build() {
+    private void build(){
         setTitleKey("movie.auto.folder.title");
         setContentPane(buildContentPane());
         pack();
@@ -106,7 +105,7 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
      *
      * @return The content pane.
      */
-    private Container buildContentPane() {
+    private Container buildContentPane(){
         PanelBuilder builder = new PanelBuilder();
 
         addDirectoryChooser(builder);
@@ -117,26 +116,26 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
     }
 
     /**
-     * Add the directory chooser to the view. 
-     * 
+     * Add the directory chooser to the view.
+     *
      * @param builder The parent builder
      */
-    private void addDirectoryChooser(PanelBuilder builder) {
+    private void addDirectoryChooser(PanelBuilder builder){
         directoryChooser = new FileChooserPanel();
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
 
         builder.add(directoryChooser, builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
-        
+
         builder.addButton(searchTitlesAction, builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
     }
 
     /**
-     * Add the list of files to the view. 
-     * 
+     * Add the list of files to the view.
+     *
      * @param builder The parent builder
      */
-    private void addTitleList(PanelBuilder builder) {
+    private void addTitleList(PanelBuilder builder){
         modelListFiles = new FilesListModel();
 
         listFiles = new JList(modelListFiles);
@@ -149,74 +148,74 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
     }
 
     /**
-     * Add the parsers to the view. 
-     * 
+     * Add the parsers to the view.
+     *
      * @param builder The parent builder
      */
-    private void addParsers(PanelBuilder builder) {
+    private void addParsers(PanelBuilder builder){
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0));
-        
+
         int i = 3;
-        
-        for(ParserContainer container : parserContainers){
+
+        for (ParserContainer container : parserContainers){
             builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0));
         }
-        
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0), 
+
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0),
                 validateAction, cancelAction);
     }
 
     @Override
-    public String getFolderPath() {
+    public String getFolderPath(){
         return directoryChooser.getFilePath();
     }
 
     @Override
-    public void removeSelectedFile() {
+    public void removeSelectedFile(){
         modelListFiles.remove(listFiles.getSelectedIndex());
     }
 
     @Override
-    public void clearFiles() {
+    public void clearFiles(){
         modelListFiles.clear();
     }
 
     @Override
-    public void setFiles(Collection<File> files) {
+    public void setFiles(Collection<File> files){
         modelListFiles.setFiles(files);
     }
 
     @Override
-    public Collection<File> getFiles() {
+    public Collection<File> getFiles(){
         return modelListFiles.getFiles();
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors) {
-        if (Phase.CHOOSE_FOLDER == phase) {
+    protected void validate(Collection<JThequeError> errors){
+        if (Phase.CHOOSE_FOLDER == phase){
             ValidationUtils.rejectIfEmpty(directoryChooser.getFilePath(), "movie.auto.folder.errors.folderEmpty", errors);
-        } else if (Phase.CHOOSE_FILES == phase) {
+        } else if (Phase.CHOOSE_FILES == phase){
             ValidationUtils.rejectIfEmpty(listFiles, "movie.auto.folder.errors.filesEmpty", errors);
         }
     }
 
     @Override
-    public boolean validateContent(Phase phase) {
+    public boolean validateContent(Phase phase){
         this.phase = phase;
 
         return validateContent();
     }
-    
+
     @Override
     public Collection<FileParser> getSelectedParsers(){
         Collection<FileParser> parsers = new ArrayList<FileParser>(5);
-        
-        for(ParserContainer container : parserContainers){
-            if(container.isSelected()){
+
+        for (ParserContainer container : parserContainers){
+            if (container.isSelected()){
                 parsers.add(container.getParser());
             }
         }
-        
+
         return parsers;
     }
 }

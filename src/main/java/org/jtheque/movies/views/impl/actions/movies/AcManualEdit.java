@@ -32,16 +32,16 @@ public final class AcManualEdit extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcManualEdit.
      */
-    public AcManualEdit() {
+    public AcManualEdit(){
         super("movie.actions.edit");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         movieController.manualEdit();
     }
 }

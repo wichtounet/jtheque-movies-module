@@ -1,15 +1,10 @@
 package org.jtheque.movies.persistence.od;
 
-import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.core.utils.db.DaoNotes;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 
 /*
  * This file is part of JTheque.
@@ -32,40 +27,40 @@ import static org.junit.Assert.assertTrue;
  */
 public class CategoryImplTest {
     private CategoryImpl category;
-    
+
     @Before
     public void setUp(){
         category = new CategoryImpl();
     }
-    
+
     @Test
-    public void testHashCode() {
+    public void testHashCode(){
         category.setId(123);
         category.setTitle("Test");
-        
+
         CategoryImpl category2 = new CategoryImpl("Test");
         category2.setId(123);
-        
+
         assertEquals(category.hashCode(), category2.hashCode());
-        
+
         category.setTitle("Test 1234");
-        
+
         assertFalse(category.hashCode() == category2.hashCode());
     }
 
     @Test
-    public void equals() {
+    public void equals(){
         category.setId(123);
         category.setTitle("Test");
-        
+
         CategoryImpl category2 = new CategoryImpl("Test");
         category2.setId(123);
-        
+
         assertTrue(category.equals(category2));
         assertTrue(category2.equals(category));
-        
+
         category.setTitle("Test 1234");
-        
+
         assertFalse(category.equals(category2));
         assertFalse(category2.equals(category));
     }

@@ -17,20 +17,21 @@ package org.jtheque.movies.services.parsers;
  */
 
 import org.jtheque.core.utils.SystemProperty;
-import org.jtheque.movies.services.impl.parsers.FolderCategoryParser;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.services.impl.parsers.FolderCategoryParser;
 import org.jtheque.utils.io.FileUtils;
-import org.junit.Test;
-import org.junit.Before;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Baptiste Wicht
@@ -43,48 +44,48 @@ import java.io.IOException;
 public class FolderCategoryParserTest {
     @Resource
     private FolderCategoryParser parser;
-    
+
     private static File f;
     private static File parent;
-    
+
     @Before
     public void setUp(){
         parent = new File(SystemProperty.JAVA_IO_TMP_DIR.get());
         f = new File(parent, "test.txt");
         try {
             f.createNewFile();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
         f.deleteOnExit();
-        
+
         FileUtils.createIfNotExists(f);
         parser.parseFilePath(f);
     }
-    
+
     @AfterClass
     public static void release(){
         f.delete();
     }
-    
+
     @Test
-    public void initOK() {
+    public void initOK(){
         assertNotNull(parser);
     }
 
     @Test
-    public void getExtractedCategories() {
+    public void getExtractedCategories(){
         assertEquals(parser.getExtractedCategories().size(), 1);
-        
-        for(Category c : parser.getExtractedCategories()){
-            if(!parent.getName().equals(c.getTitle())){
+
+        for (Category c : parser.getExtractedCategories()){
+            if (!parent.getName().equals(c.getTitle())){
                 fail();
             }
         }
     }
 
     @Test
-    public void clearFileName() {
+    public void clearFileName(){
         assertEquals(f.getName(), parser.clearFileName(f.getName()));
     }
 }

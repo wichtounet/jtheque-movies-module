@@ -19,25 +19,24 @@ package org.jtheque.movies.services.impl.cleaners;
 import org.jtheque.movies.persistence.od.able.Movie;
 
 /**
- * An object to clean the name of a movie. 
- * 
+ * An object to clean the name of a movie.
+ *
  * @author Baptiste Wicht
  */
 public interface NameCleaner {
     /**
-     * Return the internationalized title of the cleaner. 
-     * 
-     * @return The internationalized title of the cleaner. 
+     * Return the internationalized title of the cleaner.
+     *
+     * @return The internationalized title of the cleaner.
      */
     String getTitle();
 
     /**
-     * Clear the name. 
-     * 
-     * @param name The name to clear. 
-     * @param movie The movie to clean the name for. 
-     * 
-     * @return the cleared name. 
+     * Clear the name.
+     *
+     * @param name  The name to clear.
+     * @param movie The movie to clean the name for.
+     * @return the cleared name.
      */
     String clearName(Movie movie, String name);
 }

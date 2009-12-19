@@ -18,17 +18,17 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.utils.StringUtils;
 
-import java.io.FileFilter;
 import java.io.File;
+import java.io.FileFilter;
 
 /**
- * A filter to get only the movies file. 
- * 
+ * A filter to get only the movies file.
+ *
  * @author Baptiste Wicht
  */
-final class MovieFileNameFilter implements FileFilter{
+final class MovieFileNameFilter implements FileFilter {
     @Override
-    public boolean accept(File pathName) {
+    public boolean accept(File pathName){
         return pathName.isDirectory() || StringUtils.endsWithOneOf(pathName.getName(), "avi", "mpeg", "wma", "mpg");
     }
 }

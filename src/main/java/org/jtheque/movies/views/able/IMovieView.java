@@ -30,7 +30,7 @@ public interface IMovieView extends TabComponent, PrincipalDataView {
     String VIEW_VIEW = "view_movie";
     String VLC_VIEW = "vlc_view";
     String WMP_VIEW = "wmp_view";
-    
+
     /**
      * Fill a <code>FilmFormBean</code> with the infos in the interface.
      *
@@ -39,23 +39,23 @@ public interface IMovieView extends TabComponent, PrincipalDataView {
     IMovieFormBean fillMovieFormBean();
 
     /**
-     * Return the currently displayed list. 
-     * 
-     * @return The currently display list. 
+     * Return the currently displayed list.
+     *
+     * @return The currently display list.
      */
     Iterable<Movie> getDisplayList();
 
     /**
-     * Set the intern view to display. 
-     * 
-     * @param view The view to display. 
+     * Set the intern view to display.
+     *
+     * @param view The view to display.
      */
     void setDisplayedView(String view);
 
     /**
-     * Return the current view. 
-     * 
-     * @return The current view to display. 
+     * Return the current view.
+     *
+     * @return The current view to display.
      */
     MoviePanel getCurrentView();
 }

@@ -34,73 +34,73 @@ import java.util.Collection;
  */
 
 /**
- * A config panel to configure the opening system. 
- * 
+ * A config panel to configure the opening system.
+ *
  * @author Baptiste Wicht
  */
 public final class JPanelConfigOpening extends JPanel implements IOpeningConfigView {
     private static final long serialVersionUID = 1549545390644920034L;
 
     private JComboBox combo;
-    
+
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.config");
     }
 
     @Override
-    public void build() {
-        SwingUtils.inEdt(new Runnable(){
+    public void build(){
+        SwingUtils.inEdt(new Runnable() {
             @Override
-            public void run() {
+            public void run(){
                 PanelBuilder parent = new PanelBuilder(JPanelConfigOpening.this);
 
                 PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING));
                 builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.opening"));
-                
+
                 combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING));
-        
+
                 combo.addItem(IMovieConfiguration.Opening.SYSTEM);
-        
-                if(OSUtils.isLinux()){
+
+                if (OSUtils.isLinux()){
                     combo.addItem(IMovieConfiguration.Opening.VLC);
-                } else if(OSUtils.isWindows()){
+                } else if (OSUtils.isWindows()){
                     combo.addItem(IMovieConfiguration.Opening.WMP);
                 }
-                
+
                 fillAllFields();
             }
         });
     }
-    
+
     /**
-     * Fill all the fields with the current informations. 
+     * Fill all the fields with the current informations.
      */
-    private void fillAllFields() {
+    private void fillAllFields(){
         IMoviesModule module = Managers.getManager(IBeansManager.class).getBean("moviesModule");
-        
+
         combo.setSelectedItem(module.getConfig().getOpeningSystem());
     }
 
     @Override
-    public void apply() {
+    public void apply(){
         IMoviesModule module = Managers.getManager(IBeansManager.class).getBean("moviesModule");
-        
-        module.getConfig().setOpeningSystem((IMovieConfiguration.Opening)combo.getSelectedItem());
+
+        module.getConfig().setOpeningSystem((IMovieConfiguration.Opening) combo.getSelectedItem());
     }
 
     @Override
-    public void cancel() {
+    public void cancel(){
         fillAllFields();
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors) {
+    public void validate(Collection<JThequeError> errors){
         //Nothing to validate in the view
-	}
+    }
 
     @Override
-    public JComponent getComponent() {
+    public JComponent getComponent(){
         return this;
     }
 }

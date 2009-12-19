@@ -21,8 +21,8 @@ import org.jtheque.core.managers.log.ILoggingManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.edt.SimpleTask;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
-import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.services.able.IFilesService;
+import org.jtheque.movies.views.able.IImportFolderView;
 
 import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
@@ -46,13 +46,13 @@ public final class AcSearchFiles extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      */
-    public AcSearchFiles() {
+    public AcSearchFiles(){
         super("generic.view.actions.search");
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
+    public void actionPerformed(ActionEvent arg0){
+        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)){
             Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("View valid");
             new Thread(new SearchTitlesRunnable()).start();
         }
@@ -65,20 +65,20 @@ public final class AcSearchFiles extends JThequeAction {
      */
     private final class SearchTitlesRunnable implements Runnable {
         @Override
-        public void run() {
+        public void run(){
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run() {
+                public void run(){
                     importFolderView.startWait();
                     Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("Start waiting");
                 }
             });
-            
+
             final Collection<File> files = filesService.getMovieFiles(new File(importFolderView.getFolderPath()));
 
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run() {
+                public void run(){
                     Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("Set files : {}", files);
                     importFolderView.setFiles(files);
                     importFolderView.stopWait();

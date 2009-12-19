@@ -16,143 +16,141 @@ package org.jtheque.movies.services;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.junit.Test;
-import org.junit.Before;
-import static org.junit.Assert.*;
-import static org.easymock.EasyMock.*;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.ContextConfiguration;
+import org.jtheque.movies.persistence.dao.able.IDaoMovies;
+import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.MoviesService;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.persistence.od.impl.MovieImpl;
-import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.utils.collections.CollectionUtils;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+
+import static org.easymock.EasyMock.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Baptiste Wicht
  */
 public class MoviesServiceTest {
     private IMoviesService moviesService;
-    
+
     private IDaoMovies daoMovies;
-    
+
     @Before
     public void setUp(){
         moviesService = new MoviesService();
-        
+
         daoMovies = createMock(IDaoMovies.class);
 
         try {
             Field field = MoviesService.class.getDeclaredField("daoMovies");
-            
+
             field.setAccessible(true);
-            
+
             field.set(moviesService, daoMovies);
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e){
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e){
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testGetMovies() {
+    public void testGetMovies(){
         expect(daoMovies.getMovies()).andReturn(CollectionUtils.<Movie>emptyList());
-        
+
         replay(daoMovies);
-        
+
         moviesService.getMovies();
-        
+
         verify(daoMovies);
     }
 
     @Test
-    public void testDelete() {
+    public void testDelete(){
         expect(daoMovies.delete(new MovieImpl())).andReturn(true);
-        
+
         replay(daoMovies);
-        
+
         moviesService.delete(new MovieImpl());
-        
+
         verify(daoMovies);
     }
 
     @Test
-    public void testSave() {
+    public void testSave(){
         daoMovies.save(new MovieImpl());
-        
+
         replay(daoMovies);
-        
+
         moviesService.save(new MovieImpl());
-        
+
         verify(daoMovies);
     }
 
     @Test
-    public void testCreate() {
+    public void testCreate(){
         daoMovies.create(new MovieImpl());
-        
+
         replay(daoMovies);
-        
+
         moviesService.create(new MovieImpl());
-        
+
         verify(daoMovies);
     }
 
     @Test
-    public void testClean() {
+    public void testClean(){
         Collection<NameCleaner> cleaners = new ArrayList<NameCleaner>(1);
-        
+
         cleaners.add(new ExtensionCleaner());
-        
+
         Collection<Movie> movies = new ArrayList<Movie>(3);
-        
+
         MovieImpl m1 = new MovieImpl();
         m1.setTitle(" asdf.txt");
         movies.add(m1);
-        
+
         MovieImpl m2 = new MovieImpl();
         m2.setTitle(" asdf.wba ");
         movies.add(m2);
-        
+
         MovieImpl m3 = new MovieImpl();
         m3.setTitle(" asdf    ");
         movies.add(m3);
-        
+
         moviesService.clean(movies, cleaners);
-        
-        for(Movie m : movies){
+
+        for (Movie m : movies){
             assertEquals("asdf", m.getTitle());
         }
     }
 
     @Test
-    public void testGetDatas() {
+    public void testGetDatas(){
         expect(daoMovies.getMovies()).andReturn(CollectionUtils.<Movie>emptyList());
-        
+
         replay(daoMovies);
-        
+
         moviesService.getDatas();
-        
+
         verify(daoMovies);
     }
 
     @Test
-    public void testClearAll() {
+    public void testClearAll(){
         daoMovies.clearAll();
-        
+
         replay(daoMovies);
-        
+
         moviesService.clearAll();
-        
+
         verify(daoMovies);
     }
 }

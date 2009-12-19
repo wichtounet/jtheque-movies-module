@@ -42,42 +42,42 @@ public final class ViewMovieState extends AbstractMovieState {
     private IMoviesService moviesService;
 
     /**
-     * Return the model of the view. 
-     * 
-     * @return The model of the view. 
+     * Return the model of the view.
+     *
+     * @return The model of the view.
      */
-    private IMoviesModel getViewModel() {
+    private IMoviesModel getViewModel(){
         return controller.getViewModel();
     }
 
     @Override
-    public void apply() {
+    public void apply(){
         controller.getView().setDisplayedView(IMovieView.VIEW_VIEW);
 
-        if (getViewModel().getCurrentMovie() != null) {
+        if (getViewModel().getCurrentMovie() != null){
             controller.getView().select(getViewModel().getCurrentMovie());
         }
     }
 
     @Override
-    public ControllerState create() {
+    public ControllerState create(){
         return controller.getNewObjectState();
     }
 
     @Override
-    public ControllerState manualEdit() {
-        if(getViewModel().getCurrentMovie() == null){
+    public ControllerState manualEdit(){
+        if (getViewModel().getCurrentMovie() == null){
             return null;
         }
-        
+
         return controller.getModifyState();
     }
 
     @Override
-    public ControllerState delete() {
+    public ControllerState delete(){
         boolean deleted = moviesService.delete(getViewModel().getCurrentMovie());
 
-        if (deleted) {
+        if (deleted){
             Managers.getManager(IUndoRedoManager.class).addEdit(new DeletedMovieEdit(getViewModel().getCurrentMovie()));
 
             controller.getView().selectFirst();
@@ -87,7 +87,7 @@ public final class ViewMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState autoEdit(Data data) {
+    public ControllerState autoEdit(Data data){
         Movie movie = (Movie) data;
 
         getViewModel().setCurrentMovie(movie);
@@ -96,7 +96,7 @@ public final class ViewMovieState extends AbstractMovieState {
     }
 
     @Override
-    public ControllerState view(Data data) {
+    public ControllerState view(Data data){
         Movie movie = (Movie) data;
 
         getViewModel().setCurrentMovie(movie);

@@ -32,16 +32,16 @@ public final class AcCancel extends JThequeAction {
 
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcCancel.
      */
-    public AcCancel() {
+    public AcCancel(){
         super("movie.actions.cancel");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         movieController.cancel();
     }
 }

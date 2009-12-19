@@ -20,21 +20,20 @@ import javax.swing.JPanel;
 import java.io.File;
 
 /**
- * A viewer panel. It's a panel for a specific mode for movies. 
- * 
+ * A viewer panel. It's a panel for a specific mode for movies.
+ *
  * @author Baptiste Wicht
  */
 public abstract class ViewerPanel extends JPanel {
     /**
-     * Set the file to read in the viewer. 
-     * 
-     * @param file The file to open. 
+     * Set the file to read in the viewer.
+     *
+     * @param file The file to open.
      */
     public abstract void setFile(File file);
 
     /**
-     * Stop the reader. 
-     * 
+     * Stop the reader.
      */
     public abstract void stop();
 }

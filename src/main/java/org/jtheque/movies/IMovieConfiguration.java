@@ -24,51 +24,51 @@ import org.jtheque.core.managers.language.ILanguageManager;
  */
 public interface IMovieConfiguration {
     /**
-     * Return the system to open the movie. 
-     * 
-     * @return The opening system for movie. 
+     * Return the system to open the movie.
+     *
+     * @return The opening system for movie.
      */
     Opening getOpeningSystem();
 
     /**
-     * Set the opening system for movies. 
-     * 
-     * @param opening The opening system. 
+     * Set the opening system for movies.
+     *
+     * @param opening The opening system.
      */
     void setOpeningSystem(Opening opening);
 
     /**
-     * An enum for different opening system. 
-     * 
+     * An enum for different opening system.
+     *
      * @author Baptiste Wicht
      */
     enum Opening {
         SYSTEM("movie.config.opening.system"),
         VLC("movie.config.opening.vlc"),
         WMP("movie.config.opening.wmp");
-        
+
         private final String value;
 
         /**
-         * Construct a new Opening. 
-         * 
-         * @param value The string internationalization key. 
+         * Construct a new Opening.
+         *
+         * @param value The string internationalization key.
          */
         Opening(String value){
             this.value = value;
         }
 
         /**
-         * Return the internationalization key of the opening system. 
-         * 
-         * @return The i18n key. 
+         * Return the internationalization key of the opening system.
+         *
+         * @return The i18n key.
          */
         String getValue(){
             return value;
         }
 
         @Override
-        public String toString() {
+        public String toString(){
             return Managers.getManager(ILanguageManager.class).getMessage(value);
         }
     }

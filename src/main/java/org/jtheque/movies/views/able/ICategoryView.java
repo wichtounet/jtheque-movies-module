@@ -37,15 +37,14 @@ public interface ICategoryView extends IView {
     ICategoryModel getModel();
 
     /**
-     * Reload the view using the specified category. 
-     * 
-     * @param category The category. 
+     * Reload the view using the specified category.
+     *
+     * @param category The category.
      */
     void reload(Category category);
 
     /**
-     * Reload the view. 
-     * 
+     * Reload the view.
      */
     void reload();
 }

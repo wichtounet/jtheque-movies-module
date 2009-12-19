@@ -3,11 +3,11 @@ package org.jtheque.movies.views.impl.panel;
 import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
 import org.jtheque.utils.ui.SwingUtils;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.Action;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
@@ -32,8 +32,8 @@ import java.io.File;
  */
 
 /**
- * A WMP panel implementation. 
- * 
+ * A WMP panel implementation.
+ *
  * @author Baptiste Wicht
  */
 public final class JPanelWMP extends ViewerPanel {
@@ -41,18 +41,18 @@ public final class JPanelWMP extends ViewerPanel {
     private JWMediaPlayer player;
 
     /**
-     * Construct a new VLC panel. 
-     * 
-     * @param quitAction The action to quit the player view. 
+     * Construct a new VLC panel.
+     *
+     * @param quitAction The action to quit the player view.
      */
-    public JPanelWMP(Action quitAction) {
+    public JPanelWMP(Action quitAction){
         super();
-        
+
         setLayout(new BorderLayout());
-        
+
         GridBagConstraints cons = new GridBagConstraints();
         Container playerFilePanel = new JPanel(new GridBagLayout());
-        
+
         JComponent playerFileLabel = new JLabel("File: ");
         playerFileLabel.setOpaque(false);
         cons.gridx = 0;
@@ -60,29 +60,29 @@ public final class JPanelWMP extends ViewerPanel {
         cons.insets = new Insets(2, 2, 2, 0);
         cons.fill = GridBagConstraints.HORIZONTAL;
         playerFilePanel.add(playerFileLabel, cons);
-        
+
         labelFile = new JLabel();
         cons.gridx++;
         cons.weightx = 1;
-        
+
         playerFilePanel.add(labelFile, cons);
-        
+
         cons.gridx++;
-        
+
         playerFilePanel.add(new JButton(quitAction), cons);
-        
+
         add(playerFilePanel, BorderLayout.NORTH);
-        
-        SwingUtils.inEdt(new Runnable(){
+
+        SwingUtils.inEdt(new Runnable() {
             @Override
-            public void run() {
+            public void run(){
                 player = new JWMediaPlayer();
                 player.setControlBarVisible(true);
                 add(player, BorderLayout.CENTER);
             }
         });
     }
-    
+
     @Override
     public void setFile(File f){
         labelFile.setText(f.getAbsolutePath());
@@ -90,7 +90,7 @@ public final class JPanelWMP extends ViewerPanel {
     }
 
     @Override
-    public void stop() {
+    public void stop(){
         player.getWMPControls().stop();
     }
 }

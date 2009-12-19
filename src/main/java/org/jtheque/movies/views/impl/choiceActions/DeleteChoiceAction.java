@@ -25,9 +25,9 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.edits.delete.DeletedCategoryEdit;
 import org.jtheque.movies.views.impl.edits.delete.DeletedMovieEdit;
+import org.jtheque.primary.services.able.ITypesService;
 import org.jtheque.primary.view.impl.choice.AbstractDeleteChoiceAction;
 import org.jtheque.primary.view.impl.choice.Deleter;
-import org.jtheque.primary.services.able.ITypesService;
 
 import javax.annotation.Resource;
 
@@ -41,43 +41,42 @@ public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
     private ICategoriesService categoriesService;
     @Resource
     private IMoviesService moviesService;
-    
+
     /**
-     * Construct a new DeleteChoiceAction. 
+     * Construct a new DeleteChoiceAction.
      */
-    public DeleteChoiceAction() {
+    public DeleteChoiceAction(){
         super();
-        
+
         setDeleters(new MovieDeleter(), new CategoryDeleter());
     }
 
     @Override
-    public boolean canDoAction(String action) {
+    public boolean canDoAction(String action){
         return "delete".equals(action);
     }
 
     @Override
-    public void execute() {
+    public void execute(){
         final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
                 Managers.getManager(ILanguageManager.class).getMessage("choice.dialogs.delete") + ' ' + getSelectedItem().toString(),
                 Managers.getManager(ILanguageManager.class).getMessage("choice.dialogs.delete.title"));
 
-        if (yes) {
+        if (yes){
             delete();
         }
     }
 
     /**
-     * A movie deleter. 
-     * 
-     * @author Baptiste Wicht.  
+     * A movie deleter.
+     *
+     * @author Baptiste Wicht.
      */
     private final class MovieDeleter extends Deleter {
         /**
-         * Construct a new MovieDeleter. 
-         * 
+         * Construct a new MovieDeleter.
          */
-        private MovieDeleter() {
+        private MovieDeleter(){
             super(ITypesService.DATA_TYPE);
         }
 
@@ -90,15 +89,15 @@ public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
     }
 
     /**
-     * A category deleter. 
-     * 
+     * A category deleter.
+     *
      * @author Baptiste Wicht
      */
     private final class CategoryDeleter extends Deleter {
         /**
-         * Construct a new CategoryDeleter. 
+         * Construct a new CategoryDeleter.
          */
-        private CategoryDeleter() {
+        private CategoryDeleter(){
             super(ICategoriesService.DATA_TYPE);
         }
 

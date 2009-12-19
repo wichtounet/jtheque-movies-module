@@ -44,35 +44,35 @@ public final class AcOpenMovie extends JThequeAction {
 
     @Resource
     private IMoviesModule moviesModule;
-    
+
     /**
      * Construct a new AcOpenMovie.
      */
-    public AcOpenMovie() {
+    public AcOpenMovie(){
         super("movie.actions.view");
-        
+
         setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "play", ImageType.PNG));
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(movieController.getViewModel().getCurrentMovie() != null){
+    public void actionPerformed(ActionEvent e){
+        if (movieController.getViewModel().getCurrentMovie() != null){
             IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
 
             String file = movieController.getViewModel().getCurrentMovie().getFile();
-            
-            switch (opening) {
+
+            switch (opening){
                 case SYSTEM:
                     DesktopUtils.open(new File(file));
-                    
+
                     break;
                 case VLC:
                     movieController.displayViewer(IMovieView.VLC_VIEW, new File(file));
-                    
+
                     break;
                 case WMP:
                     movieController.displayViewer(IMovieView.WMP_VIEW, new File(file));
-                    
+
                     break;
             }
         }

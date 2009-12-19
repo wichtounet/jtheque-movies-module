@@ -36,47 +36,47 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * User interface to add a movie from a file.  
+ * User interface to add a movie from a file.
  *
  * @author Baptiste Wicht
  */
 public final class AddFromFileView extends SwingDialogView implements IAddFromFileView {
     private static final long serialVersionUID = -3525319522701158262L;
-    
+
     private FileChooserPanel fileChooser;
-    
+
     private final Action validateAction;
     private final Action cancelAction;
 
     private final Collection<ParserContainer> parserContainers;
 
     /**
-     * Construct a new Category View. 
-     * 
-     * @param parent The parent frame. 
-     * @param validateAction The action to validate the view. 
-     * @param cancelAction The action to cancel the view. 
-     * @param parsers The category parsers. 
+     * Construct a new Category View.
+     *
+     * @param parent         The parent frame.
+     * @param validateAction The action to validate the view.
+     * @param cancelAction   The action to cancel the view.
+     * @param parsers        The category parsers.
      */
-    public AddFromFileView(Frame parent, Action validateAction, Action cancelAction, Collection<FileParser> parsers) {
+    public AddFromFileView(Frame parent, Action validateAction, Action cancelAction, Collection<FileParser> parsers){
         super(parent);
-        
+
         this.validateAction = validateAction;
         this.cancelAction = cancelAction;
-        
+
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
-        
-        for(FileParser p : parsers){
+
+        for (FileParser p : parsers){
             parserContainers.add(new ParserContainer(p));
         }
-        
+
         build();
     }
 
     /**
-     * Build the view. 
+     * Build the view.
      */
-    private void build() {
+    private void build(){
         setTitleKey("movie.auto.title");
         setContentPane(buildContentPane());
         setResizable(false);
@@ -86,35 +86,35 @@ public final class AddFromFileView extends SwingDialogView implements IAddFromFi
     }
 
     /**
-     * Build and return the content pane. 
+     * Build and return the content pane.
      *
-     * @return The content pane. 
+     * @return The content pane.
      */
-    private Container buildContentPane() {
+    private Container buildContentPane(){
         PanelBuilder builder = new PanelBuilder();
 
         fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
-        
+
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
-        
+
         int i = 1;
-        
-        for(ParserContainer container : parserContainers){
+
+        for (ParserContainer container : parserContainers){
             builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
-        
+
         builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), validateAction, cancelAction);
 
         return builder.getPanel();
     }
 
     @Override
-    public void display() {
+    public void display(){
         IMovieController controller = Managers.getManager(IBeansManager.class).getBean("movieController");
-        
-        if(controller.isEditing()){
+
+        if (controller.isEditing()){
             Managers.getManager(IViewManager.class).displayI18nText("movie.dialogs.currentEdit");
         } else {
             super.display();
@@ -122,23 +122,24 @@ public final class AddFromFileView extends SwingDialogView implements IAddFromFi
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors) {}
-    
+    protected void validate(Collection<JThequeError> errors){
+    }
+
     @Override
     public String getFilePath(){
         return fileChooser.getFilePath();
     }
-    
+
     @Override
     public Collection<FileParser> getSelectedParsers(){
         Collection<FileParser> parsers = new ArrayList<FileParser>(5);
-        
-        for(ParserContainer container : parserContainers){
-            if(container.isSelected()){
+
+        for (ParserContainer container : parserContainers){
+            if (container.isSelected()){
                 parsers.add(container.getParser());
             }
         }
-        
+
         return parsers;
     }
 }

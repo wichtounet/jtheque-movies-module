@@ -16,29 +16,29 @@ package org.jtheque.movies.services.impl.cleaners;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.movies.persistence.od.able.Movie;
 
 /**
- * An object to clean the extension from a movie's name. 
- * 
+ * An object to clean the extension from a movie's name.
+ *
  * @author Baptiste Wicht
  */
-public final class ExtensionCleaner implements NameCleaner{
+public final class ExtensionCleaner implements NameCleaner {
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.clen.cleaner.extension");
     }
 
     @Override
-    public String clearName(Movie movie, String name) {
+    public String clearName(Movie movie, String name){
         String cleared = name;
-        
-        if(cleared.contains(".")){
+
+        if (cleared.contains(".")){
             cleared = cleared.substring(0, cleared.lastIndexOf('.'));
         }
-        
+
         return cleared;
     }
 }

@@ -37,19 +37,19 @@ public final class AcCleanMovie extends JThequeAction {
 
     @Resource
     private ICleanMovieView cleanMovieView;
-    
+
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcCleanMovie() {
+    public AcCleanMovie(){
         super("movie.actions.clean.movie");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         Movie movie = movieController.getViewModel().getCurrentMovie();
-        
-        if(movie != null){
+
+        if (movie != null){
             cleanMovieView.clean(movie);
         }
     }

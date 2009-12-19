@@ -27,74 +27,74 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * A category parser who extract the category between two chars. 
- * 
+ * A category parser who extract the category between two chars.
+ *
  * @author Baptiste Wicht
  */
-public final class BetweenCharCategoryParser implements FileParser{
+public final class BetweenCharCategoryParser implements FileParser {
     private Collection<Category> categories;
-    
+
     private final String characterStart;
     private final String characterEnd;
-    
+
     @Resource
     private ICategoriesService categoriesService;
 
     /**
-     * Construct a new BetweenCharCategoryParser. 
-     * 
-     * @param characterStart The start character. 
-     * @param characterEnd The end character. 
+     * Construct a new BetweenCharCategoryParser.
+     *
+     * @param characterStart The start character.
+     * @param characterEnd   The end character.
      */
-    public BetweenCharCategoryParser(String characterStart, String characterEnd) {
+    public BetweenCharCategoryParser(String characterStart, String characterEnd){
         super();
-        
+
         this.characterStart = characterStart;
         this.characterEnd = characterEnd;
     }
 
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.auto.parser.between.char", characterStart, characterEnd);
     }
 
     @Override
-    public void parseFilePath(File file) {
-        if(file.isFile()){
+    public void parseFilePath(File file){
+        if (file.isFile()){
             String fileName = file.getName();
-            
+
             categories = new ArrayList<Category>(5);
-            
-            while(fileName.contains(characterStart) && fileName.contains(characterEnd)){
+
+            while (fileName.contains(characterStart) && fileName.contains(characterEnd)){
                 String name = fileName.substring(fileName.indexOf(characterStart) + 1, fileName.indexOf(characterEnd));
-                
-                if(categoriesService.exists(name)){
-                     categories.add(categoriesService.getCategory(name));
+
+                if (categoriesService.exists(name)){
+                    categories.add(categoriesService.getCategory(name));
                 } else {
                     Category category = categoriesService.getEmptyCategory();
                     category.setTitle(name);
-                    
+
                     categories.add(category);
                 }
-                
+
                 fileName = fileName.substring(fileName.indexOf(characterEnd) + 1);
             }
         }
     }
 
     @Override
-    public String clearFileName(String fileName) {
+    public String clearFileName(String fileName){
         String name = fileName;
-        
-        for(Category cat : categories){
+
+        for (Category cat : categories){
             name = name.replace(characterStart + cat.getTitle() + characterEnd, "");
         }
-        
+
         return name;
     }
 
     @Override
-    public Collection<Category> getExtractedCategories() {
+    public Collection<Category> getExtractedCategories(){
         return categories;
     }
 }

@@ -26,34 +26,33 @@ import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
- * An action to add a movie from a file. 
- * 
+ * An action to add a movie from a file.
+ *
  * @author Baptiste Wicht
  */
 public final class ValidateAddFromFileViewAction extends JThequeAction {
     @Resource
     private IAddFromFileView addFromFileView;
-    
+
     @Resource
     private IFilesService filesService;
-    
+
     @Resource
     private IMovieController movieController;
 
     /**
-     * Construct a new ValidateAddFromFileViewAction. 
-     * 
+     * Construct a new ValidateAddFromFileViewAction.
      */
-    public ValidateAddFromFileViewAction() {
+    public ValidateAddFromFileViewAction(){
         super("movie.auto.actions.add");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         Movie movie = filesService.createMovie(addFromFileView.getFilePath(), addFromFileView.getSelectedParsers());
-        
+
         movieController.view(movie);
-        
+
         addFromFileView.closeDown();
     }
 }

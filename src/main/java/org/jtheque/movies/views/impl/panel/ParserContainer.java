@@ -1,8 +1,8 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.movies.services.impl.parsers.FileParser;
 
 import javax.swing.JCheckBox;
 
@@ -23,32 +23,32 @@ import javax.swing.JCheckBox;
  */
 
 /**
- * A check box to select a file parser. 
- * 
+ * A check box to select a file parser.
+ *
  * @author Baptiste Wicht
  */
 public final class ParserContainer extends JCheckBox {
     private final FileParser parser;
 
     /**
-     * Construct a new ParserContainer for the specified file parser. 
-     * 
-     * @param parser The file parser. 
+     * Construct a new ParserContainer for the specified file parser.
+     *
+     * @param parser The file parser.
      */
-    public ParserContainer(FileParser parser) {
+    public ParserContainer(FileParser parser){
         super(parser.getTitle());
-        
+
         this.parser = parser;
-        
+
         setBackground(Managers.getManager(IViewManager.class).getViewDefaults().getBackgroundColor());
     }
 
     /**
-     * Return the file parser for this checkbox. 
-     * 
-     * @return The file parser. 
+     * Return the file parser for this checkbox.
+     *
+     * @return The file parser.
      */
-    public FileParser getParser() {
+    public FileParser getParser(){
         return parser;
     }
 }

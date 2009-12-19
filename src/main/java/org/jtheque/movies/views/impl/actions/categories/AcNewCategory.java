@@ -30,16 +30,16 @@ import java.awt.event.ActionEvent;
 public final class AcNewCategory extends JThequeAction {
     @Resource
     private ICategoryController categoryController;
-    
+
     /**
      * Construct a new AcNewCategory.
      */
-    public AcNewCategory() {
+    public AcNewCategory(){
         super("category.actions.new");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         categoryController.newCategory();
     }
 }

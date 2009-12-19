@@ -45,7 +45,7 @@ public final class CreatedMovieEdit extends AbstractUndoableEdit {
      *
      * @param movie The created film.
      */
-    public CreatedMovieEdit(Movie movie) {
+    public CreatedMovieEdit(Movie movie){
         super();
 
         Managers.getManager(IBeansManager.class).inject(this);
@@ -54,21 +54,21 @@ public final class CreatedMovieEdit extends AbstractUndoableEdit {
     }
 
     @Override
-    public void undo() throws CannotUndoException {
+    public void undo() throws CannotUndoException{
         super.undo();
 
         moviesService.delete(movie);
     }
 
     @Override
-    public void redo() throws CannotRedoException {
+    public void redo() throws CannotRedoException{
         super.redo();
 
         moviesService.create(movie);
     }
 
     @Override
-    public String getPresentationName() {
+    public String getPresentationName(){
         return Managers.getManager(ILanguageManager.class).getMessage("undo.edits.create");
     }
 }

@@ -22,22 +22,22 @@ import java.util.Collection;
  */
 
 /**
- * A view to add a movie directly from a file. 
- * 
+ * A view to add a movie directly from a file.
+ *
  * @author Baptiste Wicht
  */
 public interface IAddFromFileView extends IView {
     /**
-     * Return the file path. 
-     * 
-     * @return The path to the chosen file. 
+     * Return the file path.
+     *
+     * @return The path to the chosen file.
      */
     String getFilePath();
 
     /**
-     * Return the selected parsers. 
-     * 
-     * @return A Collection containing all the selected parsers. 
+     * Return the selected parsers.
+     *
+     * @return A Collection containing all the selected parsers.
      */
     Collection<FileParser> getSelectedParsers();
 }

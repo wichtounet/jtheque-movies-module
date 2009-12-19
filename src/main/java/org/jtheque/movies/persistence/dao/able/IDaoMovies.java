@@ -45,12 +45,12 @@ public interface IDaoMovies extends JThequeDao {
     void create(Movie movie);
 
     /**
-     * Create a movie. 
-     * 
-     * @return An empty movie. 
+     * Create a movie.
+     *
+     * @return An empty movie.
      */
     Movie createMovie();
-    
+
     /**
      * Save the movie on the database.
      *
@@ -67,11 +67,10 @@ public interface IDaoMovies extends JThequeDao {
     boolean delete(Movie movie);
 
     /**
-     * Return the movie of the specified ID. 
-     * 
-     * @param id The searched ID. 
-     * 
-     * @return The movie of the specified id if found else null. 
+     * Return the movie of the specified ID.
+     *
+     * @param id The searched ID.
+     * @return The movie of the specified id if found else null.
      */
     Movie getMovie(int id);
 }

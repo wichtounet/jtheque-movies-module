@@ -43,41 +43,41 @@ public final class MovieImpl extends AbstractMovie {
     private boolean mementoState;
 
     @Override
-    public String getDisplayableText() {
+    public String getDisplayableText(){
         return getTitle();
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode(){
         return HashCodeUtils.hashCode(this, "title", "categories", "file", "note", "theCollection");
     }
 
     @Override
-    public Icon getIcon() {
+    public Icon getIcon(){
         return Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "movie", ImageType.PNG);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj){
+        if (this == obj){
             return true;
         }
 
-        if(EqualsUtils.areObjectIncompatible(this, obj)){
+        if (EqualsUtils.areObjectIncompatible(this, obj)){
             return false;
         }
 
         final Movie other = (Movie) obj;
-        
-        if(EqualsUtils.areNotEquals(getTitle(), other.getTitle())){
+
+        if (EqualsUtils.areNotEquals(getTitle(), other.getTitle())){
             return false;
         }
-        
-        if(EqualsUtils.areNotEquals(getCategories(), other.getCategories())){
+
+        if (EqualsUtils.areNotEquals(getCategories(), other.getCategories())){
             return false;
         }
-        
-        if(EqualsUtils.areNotEquals(getFile(), other.getFile())){
+
+        if (EqualsUtils.areNotEquals(getFile(), other.getFile())){
             return false;
         }
 
@@ -86,70 +86,70 @@ public final class MovieImpl extends AbstractMovie {
     }
 
     @Override
-    public void saveToMemento() {
+    public void saveToMemento(){
         mementoState = true;
 
         memento = Managers.getManager(IPropertiesManager.class).createMemento(this);
 
-        if (memento == null) {
+        if (memento == null){
             mementoState = false;
         }
     }
 
     @Override
-    public void restoreMemento() {
-        if (mementoState) {
+    public void restoreMemento(){
+        if (mementoState){
             Managers.getManager(IPropertiesManager.class).restoreMemento(this, memento);
         }
     }
 
     @Override
-    public void addCategories(Collection<Category> categories) {
+    public void addCategories(Collection<Category> categories){
         getCategories().addAll(categories);
     }
 
     @Override
-    public void addCategory(Category category) {
+    public void addCategory(Category category){
         getCategories().add(category);
     }
 
     @Override
-    public boolean isInCollection(org.jtheque.primary.od.able.Collection collection) {
+    public boolean isInCollection(org.jtheque.primary.od.able.Collection collection){
         return getTheCollection() != null && getTheCollection().equals(collection);
     }
 
     @Override
-    public boolean hasCategories() {
+    public boolean hasCategories(){
         return !getCategories().isEmpty();
     }
 
     @Override
-    public boolean isOfCategory(Category category) {
+    public boolean isOfCategory(Category category){
         return category != null && getCategories().contains(category);
     }
 
     @Override
-    public Date getFileLastModifiedDate() {
-        if(StringUtils.isEmpty(getFile())){
+    public Date getFileLastModifiedDate(){
+        if (StringUtils.isEmpty(getFile())){
             return null;
         }
-        
+
         long lastModified = new File(getFile()).lastModified();
-        
+
         return lastModified == 0L ? null : new Date(lastModified);
     }
 
     @Override
-    public long getFileSize() {
-        if(StringUtils.isEmpty(getFile())){
+    public long getFileSize(){
+        if (StringUtils.isEmpty(getFile())){
             return 0;
         }
-        
+
         return new File(getFile()).length();
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return getDisplayableText();
     }
 }

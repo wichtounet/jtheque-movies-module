@@ -28,28 +28,28 @@ import java.util.Collection;
  */
 
 /**
- * A file parser to extract the category from the parent folder. 
- * 
+ * A file parser to extract the category from the parent folder.
+ *
  * @author Baptiste Wicht
  */
-public final class FolderCategoryParser implements FileParser{
+public final class FolderCategoryParser implements FileParser {
     private Category category;
-    
+
     @Resource
     private ICategoriesService categoriesService;
-    
+
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.auto.parser.folder");
     }
 
     @Override
-    public void parseFilePath(File file) {
-        if(file.isFile()){
+    public void parseFilePath(File file){
+        if (file.isFile()){
             String name = file.getParentFile().getName();
-            
-            if(categoriesService.exists(name)){
-                 category = categoriesService.getCategory(name);
+
+            if (categoriesService.exists(name)){
+                category = categoriesService.getCategory(name);
             } else {
                 category = categoriesService.getEmptyCategory();
                 category.setTitle(name);
@@ -58,16 +58,16 @@ public final class FolderCategoryParser implements FileParser{
     }
 
     @Override
-    public String clearFileName(String fileName) {
+    public String clearFileName(String fileName){
         return fileName;
     }
 
     @Override
-    public Collection<Category> getExtractedCategories() {
-        if(category == null){
+    public Collection<Category> getExtractedCategories(){
+        if (category == null){
             return CollectionUtils.emptyList();
         }
-        
+
         return Arrays.asList(category);
     }
 }

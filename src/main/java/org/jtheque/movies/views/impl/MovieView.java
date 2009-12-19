@@ -70,107 +70,107 @@ import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 /**
- * Panel to display movies. 
+ * Panel to display movies.
  *
  * @author Baptiste Wicht
  */
 public final class MovieView extends PrincipalDataPanel<IMoviesModel> implements CurrentObjectListener, IMovieView {
     private static final long serialVersionUID = -461914454879477388L;
-    
+
     private JXTree treeMovies;
 
     private CardPanel<MoviePanel> layeredPanel;
 
     private static final double LIST_COLUMN = 0.4;
-    
+
     @Resource
     private Font filthyTitleFont;
-    
+
     @Resource
     private LinearGradientPaint backgroundGradient;
-    
+
     @Resource
     private IMovieController movieController;
 
     private Image gradientImage;
     private final BufferedImage light = Managers.getManager(IResourceManager.class).getImage(IMoviesModule.IMAGES_BASE_NAME, "light", ImageType.PNG);
-    
+
     private final SizeTracker tracker = new SizeTracker(this);
     private final MoviePanel[] panels;
 
     /**
-     * Construct a new MovieView with some movie panels to display. 
-     * 
-     * @param panels The panels to display in the view. 
+     * Construct a new MovieView with some movie panels to display.
+     *
+     * @param panels The panels to display in the view.
      */
-    public MovieView(MoviePanel[] panels) {
+    public MovieView(MoviePanel[] panels){
         super();
 
         this.panels = ArrayUtils.copyOf(panels);
     }
 
     /**
-     * Build the view. 
+     * Build the view.
      */
     @PostConstruct
     private void build(){
         PanelBuilder builder = new FilthyPanelBuilder(this);
-        
+
         buildPanelList(builder);
         buildPanelMovie(builder);
 
         treeMovies.addTreeSelectionListener(movieController);
-        
+
         getModel().addDisplayListListener(this);
         getModel().addCurrentObjectListener(this);
-        
+
         selectFirst();
     }
 
     /**
      * Build the internal panel list.
-     * 
-     * @param parent The parent builder. 
+     *
+     * @param parent The parent builder.
      */
-    private void buildPanelList(PanelBuilder parent) {
+    private void buildPanelList(PanelBuilder parent){
         BorderLayout layout = new BorderLayout();
-        
+
         layout.setHgap(2);
         layout.setVgap(2);
-        
+
         JPanel panelList = new FilthyPanel(layout);
-        
+
         panelList.setMinimumSize(new Dimension(165, 400));
-        
+
         panelList.add(new JThequeI18nLabel("movie.panel.list.title", filthyTitleFont, Color.white), BorderLayout.NORTH);
-        
+
         addTree(panelList);
-        
+
         PanelBuilder panelButtons = new FilthyPanelBuilder();
-        
+
         panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD, parent.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-        
+
         Action addAction = Managers.getManager(IResourceManager.class).getAction("newMovieAction");
         Action autoAddAction = Managers.getManager(IResourceManager.class).getAction("autoAddMovieAction");
-        
+
         panelButtons.addButton(addAction, parent.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
         panelButtons.addButton(autoAddAction, parent.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
-        
+
         panelList.add(panelButtons.getPanel(), BorderLayout.SOUTH);
-        
+
         parent.setDefaultInsets(new Insets(2, 2, 2, 5));
-        
+
         parent.add(panelList, parent.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, LIST_COLUMN, 1.0));
-        
+
         parent.setDefaultInsets(new Insets(2, 2, 2, 2));
     }
 
     /**
-     * Add the tree to the view. 
-     * 
-     * @param listPanel The panel to add the tree to. 
+     * Add the tree to the view.
+     *
+     * @param listPanel The panel to add the tree to.
      */
-    private void addTree(Container listPanel) {
+    private void addTree(Container listPanel){
         SortManager sorter = new SortManager();
 
         setTreeModel(sorter.createInitialModel(IMoviesService.DATA_TYPE));
@@ -197,121 +197,121 @@ public final class MovieView extends PrincipalDataPanel<IMoviesModel> implements
 
     /**
      * Build the internal panel film.
-     * 
-     * @param parent The parent builder. 
+     *
+     * @param parent The parent builder.
      */
-    private void buildPanelMovie(PanelBuilder parent) {
+    private void buildPanelMovie(PanelBuilder parent){
         layeredPanel = new FilthyCardPanel<MoviePanel>();
 
-        for(MoviePanel panel : panels){
+        for (MoviePanel panel : panels){
             layeredPanel.addLayer(panel, panel.getKey());
         }
-        
+
         setDisplayedView(VIEW_VIEW);
-        
+
         parent.add(layeredPanel, parent.gbcSet(1, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, 1 - LIST_COLUMN, 1.0));
-    }
-    
-    @Override
-    public void objectChanged(ObjectChangedEvent event) {
-        layeredPanel.getCurrentLayer().setMovie((Movie)event.getObject());
     }
 
     @Override
-    public IMovieFormBean fillMovieFormBean() {
+    public void objectChanged(ObjectChangedEvent event){
+        layeredPanel.getCurrentLayer().setMovie((Movie) event.getObject());
+    }
+
+    @Override
+    public IMovieFormBean fillMovieFormBean(){
         return layeredPanel.getCurrentLayer().fillMovieFormBean();
     }
 
     @Override
-    public String getDataType() {
+    public String getDataType(){
         return IMoviesService.DATA_TYPE;
     }
 
     @Override
-    protected JXTree getTree() {
+    protected JXTree getTree(){
         return treeMovies;
     }
 
     @Override
-    public JComponent getImpl() {
+    public JComponent getImpl(){
         return this;
     }
 
     @Override
-    public Integer getPosition() {
+    public Integer getPosition(){
         return 1;
     }
 
     @Override
-    public String getTitleKey() {
+    public String getTitleKey(){
         return "data.titles.movie";
     }
 
     @Override
-    public void clear() {
+    public void clear(){
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors) {
+    protected void validate(Collection<JThequeError> errors){
         layeredPanel.getCurrentLayer().validate(errors);
     }
 
     @Override
-    public JComponent getComponent() {
+    public JComponent getComponent(){
         return this;
     }
 
     @Override
-    public Iterable<Movie> getDisplayList() {
+    public Iterable<Movie> getDisplayList(){
         return getModel().getDisplayList();
     }
 
     @Override
     @Deprecated
-    public ToolbarView getToolbarView() {
+    public ToolbarView getToolbarView(){
         return null;
     }
-    
+
     @Override
     public void setDisplayedView(String view){
         layeredPanel.displayLayer(view);
     }
 
     @Override
-    public MoviePanel getCurrentView() {
+    public MoviePanel getCurrentView(){
         return layeredPanel.getCurrentLayer();
     }
 
     @Override
-    public void selectFirst() {
+    public void selectFirst(){
         treeMovies.setSelectionRow(2);
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        if (!isVisible()) {
+    protected void paintComponent(Graphics g){
+        if (!isVisible()){
             return;
         }
 
         Graphics2D g2 = (Graphics2D) g;
 
-        if (gradientImage == null || tracker.hasSizeChanged()) {
+        if (gradientImage == null || tracker.hasSizeChanged()){
             gradientImage = ImageUtils.createCompatibleImage(getWidth(), getHeight());
             Graphics2D g2d = (Graphics2D) gradientImage.getGraphics();
             Composite composite = g2.getComposite();
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                                RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+                    RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.setPaint(backgroundGradient);
             g2d.fillRect(0, 0, getWidth(), getHeight());
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-            
+
             g2d.drawImage(light, 0, 0, getWidth(), light.getHeight(), null);
             g2d.setComposite(composite);
             g2d.dispose();
         }
 
         g2.drawImage(gradientImage, 0, 0, null);
-        
+
         tracker.updateSize();
     }
 }

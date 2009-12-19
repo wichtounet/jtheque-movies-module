@@ -41,13 +41,13 @@ import java.util.Collection;
  */
 
 /**
- * The panel to edit a movie. 
- * 
+ * The panel to edit a movie.
+ *
  * @author Baptiste Wicht
  */
 final class EditMoviePanel extends MoviePanel {
     private static final int MAX_LENGTH = 150;
-    
+
     private FilthyTextField fieldTitle;
     private FilthyFileChooserPanel fieldFile;
 
@@ -58,73 +58,73 @@ final class EditMoviePanel extends MoviePanel {
     private final ICategoriesView categoriesView;
 
     /**
-     * Construct a new EditMoviePanel. 
-     * 
-     * @param categoriesView The categories view. 
+     * Construct a new EditMoviePanel.
+     *
+     * @param categoriesView The categories view.
      */
-    EditMoviePanel(ICategoriesView categoriesView) {
+    EditMoviePanel(ICategoriesView categoriesView){
         super(IMovieView.EDIT_VIEW);
-        
+
         setOpaque(false);
-        
+
         IResourceManager resources = Managers.getManager(IResourceManager.class);
-        
+
         Action saveAction = resources.getAction("saveMovieAction");
         Action cancelAction = resources.getAction("cancelMovieAction");
         Action cleanAction = resources.getAction("cleanMovieAction");
-        
+
         this.categoriesView = categoriesView;
-        
+
         PanelBuilder builder = new FilthyPanelBuilder(this);
-        
+
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
-        
+
         addTitleField(builder, cleanAction);
         addFileField(builder);
         addNoteField(builder);
 
         builder.add(categoriesView.getImpl(), builder.gbcSet(0, 3, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, -1, 1.0, 1.0));
-        
+
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
-        
+
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
-        
+
         buttons.addButton(saveAction, builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
         buttons.addButton(cancelAction, builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
 
     /**
-     * Add the field for the title. 
-     * 
-     * @param builder The builder of the view. 
-     * @param cleanAction The action to clean the title. 
+     * Add the field for the title.
+     *
+     * @param builder     The builder of the view.
+     * @param cleanAction The action to clean the title.
      */
-    private void addTitleField(PanelBuilder builder, Action cleanAction) {
+    private void addTitleField(PanelBuilder builder, Action cleanAction){
         builder.addI18nLabel("movie.title", builder.gbcSet(0, 0));
 
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, -1, 1, 1.0, 0.0));
         SwingUtils.addFieldLengthLimit(fieldTitle.getTextField(), 100);
-        
+
         builder.addButton(cleanAction, builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     /**
-     * Add the field for the file. 
-     * 
-     * @param builder The builder of the view. 
+     * Add the field for the file.
+     *
+     * @param builder The builder of the view.
      */
-    private void addFileField(PanelBuilder builder) {
+    private void addFileField(PanelBuilder builder){
         builder.addI18nLabel("movie.file", builder.gbcSet(0, 1));
-        
+
         fieldFile = builder.add(new FilthyFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 2, 1));
     }
 
     /**
-     * Add the field for the note. 
-     * 
-     * @param builder The builder of the view. 
+     * Add the field for the note.
+     *
+     * @param builder The builder of the view.
      */
-    private void addNoteField(PanelBuilder builder) {
+    private void addNoteField(PanelBuilder builder){
         builder.addI18nLabel("movie.note", builder.gbcSet(0, 2));
 
         modelNotes = new NotesComboBoxModel();
@@ -133,7 +133,7 @@ final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void setMovie(Movie movie) {
+    public void setMovie(Movie movie){
         fieldTitle.setText(movie.getTitle());
         fieldFile.setFilePath(movie.getFile());
         modelNotes.setSelectedItem(movie.getNote());
@@ -142,7 +142,7 @@ final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors) {
+    public void validate(Collection<JThequeError> errors){
         ValidationUtils.rejectIfEmpty(fieldTitle.getText(), "movie.title", errors);
         ValidationUtils.rejectIfLongerThan(fieldTitle.getText(), "movie.title", MAX_LENGTH, errors);
 
@@ -153,20 +153,20 @@ final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public IMovieFormBean fillMovieFormBean() {
+    public IMovieFormBean fillMovieFormBean(){
         IMovieFormBean fb = new MovieFormBean();
-        
+
         fb.setTitle(fieldTitle.getText());
         fb.setFile(fieldFile.getFilePath());
-        
-        if(modelNotes.getSelectedNote() != null){
+
+        if (modelNotes.getSelectedNote() != null){
             fb.setNote(modelNotes.getSelectedNote());
         } else {
             fb.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
         }
-        
+
         categoriesView.fillFilm(fb);
-        
+
         return fb;
     }
 }

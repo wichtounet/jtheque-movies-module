@@ -45,7 +45,7 @@ public final class DeletedCategoryEdit extends AbstractUndoableEdit {
      *
      * @param category The deleted movie.
      */
-    public DeletedCategoryEdit(Category category) {
+    public DeletedCategoryEdit(Category category){
         super();
 
         Managers.getManager(IBeansManager.class).inject(this);
@@ -54,21 +54,21 @@ public final class DeletedCategoryEdit extends AbstractUndoableEdit {
     }
 
     @Override
-    public void undo() throws CannotUndoException {
+    public void undo() throws CannotUndoException{
         super.undo();
 
         categoriesService.create(category);
     }
 
     @Override
-    public void redo() throws CannotRedoException {
+    public void redo() throws CannotRedoException{
         super.redo();
 
         categoriesService.delete(category);
     }
 
     @Override
-    public String getPresentationName() {
+    public String getPresentationName(){
         return Managers.getManager(ILanguageManager.class).getMessage("undo.edits.delete");
     }
 }

@@ -16,34 +16,34 @@ package org.jtheque.movies.services.impl.cleaners;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.movies.persistence.od.able.Movie;
 
 /**
  * @author Baptiste Wicht
  */
-public final class CharCleaner implements NameCleaner{
+public final class CharCleaner implements NameCleaner {
     private final String character;
-    
+
     /**
-     * Construct a new CharCleaner with the specified character. 
-     * 
-     * @param character The character to clean. 
+     * Construct a new CharCleaner with the specified character.
+     *
+     * @param character The character to clean.
      */
-    public CharCleaner(String character) {
+    public CharCleaner(String character){
         super();
-        
+
         this.character = character;
     }
-    
+
     @Override
-    public String getTitle() {
+    public String getTitle(){
         return Managers.getManager(ILanguageManager.class).getMessage("movie.clen.cleaner.char", character);
     }
 
     @Override
-    public String clearName(Movie movie, String name) {
+    public String clearName(Movie movie, String name){
         return name.replace(character, "");
     }
 }

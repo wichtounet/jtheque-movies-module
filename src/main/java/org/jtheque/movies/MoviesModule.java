@@ -16,6 +16,7 @@ package org.jtheque.movies;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.IErrorManager;
@@ -33,8 +34,8 @@ import org.jtheque.core.managers.schema.ISchemaManager;
 import org.jtheque.core.managers.schema.Schema;
 import org.jtheque.core.managers.state.IStateManager;
 import org.jtheque.core.managers.state.StateException;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.ViewComponent;
+import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.able.components.TabComponent;
 import org.jtheque.movies.persistence.MoviesSchema;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -47,14 +48,13 @@ import org.jtheque.primary.view.impl.choice.ChoiceAction;
 import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
 import org.jtheque.primary.view.impl.sort.Sorter;
 import org.jtheque.primary.view.impl.sort.SorterFactory;
-import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 /**
  * A JTheque Module for managing movies.
  *
  * @author Baptiste Wicht
  */
-@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3-SNAPSHOT", core = "2.0.2", 
+@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3-SNAPSHOT", core = "2.0.2",
         jarFile = "jtheque-movies-module-1.3-SNAPSHOT.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
 public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
     private final Sorter[] sorters;
@@ -65,67 +65,65 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     private Schema schema;
 
     private IMovieConfiguration config;
-    
+
     private final IOpeningConfigView panelConfig;
-    
+
     /**
-     * Create a new MovieModule. This constructor must only be accessed using Spring, not directly, expect for tests. 
-     * 
-     * @param choiceActions The choice actions to inject. 
-     * @param sorters The sorters to inject. 
-     * @param panelConfig The panel config. 
+     * Create a new MovieModule. This constructor must only be accessed using Spring, not directly, expect for tests.
+     *
+     * @param choiceActions The choice actions to inject.
+     * @param sorters       The sorters to inject.
+     * @param panelConfig   The panel config.
      */
-    public MoviesModule(ChoiceAction[] choiceActions, Sorter[] sorters, IOpeningConfigView panelConfig) {
+    public MoviesModule(ChoiceAction[] choiceActions, Sorter[] sorters, IOpeningConfigView panelConfig){
         super();
-        
+
         this.choiceActions = choiceActions;
         this.sorters = sorters;
         this.panelConfig = panelConfig;
     }
 
     /**
-     * Pre plug the module. 
-     * 
+     * Pre plug the module.
      */
     @PrePlug
-    private void prePlug() {
+    private void prePlug(){
         schema = new MoviesSchema();
 
         Managers.getManager(ISchemaManager.class).registerSchema(schema);
-        
+
         PrimaryUtils.setPrimaryImpl("Movies");
         PrimaryUtils.prePlug();
     }
 
     /**
-     * Plug the module. 
-     * 
+     * Plug the module.
      */
     @Plug
-    private void plug() {
+    private void plug(){
         PrimaryUtils.plug();
 
         loadConfiguration();
-        
+
         DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
-        
-        for (Sorter sorter : sorters) {
+
+        for (Sorter sorter : sorters){
             SorterFactory.getInstance().addSorter(sorter);
         }
     }
 
     /**
-     * Load the configuration. 
+     * Load the configuration.
      */
-    private void loadConfiguration() {
+    private void loadConfiguration(){
         config = Managers.getManager(IStateManager.class).getState(MovieConfiguration.class);
 
-        if (config == null) {
+        if (config == null){
             try {
                 config = Managers.getManager(IStateManager.class).createState(MovieConfiguration.class);
-            } catch (StateException e) {
+            } catch (StateException e){
                 Managers.getManager(ILoggingManager.class).getLogger(getClass()).error(e);
                 config = new MovieConfiguration();
                 Managers.getManager(IErrorManager.class).addError(new InternationalizedError("error.loading.configuration"));
@@ -134,80 +132,79 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     }
 
     @Override
-    public boolean chooseCollection(String collection, String password, boolean create) {
+    public boolean chooseCollection(String collection, String password, boolean create){
         ICollectionsService collectionsService = Managers.getManager(IBeansManager.class).getBean("collectionsService");
 
-        if(create){
+        if (create){
             collectionsService.createCollectionAndUse(collection, password);
         } else {
-            if(!collectionsService.login(collection, password)){
+            if (!collectionsService.login(collection, password)){
                 return false;
             }
         }
-        
+
         return true;
     }
 
     @Override
-    public void plugCollection() {
+    public void plugCollection(){
         NativeInterface.open();
-        
-        for (ChoiceAction action : choiceActions) {
+
+        for (ChoiceAction action : choiceActions){
             ChoiceActionFactory.addChoiceAction(action);
         }
 
         panelConfig.build();
         Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
-        
+
         Managers.getManager(IViewManager.class).setMainComponent(Managers.getManager(IBeansManager.class).<ViewComponent>getBean("movieView"));
-        
+
         IFeatureManager manager = Managers.getManager(IFeatureManager.class);
 
         manager.addSubFeature(manager.getFeature(IFeatureManager.CoreFeature.FILE), "importFolderAction", FeatureType.SEPARATED_ACTION, 100);
         manager.addSubFeature(manager.getFeature(IFeatureManager.CoreFeature.FILE), "cleanCategoryAction", FeatureType.SEPARATED_ACTION, 101);
-        
+
         categoriesFeature = manager.createFeature(500, FeatureType.PACK, "category.menu.title");
 
         manager.addSubFeature(categoriesFeature, "newCategoryAction", FeatureType.ACTION, 1);
         manager.addSubFeature(categoriesFeature, "editCategoryAction", FeatureType.ACTION, 2);
         manager.addSubFeature(categoriesFeature, "deleteCategoryAction", FeatureType.ACTION, 3);
-        
+
         Managers.getManager(IFeatureManager.class).addFeature(categoriesFeature);
     }
 
     /**
-     * Unplug the module. 
-     * 
+     * Unplug the module.
      */
     @UnPlug
-    private void unplug() {
+    private void unplug(){
         Managers.getManager(IFeatureManager.class).removeFeature(categoriesFeature);
-        
-        for (ChoiceAction action : choiceActions) {
+
+        for (ChoiceAction action : choiceActions){
             ChoiceActionFactory.removeChoiceAction(action);
         }
 
         Managers.getManager(IViewManager.class).removeConfigTabComponent(panelConfig);
-        
+
         DataTypeManager.unbindDataType(ICategoriesService.DATA_TYPE);
         DataTypeManager.unbindDataType(IMoviesService.DATA_TYPE);
         DataTypeManager.unbindDataType(ICollectionsService.DATA_TYPE);
 
-        for (Sorter sorter : sorters) {
+        for (Sorter sorter : sorters){
             SorterFactory.getInstance().removeSorter(sorter);
         }
 
         Managers.getManager(IViewManager.class).removeTabComponent(Managers.getManager(IBeansManager.class).<TabComponent>getBean("movieView"));
 
         PrimaryUtils.unplug();
-        
+
         Managers.getManager(ISchemaManager.class).unregisterSchema(schema);
-        
+
         NativeInterface.runEventPump();
     }
 
     @Override
-    public IMovieConfiguration getConfig() {
+    public IMovieConfiguration getConfig(){
         return config;
     }
 }

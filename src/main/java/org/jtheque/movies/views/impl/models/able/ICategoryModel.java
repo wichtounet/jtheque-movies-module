@@ -17,8 +17,8 @@ package org.jtheque.movies.views.impl.models.able;
  */
 
 import org.jtheque.core.managers.view.able.components.IModel;
-import org.jtheque.primary.view.able.ViewMode;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.primary.view.able.ViewMode;
 
 /**
  * @author Baptiste Wicht
@@ -46,9 +46,9 @@ public interface ICategoryModel extends IModel {
     Category getCategory();
 
     /**
-     * Set the current category. 
-     * 
-     * @param category The current category. 
+     * Set the current category.
+     *
+     * @param category The current category.
      */
     void setCategory(Category category);
 }

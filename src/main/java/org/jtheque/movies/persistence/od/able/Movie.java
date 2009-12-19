@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * A Movie Specification. 
- * 
+ * A Movie Specification.
+ *
  * @author Baptiste Wicht
  */
 public interface Movie extends Data {
@@ -93,55 +93,53 @@ public interface Movie extends Data {
     void setNote(Note note);
 
     /**
-     * Add categories to the movie. 
-     * 
-     * @param categories The categories to add. 
+     * Add categories to the movie.
+     *
+     * @param categories The categories to add.
      */
     void addCategories(java.util.Collection<Category> categories);
 
     /**
-     * Add a category to the movie. 
-     * 
-     * @param category The category to add. 
+     * Add a category to the movie.
+     *
+     * @param category The category to add.
      */
     void addCategory(Category category);
 
     /**
-     * Test if the movie is in the specified collection. 
-     * 
-     * @param collection The collection to test. 
-     * 
-     * @return true if the movie is in the specified collection else false. 
+     * Test if the movie is in the specified collection.
+     *
+     * @param collection The collection to test.
+     * @return true if the movie is in the specified collection else false.
      */
     boolean isInCollection(Collection collection);
 
     /**
-     * Test if the movie has categories else false. 
-     * 
-     * @return true if the movie has one or more categories else false. 
+     * Test if the movie has categories else false.
+     *
+     * @return true if the movie has one or more categories else false.
      */
     boolean hasCategories();
 
     /**
-     * Indicate if the movie if of the specified category. 
-     * 
-     * @param category The searched category. 
-     * 
-     * @return true if the movie is of the specified category else false. 
+     * Indicate if the movie if of the specified category.
+     *
+     * @param category The searched category.
+     * @return true if the movie is of the specified category else false.
      */
     boolean isOfCategory(Category category);
 
     /**
-     * Return the last modified date of the file. 
-     * 
-     * @return The last modified date of the file. 
+     * Return the last modified date of the file.
+     *
+     * @return The last modified date of the file.
      */
     Date getFileLastModifiedDate();
 
     /**
-     * Return the size of the file. 
-     * 
-     * @return
+     * Return the size of the file.
+     *
+     * @return The size of the file.
      */
     long getFileSize();
 }

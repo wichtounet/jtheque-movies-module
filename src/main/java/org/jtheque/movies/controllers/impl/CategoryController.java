@@ -29,8 +29,8 @@ import org.jtheque.primary.view.able.ViewMode;
 import javax.annotation.Resource;
 
 /**
- * Controller for the category view. 
- * 
+ * Controller for the category view.
+ *
  * @author Baptiste Wicht
  */
 public final class CategoryController extends AbstractController implements ICategoryController {
@@ -41,9 +41,9 @@ public final class CategoryController extends AbstractController implements ICat
 
     @Resource
     private ICategoryView categoryView;
-    
+
     @Override
-    public void newCategory() {
+    public void newCategory(){
         categoryView.getModel().setState(ViewMode.NEW);
 
         categoryView.reload();
@@ -53,7 +53,7 @@ public final class CategoryController extends AbstractController implements ICat
     }
 
     @Override
-    public void editCategory(Category category) {
+    public void editCategory(Category category){
         categoryView.getModel().setState(ViewMode.EDIT);
 
         categoryView.reload(category);
@@ -61,10 +61,10 @@ public final class CategoryController extends AbstractController implements ICat
     }
 
     @Override
-    public void save(String name) {
+    public void save(String name){
         currentCategory.setTitle(name);
 
-        if (categoryView.getModel().getState() == ViewMode.NEW) {
+        if (categoryView.getModel().getState() == ViewMode.NEW){
             categoriesService.create(currentCategory);
 
             Managers.getManager(IUndoRedoManager.class).addEdit(new CreatedCategoryEdit(currentCategory));
@@ -79,7 +79,7 @@ public final class CategoryController extends AbstractController implements ICat
      * @return The DataView.
      */
     @Override
-    public ICategoryView getView() {
+    public ICategoryView getView(){
         return categoryView;
     }
 }

@@ -29,53 +29,53 @@ import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
 import javax.annotation.PostConstruct;
-import javax.swing.JTextField;
 import javax.swing.Action;
+import javax.swing.JTextField;
 import java.awt.Container;
 import java.awt.Frame;
 import java.util.Collection;
 
 /**
- * User interface to add or modify a view. 
+ * User interface to add or modify a view.
  *
  * @author Baptiste Wicht
  */
 public final class CategoryView extends SwingDialogView implements ICategoryView {
     private static final long serialVersionUID = -3525319522701158262L;
-    
+
     private JTextField fieldName;
 
     private final Action saveAction;
     private final Action cancelAction;
-    
+
     private static final int CATEGORY_NAME_MAX_LENGTH = 100;
     private static final int FIELD_COLUMNS = 15;
 
     /**
-     * Construct a new Category View. 
-     * 
-     * @param parent The parent frame. 
-     * @param saveAction The action to save the category. 
-     * @param cancelAction The action to cancel the view.  
+     * Construct a new Category View.
+     *
+     * @param parent       The parent frame.
+     * @param saveAction   The action to save the category.
+     * @param cancelAction The action to cancel the view.
      */
-    public CategoryView(Frame parent, Action saveAction, Action cancelAction) {
+    public CategoryView(Frame parent, Action saveAction, Action cancelAction){
         super(parent);
-        
+
         this.saveAction = saveAction;
         this.cancelAction = cancelAction;
     }
 
     @Override
-    public void reload() {
+    public void reload(){
         setTitleKey("category.view.title");
 
         getModel().setCategory(null);
 
         fieldName.setText("");
     }
-    
+
     @Override
-    public void reload(Category category) {
+    public void reload(Category category){
         getModel().setCategory(category);
 
         setTitle(Managers.getManager(ILanguageManager.class).getMessage("category.view.title.modify") +
@@ -85,60 +85,60 @@ public final class CategoryView extends SwingDialogView implements ICategoryView
     }
 
     /**
-     * Build the view. 
+     * Build the view.
      */
     @PostConstruct
-    private void build() {
+    private void build(){
         setContentPane(buildContentPane());
         setResizable(false);
-        
+
         reload();
         pack();
-        
+
         setLocationRelativeTo(getOwner());
     }
-    
+
     /**
-     * Build and return the content pane. 
+     * Build and return the content pane.
      *
      * @return Le contentPane
      */
-    private Container buildContentPane() {
+    private Container buildContentPane(){
         PanelBuilder builder = new PanelBuilder();
 
         builder.addI18nLabel("category.view.name", builder.gbcSet(0, 0));
-        
+
         fieldName = builder.add(new JTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
         SwingUtils.addFieldLengthLimit(fieldName, CATEGORY_NAME_MAX_LENGTH);
-        
+
         builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1), saveAction, cancelAction);
 
         return builder.getPanel();
     }
 
     @Override
-    public JTextField getFieldName() {
+    public JTextField getFieldName(){
         return fieldName;
     }
 
     @Override
-    public ICategoryModel getModel() {
+    public ICategoryModel getModel(){
         return (ICategoryModel) super.getModel();
     }
 
     @Override
-    public void refreshText() {
+    public void refreshText(){
         super.refreshText();
 
-        if (getModel().getCategory() != null) {
+        if (getModel().getCategory() != null){
             setTitle(Managers.getManager(ILanguageManager.class).getMessage("kind.view.title.modify") +
                     getModel().getCategory().getDisplayableText());
         }
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors) {
+    protected void validate(Collection<JThequeError> errors){
         ValidationUtils.rejectIfEmpty(fieldName.getText(), "category.view.name", errors);
         ValidationUtils.rejectIfLongerThan(fieldName.getText(), "category.view.name", CATEGORY_NAME_MAX_LENGTH, errors);
     }

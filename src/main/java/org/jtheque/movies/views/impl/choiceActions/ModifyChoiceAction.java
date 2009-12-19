@@ -31,15 +31,15 @@ import javax.annotation.Resource;
 public final class ModifyChoiceAction extends AbstractChoiceAction {
     @Resource
     private ICategoryController categoryController;
-    
+
     @Override
-    public boolean canDoAction(String action) {
+    public boolean canDoAction(String action){
         return "edit".equals(action);
     }
 
     @Override
-    public void execute() {
-        if (ICategoriesService.DATA_TYPE.equals(getContent())) {
+    public void execute(){
+        if (ICategoriesService.DATA_TYPE.equals(getContent())){
             categoryController.editCategory((Category) getSelectedItem());
             categoryController.displayView();
         }

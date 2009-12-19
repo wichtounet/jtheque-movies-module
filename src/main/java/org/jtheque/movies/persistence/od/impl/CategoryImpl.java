@@ -27,59 +27,59 @@ import org.jtheque.utils.bean.HashCodeUtils;
  */
 public final class CategoryImpl extends AbstractCategory {
     /**
-     * Construct a new empty CategoryImpl. 
+     * Construct a new empty CategoryImpl.
      */
-    public CategoryImpl() {
+    public CategoryImpl(){
         this("");
     }
 
     /**
-     * Construct a new category using the given title. 
-     * 
-     * @param title The title of the category. 
+     * Construct a new category using the given title.
+     *
+     * @param title The title of the category.
      */
-    public CategoryImpl(String title) {
+    public CategoryImpl(String title){
         super();
-        
+
         setTitle(title);
     }
 
     @Override
-    public String getDisplayableText() {
+    public String getDisplayableText(){
         return getTitle();
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return getDisplayableText();
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode(){
         return HashCodeUtils.hashCode(this, "title", "theCollection");
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj){
+        if (this == obj){
             return true;
         }
 
-        if (obj == null) {
+        if (obj == null){
             return false;
         }
 
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass()){
             return false;
         }
 
         final Category other = (Category) obj;
 
-        if (getTitle() == null) {
-            if (other.getTitle() != null) {
+        if (getTitle() == null){
+            if (other.getTitle() != null){
                 return false;
             }
-        } else if (!getTitle().equals(other.getTitle())) {
+        } else if (!getTitle().equals(other.getTitle())){
             return false;
         }
 

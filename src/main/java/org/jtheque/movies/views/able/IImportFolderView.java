@@ -23,30 +23,28 @@ import java.util.Collection;
  */
 
 /**
- * A view specification in which we can import movies from a folder. 
- * 
+ * A view specification in which we can import movies from a folder.
+ *
  * @author Baptiste Wicht
  */
 public interface IImportFolderView extends IView {
     /**
-     * Return the path to the specified folder. 
-     * 
-     * @return The path to the specified folder. 
+     * Return the path to the specified folder.
+     *
+     * @return The path to the specified folder.
      */
     String getFolderPath();
 
     /**
-     * Remove the selected file from the list. 
-     * 
+     * Remove the selected file from the list.
      */
     void removeSelectedFile();
 
     /**
-     * Validate the content of the view at the specified phase. 
-     * 
-     * @param phase The phase to validate. 
-     * 
-     * @return true if the view is valid else false. 
+     * Validate the content of the view at the specified phase.
+     *
+     * @param phase The phase to validate.
+     * @return true if the view is valid else false.
      */
     boolean validateContent(Phase phase);
 
@@ -61,33 +59,33 @@ public interface IImportFolderView extends IView {
     void startWait();
 
     /**
-     * Clear the files list. 
+     * Clear the files list.
      */
     void clearFiles();
 
     /**
-     * Set the files of the view. 
-     * 
-     * @param files The files to display in the view. 
+     * Set the files of the view.
+     *
+     * @param files The files to display in the view.
      */
     void setFiles(Collection<File> files);
 
     /**
-     * Return the files of the view. 
-     * 
-     * @return The files in the view. 
+     * Return the files of the view.
+     *
+     * @return The files in the view.
      */
     Collection<File> getFiles();
 
     /**
-     * Return all the selected file parser. 
-     * 
-     * @return A Collection containing all the file parser. 
+     * Return all the selected file parser.
+     *
+     * @return A Collection containing all the file parser.
      */
     Collection<FileParser> getSelectedParsers();
 
     /**
-     * The Phase. 
+     * The Phase.
      */
     enum Phase {
         CHOOSE_FOLDER,

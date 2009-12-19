@@ -30,19 +30,19 @@ import java.awt.event.ActionEvent;
  */
 public final class AcEditCategory extends JThequeAction {
     private static final long serialVersionUID = 750857307466422397L;
-    
+
     @Resource
     private IChoiceController choiceController;
-    
+
     /**
      * Construct a new AcEditKind.
      */
-    public AcEditCategory() {
+    public AcEditCategory(){
         super("category.actions.edit");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         choiceController.setAction("edit");
         choiceController.setContent(ICategoriesService.DATA_TYPE);
         choiceController.displayView();

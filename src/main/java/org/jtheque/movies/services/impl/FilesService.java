@@ -18,13 +18,13 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.log.ILoggingManager;
+import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -40,48 +40,48 @@ import java.util.Collection;
 public final class FilesService implements IFilesService {
     @Resource
     private IMoviesService moviesService;
-    
+
     @Resource
     private ICategoriesService categoriesService;
-    
+
     @Override
-    public void importMovies(Collection<File> files, Collection<FileParser> parsers) {
+    public void importMovies(Collection<File> files, Collection<FileParser> parsers){
         assert !files.isEmpty() : "Files cannot be empty";
-        
-        for(File f : files){
+
+        for (File f : files){
             createMovie(f.getAbsolutePath(), parsers);
         }
     }
-    
+
     @Override
-    public Movie createMovie(String filePath, Collection<FileParser> parsers) {
+    public Movie createMovie(String filePath, Collection<FileParser> parsers){
         Movie movie = moviesService.getEmptyMovie();
-        
+
         movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
         movie.setFile(filePath);
-               
+
         extractCategoriesAndTitle(filePath, parsers, movie);
 
         moviesService.create(movie);
-        
+
         return movie;
     }
 
     /**
-     * Extract the categories and the title from the file. 
-     * 
-     * @param filePath The path to the file. 
-     * @param parsers The parsers to use. 
-     * @param movie The movie to fill. 
+     * Extract the categories and the title from the file.
+     *
+     * @param filePath The path to the file.
+     * @param parsers  The parsers to use.
+     * @param movie    The movie to fill.
      */
-    private void extractCategoriesAndTitle(String filePath, Iterable<FileParser> parsers, Movie movie) {
+    private void extractCategoriesAndTitle(String filePath, Iterable<FileParser> parsers, Movie movie){
         File file = new File(filePath);
 
         String title = file.getName();
 
         Collection<Category> categories = new ArrayList<Category>(5);
 
-        for(FileParser parser : parsers){
+        for (FileParser parser : parsers){
             parser.parseFilePath(file);
             categories.addAll(parser.getExtractedCategories());
             title = parser.clearFileName(title);
@@ -94,27 +94,27 @@ public final class FilesService implements IFilesService {
     }
 
     /**
-     * Create all the unsaved categories of the collection. 
-     * 
-     * @param categories A collection of categories. 
+     * Create all the unsaved categories of the collection.
+     *
+     * @param categories A collection of categories.
      */
-    private void createUnsavedCategories(Iterable<Category> categories) {
-        for(Category category : categories){
-            if(!category.isSaved()){
+    private void createUnsavedCategories(Iterable<Category> categories){
+        for (Category category : categories){
+            if (!category.isSaved()){
                 categoriesService.create(category);
             }
         }
     }
 
     @Override
-    public Collection<File> getMovieFiles(File folder) {
-            Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("getMoviesFiles");
-        if(folder.isDirectory()){
+    public Collection<File> getMovieFiles(File folder){
+        Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("getMoviesFiles");
+        if (folder.isDirectory()){
             Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("The folder {} is a directory", folder.getAbsolutePath());
             Collection<File> files = new ArrayList<File>(50);
-            
+
             readFolder(folder, files);
-            
+
             return files;
         } else {
             return CollectionUtils.emptyList();
@@ -122,14 +122,14 @@ public final class FilesService implements IFilesService {
     }
 
     /**
-     * Read the folder and all the files of the folder in the collection. 
-     * 
-     * @param folder The folder to read. 
-     * @param files The collection to add the files to. 
+     * Read the folder and all the files of the folder in the collection.
+     *
+     * @param folder The folder to read.
+     * @param files  The collection to add the files to.
      */
-    private static void readFolder(File folder, Collection<File> files) {
-        for(File file : folder.listFiles(new MovieFileNameFilter())){
-            if(file.isDirectory()){
+    private static void readFolder(File folder, Collection<File> files){
+        for (File file : folder.listFiles(new MovieFileNameFilter())){
+            if (file.isDirectory()){
                 readFolder(file, files);
             } else {
                 files.add(file);

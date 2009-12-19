@@ -37,22 +37,22 @@ public abstract class AbstractCategory extends AbstractData implements Category 
     private Collection theCollection;
 
     @Override
-    public final String getTitle() {
+    public final String getTitle(){
         return title;
     }
 
     @Override
-    public final void setTitle(String title) {
+    public final void setTitle(String title){
         this.title = title;
     }
 
     @Override
-    public final Collection getTheCollection() {
+    public final Collection getTheCollection(){
         return theCollection;
     }
 
     @Override
-    public final void setTheCollection(Collection theCollection) {
+    public final void setTheCollection(Collection theCollection){
         this.theCollection = theCollection;
     }
 

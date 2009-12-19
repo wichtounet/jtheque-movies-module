@@ -23,36 +23,36 @@ import java.util.Collection;
  */
 
 /**
- * A view specification to clean the name of a movie. 
- * 
+ * A view specification to clean the name of a movie.
+ *
  * @author Baptiste Wicht
  */
 public interface ICleanMovieView extends IView {
     /**
-     * Open the view to select the options to clean the name of the movie. 
-     * 
-     * @param movie The movie to clean the name for. 
+     * Open the view to select the options to clean the name of the movie.
+     *
+     * @param movie The movie to clean the name for.
      */
     void clean(Movie movie);
 
     /**
-     * Return all the selected cleaners. 
-     * 
-     * @return A Collection containing all the selected cleaners. 
+     * Return all the selected cleaners.
+     *
+     * @return A Collection containing all the selected cleaners.
      */
     Collection<NameCleaner> getSelectedCleaners();
 
     /**
-     * Return all the movies to be cleaned. 
-     * 
-     * @return A Collection containing all the movies to be cleaned. 
+     * Return all the movies to be cleaned.
+     *
+     * @return A Collection containing all the movies to be cleaned.
      */
     Collection<Movie> getMovies();
 
     /**
-     * Open the view to clean the specified movies. 
-     * 
-     * @param movies The movies to clean. 
+     * Open the view to clean the specified movies.
+     *
+     * @param movies The movies to clean.
      */
     void clean(Collection<Movie> movies);
 }

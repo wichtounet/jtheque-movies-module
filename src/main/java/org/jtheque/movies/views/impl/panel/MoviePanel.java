@@ -24,51 +24,51 @@ import java.util.Collection;
  */
 
 /**
- * A Movie panel. It's a panel for a specific mode for movies. 
- * 
+ * A Movie panel. It's a panel for a specific mode for movies.
+ *
  * @author Baptiste Wicht
  */
 public abstract class MoviePanel extends JPanel {
     private final String key;
 
     /**
-     * Construct a new MoviePanel. 
-     * 
-     * @param key The key identifying the panel. 
+     * Construct a new MoviePanel.
+     *
+     * @param key The key identifying the panel.
      */
-    MoviePanel(String key) {
+    MoviePanel(String key){
         super();
-        
+
         this.key = key;
     }
 
     /**
-     * Set the current movie. 
-     * 
-     * @param movie The current movie. 
+     * Set the current movie.
+     *
+     * @param movie The current movie.
      */
     public abstract void setMovie(Movie movie);
 
     /**
-     * Validate the view. 
-     * 
-     * @param errors The errors list to fill. 
+     * Validate the view.
+     *
+     * @param errors The errors list to fill.
      */
     public abstract void validate(Collection<JThequeError> errors);
 
     /**
-     * Fill a movie form bean with the informations of the view. 
+     * Fill a movie form bean with the informations of the view.
      *
-     * @return the filled movie form bean. 
+     * @return the filled movie form bean.
      */
     public abstract IMovieFormBean fillMovieFormBean();
 
     /**
-     * Return the key of the panel. 
-     * 
-     * @return The key of the panel. 
+     * Return the key of the panel.
+     *
+     * @return The key of the panel.
      */
-    public final String getKey() {
+    public final String getKey(){
         return key;
     }
 }

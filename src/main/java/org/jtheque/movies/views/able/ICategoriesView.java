@@ -30,9 +30,9 @@ import java.util.Collection;
  */
 public interface ICategoriesView {
     /**
-     * Fill the movie form bean 
+     * Fill the movie form bean
      *
-     * @param fb The movie to fill. 
+     * @param fb The movie to fill.
      */
     void fillFilm(IMovieFormBean fb);
 
@@ -51,9 +51,9 @@ public interface ICategoriesView {
     void validate(Collection<JThequeError> errors);
 
     /**
-     * Return the implementation of the view. 
-     * 
-     * @return The implementation of the view. 
+     * Return the implementation of the view.
+     *
+     * @return The implementation of the view.
      */
     Component getImpl();
 }

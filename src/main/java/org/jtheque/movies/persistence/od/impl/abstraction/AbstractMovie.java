@@ -38,47 +38,47 @@ public abstract class AbstractMovie extends AbstractData implements Movie {
     private Collection theCollection;
 
     @Override
-    public final Collection getTheCollection() {
+    public final Collection getTheCollection(){
         return theCollection;
     }
 
     @Override
-    public final void setTheCollection(Collection theCollection) {
+    public final void setTheCollection(Collection theCollection){
         this.theCollection = theCollection;
     }
 
     @Override
-    public final String getTitle() {
+    public final String getTitle(){
         return title;
     }
 
     @Override
-    public final void setTitle(String title) {
+    public final void setTitle(String title){
         this.title = title;
     }
 
     @Override
-    public final Set<Category> getCategories() {
+    public final Set<Category> getCategories(){
         return categories;
     }
 
     @Override
-    public final String getFile() {
+    public final String getFile(){
         return file;
     }
 
     @Override
-    public final void setFile(String file) {
+    public final void setFile(String file){
         this.file = file;
     }
 
     @Override
-    public final Note getNote() {
+    public final Note getNote(){
         return note;
     }
 
     @Override
-    public final void setNote(Note note) {
+    public final void setNote(Note note){
         this.note = note;
     }
 }

@@ -32,20 +32,20 @@ import javax.annotation.Resource;
 public final class CleanChoiceAction extends AbstractChoiceAction {
     @Resource
     private ICleanMovieView cleanMovieView;
-    
+
     @Resource
     private IMoviesService moviesService;
-    
+
     @Override
-    public boolean canDoAction(String action) {
+    public boolean canDoAction(String action){
         return "clean".equals(action);
     }
 
     @Override
-    public void execute() {
-        if (ICategoriesService.DATA_TYPE.equals(getContent())) {
-            Category cat = (Category)getSelectedItem();
-            
+    public void execute(){
+        if (ICategoriesService.DATA_TYPE.equals(getContent())){
+            Category cat = (Category) getSelectedItem();
+
             cleanMovieView.clean(moviesService.getMoviesOf(cat));
         }
     }

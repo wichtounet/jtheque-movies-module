@@ -24,34 +24,34 @@ import java.awt.Font;
  */
 
 /**
- * A list renderer with an icon for each item. 
- * 
+ * A list renderer with an icon for each item.
+ *
  * @author Baptiste Wicht
  */
 public final class IconListRenderer extends DefaultListCellRenderer {
     /**
-     * Construct a new IconListRenderer. 
-     * 
-     * @param labelIcon The label icon. 
+     * Construct a new IconListRenderer.
+     *
+     * @param labelIcon The label icon.
      */
-    public IconListRenderer(Icon labelIcon) {
+    public IconListRenderer(Icon labelIcon){
         super();
-        
+
         setOpaque(false);
         setIcon(labelIcon);
         setForeground(Color.white);
     }
 
     @Override
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-        if(isSelected){
+    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+        if (isSelected){
             setFont(getFont().deriveFont(Font.BOLD));
         } else {
             setFont(getFont().deriveFont(Font.PLAIN));
         }
-        
+
         setText(value.toString());
-        
+
         return this;
     }
 }

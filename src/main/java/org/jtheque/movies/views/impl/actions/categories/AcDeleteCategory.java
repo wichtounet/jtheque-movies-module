@@ -33,16 +33,16 @@ public final class AcDeleteCategory extends JThequeAction {
 
     @Resource
     private IChoiceController choiceController;
-    
+
     /**
      * Construct a new AcDeleteKind.
      */
-    public AcDeleteCategory() {
+    public AcDeleteCategory(){
         super("category.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         choiceController.setAction("delete");
         choiceController.setContent(ICategoriesService.DATA_TYPE);
         choiceController.displayView();

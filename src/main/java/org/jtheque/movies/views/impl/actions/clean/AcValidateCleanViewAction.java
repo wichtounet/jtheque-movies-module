@@ -32,25 +32,25 @@ import java.awt.event.ActionEvent;
  */
 public final class AcValidateCleanViewAction extends JThequeAction {
     private static final long serialVersionUID = 1412326778227550519L;
-    
+
     @Resource
     private ICleanMovieView cleanMovieView;
-    
+
     @Resource
     private IMoviesService moviesService;
-    
+
     @Resource
     private IMovieController movieController;
-    
+
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcValidateCleanViewAction() {
+    public AcValidateCleanViewAction(){
         super("movie.actions.clean.validate");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         moviesService.clean(cleanMovieView.getMovies(), cleanMovieView.getSelectedCleaners());
         cleanMovieView.closeDown();
         movieController.view(CollectionUtils.first(cleanMovieView.getMovies()));

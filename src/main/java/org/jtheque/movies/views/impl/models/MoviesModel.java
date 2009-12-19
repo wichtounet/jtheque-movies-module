@@ -45,16 +45,16 @@ public final class MoviesModel extends PrincipalDataModel<Movie> implements IMov
      * Init the model.
      */
     @PostConstruct
-    private void init() {
+    private void init(){
         moviesService.addDataListener(this);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void updateDisplayList(Collection<Movie> movies) {
+    public void updateDisplayList(Collection<Movie> movies){
         getDisplayList().clear();
-        
-        if (movies == null) {
+
+        if (movies == null){
             getDisplayList().addAll(moviesService.getMovies());
         } else {
             getDisplayList().addAll(movies);
@@ -64,13 +64,13 @@ public final class MoviesModel extends PrincipalDataModel<Movie> implements IMov
     }
 
     @Override
-    public void updateDisplayList() {
+    public void updateDisplayList(){
         updateDisplayList(null);
     }
 
     @Override
-    public Collection<Movie> getDisplayList() {
-        if (displayList == null) {
+    public Collection<Movie> getDisplayList(){
+        if (displayList == null){
             displayList = CollectionUtils.copyOf(moviesService.getMovies());
         }
 
@@ -78,12 +78,12 @@ public final class MoviesModel extends PrincipalDataModel<Movie> implements IMov
     }
 
     @Override
-    public Movie getCurrentMovie() {
+    public Movie getCurrentMovie(){
         return currentMovie;
     }
 
     @Override
-    public void setCurrentMovie(Movie currentMovie) {
+    public void setCurrentMovie(Movie currentMovie){
         this.currentMovie = currentMovie;
 
         fireCurrentObjectChanged(new ObjectChangedEvent(this, currentMovie));
