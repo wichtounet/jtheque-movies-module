@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl.actions.view;
  */
 
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
@@ -50,6 +51,8 @@ public final class AcOpenMovie extends JThequeAction {
         super("movie.actions.view");
 
         setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "play", ImageType.PNG));
+
+        Managers.getManager(IBeansManager.class).inject(this);
     }
 
     @Override

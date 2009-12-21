@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.actions.view;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.IMovieController;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -28,9 +29,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcQuitView extends JThequeAction {
-    @Resource
-    private IMovieController movieController;
-
     /**
      * Construct a new AcPrintFilm.
      */
@@ -40,6 +38,6 @@ public final class AcQuitView extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        movieController.closeViewer();
+        Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").closeViewer();
     }
 }

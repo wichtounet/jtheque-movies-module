@@ -109,11 +109,9 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
     @Override
     public boolean delete(Movie movie){
-        boolean deleted = super.delete(movie);
-
         jdbcTemplate.update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
-
-        return deleted;
+        
+        return super.delete(movie);
     }
 
     @Override
@@ -272,7 +270,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
             Object[] parameters = {
                     movie.getTitle(),
-                    movie.getNote().getValue().intValue(),
+                    movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue(),
                     movie.getFile(),
                     movie.getTheCollection().getId(),
                     movie.getId()

@@ -62,11 +62,6 @@
 
     <bean id="_categoryView" class="org.jtheque.movies.views.impl.CategoryView">
         <constructor-arg ref="_mainView"/>
-        <constructor-arg ref="validateCategoryViewAction"/>
-        <constructor-arg ref="closeCategoryViewAction"/>
-        <property name="model">
-            <bean id="categoryModel" class="org.jtheque.movies.views.impl.models.CategoryModel"/>
-        </property>
     </bean>
 
     <bean id="_addFromFileView" class="org.jtheque.movies.views.impl.frames.AddFromFileView">
@@ -111,8 +106,5 @@
     <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView"/>
 
     <bean id="cleanCategoryAction" class="org.jtheque.movies.views.impl.actions.clean.AcCleanCategory"/>
-    <bean id="validateCategoryViewAction"
-          class="org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView"/>
-    <jtheque:close id="closeCategoryViewAction" key="category.actions.cancel" view="categoryView"/>
 
 </beans>

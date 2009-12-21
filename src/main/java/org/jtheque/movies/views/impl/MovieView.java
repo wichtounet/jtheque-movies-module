@@ -207,8 +207,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
             pane.setOpaque(false);
             pane.setBorder(Borders.createEmptyBorder(0, 0, 0, 5));
             pane.getViewport().setOpaque(false);
-            pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-            pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
             listPanel.add(pane, BorderLayout.CENTER);
         }

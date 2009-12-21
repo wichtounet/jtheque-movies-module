@@ -19,11 +19,14 @@ package org.jtheque.movies.views.impl;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.core.managers.view.impl.actions.utils.CloseViewAction;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.views.able.ICategoryView;
+import org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView;
+import org.jtheque.movies.views.impl.models.CategoryModel;
 import org.jtheque.movies.views.impl.models.able.ICategoryModel;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
@@ -42,9 +45,6 @@ import java.util.Collection;
 public final class CategoryView extends SwingDialogView implements ICategoryView {
     private JTextField fieldName;
 
-    private final Action saveAction;
-    private final Action cancelAction;
-
     private static final int CATEGORY_NAME_MAX_LENGTH = 100;
     private static final int FIELD_COLUMNS = 15;
 
@@ -52,14 +52,11 @@ public final class CategoryView extends SwingDialogView implements ICategoryView
      * Construct a new Category View.
      *
      * @param parent       The parent frame.
-     * @param saveAction   The action to save the category.
-     * @param cancelAction The action to cancel the view.
      */
-    public CategoryView(Frame parent, Action saveAction, Action cancelAction){
+    public CategoryView(Frame parent){
         super(parent);
 
-        this.saveAction = saveAction;
-        this.cancelAction = cancelAction;
+        setModel(new CategoryModel());
 
         setContentPane(buildContentPane());
         setResizable(false);
@@ -99,11 +96,16 @@ public final class CategoryView extends SwingDialogView implements ICategoryView
 
         builder.addI18nLabel("category.view.name", builder.gbcSet(0, 0));
 
+        Action saveAction = new AcValidateCategoryView();
+
         fieldName = builder.add(new JTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
         SwingUtils.addFieldLengthLimit(fieldName, CATEGORY_NAME_MAX_LENGTH);
 
-        builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1), saveAction, cancelAction);
+        CloseViewAction closeAction = new CloseViewAction("category.actions.cancel");
+        closeAction.setView(this);
+
+        builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1), saveAction, closeAction);
 
         return builder.getPanel();
     }

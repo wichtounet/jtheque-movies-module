@@ -1,6 +1,8 @@
 package org.jtheque.movies.views.impl.panel;
 
+import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.JThequeError;
+import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
 import org.jtheque.core.utils.db.DaoNotes;
@@ -21,6 +23,10 @@ import org.jtheque.primary.view.impl.renderers.NoteComboRenderer;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
+import javax.swing.AbstractButton;
+import javax.swing.JComboBox;
+import javax.swing.UIManager;
+import java.awt.Color;
 import java.awt.Insets;
 import java.util.Collection;
 
@@ -117,10 +123,28 @@ public final class EditMoviePanel extends MoviePanel {
      */
     private void addNoteField(PanelBuilder builder){
         builder.addI18nLabel("movie.note", builder.gbcSet(0, 2));
-
+        
         modelNotes = new NotesComboBoxModel();
 
-        builder.addComboBox(modelNotes, new NoteComboRenderer(), builder.gbcSet(1, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 2, 1));
+        JComboBox box = new JComboBox(modelNotes);
+        box.setRenderer(new NoteComboRenderer());
+
+        box.setOpaque(false);
+        box.setBackground(Managers.getManager(IResourceManager.class).getColor("filthyInputColor"));
+
+        UIManager.put("ComboBox.selectionBackground", Color.black);
+
+        /*box.setBorder(new CompoundBorder(
+                BorderFactory.createLineBorder(Managers.getManager(IResourceManager.class).getColor("filthyInputBorderColor"), 2),
+                BorderFactory.createEmptyBorder(2, 2, 2, 2)));*/
+
+        for (int i = 0; i < box.getComponentCount(); i++) {
+            if (box.getComponent(i) instanceof AbstractButton) {
+                ((AbstractButton) box.getComponent(i)).setBorderPainted(false);
+            }
+        }
+
+        builder.add(box, builder.gbcSet(1, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 2, 1));
     }
 
     @Override
