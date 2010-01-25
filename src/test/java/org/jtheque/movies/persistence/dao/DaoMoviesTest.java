@@ -1,5 +1,7 @@
 package org.jtheque.movies.persistence.dao;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
@@ -58,6 +60,10 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
 
     @Resource
     private DataSource dataSource;
+
+	static {
+		Logger.getRootLogger().setLevel(Level.ERROR);
+	}
 
     public DaoMoviesTest(){
         super("movies.xml");

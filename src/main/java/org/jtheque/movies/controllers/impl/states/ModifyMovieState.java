@@ -17,15 +17,18 @@ package org.jtheque.movies.controllers.impl.states;
  */
 
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-import org.jtheque.movies.views.impl.models.able.IMoviesModel;
+import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.primary.controller.able.ControllerState;
 import org.jtheque.primary.controller.able.FormBean;
+import org.jtheque.primary.controller.impl.AbstractControllerState;
 import org.jtheque.primary.od.able.Data;
 
 import javax.annotation.Resource;
@@ -35,10 +38,7 @@ import javax.annotation.Resource;
  *
  * @author Baptiste Wicht
  */
-public final class ModifyMovieState extends AbstractMovieState {
-    @Resource
-    private IMovieController controller;
-
+public final class ModifyMovieState extends AbstractControllerState {
     @Resource
     private IMoviesService moviesService;
 
@@ -47,49 +47,49 @@ public final class ModifyMovieState extends AbstractMovieState {
      *
      * @return The model of the view.
      */
-    private IMoviesModel getViewModel(){
-        return controller.getViewModel();
+    private static IMoviesModel getViewModel(){
+        return getController().getViewModel();
     }
 
     @Override
     public void apply(){
-        controller.getView().setDisplayedView(IMovieView.EDIT_VIEW);
-        controller.getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
+        getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
+        getController().getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
 
         getViewModel().getCurrentMovie().saveToMemento();
     }
 
     @Override
     public ControllerState save(FormBean bean){
+		if(!getController().getView().validateContent()){
+			return null;
+		}
+
         IMovieFormBean infos = (IMovieFormBean) bean;
 
         Movie movie = getViewModel().getCurrentMovie();
-
-        String oldTitle = movie.getTitle();
-
+        
         infos.fillMovie(movie);
 
+		//If the file has changed and the new file already exists in application
+		if(moviesService.fileExistsInOtherMovie(movie, movie.getFile())){
+			Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
+
+			return null;
+		}
+		
         moviesService.save(movie);
 
-        if (!oldTitle.equals(movie.getTitle())){
-            controller.getView().resort();
-        }
+		getController().getView().refreshData();
 
-        return controller.getViewState();
+		return getController().getViewState();
     }
 
     @Override
     public ControllerState cancel(){
         getViewModel().getCurrentMovie().restoreMemento();
 
-        return controller.getViewState();
-    }
-
-    @Override
-    public ControllerState autoEdit(Data data){
-        Managers.getManager(IViewManager.class).displayI18nText("movie.dialogs.currentEdit");
-
-        return null;
+        return getController().getViewState();
     }
 
     @Override
@@ -99,13 +99,17 @@ public final class ModifyMovieState extends AbstractMovieState {
         if (Managers.getManager(IViewManager.class).askI18nUserForConfirmation(
                 "movie.dialogs.confirmSave",
                 "movie.dialogs.confirmSave.title")){
-            controller.save();
+            getController().save();
         } else {
             getViewModel().getCurrentMovie().restoreMemento();
         }
 
         getViewModel().setCurrentMovie(movie);
 
-        return controller.getViewState();
+        return getController().getViewState();
     }
+
+	private static IMovieController getController(){
+		return CoreUtils.getBean("movieController");
+	}
 }

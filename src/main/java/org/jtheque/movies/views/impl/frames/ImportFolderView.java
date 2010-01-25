@@ -17,9 +17,9 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.impl.actions.utils.CloseViewAction;
-import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
+import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.services.impl.parsers.FileParser;
@@ -27,15 +27,15 @@ import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.actions.movies.folder.AcDeleteFile;
 import org.jtheque.movies.views.impl.actions.movies.folder.AcImportFiles;
 import org.jtheque.movies.views.impl.actions.movies.folder.AcSearchFiles;
-import org.jtheque.movies.views.impl.models.FilesListModel;
-import org.jtheque.movies.views.impl.panel.ParserContainer;
+import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
+import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
+import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
+import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JList;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
-import java.awt.Container;
-import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -47,11 +47,11 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class ImportFolderView extends SwingDialogView implements IImportFolderView {
-    private FileChooserPanel directoryChooser;
+public final class ImportFolderView extends SwingBuildedDialogView<IModel> implements IImportFolderView {
+    private FilthyFileChooserPanel directoryChooser;
     private JList listFiles;
 
-    private FilesListModel modelListFiles;
+    private SimpleListModel<File> modelListFiles;
 
     private Phase phase = Phase.CHOOSE_FOLDER;
 
@@ -60,45 +60,34 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
     /**
      * Construct a new ImportFolderView.
      *
-     * @param frame              The parent frame.
      * @param parsers            A List of parsers used to extract the categories from the file name.
      */
-    public ImportFolderView(Frame frame, Collection<FileParser> parsers){
-        super(frame);
+    public ImportFolderView(Collection<FileParser> parsers){
+        super();
 
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
 
         for (FileParser p : parsers){
-            parserContainers.add(new ParserContainer(p));
+			if(p.hasCustomView()){
+				parserContainers.add(new CustomParserContainer(p));
+			} else {
+            	parserContainers.add(new SimpleParserContainer(p));
+			}
         }
 
-        build();
+		build();
     }
 
-    /**
-     * Build the view.
-     */
-    private void build(){
+    @Override
+    protected void initView(){
         setTitleKey("movie.auto.folder.title");
-        setContentPane(buildContentPane());
-        pack();
-
-        setLocationRelativeTo(getOwner());
     }
 
-    /**
-     * Init the graphics user interface.
-     *
-     * @return The content pane.
-     */
-    private Container buildContentPane(){
-        PanelBuilder builder = new PanelBuilder();
-
+    @Override
+    protected void buildView(PanelBuilder builder){
         addDirectoryChooser(builder);
         addTitleList(builder);
         addParsers(builder);
-
-        return builder.getPanel();
     }
 
     /**
@@ -107,11 +96,9 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
      * @param builder The parent builder
      */
     private void addDirectoryChooser(PanelBuilder builder){
-        directoryChooser = new FileChooserPanel();
+        directoryChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
-
-        builder.add(directoryChooser, builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
 
         builder.addButton(new AcSearchFiles(), builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
     }
@@ -122,7 +109,7 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
      * @param builder The parent builder
      */
     private void addTitleList(PanelBuilder builder){
-        modelListFiles = new FilesListModel();
+        modelListFiles = new SimpleListModel<File>();
 
         listFiles = new JList(modelListFiles);
         listFiles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -130,7 +117,7 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
         listFiles.getActionMap().put("delete", new AcDeleteFile());
         listFiles.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
 
-        builder.addScrolled(listFiles, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0));
+        builder.addScrolled(listFiles, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
     }
 
     /**
@@ -139,19 +126,16 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
      * @param builder The parent builder
      */
     private void addParsers(PanelBuilder builder){
-        builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0));
+        builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
 
         int i = 3;
 
         for (ParserContainer container : parserContainers){
-            builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0));
+            builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
-        CloseViewAction closeAction = new CloseViewAction("movie.auto.folder.actions.cancel");
-        closeAction.setView(this);
-
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 1.0),
-                new AcImportFiles(), closeAction);
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
+                new AcImportFiles(), getCloseAction("movie.auto.folder.actions.cancel"));
     }
 
     @Override
@@ -171,12 +155,12 @@ public final class ImportFolderView extends SwingDialogView implements IImportFo
 
     @Override
     public void setFiles(Collection<File> files){
-        modelListFiles.setFiles(files);
+        modelListFiles.setElements(files);
     }
 
     @Override
     public Collection<File> getFiles(){
-        return modelListFiles.getFiles();
+        return modelListFiles.getObjects();
     }
 
     @Override

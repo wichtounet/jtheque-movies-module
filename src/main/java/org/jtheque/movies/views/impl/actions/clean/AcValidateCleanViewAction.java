@@ -19,12 +19,12 @@ package org.jtheque.movies.views.impl.actions.clean;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanMovieView;
 import org.jtheque.utils.collections.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 
 /**
@@ -33,15 +33,6 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class AcValidateCleanViewAction extends JThequeAction {
-    @Resource
-    private ICleanMovieView cleanMovieView;
-
-    @Resource
-    private IMoviesService moviesService;
-
-    @Resource
-    private IMovieController movieController;
-
     /**
      * Construct a new AcPrintFilm.
      */
@@ -53,8 +44,10 @@ public final class AcValidateCleanViewAction extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        moviesService.clean(cleanMovieView.getMovies(), cleanMovieView.getSelectedCleaners());
+		ICleanMovieView cleanMovieView = CoreUtils.getBean("cleanMovieView");
+
+        CoreUtils.<IMoviesService>getBean("moviesService").clean(cleanMovieView.getMovies(), cleanMovieView.getSelectedCleaners());
         cleanMovieView.closeDown();
-        movieController.view(CollectionUtils.first(cleanMovieView.getMovies()));
+        CoreUtils.<IMovieController>getBean("movieController").view(CollectionUtils.first(cleanMovieView.getMovies()));
     }
 }

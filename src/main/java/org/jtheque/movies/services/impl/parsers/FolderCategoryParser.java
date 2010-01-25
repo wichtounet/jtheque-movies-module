@@ -1,12 +1,12 @@
 package org.jtheque.movies.services.impl.parsers;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
+import javax.swing.JComponent;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,7 +40,7 @@ public final class FolderCategoryParser implements FileParser {
 
     @Override
     public String getTitle(){
-        return Managers.getManager(ILanguageManager.class).getMessage("movie.auto.parser.folder");
+        return CoreUtils.getMessage("movie.auto.parser.folder");
     }
 
     @Override
@@ -70,4 +70,14 @@ public final class FolderCategoryParser implements FileParser {
 
         return Arrays.asList(category);
     }
+
+	@Override
+	public boolean hasCustomView(){
+		return false;
+	}
+
+	@Override
+	public JComponent getCustomView(){
+		return null;
+	}
 }

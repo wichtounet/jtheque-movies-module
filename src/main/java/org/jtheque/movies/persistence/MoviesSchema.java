@@ -16,8 +16,6 @@ package org.jtheque.movies.persistence;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.schema.AbstractSchema;
 import org.jtheque.core.managers.schema.HSQLImporter;
 import org.jtheque.core.managers.schema.Insert;
@@ -25,9 +23,6 @@ import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.utils.bean.Version;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-
-import javax.annotation.Resource;
 
 /**
  * The database schema for the Movies Module.
@@ -35,21 +30,9 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class MoviesSchema extends AbstractSchema {
-    @Resource
-    private SimpleJdbcTemplate jdbcTemplate;
-
-    /**
-     * Construct a new MoviesSchema.
-     */
-    public MoviesSchema(){
-        super();
-
-        Managers.getManager(IBeansManager.class).inject(this);
-    }
-
     @Override
     public Version getVersion(){
-        return new Version("1.1");
+        return new Version("1.2");
     }
 
     @Override
@@ -70,31 +53,48 @@ public final class MoviesSchema extends AbstractSchema {
 
     @Override
     public void update(Version from){
-        if ("1.0".equals(from.getVersion())){
-            createReferentialIntegrityConstraints();
+		String fromVersion = from.getVersion();
+
+		if ("1.0".equals(fromVersion) || "1.1".equals(fromVersion)){
+            if("1.0".equals(fromVersion)){
+				createReferentialIntegrityConstraints();
+			}
+
+			correctUnicityConstraints();
+			addInformationColumns();
         }
     }
 
-    /**
+	private void correctUnicityConstraints(){
+		update("ALTER TABLE " + IDaoMovies.TABLE + " DROP CONSTRAINT CONSTRAINT_INDEX_3F");
+		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD CONSTRAINT UNIQUE_FILE UNIQUE(FILE)");
+	}
+
+	private void addInformationColumns(){
+		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD DURATION BIGINT");
+		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD RESOLUTION VARCHAR(11)");
+	}
+
+	/**
      * Create the data tables.
      */
     private void createDataTables(){
-        jdbcTemplate.update("CREATE TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK INT NOT NULL, THE_CATEGORY_FK INT NOT NULL)");
-        jdbcTemplate.update("CREATE TABLE " + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_COLLECTION_FK INT NOT NULL)");
-        jdbcTemplate.update("CREATE TABLE " + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, NOTE INT NULL, FILE VARCHAR(200) NOT NULL, THE_COLLECTION_FK INT NOT NULL)");
+        update("CREATE TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK INT NOT NULL, THE_CATEGORY_FK INT NOT NULL)");
+        update("CREATE TABLE " + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_COLLECTION_FK INT NOT NULL)");
+        update("CREATE TABLE " + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL, NOTE INT NULL, FILE VARCHAR(200) NOT NULL UNIQUE, DURATION BIGINT, RESOLUTION VARCHAR(11), THE_COLLECTION_FK INT NOT NULL)");
 
-        jdbcTemplate.update("CREATE INDEX MOVIES_IDX ON " + IDaoMovies.TABLE + "(ID)");
-        jdbcTemplate.update("CREATE INDEX MOVIE_CATEGORIES_IDX ON " + IDaoCategories.TABLE + "(ID)");
+        update("CREATE INDEX MOVIES_IDX ON " + IDaoMovies.TABLE + "(ID)");
+        update("CREATE INDEX MOVIE_CATEGORIES_IDX ON " + IDaoCategories.TABLE + "(ID)");
     }
 
     /**
      * Create the constraints to maintain a referential integrity in the database.
      */
     private void createReferentialIntegrityConstraints(){
-        jdbcTemplate.update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "  (ID) ON UPDATE SET NULL");
-        jdbcTemplate.update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
-        jdbcTemplate.update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
-        jdbcTemplate.update("ALTER TABLE " + IDaoMovies.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
+        update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "  (ID) ON UPDATE SET NULL");
+        update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
+        update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
+        update("ALTER TABLE " + IDaoMovies.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
     }
 
     @Override

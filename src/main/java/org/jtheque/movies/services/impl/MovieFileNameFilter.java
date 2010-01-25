@@ -29,6 +29,6 @@ import java.io.FileFilter;
 final class MovieFileNameFilter implements FileFilter {
     @Override
     public boolean accept(File pathName){
-        return pathName.isDirectory() || StringUtils.endsWithOneOf(pathName.getName(), "avi", "mpeg", "wma", "mpg");
+        return pathName.isDirectory() || StringUtils.endsWithOneOf(pathName.getName(), "avi", "mpeg", "wma", "mpg", "ogm");
     }
 }

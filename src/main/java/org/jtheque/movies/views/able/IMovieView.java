@@ -61,4 +61,14 @@ public interface IMovieView extends IView {
     void resort();
 
     void selectFirst();
+
+	void expandAll();
+
+	void collapseAll();
+
+	void select(Movie movie);
+
+	void refreshData();
+
+	Movie getSelectedMovie();
 }

@@ -3,6 +3,8 @@ package org.jtheque.movies.views.impl.fb;
 import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.utils.PreciseDuration;
+import org.jtheque.movies.utils.Resolution;
 import org.jtheque.primary.controller.able.FormBean;
 
 import java.util.Collection;
@@ -45,4 +47,8 @@ public interface IMovieFormBean extends FormBean {
      * @param movie The movie to fill.
      */
     void fillMovie(Movie movie);
+
+    void setDuration(PreciseDuration duration);
+
+    void setResolution(Resolution resolution);
 }

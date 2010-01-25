@@ -1,6 +1,7 @@
 package org.jtheque.movies;
 
 import org.jtheque.core.managers.state.AbstractState;
+import org.jtheque.utils.StringUtils;
 
 /*
  * This file is part of JTheque.
@@ -24,9 +25,12 @@ import org.jtheque.core.managers.state.AbstractState;
  * @author Baptiste Wicht
  */
 public final class MovieConfiguration extends AbstractState implements IMovieConfiguration {
-    @Override
+	private static final String OPENING_SYSTEM = "opening";
+	private static final String FFMPEG_LOCATION = "ffmpeg";
+
+	@Override
     public Opening getOpeningSystem(){
-        String opening = getProperty("opening", "system");
+        String opening = getProperty(OPENING_SYSTEM, "system");
 
         if (Opening.SYSTEM.getValue().equals(opening)){
             return Opening.SYSTEM;
@@ -41,6 +45,21 @@ public final class MovieConfiguration extends AbstractState implements IMovieCon
 
     @Override
     public void setOpeningSystem(Opening opening){
-        setProperty("opening", opening.getValue());
+        setProperty(OPENING_SYSTEM, opening.getValue());
     }
+
+	@Override
+	public boolean isFFmpegInstalled(){
+		return StringUtils.isNotEmpty(getFFmpegLocation());
+	}
+	
+	@Override
+	public String getFFmpegLocation(){
+		return getProperty(FFMPEG_LOCATION, "");
+	}
+
+	@Override
+	public void setFFmpegLocation(String location){
+		setProperty(FFMPEG_LOCATION, location);
+	}
 }

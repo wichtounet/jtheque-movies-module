@@ -16,9 +16,8 @@ package org.jtheque.movies.services.impl;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.language.ILanguageManager;
 import org.jtheque.core.managers.persistence.able.DataListener;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -43,8 +42,8 @@ public final class MoviesService implements IMoviesService {
     public Movie getEmptyMovie(){
         Movie movie = daoMovies.createMovie();
 
-        movie.setTitle(Managers.getManager(ILanguageManager.class).getMessage("values.new"));
-
+        movie.setTitle(CoreUtils.getMessage("values.new"));
+        
         return movie;
     }
 
@@ -100,6 +99,28 @@ public final class MoviesService implements IMoviesService {
         }
 
         return movies;
+    }
+
+	@Override
+	public boolean fileExists(String file){
+		for (Movie movie : getMovies()){
+            if (file.equals(movie.getFile())){
+                return true;
+            }
+        }
+
+		return false;
+	}
+
+    @Override
+    public boolean fileExistsInOtherMovie(Movie movie, String file) {
+		for (Movie other : getMovies()){
+            if (movie.getId() != other.getId() && file.equals(other.getFile())){
+                return true;
+            }
+        }
+
+		return false;
     }
 
     @Override

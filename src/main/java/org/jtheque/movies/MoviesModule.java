@@ -18,13 +18,10 @@ package org.jtheque.movies;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.IErrorManager;
 import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.feature.Feature;
-import org.jtheque.core.managers.feature.Feature.FeatureType;
 import org.jtheque.core.managers.feature.IFeatureManager;
-import org.jtheque.core.managers.log.ILoggingManager;
+import org.jtheque.core.managers.feature.Menu;
 import org.jtheque.core.managers.module.annotations.Module;
 import org.jtheque.core.managers.module.annotations.Plug;
 import org.jtheque.core.managers.module.annotations.PrePlug;
@@ -36,13 +33,15 @@ import org.jtheque.core.managers.state.IStateManager;
 import org.jtheque.core.managers.state.StateException;
 import org.jtheque.core.managers.view.ViewComponent;
 import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.core.utils.ui.constraints.ConstraintManager;
+import org.jtheque.core.utils.ui.constraints.MaxLengthConstraint;
 import org.jtheque.movies.persistence.MoviesSchema;
+import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.IOpeningConfigView;
-import org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory;
-import org.jtheque.movies.views.impl.actions.categories.AcEditCategory;
-import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
 import org.jtheque.primary.PrimaryUtils;
 import org.jtheque.primary.services.able.ICollectionsService;
 import org.jtheque.primary.utils.DataTypeManager;
@@ -51,20 +50,18 @@ import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
 import org.jtheque.primary.view.impl.sort.Sorter;
 import org.jtheque.primary.view.impl.sort.SorterFactory;
 
-import javax.swing.Action;
-
 /**
  * A JTheque Module for managing movies.
  *
  * @author Baptiste Wicht
  */
-@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3", core = "2.0.2",
-        jarFile = "jtheque-movies-module-1.3.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
+@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3.1", core = "2.0.3",
+        jarFile = "jtheque-movies-module-1.3.1-SNAPSHOT.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
 public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
     private final Sorter[] sorters;
     private final ChoiceAction[] choiceActions;
 
-    private Feature categoriesFeature;
+    private Menu moviesMenu;
 
     private Schema schema;
 
@@ -128,7 +125,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
             try {
                 config = Managers.getManager(IStateManager.class).createState(MovieConfiguration.class);
             } catch (StateException e){
-                Managers.getManager(ILoggingManager.class).getLogger(getClass()).error(e);
+                CoreUtils.getLogger(getClass()).error(e);
                 config = new MovieConfiguration();
                 Managers.getManager(IErrorManager.class).addError(new InternationalizedError("error.loading.configuration"));
             }
@@ -137,7 +134,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
 
     @Override
     public boolean chooseCollection(String collection, String password, boolean create){
-        ICollectionsService collectionsService = Managers.getManager(IBeansManager.class).getBean("collectionsService");
+        ICollectionsService collectionsService = CoreUtils.getBean("collectionsService");
 
         if (create){
             collectionsService.createCollectionAndUse(collection, password);
@@ -158,40 +155,29 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
             ChoiceActionFactory.addChoiceAction(action);
         }
 
+		configureDataConstraints();
+
         panelConfig.build();
         Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
 
-        Managers.getManager(IViewManager.class).setMainComponent(Managers.getManager(IBeansManager.class).<ViewComponent>getBean("movieView"));
-
-        IFeatureManager manager = Managers.getManager(IFeatureManager.class);
-
-        manager.addSubFeature(manager.getFeature(IFeatureManager.CoreFeature.FILE), "importFolderAction", FeatureType.SEPARATED_ACTION, 100);
-        manager.addSubFeature(manager.getFeature(IFeatureManager.CoreFeature.FILE), "cleanCategoryAction", FeatureType.SEPARATED_ACTION, 101);
-
-        categoriesFeature = manager.createFeature(500, FeatureType.PACK, "category.menu.title");
-
-        addSubFeature(categoriesFeature, 1, new AcNewCategory());
-        addSubFeature(categoriesFeature, 2, new AcEditCategory());
-        addSubFeature(categoriesFeature, 3, new AcDeleteCategory());
-        
-        Managers.getManager(IFeatureManager.class).addFeature(categoriesFeature);
+        Managers.getManager(IViewManager.class).setMainComponent(CoreUtils.<ViewComponent>getBean("movieView"));
+		
+        moviesMenu = new MoviesMenu();
+        Managers.getManager(IFeatureManager.class).addMenu(moviesMenu);
     }
 
-    private static void addSubFeature(Feature categoriesFeature, int position, Action action){
-        Feature newCategoryFeature = new Feature();
-        newCategoryFeature.setAction(action);
-        newCategoryFeature.setPosition(position);
-        newCategoryFeature.setType(FeatureType.ACTION);
+	private static void configureDataConstraints(){
+		ConstraintManager.addConstraint(Category.NAME, new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
+		ConstraintManager.addConstraint(Movie.TITLE, new MaxLengthConstraint(Movie.TITLE_LENGTH, Movie.TITLE, false, false));
+		ConstraintManager.addConstraint(Movie.FILE, new MaxLengthConstraint(Movie.FILE_LENGTH, Movie.FILE, false, false));
+	}
 
-        categoriesFeature.addSubFeature(newCategoryFeature);
-    }
-
-    /**
+	/**
      * Unplug the module.
      */
     @UnPlug
     private void unplug(){
-        Managers.getManager(IFeatureManager.class).removeFeature(categoriesFeature);
+        Managers.getManager(IFeatureManager.class).removeMenu(moviesMenu);
 
         for (ChoiceAction action : choiceActions){
             ChoiceActionFactory.removeChoiceAction(action);

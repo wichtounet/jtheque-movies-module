@@ -16,9 +16,8 @@ package org.jtheque.movies.views.impl.actions.movies;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IMovieController;
 
 import java.awt.event.ActionEvent;
@@ -38,6 +37,6 @@ public final class AcSaveMovie extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").save();
+        CoreUtils.<IMovieController>getBean("movieController").save();
     }
 }

@@ -17,10 +17,9 @@ package org.jtheque.movies.views.impl.actions.movies;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
-import org.jtheque.core.managers.language.ILanguageManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IMovieController;
 
 import java.awt.event.ActionEvent;
@@ -41,13 +40,13 @@ public final class AcDelete extends JThequeAction {
     @Override
     public void actionPerformed(ActionEvent e){
         final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
-                Managers.getManager(ILanguageManager.class).getMessage("movie.dialogs.confirmDelete",
-                        Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").
+                CoreUtils.getMessage("movie.dialogs.confirmDelete",
+                        CoreUtils.<IMovieController>getBean("movieController").
                                 getViewModel().getCurrentMovie().getDisplayableText()),
-                Managers.getManager(ILanguageManager.class).getMessage("movie.dialogs.confirmDelete.title"));
+                CoreUtils.getMessage("movie.dialogs.confirmDelete.title"));
 
         if (yes){
-            Managers.getManager(IBeansManager.class).<IMovieController>getBean("movieController").deleteCurrentMovie();
+            CoreUtils.<IMovieController>getBean("movieController").deleteCurrent();
         }
     }
 }

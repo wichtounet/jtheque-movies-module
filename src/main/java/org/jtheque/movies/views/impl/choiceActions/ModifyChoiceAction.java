@@ -20,6 +20,7 @@ import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.view.impl.choice.AbstractChoiceAction;
+import org.jtheque.primary.view.impl.choice.ModifyChoiceActionUtils;
 
 import javax.annotation.Resource;
 
@@ -39,6 +40,10 @@ public final class ModifyChoiceAction extends AbstractChoiceAction {
 
     @Override
     public void execute(){
+        if(ModifyChoiceActionUtils.execute(getSelectedItem(), getContent())){
+            return;
+        }
+
         if (ICategoriesService.DATA_TYPE.equals(getContent())){
             categoryController.editCategory((Category) getSelectedItem());
             categoryController.displayView();

@@ -17,15 +17,26 @@ package org.jtheque.movies.persistence.od.impl;
  */
 
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.impl.abstraction.AbstractCategory;
-import org.jtheque.utils.bean.HashCodeUtils;
+import org.jtheque.primary.od.able.Collection;
+import org.jtheque.primary.od.impl.abstraction.AbstractData;
+import org.jtheque.primary.utils.TempUtils;
 
 /**
  * A category implementation.
  *
  * @author Baptiste Wicht
  */
-public final class CategoryImpl extends AbstractCategory {
+public final class CategoryImpl extends AbstractData implements Category {
+    /**
+     * The title of the category.
+     */
+    private String title;
+
+    /**
+     * The collection.
+     */
+    private Collection theCollection;
+
     /**
      * Construct a new empty CategoryImpl.
      */
@@ -41,60 +52,58 @@ public final class CategoryImpl extends AbstractCategory {
     public CategoryImpl(String title){
         super();
 
-        setTitle(title);
+        this.title = title;
+    }
+
+    //Data methods
+
+    @Override
+    public String getTitle(){
+        return title;
     }
 
     @Override
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    @Override
+    public Collection getTheCollection(){
+        return theCollection;
+    }
+
+    @Override
+    public void setTheCollection(Collection theCollection){
+        this.theCollection = theCollection;
+    }
+
+    //Utility methods
+
+    @Override
     public String getDisplayableText(){
-        return getTitle();
+        return title;
     }
 
     @Override
     public String toString(){
-        return getDisplayableText();
+        return title;
     }
 
     @Override
     public int hashCode(){
-        return HashCodeUtils.hashCode(this, "id", "title", "theCollection");
+        return TempUtils.hashCodeDirect(getId(), title, theCollection);
     }
 
     @Override
     public boolean equals(Object obj){
-        if (this == obj){
-            return true;
-        }
+		if(obj == null){
+			return false;
+		}
 
-        if (obj == null){
-            return false;
-        }
+        Category category = (Category)obj;
 
-        if (getClass() != obj.getClass()){
-            return false;
-        }
-
-        final Category other = (Category) obj;
-
-        if(getId() != other.getId()){
-            return false;
-        }
-
-        if (getTitle() == null){
-            if (other.getTitle() != null){
-                return false;
-            }
-        } else if (!getTitle().equals(other.getTitle())){
-            return false;
-        }
-
-        if (getTheCollection() == null){
-            if (other.getTheCollection() != null){
-                return false;
-            }
-        } else if (!getTheCollection().equals(other.getTheCollection())){
-            return false;
-        }
-
-        return true;
+        return TempUtils.areEqualsDirect(this, category,
+                getId(), title, theCollection,
+                category.getId(), category.getTitle(), category.getTheCollection());
     }
 }

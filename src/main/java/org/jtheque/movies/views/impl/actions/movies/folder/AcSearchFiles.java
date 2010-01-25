@@ -18,7 +18,6 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
-import org.jtheque.core.managers.log.ILoggingManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.edt.SimpleTask;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
@@ -54,7 +53,6 @@ public final class AcSearchFiles extends JThequeAction {
     @Override
     public void actionPerformed(ActionEvent arg0){
         if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)){
-            Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("View valid");
             new Thread(new SearchTitlesRunnable()).start();
         }
     }
@@ -71,7 +69,6 @@ public final class AcSearchFiles extends JThequeAction {
                 @Override
                 public void run(){
                     importFolderView.startWait();
-                    Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("Start waiting");
                 }
             });
 
@@ -80,10 +77,8 @@ public final class AcSearchFiles extends JThequeAction {
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
                 public void run(){
-                    Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("Set files : {}", files);
                     importFolderView.setFiles(files);
                     importFolderView.stopWait();
-                    Managers.getManager(ILoggingManager.class).getLogger(getClass()).debug("Stop waiting");
                 }
             });
         }

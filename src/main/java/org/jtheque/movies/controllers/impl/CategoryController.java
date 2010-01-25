@@ -23,7 +23,7 @@ import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
-import org.jtheque.movies.views.impl.edits.create.CreatedCategoryEdit;
+import org.jtheque.primary.controller.impl.undo.GenericDataCreatedEdit;
 import org.jtheque.primary.view.able.ViewMode;
 
 import javax.annotation.Resource;
@@ -67,7 +67,8 @@ public final class CategoryController extends AbstractController implements ICat
         if (categoryView.getModel().getState() == ViewMode.NEW){
             categoriesService.create(currentCategory);
 
-            Managers.getManager(IUndoRedoManager.class).addEdit(new CreatedCategoryEdit(currentCategory));
+            Managers.getManager(IUndoRedoManager.class).addEdit(
+                    new GenericDataCreatedEdit<Category>("categoriesService", currentCategory));
         } else {
             categoriesService.save(currentCategory);
         }

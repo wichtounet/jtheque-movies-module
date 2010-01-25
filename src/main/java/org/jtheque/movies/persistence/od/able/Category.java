@@ -16,13 +16,16 @@ package org.jtheque.movies.persistence.od.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.persistence.able.Entity;
 import org.jtheque.primary.od.able.Collection;
+import org.jtheque.primary.od.able.Data;
 
 /**
  * @author Baptiste Wicht
  */
-public interface Category extends Entity {
+public interface Category extends Data {
+	String NAME = "category.name";
+	int NAME_LENGTH = 100;
+
     /**
      * Return the title of the category.
      *

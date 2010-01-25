@@ -16,23 +16,24 @@ package org.jtheque.movies.views.impl.frames;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
+import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.managers.view.impl.actions.utils.CloseViewAction;
-import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
+import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.controllers.able.IMovieController;
+import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
-import org.jtheque.movies.views.impl.panel.ParserContainer;
+import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
+import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
+import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
+import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import java.awt.Container;
-import java.awt.Frame;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -41,50 +42,41 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class AddFromFileView extends SwingDialogView implements IAddFromFileView {
-    private FileChooserPanel fileChooser;
+public final class AddFromFileView extends SwingBuildedDialogView<IModel> implements IAddFromFileView {
+    private FilthyFileChooserPanel fileChooser;
 
     private final Collection<ParserContainer> parserContainers;
 
     /**
      * Construct a new Category View.
      *
-     * @param parent         The parent frame.
-     * @param parsers        The category parsers.
+     * @param parsers The category parsers.
      */
-    public AddFromFileView(Frame parent, Collection<FileParser> parsers){
-        super(parent);
+    public AddFromFileView(Collection<FileParser> parsers){
+        super();
 
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
 
         for (FileParser p : parsers){
-            parserContainers.add(new ParserContainer(p));
+			if(p.hasCustomView()){
+				parserContainers.add(new CustomParserContainer(p));
+			} else {
+            	parserContainers.add(new SimpleParserContainer(p));
+			}
         }
 
         build();
     }
 
-    /**
-     * Build the view.
-     */
-    private void build(){
+    @Override
+    protected void initView(){
         setTitleKey("movie.auto.title");
-        setContentPane(buildContentPane());
         setResizable(false);
-        pack();
-
-        setLocationRelativeTo(getOwner());
     }
 
-    /**
-     * Build and return the content pane.
-     *
-     * @return The content pane.
-     */
-    private Container buildContentPane(){
-        PanelBuilder builder = new PanelBuilder();
-
-        fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+    @Override
+    protected void buildView(PanelBuilder builder){
+        fileChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 
@@ -93,38 +85,39 @@ public final class AddFromFileView extends SwingDialogView implements IAddFromFi
         int i = 1;
 
         for (ParserContainer container : parserContainers){
-            builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
+            builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        CloseViewAction closeAction = new CloseViewAction("movie.auto.actions.cancel");
-        closeAction.setView(this);
-
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(), closeAction);
-
-        return builder.getPanel();
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
+                new ValidateAddFromFileViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override
     public void display(){
-        IMovieController controller = Managers.getManager(IBeansManager.class).getBean("movieController");
+        IMovieController controller = getBean("movieController");
 
         if (controller.isEditing()){
-            Managers.getManager(IViewManager.class).displayI18nText("movie.dialogs.currentEdit");
+           getManager().displayI18nText("movie.dialogs.currentEdit");
         } else {
             super.display();
         }
     }
-
-    @Override
-    protected void validate(Collection<JThequeError> errors){
-    }
-
+    
     @Override
     public String getFilePath(){
         return fileChooser.getFilePath();
     }
 
-    @Override
+	@Override
+	protected void validate(Collection<JThequeError> errors){
+		ConstraintManager.validate(Movie.FILE, getFilePath(), errors);
+
+		if(errors.isEmpty() && !new File(getFilePath()).exists()){
+			errors.add(new InternationalizedError("movie.errors.filenotfound"));
+		}
+	}
+
+	@Override
     public Collection<FileParser> getSelectedParsers(){
         Collection<FileParser> parsers = new ArrayList<FileParser>(5);
 

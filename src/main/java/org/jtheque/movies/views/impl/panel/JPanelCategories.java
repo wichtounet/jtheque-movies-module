@@ -21,27 +21,26 @@ import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeSimpleAction;
+import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoriesView;
-import org.jtheque.movies.views.impl.actions.categories.AcDeleteCategory;
-import org.jtheque.movies.views.impl.actions.categories.AcEditCategory;
 import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
-import org.jtheque.movies.views.impl.models.IconListRenderer;
-import org.jtheque.movies.views.impl.models.SimpleCategoriesModel;
+import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
+import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -58,7 +57,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
     private JList listCategoriesForFilm;
 
     private CategoriesListModel categoriesModel;
-    private SimpleCategoriesModel categoriesForMovieModel;
+    private SimpleListModel<Category> categoriesForMovieModel;
 
     /**
      * Construct a new JPanelCategories with the given actions.
@@ -84,33 +83,32 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
 
         listCategories = builder.addList(categoriesModel, renderer,
                 builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, anHalf, 1.0));
-        listCategories.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, -1, 1));
 
         buttons.addButton(new AcAddToList(), builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 0.0));
         buttons.addButton(new AcRemoveFromList(), builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 0.0));
 
-        categoriesForMovieModel = new SimpleCategoriesModel();
+        categoriesForMovieModel = new SimpleListModel<Category>();
         categoriesModel.setLinkedModel(categoriesForMovieModel);
 
         listCategoriesForFilm = builder.addList(categoriesForMovieModel, renderer,
                 builder.gbcSet(2, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, -1, anHalf, 1.0));
-        listCategoriesForFilm.setValueIsAdjusting(true);
-        listCategoriesForFilm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         PanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
         
-        manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.addButton(new AcNewCategory(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.addButton(new AcEditCategory(), builder.gbcSet(2, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-        manageButtons.addButton(new AcDeleteCategory(), builder.gbcSet(3, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
+        manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
+        manageButtons.addButton(new AcNewCategory(), builder.gbcSet(1, 0));
+        manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE),
+                builder.gbcSet(2, 0));
+        manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE),
+                builder.gbcSet(3, 0));
     }
 
     @Override
     public void fillFilm(IMovieFormBean fb){
         if (categoriesForMovieModel.getSize() != 0){
-            fb.setCategories(categoriesForMovieModel.getCategories());
+            fb.setCategories(categoriesForMovieModel.getObjects());
         }
     }
 

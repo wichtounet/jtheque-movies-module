@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.models.able;
+package org.jtheque.movies.views.able.models;
 
 /*
  * This file is part of JTheque.
@@ -16,24 +16,39 @@ package org.jtheque.movies.views.impl.models.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.primary.view.impl.models.able.IPrincipalDataModel;
+import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.primary.view.able.ViewMode;
 
 /**
  * @author Baptiste Wicht
  */
-public interface IMoviesModel extends IPrincipalDataModel<Movie> {
+public interface ICategoryModel extends IModel {
     /**
-     * Return the current movie.
+     * Return the state of the model.
      *
-     * @return The current movie.
+     * @return The state of the model.
      */
-    Movie getCurrentMovie();
+    ViewMode getState();
 
     /**
-     * Set the current movie.
+     * Set the state of the model.
      *
-     * @param currentMovie The new current movie
+     * @param state The state of the model.
      */
-    void setCurrentMovie(Movie currentMovie);
+    void setState(ViewMode state);
+
+    /**
+     * Return the category.
+     *
+     * @return The category.
+     */
+    Category getCategory();
+
+    /**
+     * Set the current category.
+     *
+     * @param category The current category.
+     */
+    void setCategory(Category category);
 }

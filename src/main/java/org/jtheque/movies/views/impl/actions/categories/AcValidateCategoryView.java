@@ -17,9 +17,12 @@ package org.jtheque.movies.views.impl.actions.categories;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
+import org.jtheque.core.managers.error.InternationalizedError;
+import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.ICategoryController;
+import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 
 import java.awt.event.ActionEvent;
@@ -39,12 +42,18 @@ public final class AcValidateCategoryView extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        ICategoryView view = Managers.getManager(IBeansManager.class).getBean("categoryView");
+        ICategoryView view = CoreUtils.getBean("categoryView");
 
         if (view.validateContent()){
-            Managers.getManager(IBeansManager.class).<ICategoryController>getBean("categoryController").save(view.getFieldName().getText());
+			String title = view.getFieldName().getText();
 
-            view.closeDown();
+			if(CoreUtils.<ICategoriesService>getBean("categoriesService").exists(title)){
+				Managers.getManager(IViewManager.class).displayError(new InternationalizedError("category.errors.exists"));
+			} else {
+				CoreUtils.<ICategoryController>getBean("categoryController").save(title);
+
+            	view.closeDown();
+			}
         }
     }
 }

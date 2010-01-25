@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.panel;
+package org.jtheque.movies.views.impl.panel.containers;
 
 /*
  * This file is part of JTheque.

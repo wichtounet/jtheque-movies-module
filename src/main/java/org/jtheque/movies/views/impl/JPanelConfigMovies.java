@@ -1,14 +1,14 @@
 package org.jtheque.movies.views.impl;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.utils.OSUtils;
+import org.jtheque.utils.io.SimpleFilter;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
@@ -38,53 +38,37 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class JPanelConfigOpening extends JPanel implements IOpeningConfigView {
+public final class JPanelConfigMovies extends JPanel implements IOpeningConfigView {
     private JComboBox combo;
 
-    @Override
+	private FileChooserPanel fileChooser;
+
+	@Override
     public String getTitle(){
-        return Managers.getManager(ILanguageManager.class).getMessage("movie.config");
+        return CoreUtils.getMessage("movie.config");
     }
 
     @Override
     public void build(){
-        SwingUtils.inEdt(new Runnable() {
-            @Override
-            public void run(){
-                PanelBuilder parent = new PanelBuilder(JPanelConfigOpening.this);
-
-                PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING));
-                builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.opening"));
-
-                combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING));
-
-                combo.addItem(IMovieConfiguration.Opening.SYSTEM);
-
-                if (OSUtils.isLinux()){
-                    combo.addItem(IMovieConfiguration.Opening.VLC);
-                } else if (OSUtils.isWindows()){
-                    combo.addItem(IMovieConfiguration.Opening.WMP);
-                }
-
-                fillAllFields();
-            }
-        });
+        SwingUtils.inEdt(new BuildViewRunnable());
     }
 
-    /**
+	/**
      * Fill all the fields with the current informations.
      */
     private void fillAllFields(){
-        IMoviesModule module = Managers.getManager(IBeansManager.class).getBean("moviesModule");
+        IMoviesModule module = CoreUtils.getBean("moviesModule");
 
         combo.setSelectedItem(module.getConfig().getOpeningSystem());
+		fileChooser.setFilePath(module.getConfig().getFFmpegLocation());
     }
 
     @Override
     public void apply(){
-        IMoviesModule module = Managers.getManager(IBeansManager.class).getBean("moviesModule");
+        IMoviesModule module = CoreUtils.getBean("moviesModule");
 
         module.getConfig().setOpeningSystem((IMovieConfiguration.Opening) combo.getSelectedItem());
+		module.getConfig().setFFmpegLocation(fileChooser.getFilePath());
     }
 
     @Override
@@ -101,4 +85,41 @@ public final class JPanelConfigOpening extends JPanel implements IOpeningConfigV
     public JComponent getComponent(){
         return this;
     }
+
+	private class BuildViewRunnable implements Runnable {
+		@Override
+		public void run(){
+			PanelBuilder parent = new PanelBuilder(JPanelConfigMovies.this);
+
+			addOpeningField(parent);
+			addFFMPEGField(parent);
+
+			fillAllFields();
+		}
+
+		private void addOpeningField(PanelBuilder parent){
+			PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+			builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.opening"));
+
+			combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+
+			combo.addItem(IMovieConfiguration.Opening.SYSTEM);
+
+			if (OSUtils.isLinux()){
+				combo.addItem(IMovieConfiguration.Opening.VLC);
+			} else if (OSUtils.isWindows()){
+				combo.addItem(IMovieConfiguration.Opening.WMP);
+			}
+		}
+
+		private void addFFMPEGField(PanelBuilder parent){
+			PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
+			builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.ffmpeg"));
+
+			fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0,0, GridBagUtils.HORIZONTAL));
+			fileChooser.setFilesOnly();
+			fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
+			fileChooser.setTextKey("movie.config.ffmpeg.file");
+		}
+	}
 }

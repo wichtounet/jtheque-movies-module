@@ -16,6 +16,10 @@ package org.jtheque.movies.persistence.dao;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -54,6 +58,10 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
 
     @Resource
     private DataSource dataSource;
+
+	static {
+		Logger.getRootLogger().setLevel(Level.ERROR);
+	}
 
     public DaoCategoriesTest(){
         super("categories.xml");

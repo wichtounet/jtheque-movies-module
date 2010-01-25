@@ -20,36 +20,112 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.properties.IPropertiesManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
+import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.persistence.od.impl.abstraction.AbstractMovie;
+import org.jtheque.movies.utils.PreciseDuration;
+import org.jtheque.movies.utils.Resolution;
+import org.jtheque.primary.od.impl.abstraction.AbstractData;
+import org.jtheque.primary.utils.TempUtils;
 import org.jtheque.utils.StringUtils;
-import org.jtheque.utils.bean.EqualsUtils;
-import org.jtheque.utils.bean.HashCodeUtils;
 
 import javax.swing.Icon;
 import java.io.File;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A movie implementation.
  *
  * @author Baptiste Wicht
  */
-public final class MovieImpl extends AbstractMovie {
+public final class MovieImpl extends AbstractData implements Movie {
     private Movie memento;
     private boolean mementoState;
 
+    private String title;
+    private final Set<Category> categories = new HashSet<Category>(6);
+    private String file;
+    private Note note;
+    private org.jtheque.primary.od.able.Collection theCollection;
+	private PreciseDuration duration;
+	private Resolution resolution; 
+
+    //Data methods
+
     @Override
-    public String getDisplayableText(){
-        return getTitle();
+    public org.jtheque.primary.od.able.Collection getTheCollection(){
+        return theCollection;
     }
 
     @Override
-    public int hashCode(){
-        return HashCodeUtils.hashCode(this, "title", "categories", "file", "note", "theCollection");
+    public void setTheCollection(org.jtheque.primary.od.able.Collection theCollection){
+        this.theCollection = theCollection;
+    }
+
+    @Override
+    public String getTitle(){
+        return title;
+    }
+
+    @Override
+    public void setTitle(String title){
+        this.title = title;
+    }
+
+    @Override
+    public Set<Category> getCategories(){
+        return categories;
+    }
+
+    @Override
+    public String getFile(){
+        return file;
+    }
+
+    @Override
+    public void setFile(String file){
+        this.file = file;
+    }
+
+    @Override
+    public Note getNote(){
+        return note;
+    }
+
+    @Override
+    public void setNote(Note note){
+        this.note = note;
+    }
+
+	@Override
+	public PreciseDuration getDuration(){
+		return duration;
+	}
+
+	@Override
+	public void setDuration(PreciseDuration duration){
+		this.duration = duration;
+	}
+
+	@Override
+	public Resolution getResolution(){
+		return resolution;
+	}
+
+	@Override
+	public void setResolution(Resolution resolution){
+		this.resolution = resolution;
+	}
+
+	//Utility methods
+
+    @Override
+    public String getDisplayableText(){
+        return title;
     }
 
     @Override
@@ -58,31 +134,21 @@ public final class MovieImpl extends AbstractMovie {
     }
 
     @Override
+    public int hashCode(){
+        return TempUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution);
+    }
+
+    @Override
     public boolean equals(Object obj){
-        if (this == obj){
-            return true;
-        }
+		if(obj == null){
+			return false;
+		}
 
-        if (EqualsUtils.areObjectIncompatible(this, obj)){
-            return false;
-        }
+        Movie movie = (Movie)obj;
 
-        final Movie other = (Movie) obj;
-
-        if (EqualsUtils.areNotEquals(getTitle(), other.getTitle())){
-            return false;
-        }
-
-        if (EqualsUtils.areNotEquals(getCategories(), other.getCategories())){
-            return false;
-        }
-
-        if (EqualsUtils.areNotEquals(getFile(), other.getFile())){
-            return false;
-        }
-
-        return !EqualsUtils.areNotEquals(getNote(), other.getNote());
-
+        return TempUtils.areEqualsDirect(this, movie,
+                title, categories, file, note, theCollection,
+                movie.getTitle(), movie.getCategories(), movie.getFile(), movie.getNote(), movie.getTheCollection());
     }
 
     @Override
@@ -105,51 +171,51 @@ public final class MovieImpl extends AbstractMovie {
 
     @Override
     public void addCategories(Collection<Category> categories){
-        getCategories().addAll(categories);
+        this.categories.addAll(categories);
     }
 
     @Override
     public void addCategory(Category category){
-        getCategories().add(category);
+        categories.add(category);
     }
 
     @Override
     public boolean isInCollection(org.jtheque.primary.od.able.Collection collection){
-        return getTheCollection() != null && getTheCollection().equals(collection);
+        return theCollection != null && theCollection.equals(collection);
     }
 
     @Override
     public boolean hasCategories(){
-        return !getCategories().isEmpty();
+        return !categories.isEmpty();
     }
 
     @Override
     public boolean isOfCategory(Category category){
-        return category != null && getCategories().contains(category);
+        return category != null && categories.contains(category);
     }
 
     @Override
     public Date getFileLastModifiedDate(){
-        if (StringUtils.isEmpty(getFile())){
+        if (StringUtils.isEmpty(file)){
             return null;
         }
 
-        long lastModified = new File(getFile()).lastModified();
+        long lastModified = new File(file).lastModified();
 
         return lastModified == 0L ? null : new Date(lastModified);
     }
 
     @Override
     public long getFileSize(){
-        if (StringUtils.isEmpty(getFile())){
+        if (StringUtils.isEmpty(file)){
             return 0;
         }
 
-        return new File(getFile()).length();
+        return new File(file).length();
     }
 
     @Override
     public String toString(){
-        return getDisplayableText();
+        return title;
     }
 }

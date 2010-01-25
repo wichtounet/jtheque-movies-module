@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.models;
  */
 
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.views.impl.models.able.ICategoryModel;
+import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.primary.view.able.ViewMode;
 
 /**

@@ -2,6 +2,7 @@ package org.jtheque.movies.services.impl.parsers;
 
 import org.jtheque.movies.persistence.od.able.Category;
 
+import javax.swing.JComponent;
 import java.io.File;
 import java.util.Collection;
 
@@ -55,4 +56,8 @@ public interface FileParser {
      * @return A collection containing all the extracted categories.
      */
     Collection<Category> getExtractedCategories();
+
+	boolean hasCustomView();
+
+	JComponent getCustomView();
 }

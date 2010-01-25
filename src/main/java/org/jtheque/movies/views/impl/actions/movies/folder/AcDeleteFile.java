@@ -16,9 +16,8 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.views.able.IImportFolderView;
 
 import java.awt.event.ActionEvent;
@@ -38,6 +37,6 @@ public final class AcDeleteFile extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent arg0){
-        Managers.getManager(IBeansManager.class).<IImportFolderView>getBean("importFolderView").removeSelectedFile();
+        CoreUtils.<IImportFolderView>getBean("importFolderView").removeSelectedFile();
     }
 }

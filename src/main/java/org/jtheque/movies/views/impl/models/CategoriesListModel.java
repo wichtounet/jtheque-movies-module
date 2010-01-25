@@ -19,6 +19,7 @@ package org.jtheque.movies.views.impl.models;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.persistence.able.DataListener;
+import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
@@ -36,7 +37,7 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
     @Resource
     private ICategoriesService categoriesService;
 
-    private SimpleCategoriesModel linkedModel;
+    private SimpleListModel<Category> linkedModel;
 
     private List<Category> categories;
 
@@ -113,7 +114,7 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
         categories = new ArrayList<Category>(categoriesService.getCategories());
 
         if (linkedModel != null){
-            for (Category category : linkedModel.getCategories()){
+            for (Category category : linkedModel.getObjects()){
                 removeElement(category);
             }
         }
@@ -127,7 +128,7 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
      *
      * @param linkedModel The model to link to.
      */
-    public void setLinkedModel(SimpleCategoriesModel linkedModel){
+    public void setLinkedModel(SimpleListModel<Category> linkedModel){
         this.linkedModel = linkedModel;
     }
 }

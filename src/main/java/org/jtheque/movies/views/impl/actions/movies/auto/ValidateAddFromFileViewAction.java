@@ -18,10 +18,13 @@ package org.jtheque.movies.views.impl.actions.movies.auto;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.beans.IBeansManager;
+import org.jtheque.core.managers.error.InternationalizedError;
+import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFilesService;
+import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IAddFromFileView;
 
 import javax.annotation.Resource;
@@ -42,6 +45,9 @@ public final class ValidateAddFromFileViewAction extends JThequeAction {
     @Resource
     private IMovieController movieController;
 
+    @Resource
+    private IMoviesService moviesService;
+
     /**
      * Construct a new ValidateAddFromFileViewAction.
      */
@@ -53,10 +59,16 @@ public final class ValidateAddFromFileViewAction extends JThequeAction {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        Movie movie = filesService.createMovie(addFromFileView.getFilePath(), addFromFileView.getSelectedParsers());
+		if(addFromFileView.validateContent()){
+			if(moviesService.fileExists(addFromFileView.getFilePath())){
+				Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
+			} else {
+				Movie movie = filesService.createMovie(addFromFileView.getFilePath(), addFromFileView.getSelectedParsers());
 
-        movieController.view(movie);
+				movieController.view(movie);
 
-        addFromFileView.closeDown();
+				addFromFileView.closeDown();
+			}
+		}
     }
 }

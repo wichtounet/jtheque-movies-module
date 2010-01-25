@@ -18,7 +18,7 @@ package org.jtheque.movies.views.able;
 
 import org.jtheque.core.managers.view.able.IView;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.views.impl.models.able.ICategoryModel;
+import org.jtheque.movies.views.able.models.ICategoryModel;
 
 import javax.swing.JTextField;
 

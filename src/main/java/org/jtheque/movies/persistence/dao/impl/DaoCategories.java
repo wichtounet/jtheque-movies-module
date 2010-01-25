@@ -45,7 +45,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     private final QueryMapper queryMapper = new CategoryQueryMapper();
 
     @Resource
-    private IDaoPersistenceContext persistenceContext;
+    private IDaoPersistenceContext daoPersistenceContext;
 
     @Resource
     private IDaoCollections daoCollections;
@@ -130,7 +130,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
 
     @Override
     protected void loadCache(){
-        java.util.Collection<Category> categories = persistenceContext.getSortedList(TABLE, rowMapper);
+        java.util.Collection<Category> categories = daoPersistenceContext.getSortedList(TABLE, rowMapper);
 
         for (Category category : categories){
             getCache().put(category.getId(), category);
@@ -141,7 +141,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
 
     @Override
     protected void load(int i){
-        Category category = persistenceContext.getDataByID(TABLE, i, rowMapper);
+        Category category = daoPersistenceContext.getDataByID(TABLE, i, rowMapper);
 
         getCache().put(i, category);
     }
@@ -181,31 +181,37 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     private static final class CategoryQueryMapper implements QueryMapper {
         @Override
         public Query constructInsertQuery(Entity entity){
-            Category category = (Category) entity;
-
-            String query = "INSERT INTO " + TABLE + " (TITLE, THE_COLLECTION_FK) VALUES(?,?)";
-
-            Object[] parameters = {
-                    category.getTitle(),
-                    category.getTheCollection().getId()
-            };
-
-            return new Query(query, parameters);
+			return new Query(
+					"INSERT INTO " + TABLE + " (TITLE, THE_COLLECTION_FK) VALUES(?,?)",
+					fillArray((Category) entity, false));
         }
 
         @Override
         public Query constructUpdateQuery(Entity entity){
-            Category category = (Category) entity;
-
-            String query = "UPDATE " + TABLE + " SET TITLE = ?, THE_COLLECTION_FK = ? WHERE ID = ?";
-
-            Object[] parameters = {
-                    category.getTitle(),
-                    category.getTheCollection().getId(),
-                    category.getId()
-            };
-
-            return new Query(query, parameters);
+			return new Query(
+					"UPDATE " + TABLE + " SET TITLE = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
+					fillArray((Category) entity, true));
         }
+
+		/**
+		 * Fill the array with the informations of the category.
+		 *
+		 * @param category The category to use to fill the array.
+		 * @param id Indicate if we must add the id to the array.
+		 *
+		 * @return The filled array.
+		 */
+		private static Object[] fillArray(Category category, boolean id){
+			Object[] values = new Object[2 + (id ? 1 : 0)];
+
+			values[0] = category.getTitle();
+			values[1] = category.getTheCollection().getId();
+
+			if (id){
+				values[2] = category.getId();
+			}
+
+			return values;
+		}
     }
 }

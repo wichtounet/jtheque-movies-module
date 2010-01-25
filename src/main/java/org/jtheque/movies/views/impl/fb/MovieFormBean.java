@@ -19,6 +19,8 @@ package org.jtheque.movies.views.impl.fb;
 import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.utils.PreciseDuration;
+import org.jtheque.movies.utils.Resolution;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,6 +33,8 @@ public final class MovieFormBean implements IMovieFormBean {
     private Collection<Category> categories = new ArrayList<Category>(6);
     private String file;
     private Note note;
+	private PreciseDuration duration;
+	private Resolution resolution;
 
     @Override
     public void setTitle(String title){
@@ -53,20 +57,34 @@ public final class MovieFormBean implements IMovieFormBean {
     }
 
     @Override
+    public void setDuration(PreciseDuration duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
+    }
+
+    @Override
     public void fillMovie(Movie movie){
         movie.setTitle(title);
         movie.addCategories(categories);
         movie.setNote(note);
         movie.setFile(file);
+        movie.setDuration(duration);
+        movie.setResolution(resolution);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "MovieFormBean{" +
                 "title='" + title + '\'' +
                 ", categories=" + categories +
                 ", file='" + file + '\'' +
                 ", note=" + note +
+                ", duration=" + duration +
+                ", resolution=" + resolution +
                 '}';
     }
 }

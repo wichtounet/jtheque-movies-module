@@ -2,33 +2,31 @@ package org.jtheque.movies.views.impl.panel;
 
 import org.jdesktop.swingx.JXImagePanel;
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.language.ILanguageManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.components.JThequeI18nLabel;
 import org.jtheque.core.managers.view.impl.components.JThequeLabel;
+import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.actions.movies.AcDelete;
-import org.jtheque.movies.views.impl.actions.movies.AcManualEdit;
 import org.jtheque.movies.views.impl.actions.view.AcOpenMovie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-import org.jtheque.movies.views.impl.models.IconListRenderer;
-import org.jtheque.movies.views.impl.models.SimpleCategoriesModel;
+import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
+import org.jtheque.primary.view.impl.actions.principal.ManualEditPrincipalAction;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.swing.ListSelectionModel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
@@ -58,11 +56,15 @@ import java.util.Collection;
 public final class ViewMoviePanel extends MoviePanel {
     private JLabel titleLabel;
     private JLabel labelFile;
+
     private JThequeI18nLabel labelDate;
     private JThequeI18nLabel labelSize;
+    private JThequeI18nLabel labelDuration;
+    private JThequeI18nLabel labelResolution;
+
     private JXImagePanel notePanel;
 
-    private SimpleCategoriesModel categoriesModel;
+    private SimpleListModel<Category> categoriesModel;
 
     /**
      * Construct a new ViewMoviePanel.
@@ -85,7 +87,7 @@ public final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));
 
-        Font filthyTitleFont = Managers.getManager(IBeansManager.class).getBean("filthyTitleFont");
+        Font filthyTitleFont = CoreUtils.getBean("filthyTitleFont");
 
         titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(18f), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
@@ -97,7 +99,7 @@ public final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
-        buttons.addButton(new AcManualEdit(), buttons.gbcSet(0, 0));
+        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", "movieController"), buttons.gbcSet(0, 0));
         buttons.addButton(new AcDelete(), buttons.gbcSet(1, 0));
 
         addFileField(builder);
@@ -135,14 +137,12 @@ public final class ViewMoviePanel extends MoviePanel {
      * @param builder The builder of the panel.
      */
     private void addCategoriesView(PanelBuilder builder){
-        categoriesModel = new SimpleCategoriesModel();
+        categoriesModel = new SimpleListModel<Category>();
 
         ListCellRenderer renderer = new IconListRenderer(
                 Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
-
-        JList list = builder.addList(categoriesModel, renderer, builder.gbcSet(0, 4, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, 1, 1.0, 1.0));
-        list.setValueIsAdjusting(true);
-        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        builder.addList(categoriesModel, renderer, builder.gbcSet(0, 4, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, 1, 1.0, 1.0));
     }
 
     /**
@@ -153,16 +153,20 @@ public final class ViewMoviePanel extends MoviePanel {
     private void addFileInformations(PanelBuilder builder){
         labelDate = builder.addI18nLabel("", builder.gbcSet(0, 5, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
         labelSize = builder.addI18nLabel("", builder.gbcSet(0, 6, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
+        labelDuration = builder.addI18nLabel("", builder.gbcSet(0, 7, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
+        labelResolution = builder.addI18nLabel("", builder.gbcSet(0, 8, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     @Override
     public void setMovie(Movie movie){
-        titleLabel.setText(Managers.getManager(ILanguageManager.class).getMessage("movie.view.movie.title", movie.getDisplayableText()));
+        titleLabel.setText(CoreUtils.getMessage("movie.view.movie.title", movie.getDisplayableText()));
         labelFile.setText(movie.getFile());
-        notePanel.setImage(DaoNotes.getInstance().getImage(movie.getNote()));
-
+        notePanel.setImage(DaoNotes.getImage(movie.getNote()));
+		
         labelDate.setTextKey("movie.view.file.date", movie.getFileLastModifiedDate());
         labelSize.setTextKey("movie.view.file.size", movie.getFileSize());
+        labelDuration.setTextKey("movie.view.file.duration", movie.getDuration());
+        labelResolution.setTextKey("movie.view.file.resolution", movie.getResolution());
 
         categoriesModel.clear();
         categoriesModel.addElements(movie.getCategories());

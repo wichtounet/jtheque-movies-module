@@ -16,17 +16,14 @@ package org.jtheque.movies.views.impl.models;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.impl.models.able.IMoviesModel;
+import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.primary.view.impl.listeners.ObjectChangedEvent;
 import org.jtheque.primary.view.impl.models.PrincipalDataModel;
-import org.jtheque.utils.collections.CollectionUtils;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * A model for the movies view.
@@ -36,47 +33,18 @@ import java.util.List;
 public final class MoviesModel extends PrincipalDataModel<Movie> implements IMoviesModel {
     private Movie currentMovie;
 
-    private List<Movie> displayList;
-
-    private final IMoviesService moviesService;
-
     public MoviesModel(){
         super();
 
-        moviesService = Managers.getManager(IBeansManager.class).getBean("moviesService");
-
-        moviesService.addDataListener(this);
+        CoreUtils.<IMoviesService>getBean("moviesService").addDataListener(this);
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public void updateDisplayList(Collection<Movie> movies){
-        getDisplayList().clear();
+	@Override
+	public Collection<Movie> getDatas(){
+		return CoreUtils.<IMoviesService>getBean("moviesService").getDatas();
+	}
 
-        if (movies == null){
-            getDisplayList().addAll(moviesService.getMovies());
-        } else {
-            getDisplayList().addAll(movies);
-        }
-
-        fireDisplayListChanged();
-    }
-
-    @Override
-    public void updateDisplayList(){
-        updateDisplayList(null);
-    }
-
-    @Override
-    public Collection<Movie> getDisplayList(){
-        if (displayList == null){
-            displayList = CollectionUtils.copyOf(moviesService.getMovies());
-        }
-
-        return displayList;
-    }
-
-    @Override
+	@Override
     public Movie getCurrentMovie(){
         return currentMovie;
     }

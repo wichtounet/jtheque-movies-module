@@ -17,6 +17,8 @@ package org.jtheque.movies.persistence.od.able;
  */
 
 import org.jtheque.core.utils.db.Note;
+import org.jtheque.movies.utils.PreciseDuration;
+import org.jtheque.movies.utils.Resolution;
 import org.jtheque.primary.od.able.Collection;
 import org.jtheque.primary.od.able.Data;
 
@@ -29,6 +31,15 @@ import java.util.Set;
  * @author Baptiste Wicht
  */
 public interface Movie extends Data {
+	String TITLE = "movie.title";
+	String FILE = "movie.file";
+	String NOTE = "movie.note";
+	String DURATION = "movie.duration";
+	String RESOLUTION = "movie.resolution";
+
+	int TITLE_LENGTH = 100;
+	int FILE_LENGTH = 200;
+
     /**
      * Return the collection.
      *
@@ -142,4 +153,12 @@ public interface Movie extends Data {
      * @return The size of the file.
      */
     long getFileSize();
+
+	PreciseDuration getDuration();
+
+	void setDuration(PreciseDuration duration);
+
+	Resolution getResolution();
+
+	void setResolution(Resolution resolution);
 }

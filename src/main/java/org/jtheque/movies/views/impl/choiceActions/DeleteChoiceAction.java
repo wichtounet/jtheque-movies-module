@@ -16,55 +16,29 @@ package org.jtheque.movies.views.impl.choiceActions;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.language.ILanguageManager;
-import org.jtheque.core.managers.view.able.IViewManager;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.impl.edits.delete.DeletedCategoryEdit;
-import org.jtheque.movies.views.impl.edits.delete.DeletedMovieEdit;
-import org.jtheque.primary.services.able.ITypesService;
-import org.jtheque.primary.view.impl.choice.AbstractDeleteChoiceAction;
+import org.jtheque.primary.controller.impl.undo.GenericDataDeletedEdit;
+import org.jtheque.primary.view.impl.choice.AbstractPrimaryDeleteChoiceAction;
 import org.jtheque.primary.view.impl.choice.Deleter;
-
-import javax.annotation.Resource;
 
 /**
  * An action to delete the selected item.
  *
  * @author Baptiste Wicht
  */
-public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
-    @Resource
-    private ICategoriesService categoriesService;
-    @Resource
-    private IMoviesService moviesService;
-
+public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction {
     /**
      * Construct a new DeleteChoiceAction.
      */
     public DeleteChoiceAction(){
         super();
 
-        setDeleters(new MovieDeleter(), new CategoryDeleter());
-    }
-
-    @Override
-    public boolean canDoAction(String action){
-        return "delete".equals(action);
-    }
-
-    @Override
-    public void execute(){
-        final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
-                Managers.getManager(ILanguageManager.class).getMessage("choice.dialogs.delete") + ' ' + getSelectedItem().toString(),
-                Managers.getManager(ILanguageManager.class).getMessage("choice.dialogs.delete.title"));
-
-        if (yes){
-            delete();
-        }
+        addDeleters(new MovieDeleter(), new CategoryDeleter());
+		addPrimaryDeleters();
     }
 
     /**
@@ -72,19 +46,19 @@ public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
      *
      * @author Baptiste Wicht.
      */
-    private final class MovieDeleter extends Deleter {
+    private static final class MovieDeleter extends Deleter<Movie> {
         /**
          * Construct a new MovieDeleter.
          */
         private MovieDeleter(){
-            super(ITypesService.DATA_TYPE);
+            super(IMoviesService.DATA_TYPE);
         }
 
         @Override
-        public void delete(Object o){
-            boolean deleted = moviesService.delete((Movie) o);
-
-            addEditIfDeleted(deleted, new DeletedMovieEdit((Movie) o));
+        public void delete(Movie o){
+            addEditIfDeleted(
+					CoreUtils.<IMoviesService>getBean("moviesService").delete(o),
+					new GenericDataDeletedEdit<Movie>("moviesService", o));
         }
     }
 
@@ -93,7 +67,7 @@ public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
      *
      * @author Baptiste Wicht
      */
-    private final class CategoryDeleter extends Deleter {
+    private static final class CategoryDeleter extends Deleter<Category> {
         /**
          * Construct a new CategoryDeleter.
          */
@@ -102,10 +76,10 @@ public final class DeleteChoiceAction extends AbstractDeleteChoiceAction {
         }
 
         @Override
-        public void delete(Object o){
-            boolean deleted = categoriesService.delete((Category) o);
-
-            addEditIfDeleted(deleted, new DeletedCategoryEdit((Category) o));
+        public void delete(Category o){
+            addEditIfDeleted(
+					CoreUtils.<ICategoriesService>getBean("categoriesService").delete(o),
+					new GenericDataDeletedEdit<Category>("categoriesService", o));
         }
     }
 }

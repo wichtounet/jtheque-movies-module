@@ -2,6 +2,7 @@ package org.jtheque.movies.services.able;
 
 import org.jtheque.core.managers.persistence.able.DataContainer;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.primary.services.able.DataService;
 
 import java.util.Collection;
 
@@ -26,7 +27,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface ICategoriesService extends DataContainer<Category> {
+public interface ICategoriesService extends DataContainer<Category>, DataService<Category> {
     String DATA_TYPE = "Categories";
 
     /**
@@ -35,28 +36,6 @@ public interface ICategoriesService extends DataContainer<Category> {
      * @return A List containing the categories of the current collection.
      */
     Collection<Category> getCategories();
-
-    /**
-     * Delete the category.
-     *
-     * @param category The category to delete.
-     * @return true if the category has been deleted else false.
-     */
-    boolean delete(Category category);
-
-    /**
-     * Create the category.
-     *
-     * @param category The category to create.
-     */
-    void create(Category category);
-
-    /**
-     * Save the category.
-     *
-     * @param category The category to save.
-     */
-    void save(Category category);
 
     /**
      * Test if a category exists or not.

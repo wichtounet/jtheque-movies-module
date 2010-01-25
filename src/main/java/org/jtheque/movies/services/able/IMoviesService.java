@@ -20,13 +20,14 @@ import org.jtheque.core.managers.persistence.able.DataContainer;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
+import org.jtheque.primary.services.able.DataService;
 
 import java.util.Collection;
 
 /**
  * @author Baptiste Wicht
  */
-public interface IMoviesService extends DataContainer<Movie> {
+public interface IMoviesService extends DataContainer<Movie>, DataService<Movie> {
     String DATA_TYPE = "Movies";
     String SORT_BY_CATEGORY = "SORT_CATEGORY";
 
@@ -45,28 +46,6 @@ public interface IMoviesService extends DataContainer<Movie> {
     Collection<Movie> getMovies();
 
     /**
-     * Delete the movie.
-     *
-     * @param movie The movie to delete.
-     * @return true if the movie has been deleted else false.
-     */
-    boolean delete(Movie movie);
-
-    /**
-     * Save the movie.
-     *
-     * @param movie The movie to save.
-     */
-    void save(Movie movie);
-
-    /**
-     * Create the movie.
-     *
-     * @param movie The movie to create.
-     */
-    void create(Movie movie);
-
-    /**
      * Clean all the movies using the specified cleaners.
      *
      * @param movies   The movies to clean.
@@ -81,4 +60,8 @@ public interface IMoviesService extends DataContainer<Movie> {
      * @return A Collection containing all the movies of the specified category.
      */
     Collection<Movie> getMoviesOf(Category category);
+
+	boolean fileExists(String file);
+
+    boolean fileExistsInOtherMovie(Movie movie, String file);
 }

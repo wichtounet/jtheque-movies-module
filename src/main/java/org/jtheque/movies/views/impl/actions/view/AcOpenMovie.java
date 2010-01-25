@@ -17,10 +17,10 @@ package org.jtheque.movies.views.impl.actions.view;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesModule;
@@ -28,7 +28,6 @@ import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.utils.DesktopUtils;
 
-import javax.annotation.Resource;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
@@ -38,12 +37,6 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class AcOpenMovie extends JThequeAction {
-    @Resource
-    private IMovieController movieController;
-
-    @Resource
-    private IMoviesModule moviesModule;
-
     /**
      * Construct a new AcOpenMovie.
      */
@@ -51,12 +44,13 @@ public final class AcOpenMovie extends JThequeAction {
         super("movie.actions.view");
 
         setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "play", ImageType.PNG));
-
-        Managers.getManager(IBeansManager.class).inject(this);
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
+        IMovieController movieController = CoreUtils.getBean("movieController");
+        IMoviesModule moviesModule = CoreUtils.getBean("moviesModule");
+
         if (movieController.getViewModel().getCurrentMovie() != null){
             IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
 

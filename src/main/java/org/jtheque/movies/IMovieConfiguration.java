@@ -1,7 +1,6 @@
 package org.jtheque.movies;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.language.ILanguageManager;
+import org.jtheque.core.utils.CoreUtils;
 
 /*
  * This file is part of JTheque.
@@ -37,7 +36,13 @@ public interface IMovieConfiguration {
      */
     void setOpeningSystem(Opening opening);
 
-    /**
+	boolean isFFmpegInstalled();
+
+	String getFFmpegLocation();
+
+	void setFFmpegLocation(String location);
+
+	/**
      * An enum for different opening system.
      *
      * @author Baptiste Wicht
@@ -69,7 +74,7 @@ public interface IMovieConfiguration {
 
         @Override
         public String toString(){
-            return Managers.getManager(ILanguageManager.class).getMessage(value);
+            return CoreUtils.getMessage(value);
         }
     }
 }

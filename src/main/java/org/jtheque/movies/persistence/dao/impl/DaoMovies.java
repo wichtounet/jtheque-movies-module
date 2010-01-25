@@ -22,15 +22,17 @@ import org.jtheque.core.managers.persistence.QueryMapper;
 import org.jtheque.core.managers.persistence.able.Entity;
 import org.jtheque.core.managers.persistence.context.IDaoPersistenceContext;
 import org.jtheque.core.utils.db.DaoNotes;
-import org.jtheque.core.utils.db.DaoNotes.NoteType;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
+import org.jtheque.movies.utils.PreciseDuration;
+import org.jtheque.movies.utils.Resolution;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.primary.od.able.Data;
+import org.jtheque.utils.StringUtils;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
@@ -55,7 +57,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     private Collection<MovieCategoryRelation> relationsToCategories;
 
     @Resource
-    private IDaoPersistenceContext persistenceContext;
+    private IDaoPersistenceContext daoPersistenceContext;
 
     @Resource
     private SimpleJdbcTemplate jdbcTemplate;
@@ -66,7 +68,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     @Resource
     private IDaoCategories daoCategories;
 
-    /**
+	/**
      * Construct a new DaoMovies.
      */
     public DaoMovies(){
@@ -169,7 +171,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     protected void loadCache(){
         relationsToCategories = jdbcTemplate.query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE, relationRowMapper);
 
-        Collection<Movie> movies = persistenceContext.getSortedList(TABLE, rowMapper);
+        Collection<Movie> movies = daoPersistenceContext.getSortedList(TABLE, rowMapper);
 
         for (Movie movie : movies){
             getCache().put(movie.getId(), movie);
@@ -182,7 +184,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
     @Override
     protected void load(int i){
-        Movie book = persistenceContext.getDataByID(TABLE, i, rowMapper);
+        Movie book = daoPersistenceContext.getDataByID(TABLE, i, rowMapper);
 
         getCache().put(i, book);
     }
@@ -216,9 +218,14 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
             movie.setId(rs.getInt("ID"));
             movie.setTitle(rs.getString("TITLE"));
-            movie.setNote(DaoNotes.getInstance().getNote(NoteType.getEnum(rs.getInt("NOTE"))));
             movie.setFile(rs.getString("FILE"));
+			movie.setResolution(new Resolution(rs.getString("RESOLUTION")));
+			movie.setDuration(new PreciseDuration(rs.getLong("DURATION")));
             movie.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
+
+            if (StringUtils.isNotEmpty(rs.getString("NOTE"))){
+                movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
+            }
 
             if (relationsToCategories != null && !relationsToCategories.isEmpty()){
                 for (MovieCategoryRelation relation : relationsToCategories){
@@ -248,35 +255,41 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     private static final class MovieQueryMapper implements QueryMapper {
         @Override
         public Query constructInsertQuery(Entity entity){
-            Movie movie = (Movie) entity;
-
-            String query = "INSERT INTO " + TABLE + " (TITLE, NOTE, FILE, THE_COLLECTION_FK) VALUES(?,?,?,?)";
-
-            Object[] parameters = {
-                    movie.getTitle(),
-                    movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue(),
-                    movie.getFile(),
-                    movie.getTheCollection().getId()
-            };
-
-            return new Query(query, parameters);
+            return new Query(
+					"INSERT INTO " + TABLE + " (TITLE, NOTE, FILE, RESOLUTION, DURATION, THE_COLLECTION_FK) VALUES(?,?,?,?,?,?)",
+					fillArray((Movie) entity, false));
         }
 
         @Override
         public Query constructUpdateQuery(Entity entity){
-            Movie movie = (Movie) entity;
-
-            String query = "UPDATE " + TABLE + " SET TITLE = ?, NOTE = ?, FILE = ?, THE_COLLECTION_FK = ? WHERE ID = ?";
-
-            Object[] parameters = {
-                    movie.getTitle(),
-                    movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue(),
-                    movie.getFile(),
-                    movie.getTheCollection().getId(),
-                    movie.getId()
-            };
-
-            return new Query(query, parameters);
+            return new Query(
+					"UPDATE " + TABLE + " SET TITLE = ?, NOTE = ?, FILE = ?, RESOLUTION = ?, DURATION = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
+					fillArray((Movie) entity, true));
         }
+
+		/**
+		 * Fill the array with the informations of the movie.
+		 *
+		 * @param movie The movie to use to fill the array.
+		 * @param id Indicate if we must add the id to the array.
+		 *
+		 * @return The filled array.
+		 */
+		private static Object[] fillArray(Movie movie, boolean id){
+			Object[] values = new Object[6 + (id ? 1 : 0)];
+
+			values[0] = movie.getTitle();
+			values[1] = movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue();
+			values[2] = movie.getFile();
+			values[3] = movie.getResolution() == null ? "" : movie.getResolution().toString();
+			values[4] = movie.getDuration() == null ? 0 : movie.getDuration().getTime();
+			values[5] = movie.getTheCollection().getId();
+
+			if (id){
+				values[6] = movie.getId();
+			}
+
+			return values;
+		}
     }
 }
