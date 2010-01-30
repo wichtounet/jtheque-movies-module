@@ -26,7 +26,7 @@ import org.jtheque.utils.StringUtils;
 public final class NumberCleaner implements NameCleaner {
     @Override
     public String getTitle(){
-        return CoreUtils.getMessage("movie.clen.cleaner.number");
+        return CoreUtils.getMessage("movie.clean.cleaner.number");
     }
 
     @Override

@@ -15,9 +15,10 @@ import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.actions.clean.AcCleanMovie;
-import org.jtheque.movies.views.impl.actions.movies.AcSaveMovie;
+import org.jtheque.movies.views.impl.actions.clean.CleanMovieAction;
+import org.jtheque.movies.views.impl.actions.movies.SaveMovieAction;
 import org.jtheque.movies.views.impl.actions.movies.GetInformationsAction;
+import org.jtheque.movies.views.impl.actions.movies.image.EditImageAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
 import org.jtheque.primary.view.impl.actions.principal.CancelPrincipalAction;
@@ -92,7 +93,7 @@ public final class EditMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 6, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
-        buttons.addButton(new AcSaveMovie(), buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
+        buttons.addButton(new SaveMovieAction(), buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
         buttons.addButton(new CancelPrincipalAction("movie.actions.cancel", "movieController"),
                 buttons.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
@@ -108,7 +109,8 @@ public final class EditMoviePanel extends MoviePanel {
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 2, 1, 1.0, 0.0));
         ConstraintManager.configure(fieldTitle.getTextField(), Movie.TITLE);
 
-        builder.addButton(new AcCleanMovie(), builder.gbcSet(3, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
+        builder.addButton(new CleanMovieAction(), builder.gbcSet(3, 0));
+        builder.addButton(new EditImageAction(), builder.gbcSet(4, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     /**
@@ -131,7 +133,7 @@ public final class EditMoviePanel extends MoviePanel {
 		try {
 			fieldDuration = new FilthyFormattedTextField(new MaskFormatter("##:##:##.###"));
             fieldDuration.setText("00:00:00:000");
-			fieldDuration.getTextField().setColumns(12);
+			fieldDuration.getTextField().setColumns(10);
         	parent.add(fieldDuration, parent.gbcSet(1, 2));
 		} catch (ParseException e){
 			CoreUtils.getLogger(getClass()).error(e);
@@ -140,7 +142,7 @@ public final class EditMoviePanel extends MoviePanel {
 		try {
 			fieldResolution = new FilthyFormattedTextField(new MaskFormatter("####x####"));
             fieldResolution.setText("0000x0000");
-			fieldResolution.getTextField().setColumns(12);
+			fieldResolution.getTextField().setColumns(10);
         	parent.add(fieldResolution, parent.gbcSet(1, 3));
 		} catch (ParseException e){
 			CoreUtils.getLogger(getClass()).error(e);

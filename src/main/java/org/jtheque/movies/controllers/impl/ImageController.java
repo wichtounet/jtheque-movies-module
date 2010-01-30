@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.actions.movies;
+package org.jtheque.movies.controllers.impl;
 
 /*
  * This file is part of JTheque.
@@ -16,27 +16,33 @@ package org.jtheque.movies.views.impl.actions.movies;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.view.impl.actions.JThequeAction;
-import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.core.managers.view.able.controller.AbstractController;
+import org.jtheque.movies.controllers.able.IImageController;
 import org.jtheque.movies.controllers.able.IMovieController;
+import org.jtheque.movies.views.able.IImageView;
 
-import java.awt.event.ActionEvent;
+import javax.annotation.Resource;
 
 /**
- * Action to save the current film.
+ * Controller for the category view.
  *
  * @author Baptiste Wicht
  */
-public final class AcSaveMovie extends JThequeAction {
-    /**
-     * Construct a new AcSaveFilm.
-     */
-    public AcSaveMovie(){
-        super("movie.actions.save");
-    }
+public final class ImageController extends AbstractController implements IImageController {
+    @Resource
+    private IImageView imageView;
+
+	@Resource
+	private IMovieController movieController;
+
+	@Override
+	public void editImage(){
+		imageView.displayMovie(movieController.getViewModel().getCurrentMovie());
+		imageView.display();
+	}
 
     @Override
-    public void actionPerformed(ActionEvent e){
-        CoreUtils.<IMovieController>getBean("movieController").save();
+    public IImageView getView(){
+        return imageView;
     }
 }

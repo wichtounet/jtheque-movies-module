@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.actions.clean;
+package org.jtheque.movies.views.impl.actions.movies.image;
 
 /*
  * This file is part of JTheque.
@@ -18,9 +18,7 @@ package org.jtheque.movies.views.impl.actions.clean;
 
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.controllers.able.IMovieController;
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.views.able.ICleanMovieView;
+import org.jtheque.movies.controllers.able.IImageController;
 
 import java.awt.event.ActionEvent;
 
@@ -29,20 +27,16 @@ import java.awt.event.ActionEvent;
  *
  * @author Baptiste Wicht
  */
-public final class AcCleanMovie extends JThequeAction {
+public final class EditImageAction extends JThequeAction {
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcCleanMovie(){
-        super("movie.actions.clean.movie");
+    public EditImageAction(){
+        super("movie.actions.image");
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
-
-        if (movie != null){
-            CoreUtils.<ICleanMovieView>getBean("cleanMovieView").clean(movie);
-        }
+        CoreUtils.<IImageController>getBean("imageController").editImage();
     }
 }

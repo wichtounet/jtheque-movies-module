@@ -36,8 +36,6 @@ public interface IMovieConfiguration {
      */
     void setOpeningSystem(Opening opening);
 
-	boolean isFFmpegInstalled();
-
 	String getFFmpegLocation();
 
 	void setFFmpegLocation(String location);

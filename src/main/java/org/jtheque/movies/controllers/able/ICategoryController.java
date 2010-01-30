@@ -39,6 +39,7 @@ public interface ICategoryController extends Controller {
      * Save modifications made to the kind.
      *
      * @param name The name of the kind.
+	 * @param parent The parent category.
      */
-    void save(String name);
+    void save(String name, Category parent);
 }

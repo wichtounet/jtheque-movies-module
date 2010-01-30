@@ -18,6 +18,7 @@ package org.jtheque.movies;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.core.Core;
 import org.jtheque.core.managers.error.IErrorManager;
 import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.feature.IFeatureManager;
@@ -47,8 +48,10 @@ import org.jtheque.primary.services.able.ICollectionsService;
 import org.jtheque.primary.utils.DataTypeManager;
 import org.jtheque.primary.view.impl.choice.ChoiceAction;
 import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
-import org.jtheque.primary.view.impl.sort.Sorter;
-import org.jtheque.primary.view.impl.sort.SorterFactory;
+import org.jtheque.utils.collections.ArrayUtils;
+import org.jtheque.utils.io.FileUtils;
+
+import java.io.File;
 
 /**
  * A JTheque Module for managing movies.
@@ -58,7 +61,6 @@ import org.jtheque.primary.view.impl.sort.SorterFactory;
 @Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3.1", core = "2.0.3",
         jarFile = "jtheque-movies-module-1.3.1-SNAPSHOT.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
 public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
-    private final Sorter[] sorters;
     private final ChoiceAction[] choiceActions;
 
     private Menu moviesMenu;
@@ -69,18 +71,18 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
 
     private final IOpeningConfigView panelConfig;
 
-    /**
+    private String thumbnailFolderPath;
+
+	/**
      * Create a new MovieModule. This constructor must only be accessed using Spring, not directly, expect for tests.
      *
      * @param choiceActions The choice actions to inject.
-     * @param sorters       The sorters to inject.
      * @param panelConfig   The panel config.
      */
-    public MoviesModule(ChoiceAction[] choiceActions, Sorter[] sorters, IOpeningConfigView panelConfig){
+    public MoviesModule(ChoiceAction[] choiceActions, IOpeningConfigView panelConfig){
         super();
 
-        this.choiceActions = choiceActions;
-        this.sorters = sorters;
+        this.choiceActions = ArrayUtils.copyOf(choiceActions);
         this.panelConfig = panelConfig;
     }
 
@@ -109,10 +111,6 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
         DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
-
-        for (Sorter sorter : sorters){
-            SorterFactory.getInstance().addSorter(sorter);
-        }
     }
 
     /**
@@ -189,10 +187,6 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
         DataTypeManager.unbindDataType(IMoviesService.DATA_TYPE);
         DataTypeManager.unbindDataType(ICollectionsService.DATA_TYPE);
 
-        for (Sorter sorter : sorters){
-            SorterFactory.getInstance().removeSorter(sorter);
-        }
-
         PrimaryUtils.unplug();
 
         Managers.getManager(ISchemaManager.class).unregisterSchema(schema);
@@ -203,5 +197,18 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     @Override
     public IMovieConfiguration getConfig(){
         return config;
+    }
+
+    @Override
+    public String getThumbnailFolderPath() {
+        if (thumbnailFolderPath == null) {
+            File thumbnailFolder = new File(Core.getInstance().getFolders().getApplicationFolder(), "/thumbnails");
+
+            FileUtils.createIfNotExists(thumbnailFolder);
+
+			thumbnailFolderPath = thumbnailFolder.getAbsolutePath() + '/';
+        }
+
+        return thumbnailFolderPath;
     }
 }

@@ -1,8 +1,8 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.core.managers.view.able.IView;
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
+import org.jtheque.movies.views.able.models.ICleanModel;
 
 import java.util.Collection;
 
@@ -27,14 +27,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface ICleanMovieView extends IView {
-    /**
-     * Open the view to select the options to clean the name of the movie.
-     *
-     * @param movie The movie to clean the name for.
-     */
-    void clean(Movie movie);
-
+public interface ICleanView extends IView {
     /**
      * Return all the selected cleaners.
      *
@@ -42,17 +35,8 @@ public interface ICleanMovieView extends IView {
      */
     Collection<NameCleaner> getSelectedCleaners();
 
-    /**
-     * Return all the movies to be cleaned.
-     *
-     * @return A Collection containing all the movies to be cleaned.
-     */
-    Collection<Movie> getMovies();
+    boolean areSubCategoriesIncluded();
 
-    /**
-     * Open the view to clean the specified movies.
-     *
-     * @param movies The movies to clean.
-     */
-    void clean(Collection<Movie> movies);
+	@Override
+	ICleanModel getModel();
 }

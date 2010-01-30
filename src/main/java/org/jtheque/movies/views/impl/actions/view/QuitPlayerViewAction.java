@@ -27,11 +27,11 @@ import java.awt.event.ActionEvent;
  *
  * @author Baptiste Wicht
  */
-public final class AcQuitView extends JThequeAction {
+public final class QuitPlayerViewAction extends JThequeAction {
     /**
      * Construct a new AcPrintFilm.
      */
-    public AcQuitView(){
+    public QuitPlayerViewAction(){
         super("movie.actions.view.quit");
     }
 

@@ -20,44 +20,23 @@ import java.util.regex.Pattern;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class Resolution {
-	private int width;
-	private int height;
+public final class Resolution {
+	private final short width;
+	private final short height;
 
 	private static final Pattern RESOLUTION_PATTERN = Pattern.compile("x");
 
 	public Resolution(String resolution){
 		super();
 
-		if(!StringUtils.isEmpty(resolution) && resolution.contains("x")){
-			String[] sizes = RESOLUTION_PATTERN.split(resolution);
-
-			width = Integer.parseInt(sizes[0]);
-			height = Integer.parseInt(sizes[1]);
+		if(StringUtils.isEmpty(resolution) || !resolution.contains("x")){
+			throw new IllegalArgumentException("Resolution must be of form \"widthxheigh\"");
 		}
-	}
 
-	public Resolution(int width, int height){
-		super();
+		String[] sizes = RESOLUTION_PATTERN.split(resolution);
 
-		this.width = width;
-		this.height = height;
-	}
-
-	public int getWidth(){
-		return width;
-	}
-
-	public void setWidth(int width){
-		this.width = width;
-	}
-
-	public int getHeight(){
-		return height;
-	}
-
-	public void setHeight(int height){
-		this.height = height;
+		width = Short.parseShort(sizes[0]);
+		height = Short.parseShort(sizes[1]);
 	}
 
 	@Override

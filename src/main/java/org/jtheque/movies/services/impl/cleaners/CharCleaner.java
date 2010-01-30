@@ -38,7 +38,7 @@ public final class CharCleaner implements NameCleaner {
 
     @Override
     public String getTitle(){
-        return CoreUtils.getMessage("movie.clen.cleaner.char", character);
+        return CoreUtils.getMessage("movie.clean.cleaner.char", character);
     }
 
     @Override

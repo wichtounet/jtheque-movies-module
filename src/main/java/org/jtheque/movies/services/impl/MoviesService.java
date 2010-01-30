@@ -18,16 +18,25 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.core.managers.persistence.able.DataListener;
 import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A service for movies implementation.
@@ -37,6 +46,12 @@ import java.util.Collection;
 public final class MoviesService implements IMoviesService {
     @Resource
     private IDaoMovies daoMovies;
+
+    @Resource
+    private ICategoriesService categoriesService;
+
+    @Resource
+    private IFFMpegService ffMpegService;
 
     @Override
     public Movie getEmptyMovie(){
@@ -52,7 +67,31 @@ public final class MoviesService implements IMoviesService {
         return daoMovies.getMovies();
     }
 
-    @Override
+	@Override
+	public Set<Movie> getMovies(Category category, boolean includeSubCategory){
+		Set<Movie> movies = new HashSet<Movie>(20);
+
+		Collection<Category> categories = new HashSet<Category>(10);
+
+		categories.add(category);
+
+		if(includeSubCategory){
+			categories.addAll(categoriesService.getSubCategories(category));
+		}
+
+		for(Movie movie : getMovies()){
+            for(Category cat : categories){
+                if(movie.isOfCategory(cat)){
+					movies.add(movie);
+					break;
+                }
+            }
+		}
+
+		return movies;
+	}
+
+	@Override
     @Transactional
     public boolean delete(Movie movie){
         return daoMovies.delete(movie);
@@ -70,6 +109,11 @@ public final class MoviesService implements IMoviesService {
         daoMovies.create(movie);
     }
 
+	@Override
+	public void clean(Movie movie, Collection<NameCleaner> cleaners){
+		clean(Arrays.asList(movie), cleaners);
+	}
+
     @Override
     public void clean(Collection<Movie> movies, Collection<NameCleaner> cleaners){
         for (Movie movie : movies){
@@ -86,19 +130,6 @@ public final class MoviesService implements IMoviesService {
                 save(movie);
             }
         }
-    }
-
-    @Override
-    public Collection<Movie> getMoviesOf(Category category){
-        Collection<Movie> movies = new ArrayList<Movie>(10);
-
-        for (Movie movie : getMovies()){
-            if (movie.isOfCategory(category)){
-                movies.add(movie);
-            }
-        }
-
-        return movies;
     }
 
 	@Override
@@ -123,7 +154,66 @@ public final class MoviesService implements IMoviesService {
 		return false;
     }
 
+	@Override
+	public void saveImage(Movie movie, BufferedImage image){
+		String folder = CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath();
+
+		String imageName = getFreeName(folder, movie.getTitle()  + ".png");
+
+		try {
+			ImageIO.write(image, "png", new File(folder + imageName));
+
+			movie.setImage(imageName);
+		} catch (IOException e){
+			CoreUtils.getLogger(getClass()).error(e);
+		}
+	}
+
     @Override
+    public void fillInformations(Set<Movie> movies, boolean duration, boolean resolution, boolean image) {
+        if(!resolution && !duration && !image){
+            return;
+        }
+
+        for(Movie movie : movies){
+            if(new File(movie.getFile()).exists()){
+                File f = new File(movie.getFile());
+
+                if(duration){
+                    movie.setDuration(ffMpegService.getDuration(f));
+                }
+
+                if(resolution){
+                    movie.setResolution(ffMpegService.getResolution(f));
+                }
+
+                if(image){
+                    saveImage(movie, ffMpegService.generateRandomPreviewImage(f));
+                }
+            }
+
+            save(movie);
+        }
+    }
+
+    private static String getFreeName(String folder, String name){
+		if(new File(folder, name).exists()){
+			int count = 1;
+
+			String freeName;
+
+			do {
+				freeName = name.substring(0, name.lastIndexOf('.')) + '[' + count + ']' + name.substring(name.lastIndexOf('.'));
+				count++;
+			} while (new File(folder, freeName).exists());
+
+			return freeName;
+		}
+
+		return name;
+	}
+
+	@Override
     public Collection<Movie> getDatas(){
         return getMovies();
     }

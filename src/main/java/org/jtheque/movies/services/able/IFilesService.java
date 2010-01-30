@@ -2,8 +2,6 @@ package org.jtheque.movies.services.able;
 
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.PreciseDuration;
-import org.jtheque.movies.utils.Resolution;
 
 import java.io.File;
 import java.util.Collection;
@@ -41,6 +39,8 @@ public interface IFilesService {
 
     /**
      * Return all the files who are movies on the specified folder.
+     * The search is made in a recursive way. It seems that the sub folders
+     * are also taken.
      *
      * @param folder The folder to read.
      * @return All the files of the specified folder.
@@ -54,8 +54,4 @@ public interface IFilesService {
      * @param parsers The parsers to use.
      */
     void importMovies(Collection<File> files, Collection<FileParser> parsers);
-
-    Resolution getResolution(File f);
-
-    PreciseDuration getDuration(File f);
 }

@@ -86,7 +86,7 @@ public final class JPanelConfigMovies extends JPanel implements IOpeningConfigVi
         return this;
     }
 
-	private class BuildViewRunnable implements Runnable {
+	private final class BuildViewRunnable implements Runnable {
 		@Override
 		public void run(){
 			PanelBuilder parent = new PanelBuilder(JPanelConfigMovies.this);

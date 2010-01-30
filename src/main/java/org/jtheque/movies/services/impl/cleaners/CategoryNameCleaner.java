@@ -26,7 +26,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 public final class CategoryNameCleaner implements NameCleaner {
     @Override
     public String getTitle(){
-        return CoreUtils.getMessage("movie.clen.cleaner.category");
+        return CoreUtils.getMessage("movie.clean.cleaner.category");
     }
 
     @Override

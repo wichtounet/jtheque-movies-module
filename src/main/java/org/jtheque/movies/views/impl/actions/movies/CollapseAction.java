@@ -26,7 +26,7 @@ import java.awt.event.ActionEvent;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class CollapseAction extends JThequeSimpleAction {
+public final class CollapseAction extends JThequeSimpleAction {
 	public CollapseAction(){
 		super();
 

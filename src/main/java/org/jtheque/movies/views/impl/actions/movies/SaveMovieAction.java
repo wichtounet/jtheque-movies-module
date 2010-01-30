@@ -1,11 +1,11 @@
-package org.jtheque.movies.views.impl.actions.movies.folder;
+package org.jtheque.movies.views.impl.actions.movies;
 
 /*
  * This file is part of JTheque.
- * 	   
+ *
  * JTheque is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * the Free Software Foundation, either version 3 of the License.
  *
  * JTheque is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,25 +18,25 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
 
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.views.able.IImportFolderView;
+import org.jtheque.movies.controllers.able.IMovieController;
 
 import java.awt.event.ActionEvent;
 
 /**
- * Action to delete the selected title from the list.
+ * Action to save the current film.
  *
  * @author Baptiste Wicht
  */
-public final class AcDeleteFile extends JThequeAction {
+public final class SaveMovieAction extends JThequeAction {
     /**
-     * Create a new AcDeleteTitle action.
+     * Construct a new AcSaveFilm.
      */
-    public AcDeleteFile(){
-        super("generic.view.actions.delete");
+    public SaveMovieAction(){
+        super("movie.actions.save");
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0){
-        CoreUtils.<IImportFolderView>getBean("importFolderView").removeSelectedFile();
+    public void actionPerformed(ActionEvent e){
+        CoreUtils.<IMovieController>getBean("movieController").save();
     }
 }

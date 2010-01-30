@@ -5,7 +5,7 @@ import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.services.able.IFilesService;
+import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.impl.panel.EditMoviePanel;
@@ -30,7 +30,7 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class GetInformationsAction extends JThequeAction {
+public final class GetInformationsAction extends JThequeAction {
     private final EditMoviePanel editMoviePanel;
 
     public GetInformationsAction(EditMoviePanel editMoviePanel) {
@@ -46,8 +46,8 @@ public class GetInformationsAction extends JThequeAction {
         File file = new File(filePath);
 
         if(StringUtils.isNotEmpty(filePath) && file.exists()){
-            Resolution resolution = CoreUtils.<IFilesService>getBean("filesService").getResolution(file);
-            PreciseDuration duration = CoreUtils.<IFilesService>getBean("filesService").getDuration(file);
+            Resolution resolution = CoreUtils.<IFFMpegService>getBean("ffmpegService").getResolution(file);
+            PreciseDuration duration = CoreUtils.<IFFMpegService>getBean("ffmpegService").getDuration(file);
 
             if(resolution != null){
                 editMoviePanel.setResolution(resolution);

@@ -44,6 +44,8 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     private final ParameterizedRowMapper<Category> rowMapper = new CategoryRowMapper();
     private final QueryMapper queryMapper = new CategoryQueryMapper();
 
+    private boolean cacheEntirelyLoaded;
+
     @Resource
     private IDaoPersistenceContext daoPersistenceContext;
 
@@ -136,14 +138,27 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
             getCache().put(category.getId(), category);
         }
 
-        setCacheEntirelyLoaded();
+		for (Category category : categories){
+            category.setParent(getCache().get(category.getTemporaryParent()));
+        }
+
+        setEntirelyLoaded();
     }
 
-    @Override
+	@Override
     protected void load(int i){
         Category category = daoPersistenceContext.getDataByID(TABLE, i, rowMapper);
 
         getCache().put(i, category);
+    }
+
+    /**
+     * Set if the cache has been entirely loaded or not.
+     */
+    protected void setEntirelyLoaded() {
+        cacheEntirelyLoaded = true;
+
+		setCacheEntirelyLoaded();
     }
 
     /**
@@ -159,6 +174,12 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
             category.setId(rs.getInt("ID"));
             category.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
 
+			if(cacheEntirelyLoaded){
+				category.setParent(getCategory(rs.getInt("THE_PARENT_FK")));
+			} else {
+				category.setTemporaryParent(rs.getInt("THE_PARENT_FK"));
+			}
+			
             return category;
         }
 
@@ -182,14 +203,14 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
         @Override
         public Query constructInsertQuery(Entity entity){
 			return new Query(
-					"INSERT INTO " + TABLE + " (TITLE, THE_COLLECTION_FK) VALUES(?,?)",
+					"INSERT INTO " + TABLE + " (TITLE, THE_PARENT_FK, THE_COLLECTION_FK) VALUES(?,?,?)",
 					fillArray((Category) entity, false));
         }
 
         @Override
         public Query constructUpdateQuery(Entity entity){
 			return new Query(
-					"UPDATE " + TABLE + " SET TITLE = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
+					"UPDATE " + TABLE + " SET TITLE = ?, THE_PARENT_FK = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
 					fillArray((Category) entity, true));
         }
 
@@ -202,13 +223,14 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
 		 * @return The filled array.
 		 */
 		private static Object[] fillArray(Category category, boolean id){
-			Object[] values = new Object[2 + (id ? 1 : 0)];
+			Object[] values = new Object[3 + (id ? 1 : 0)];
 
 			values[0] = category.getTitle();
-			values[1] = category.getTheCollection().getId();
+			values[1] = category.getParent() == null ? null : category.getParent().getId();
+			values[2] = category.getTheCollection().getId();
 
 			if (id){
-				values[2] = category.getId();
+				values[3] = category.getId();
 			}
 
 			return values;

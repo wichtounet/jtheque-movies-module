@@ -22,14 +22,15 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.primary.services.able.DataService;
 
+import java.awt.image.BufferedImage;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * @author Baptiste Wicht
  */
 public interface IMoviesService extends DataContainer<Movie>, DataService<Movie> {
     String DATA_TYPE = "Movies";
-    String SORT_BY_CATEGORY = "SORT_CATEGORY";
 
     /**
      * Create an empty film.
@@ -45,6 +46,10 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      */
     Collection<Movie> getMovies();
 
+	Set<Movie> getMovies(Category category, boolean includeSubCategory);
+
+	void clean(Movie movie, Collection<NameCleaner> selectedCleaners);
+
     /**
      * Clean all the movies using the specified cleaners.
      *
@@ -53,15 +58,11 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      */
     void clean(Collection<Movie> movies, Collection<NameCleaner> cleaners);
 
-    /**
-     * Return all the movies of the specified category.
-     *
-     * @param category The searched category.
-     * @return A Collection containing all the movies of the specified category.
-     */
-    Collection<Movie> getMoviesOf(Category category);
-
 	boolean fileExists(String file);
 
     boolean fileExistsInOtherMovie(Movie movie, String file);
+
+	void saveImage(Movie movie, BufferedImage image);
+
+    void fillInformations(Set<Movie> movies, boolean duration, boolean resolution, boolean image);
 }

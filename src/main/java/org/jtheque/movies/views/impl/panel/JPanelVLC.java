@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.impl.panel;
 
 import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
-import org.jtheque.movies.views.impl.actions.view.AcQuitView;
+import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
 import org.jtheque.utils.ui.SwingUtils;
 
 import javax.swing.JButton;
@@ -66,7 +66,7 @@ public final class JPanelVLC extends ViewerPanel {
 
         cons.gridx++;
 
-        playerFilePanel.add(new JButton(new AcQuitView()), cons);
+        playerFilePanel.add(new JButton(new QuitPlayerViewAction()), cons);
 
         add(playerFilePanel, BorderLayout.NORTH);
 

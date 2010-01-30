@@ -161,4 +161,8 @@ public interface Movie extends Data {
 	Resolution getResolution();
 
 	void setResolution(Resolution resolution);
+
+	String getImage();
+
+	void setImage(String image);
 }

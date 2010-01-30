@@ -20,7 +20,6 @@ import org.jdesktop.swingx.JXTree;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.IErrorManager;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.log.IJThequeLogger;
 import org.jtheque.core.managers.persistence.able.Entity;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
@@ -35,25 +34,27 @@ import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.actions.movies.CollapseAction;
 import org.jtheque.movies.views.impl.actions.movies.ExpandAction;
 import org.jtheque.movies.views.impl.actions.movies.RefreshAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
+import org.jtheque.movies.views.impl.models.CategoryElement;
 import org.jtheque.movies.views.impl.models.FilthyCellRenderer;
 import org.jtheque.movies.views.impl.models.MoviesModel;
 import org.jtheque.movies.views.impl.panel.EditMoviePanel;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
 import org.jtheque.movies.views.impl.panel.ViewMoviePanel;
+import org.jtheque.movies.views.impl.sort.MoviesSorter;
 import org.jtheque.primary.view.impl.actions.principal.CreateNewPrincipalAction;
 import org.jtheque.primary.view.impl.listeners.CurrentObjectListener;
 import org.jtheque.primary.view.impl.listeners.DisplayListListener;
 import org.jtheque.primary.view.impl.listeners.ObjectChangedEvent;
 import org.jtheque.primary.view.impl.models.tree.JThequeTreeModel;
-import org.jtheque.primary.view.impl.sort.SortManager;
+import org.jtheque.primary.view.impl.models.tree.TreeElement;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.jtheque.utils.ui.SizeTracker;
@@ -62,6 +63,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.swing.JLabel;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.TreePath;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
 import java.awt.Composite;
@@ -88,13 +90,14 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
     private CardPanel<MoviePanel> layeredPanel;
 
     private IMoviesModel model;
-    private JThequeTreeModel treeModel;
+
+    private final JThequeTreeModel treeModel = new JThequeTreeModel(new CategoryElement("Movies"));
 
     @Resource
     private Font filthyTitleFont;
 
     @Resource
-    private LinearGradientPaint backgroundGradient;
+    private LinearGradientPaint backgroundPaint;
 
     @PostConstruct
     public void init() {
@@ -121,7 +124,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
     }
 
     final class MovieViewImpl extends AbstractPanelView<IMoviesModel> implements DisplayListListener {
-        private final SortManager SORTER = new SortManager();
         private final SizeTracker tracker = new SizeTracker(this);
 
         private Image gradientImage;
@@ -143,6 +145,8 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
             treeMovies.addTreeSelectionListener(CoreUtils.<TreeSelectionListener>getBean("movieController"));
 
             selectFirst();
+            
+            CoreUtils.<IMovieController>getBean("movieController").view(getSelectedMovie());
         }
 
         /**
@@ -166,21 +170,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
 			addActions(builder);
         }
 
-		private void addActions(PanelBuilder builder){
-			PanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
-
-			panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
-					builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-
-			DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
-			autoAddAction.setView(CoreUtils.<IView>getBean("addFromFileView"));
-
-			panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", "movieController"),
-					builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-			panelButtons.addButton(autoAddAction,
-					builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
-		}
-
 		private void addTitle(PanelBuilder builder){
 			PanelBuilder titleBuilder = builder.addPanel(BorderLayout.NORTH);
 
@@ -195,11 +184,24 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
 		}
 
 		private void addTree(PanelBuilder builder){
-			treeModel = new SortManager().createInitialModel(IMoviesService.DATA_TYPE);
-
-			displayListChanged();
+			MoviesSorter.sort(treeModel);
 
 			treeMovies = builder.addScrolledTree(treeModel, new FilthyCellRenderer(), BorderLayout.CENTER);
+		}
+
+		private void addActions(PanelBuilder builder){
+			PanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
+
+			panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
+					builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
+
+			DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
+			autoAddAction.setView(CoreUtils.<IView>getBean("addFromFileView"));
+
+			panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", "movieController"),
+					builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
+			panelButtons.addButton(autoAddAction,
+					builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
 		}
 
 		/**
@@ -235,7 +237,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
                 Composite composite = g2.getComposite();
                 g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
                         RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                g2d.setPaint(backgroundGradient);
+                g2d.setPaint(backgroundPaint);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
                 g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
@@ -251,7 +253,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
 
         @Override
         public void displayListChanged(){
-            SORTER.sort(treeModel, "Movies", IMoviesService.SORT_BY_CATEGORY);
+            MoviesSorter.sort(treeModel);
         }
 
         @Override
@@ -279,11 +281,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
     }
 
     @Override
-    public Iterable<Movie> getDisplayList(){
-        return model.getDisplayList();
-    }
-
-    @Override
     public void setDisplayedView(String view){
         layeredPanel.displayLayer(view);
     }
@@ -295,49 +292,65 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
 
 	@Override
 	public void select(Movie movie){
-		IJThequeLogger logger = CoreUtils.getLogger(getClass());
-
-		logger.debug("Select {}:{}", movie.getTitle(), movie.getId());
-
-		for(int i = 0; i < treeModel.getChildCount(treeModel.getRoot()); i++){
-			Object child = treeModel.getChild(treeModel.getRoot(), i);
-
-			treeMovies.expandRow(i);
-
-			logger.debug("Get child {}", child);
-			logger.debug("Expand row {}", i);
-
-			for(int j = 0; j < treeModel.getChildCount(child); j++){
-				Entity m = (Entity) treeModel.getChild(child, j);
-
-				logger.debug("Get movie {}:{}", m, m.getId());
-
-				if(m.getId() == movie.getId()){
-					treeMovies.setSelectionRow(i + j + 1);
-
-					logger.debug("Select {}", m, i + j + 1);
-
-					return;
-				}
-			}
-
-			logger.debug("Collapse row {}", i);
-
-			treeMovies.collapseRow(i);
-		}
+        select(movie, treeModel.getRoot(), new TreePath(treeModel.getRoot()));
 	}
+
+    private boolean select(Movie movie, TreeElement root, TreePath path) {
+        for(int i = 0; i < treeModel.getChildCount(root); i++){
+			TreeElement child = (TreeElement)treeModel.getChild(root, i);
+
+            if(child.isCategory()){
+                treeMovies.expandRow(i);
+
+                if(select(movie, child, path.pathByAddingChild(child))){
+                    return true;
+                }
+
+                treeMovies.collapseRow(i);
+            }
+
+			if(child instanceof Movie && ((Entity) child).getId() == movie.getId()){
+                treeMovies.setSelectionPath(path.pathByAddingChild(child));
+
+                return true;
+            }
+		}
+
+        return false;
+    }
 
     @Override
     public void selectFirst(){
-		Object firstCategory = treeModel.getChild(treeModel.getRoot(), 0);
-
-		if(firstCategory != null && treeModel.getChildCount(firstCategory) > 0){
-			treeMovies.expandRow(0);
-			treeMovies.setSelectionRow(1);
-		}
+        if(treeModel.getChildCount(treeModel.getRoot()) > 0){
+            selectFirst(treeModel.getRoot(), new TreePath(treeModel.getRoot()));
+        }
     }
 
-	@Override
+    private boolean selectFirst(TreeElement root, TreePath path) {
+        for(int i = 0; i < treeModel.getChildCount(root); i++){
+			TreeElement child = (TreeElement)treeModel.getChild(root, i);
+
+            if(child.isCategory()){
+                treeMovies.expandRow(i);
+
+                if(selectFirst(child, path.pathByAddingChild(child))){
+                    return true;
+                }
+
+                treeMovies.collapseRow(i);
+            }
+
+			if(child instanceof Movie){
+                treeMovies.setSelectionPath(path.pathByAddingChild(child));
+
+                return true;
+            }
+		}
+
+        return false;
+    }
+
+    @Override
 	public void refreshData(){
 		for(MoviePanel panel : layeredPanel.getLayers()){
 			panel.setMovie(model.getCurrentMovie());

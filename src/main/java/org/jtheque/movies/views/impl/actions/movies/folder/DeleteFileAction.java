@@ -1,11 +1,11 @@
-package org.jtheque.movies.views.impl.actions.categories;
+package org.jtheque.movies.views.impl.actions.movies.folder;
 
 /*
  * This file is part of JTheque.
- *
+ * 	   
  * JTheque is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * the Free Software Foundation, either version 3 of the License. 
  *
  * JTheque is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,25 +18,25 @@ package org.jtheque.movies.views.impl.actions.categories;
 
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.controllers.able.ICategoryController;
+import org.jtheque.movies.views.able.IImportFolderView;
 
 import java.awt.event.ActionEvent;
 
 /**
- * An action to create a new category.
+ * Action to delete the selected title from the list.
  *
  * @author Baptiste Wicht
  */
-public final class AcNewCategory extends JThequeAction {
+public final class DeleteFileAction extends JThequeAction {
     /**
-     * Construct a new AcNewCategory.
+     * Create a new AcDeleteTitle action.
      */
-    public AcNewCategory(){
-        super("category.actions.new");
+    public DeleteFileAction(){
+        super("generic.view.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
-        CoreUtils.<ICategoryController>getBean("categoryController").newCategory();
+    public void actionPerformed(ActionEvent arg0){
+        CoreUtils.<IImportFolderView>getBean("importFolderView").removeSelectedFile();
     }
 }

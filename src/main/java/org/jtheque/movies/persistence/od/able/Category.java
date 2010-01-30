@@ -24,9 +24,11 @@ import org.jtheque.primary.od.able.Data;
  */
 public interface Category extends Data {
 	String NAME = "category.name";
+	String PARENT = "category.parent";
+	
 	int NAME_LENGTH = 100;
 
-    /**
+	/**
      * Return the title of the category.
      *
      * @return The title of the category.
@@ -53,4 +55,12 @@ public interface Category extends Data {
      * @param theCollection The collection of the category.
      */
     void setTheCollection(Collection theCollection);
+
+	Category getParent();
+
+	void setParent(Category parent);
+
+	void setTemporaryParent(int anInt);
+
+	int getTemporaryParent();
 }

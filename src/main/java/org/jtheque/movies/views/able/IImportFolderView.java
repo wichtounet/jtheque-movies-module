@@ -59,11 +59,6 @@ public interface IImportFolderView extends IView {
     void startWait();
 
     /**
-     * Clear the files list.
-     */
-    void clearFiles();
-
-    /**
      * Set the files of the view.
      *
      * @param files The files to display in the view.

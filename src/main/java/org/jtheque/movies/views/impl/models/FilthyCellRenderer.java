@@ -54,7 +54,7 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
 
         setText(element.getElementName());
 
-        if (element.isLeaf()){
+        if (element.getIcon() != null){
             setIcon(element.getIcon());
         }
 

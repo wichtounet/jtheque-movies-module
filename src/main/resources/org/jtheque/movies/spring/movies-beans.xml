@@ -21,16 +21,15 @@
             </util:list>
         </constructor-arg>
         <constructor-arg index="1">
-            <util:list>
-                <bean class="org.jtheque.movies.views.impl.sort.ByCategorySorter"/>
-            </util:list>
-        </constructor-arg>
-        <constructor-arg index="2">
             <jtheque:swing-bean class="org.jtheque.movies.views.impl.JPanelConfigMovies"/>
         </constructor-arg>
     </bean>
 
-    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController"/>
+    <bean id="addFromFileController" class="org.jtheque.movies.controllers.impl.AddFromFileController" />
+    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController" />
+    <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController" />
+    <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController" />
+    <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController" />
 
     <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
         <constructor-arg><bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/></constructor-arg>
@@ -44,17 +43,20 @@
 
     <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService" lazy-init="false"/>
     <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService" lazy-init="false"/>
+    <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
     <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
 
     <jtheque:proxy id="movieView" type="org.jtheque.movies.views.impl.MovieView"/>
     <jtheque:proxy id="categoryView" type="org.jtheque.movies.views.impl.frames.CategoryView"/>
     <jtheque:proxy id="addFromFileView" type="org.jtheque.movies.views.impl.frames.AddFromFileView"/>
     <jtheque:proxy id="importFolderView" type="org.jtheque.movies.views.impl.frames.ImportFolderView"/>
-    <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanMovieView"/>
+    <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanView"/>
+    <jtheque:proxy id="imageView" type="org.jtheque.movies.views.impl.frames.ImageView"/>
+    <jtheque:proxy id="generateInfosView" type="org.jtheque.movies.views.impl.frames.GenerateInfosView"/>
 
     <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView" />
-
     <bean id="_categoryView" class="org.jtheque.movies.views.impl.frames.CategoryView" />
+    <bean id="_generateInfosView" class="org.jtheque.movies.views.impl.frames.GenerateInfosView" />
 
     <bean id="_addFromFileView" class="org.jtheque.movies.views.impl.frames.AddFromFileView">
         <constructor-arg ref="fileParsers"/>
@@ -62,6 +64,10 @@
 
     <bean id="_importFolderView" class="org.jtheque.movies.views.impl.frames.ImportFolderView">
         <constructor-arg ref="fileParsers"/>
+    </bean>
+
+    <bean id="_cleanMovieView" class="org.jtheque.movies.views.impl.frames.CleanView">
+        <constructor-arg ref="nameCleaners"/>
     </bean>
 
     <util:list id="fileParsers">
@@ -80,10 +86,6 @@
         </bean>
     </util:list>
 
-    <bean id="_cleanMovieView" class="org.jtheque.movies.views.impl.frames.CleanMovieView">
-        <constructor-arg ref="nameCleaners"/>
-    </bean>
-
     <util:list id="nameCleaners">
         <bean class="org.jtheque.movies.services.impl.cleaners.CategoryNameCleaner"/>
         <bean class="org.jtheque.movies.services.impl.cleaners.NumberCleaner"/>
@@ -93,5 +95,5 @@
         </bean>
     </util:list>
 
-    <jtheque:display id="importFolderAction" key="movie.auto.folder.actions.add" view="importFolderView"/>
+    <bean id="_imageView" class="org.jtheque.movies.views.impl.frames.ImageView" />
 </beans>

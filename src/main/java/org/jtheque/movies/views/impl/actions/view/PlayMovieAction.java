@@ -36,11 +36,11 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-public final class AcOpenMovie extends JThequeAction {
+public final class PlayMovieAction extends JThequeAction {
     /**
-     * Construct a new AcOpenMovie.
+     * Construct a new PlayMovieAction.
      */
-    public AcOpenMovie(){
+    public PlayMovieAction(){
         super("movie.actions.view");
 
         setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "play", ImageType.PNG));

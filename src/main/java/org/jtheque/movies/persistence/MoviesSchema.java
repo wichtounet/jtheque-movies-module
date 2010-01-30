@@ -73,6 +73,9 @@ public final class MoviesSchema extends AbstractSchema {
 	private void addInformationColumns(){
 		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD DURATION BIGINT");
 		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD RESOLUTION VARCHAR(11)");
+		update("ALTER TABLE " + IDaoMovies.TABLE + " ADD IMAGE VARCHAR(150)");
+		update("ALTER TABLE " + IDaoCategories.TABLE + " ADD THE_PARENT_FK INT");
+        update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
 	}
 
 	/**
@@ -80,8 +83,8 @@ public final class MoviesSchema extends AbstractSchema {
      */
     private void createDataTables(){
         update("CREATE TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK INT NOT NULL, THE_CATEGORY_FK INT NOT NULL)");
-        update("CREATE TABLE " + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_COLLECTION_FK INT NOT NULL)");
-        update("CREATE TABLE " + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL, NOTE INT NULL, FILE VARCHAR(200) NOT NULL UNIQUE, DURATION BIGINT, RESOLUTION VARCHAR(11), THE_COLLECTION_FK INT NOT NULL)");
+        update("CREATE TABLE " + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_PARENT_FK INT, THE_COLLECTION_FK INT NOT NULL)");
+        update("CREATE TABLE " + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL, NOTE INT NULL, FILE VARCHAR(200) NOT NULL UNIQUE, DURATION BIGINT, RESOLUTION VARCHAR(11), IMAGE VARCHAR(150), THE_COLLECTION_FK INT NOT NULL)");
 
         update("CREATE INDEX MOVIES_IDX ON " + IDaoMovies.TABLE + "(ID)");
         update("CREATE INDEX MOVIE_CATEGORIES_IDX ON " + IDaoCategories.TABLE + "(ID)");
@@ -95,6 +98,7 @@ public final class MoviesSchema extends AbstractSchema {
         update("ALTER TABLE " + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
         update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
         update("ALTER TABLE " + IDaoMovies.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
+        update("ALTER TABLE " + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
     }
 
     @Override

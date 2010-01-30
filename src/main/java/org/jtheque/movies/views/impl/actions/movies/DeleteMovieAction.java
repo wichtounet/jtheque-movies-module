@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.actions.categories;
+package org.jtheque.movies.views.impl.actions.movies;
 
 /*
  * This file is part of JTheque.
@@ -17,43 +17,36 @@ package org.jtheque.movies.views.impl.actions.categories;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.controllers.able.ICategoryController;
-import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.views.able.ICategoryView;
+import org.jtheque.movies.controllers.able.IMovieController;
 
 import java.awt.event.ActionEvent;
 
 /**
- * Action to validate the kind view.
+ * Action to delete a film.
  *
  * @author Baptiste Wicht
  */
-public final class AcValidateCategoryView extends JThequeAction {
+public final class DeleteMovieAction extends JThequeAction {
     /**
-     * Construct a new AcValidateKindView.
+     * Construct a new DeleteMovieAction.
      */
-    public AcValidateCategoryView(){
-        super("category.actions.ok");
+    public DeleteMovieAction(){
+        super("movie.actions.delete");
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        ICategoryView view = CoreUtils.getBean("categoryView");
+        final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
+                CoreUtils.getMessage("movie.dialogs.confirmDelete",
+                        CoreUtils.<IMovieController>getBean("movieController").
+                                getViewModel().getCurrentMovie().getDisplayableText()),
+                CoreUtils.getMessage("movie.dialogs.confirmDelete.title"));
 
-        if (view.validateContent()){
-			String title = view.getFieldName().getText();
-
-			if(CoreUtils.<ICategoriesService>getBean("categoriesService").exists(title)){
-				Managers.getManager(IViewManager.class).displayError(new InternationalizedError("category.errors.exists"));
-			} else {
-				CoreUtils.<ICategoryController>getBean("categoryController").save(title);
-
-            	view.closeDown();
-			}
+        if (yes){
+            CoreUtils.<IMovieController>getBean("movieController").deleteCurrent();
         }
     }
 }

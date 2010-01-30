@@ -34,7 +34,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class AcSearchFiles extends JThequeAction {
+public final class SearchFilesAction extends JThequeAction {
     @Resource
     private IFilesService filesService;
 
@@ -44,7 +44,7 @@ public final class AcSearchFiles extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      */
-    public AcSearchFiles(){
+    public SearchFilesAction(){
         super("generic.view.actions.search");
 
         Managers.getManager(IBeansManager.class).inject(this);

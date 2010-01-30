@@ -17,8 +17,11 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.undo.IUndoRedoManager;
+import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.able.controller.AbstractController;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -34,8 +37,6 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class CategoryController extends AbstractController implements ICategoryController {
-    private Category currentCategory;
-
     @Resource
     private ICategoriesService categoriesService;
 
@@ -46,8 +47,8 @@ public final class CategoryController extends AbstractController implements ICat
     public void newCategory(){
         categoryView.getModel().setState(ViewMode.NEW);
 
+		categoryView.getModel().setCategory(categoriesService.getEmptyCategory());
         categoryView.reload();
-        currentCategory = categoriesService.getEmptyCategory();
 
         displayView();
     }
@@ -55,30 +56,31 @@ public final class CategoryController extends AbstractController implements ICat
     @Override
     public void editCategory(Category category){
         categoryView.getModel().setState(ViewMode.EDIT);
-
-        categoryView.reload(category);
-        currentCategory = category;
+        categoryView.getModel().setCategory(category);
+        categoryView.reload();
     }
 
     @Override
-    public void save(String name){
-        currentCategory.setTitle(name);
-
-        if (categoryView.getModel().getState() == ViewMode.NEW){
-            categoriesService.create(currentCategory);
-
-            Managers.getManager(IUndoRedoManager.class).addEdit(
-                    new GenericDataCreatedEdit<Category>("categoriesService", currentCategory));
+    public void save(String title, Category parent){
+        if(CoreUtils.<ICategoriesService>getBean("categoriesService").existsInOtherCategory(title, parent)){
+            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("category.errors.exists"));
         } else {
-            categoriesService.save(currentCategory);
+            categoryView.getModel().getCategory().setTitle(title);
+            categoryView.getModel().getCategory().setParent(parent);
+
+            if (categoryView.getModel().getState() == ViewMode.NEW){
+                categoriesService.create(categoryView.getModel().getCategory());
+
+                Managers.getManager(IUndoRedoManager.class).addEdit(
+                        new GenericDataCreatedEdit<Category>("categoriesService", categoryView.getModel().getCategory()));
+            } else {
+                categoriesService.save(categoryView.getModel().getCategory());
+            }
+
+            closeView();
         }
     }
-
-    /**
-     * Return the DataView of the controller.
-     *
-     * @return The DataView.
-     */
+	
     @Override
     public ICategoryView getView(){
         return categoryView;

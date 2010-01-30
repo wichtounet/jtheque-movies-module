@@ -27,7 +27,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 public final class ExtensionCleaner implements NameCleaner {
     @Override
     public String getTitle(){
-        return CoreUtils.getMessage("movie.clen.cleaner.extension");
+        return CoreUtils.getMessage("movie.clean.cleaner.extension");
     }
 
     @Override

@@ -16,11 +16,10 @@ package org.jtheque.movies.views.impl.panel.containers;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 
 import javax.swing.JCheckBox;
+import java.awt.Color;
 
 /**
  * A check box to select a name cleaner.
@@ -40,7 +39,8 @@ public final class CleanerContainer extends JCheckBox {
 
         this.cleaner = cleaner;
 
-        setBackground(Managers.getManager(IViewManager.class).getViewDefaults().getBackgroundColor());
+        setForeground(Color.white);
+        setOpaque(false);
     }
 
     /**

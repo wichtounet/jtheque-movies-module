@@ -19,7 +19,7 @@ package org.jtheque.movies;
 import org.jtheque.core.managers.feature.AbstractMenu;
 import org.jtheque.core.managers.feature.Feature;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
+import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 
 import java.util.List;
@@ -29,16 +29,17 @@ public final class MoviesMenu extends AbstractMenu {
     protected List<Feature> getMenuMainFeatures(){
         return features(
                 createMainFeature(500, "category.menu.title",
-                    createSubFeature(1, new AcNewCategory()),
+                    createSubFeature(1, new CreateNewCategoryAction()),
                     createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE)),
-                    createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE))
+                    createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE)),
+                	createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView")),
+                	createSeparatedSubFeature(100, createDisplayViewAction("movie.generate.infos", "generateInfosView"))
         ));
     }
 
     @Override
     protected List<Feature> getFileMenuSubFeatures(){
         return features(
-                createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView")),
-                createSeparatedSubFeature(101, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)));
+				createSeparatedSubFeature(101, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)));
     }
 }

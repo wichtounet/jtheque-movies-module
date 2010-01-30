@@ -17,11 +17,12 @@ import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.actions.movies.AcDelete;
-import org.jtheque.movies.views.impl.actions.view.AcOpenMovie;
+import org.jtheque.movies.views.impl.actions.movies.DeleteMovieAction;
+import org.jtheque.movies.views.impl.actions.view.PlayMovieAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
 import org.jtheque.primary.view.impl.actions.principal.ManualEditPrincipalAction;
+import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JButton;
@@ -63,6 +64,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private JThequeI18nLabel labelResolution;
 
     private JXImagePanel notePanel;
+    private JXImagePanel imagePanel;
 
     private SimpleListModel<Category> categoriesModel;
 
@@ -92,7 +94,7 @@ public final class ViewMoviePanel extends MoviePanel {
         titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(18f), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(new AcOpenMovie(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
+        JButton button = title.addButton(new PlayMovieAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(14f));
 
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
@@ -100,15 +102,20 @@ public final class ViewMoviePanel extends MoviePanel {
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
         buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", "movieController"), buttons.gbcSet(0, 0));
-        buttons.addButton(new AcDelete(), buttons.gbcSet(1, 0));
+        buttons.addButton(new DeleteMovieAction(), buttons.gbcSet(1, 0));
 
         addFileField(builder);
         addNoteField(builder);
-        addCategoriesView(builder);
+
+		PanelBuilder center = builder.addPanel(builder.gbcSet(0, 4, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, 1, 1.0, 1.0));
+
+        addCategoriesView(center);
+		addImagePanel(center);
+
         addFileInformations(builder);
     }
 
-    /**
+	/**
      * Add the field for the file.
      *
      * @param builder The builder of the panel.
@@ -142,8 +149,13 @@ public final class ViewMoviePanel extends MoviePanel {
         ListCellRenderer renderer = new IconListRenderer(
                 Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
         
-        builder.addList(categoriesModel, renderer, builder.gbcSet(0, 4, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, 1, 1.0, 1.0));
+        builder.addList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }
+
+	private void addImagePanel(PanelBuilder builder){
+		imagePanel = builder.add(new JXImagePanel(), builder.gbcSet(1, 0));
+		imagePanel.setOpaque(false);
+	}
 
     /**
      * Add the file informations to the panel.
@@ -167,6 +179,11 @@ public final class ViewMoviePanel extends MoviePanel {
         labelSize.setTextKey("movie.view.file.size", movie.getFileSize());
         labelDuration.setTextKey("movie.view.file.duration", movie.getDuration());
         labelResolution.setTextKey("movie.view.file.resolution", movie.getResolution());
+
+		if(StringUtils.isNotEmpty(movie.getImage())){
+			imagePanel.setImage(Managers.getManager(IResourceManager.class).getImage("file:" + 
+					CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage()));
+		}
 
         categoriesModel.clear();
         categoriesModel.addElements(movie.getCategories());

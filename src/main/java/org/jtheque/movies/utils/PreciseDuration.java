@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class PreciseDuration {
+public final class PreciseDuration {
 	private final byte hours;
 	private final byte minutes;
 	private final byte seconds;
@@ -27,29 +27,18 @@ public class PreciseDuration {
     private static final Pattern PATTERN = Pattern.compile(":");
     private static final Pattern PATTERN1 = Pattern.compile("\\.");
 
-    public PreciseDuration(byte hours, byte minutes, byte seconds, byte milliSeconds){
-		super();
-
-		this.hours = hours;
-		this.minutes = minutes;
-		this.seconds = seconds;
-		this.milliSeconds = milliSeconds;
-	}
-
     public PreciseDuration(CharSequence duration) {
         super();
 
-		//00 45 58.2
-
         String[] times = PATTERN.split(duration);
 
-        hours = (byte) Integer.parseInt(times[0]);
-        minutes = (byte) Integer.parseInt(times[1]);
+        hours = Byte.parseByte(times[0]);
+        minutes = Byte.parseByte(times[1]);
 
         times = PATTERN1.split(times[2]);
 
-        seconds = (byte) Integer.parseInt(times[0]);
-        milliSeconds = (short) Integer.parseInt(times[1]);
+        seconds = Byte.parseByte(times[0]);
+        milliSeconds = Short.parseShort(times[1]);
     }
 
     public PreciseDuration(long time){
@@ -64,7 +53,7 @@ public class PreciseDuration {
 		rest -= minutes * 60 * 1000;
 
 		seconds = (byte) (rest / 1000);
-		milliSeconds = (byte) (rest - seconds * 1000);
+		milliSeconds = (short) (rest - seconds * 1000);
 	}
 
 	public long getTime(){

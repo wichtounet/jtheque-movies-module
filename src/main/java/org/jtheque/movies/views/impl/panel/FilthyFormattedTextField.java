@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -36,8 +37,8 @@ import java.awt.Graphics2D;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class FilthyFormattedTextField extends JPanel {
-    private JFormattedTextField textField;
+public final class FilthyFormattedTextField extends JPanel {
+    private final JFormattedTextField textField;
 
     /**
      * Construct a new FilthyFormattedTextField.
@@ -47,23 +48,37 @@ public class FilthyFormattedTextField extends JPanel {
     public FilthyFormattedTextField(MaskFormatter formatter) {
         super();
 
-        IResourceManager resources = Managers.getManager(IResourceManager.class);
+		initUI();
 
-        Color inputColor = resources.getColor("filthyInputColor");
-        Color inputBorderColor = resources.getColor("filthyInputBorderColor");
+		textField = new JFormattedTextField(formatter);
 
-        setLayout(new BorderLayout());
-        setBackground(inputColor);
-        setBorder(new CompoundBorder(
-                BorderFactory.createLineBorder(inputBorderColor, 2),
-                BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-
-        initComponent(formatter);
+        initComponent();
     }
 
-    private void initComponent(MaskFormatter formatter) {
-        textField = new JFormattedTextField(formatter);
+	public FilthyFormattedTextField(NumberFormatter formatter){
+		super();
 
+		initUI();
+
+		textField = new JFormattedTextField(formatter);
+
+        initComponent();
+	}
+
+	private void initUI(){
+		IResourceManager resources = Managers.getManager(IResourceManager.class);
+
+		Color inputColor = resources.getColor("filthyInputColor");
+		Color inputBorderColor = resources.getColor("filthyInputBorderColor");
+
+		setLayout(new BorderLayout());
+		setBackground(inputColor);
+		setBorder(new CompoundBorder(
+				BorderFactory.createLineBorder(inputBorderColor, 2),
+				BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+	}
+
+	private void initComponent() {
         makeFilthy(textField);
 
         add(textField);

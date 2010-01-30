@@ -219,6 +219,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
             movie.setId(rs.getInt("ID"));
             movie.setTitle(rs.getString("TITLE"));
             movie.setFile(rs.getString("FILE"));
+            movie.setImage(rs.getString("IMAGE"));
 			movie.setResolution(new Resolution(rs.getString("RESOLUTION")));
 			movie.setDuration(new PreciseDuration(rs.getLong("DURATION")));
             movie.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
@@ -256,14 +257,14 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
         @Override
         public Query constructInsertQuery(Entity entity){
             return new Query(
-					"INSERT INTO " + TABLE + " (TITLE, NOTE, FILE, RESOLUTION, DURATION, THE_COLLECTION_FK) VALUES(?,?,?,?,?,?)",
+					"INSERT INTO " + TABLE + " (TITLE, NOTE, FILE, RESOLUTION, DURATION, IMAGE, THE_COLLECTION_FK) VALUES(?,?,?,?,?,?,?)",
 					fillArray((Movie) entity, false));
         }
 
         @Override
         public Query constructUpdateQuery(Entity entity){
             return new Query(
-					"UPDATE " + TABLE + " SET TITLE = ?, NOTE = ?, FILE = ?, RESOLUTION = ?, DURATION = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
+					"UPDATE " + TABLE + " SET TITLE = ?, NOTE = ?, FILE = ?, RESOLUTION = ?, DURATION = ?, IMAGE = ?, THE_COLLECTION_FK = ? WHERE ID = ?",
 					fillArray((Movie) entity, true));
         }
 
@@ -276,17 +277,18 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 		 * @return The filled array.
 		 */
 		private static Object[] fillArray(Movie movie, boolean id){
-			Object[] values = new Object[6 + (id ? 1 : 0)];
+			Object[] values = new Object[7 + (id ? 1 : 0)];
 
 			values[0] = movie.getTitle();
 			values[1] = movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue();
 			values[2] = movie.getFile();
 			values[3] = movie.getResolution() == null ? "" : movie.getResolution().toString();
 			values[4] = movie.getDuration() == null ? 0 : movie.getDuration().getTime();
-			values[5] = movie.getTheCollection().getId();
+			values[5] = movie.getImage();
+			values[6] = movie.getTheCollection().getId();
 
 			if (id){
-				values[6] = movie.getId();
+				values[7] = movie.getId();
 			}
 
 			return values;

@@ -17,19 +17,23 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
+import org.jtheque.core.managers.persistence.able.DataContainer;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.utils.TempSwingUtils;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
-import org.jtheque.movies.views.impl.actions.categories.AcValidateCategoryView;
+import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
 import org.jtheque.movies.views.impl.models.CategoryModel;
+import org.jtheque.movies.views.impl.panel.FilthyRenderer;
+import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
 import javax.swing.Action;
-import javax.swing.JTextField;
 import java.util.Collection;
 
 /**
@@ -37,12 +41,13 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class CategoryView extends SwingBuildedDialogView<ICategoryModel> implements ICategoryView {
-    private JTextField fieldName;
+public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryModel> implements ICategoryView {
+    private FilthyTextField fieldName;
+	private DataContainerCachedComboBoxModel<Category> categoriesModel;
 
     private static final int FIELD_COLUMNS = 15;
 
-    public CategoryView(){
+	public CategoryView(){
         super();
 
         build();
@@ -57,42 +62,48 @@ public final class CategoryView extends SwingBuildedDialogView<ICategoryModel> i
 
     @Override
     public void reload(){
-        setTitleKey("category.view.title");
+        Category category = getModel().getCategory();
 
-        getModel().setCategory(null);
-
-        fieldName.setText("");
-    }
-
-    @Override
-    public void reload(Category category){
-        getModel().setCategory(category);
-
-        setTitle(getMessage("category.view.title.modify") + category.getDisplayableText());
+        if(category.isSaved()){
+        	setTitle(getMessage("category.view.title.modify") + category.getDisplayableText());
+        } else {
+            setTitleKey("category.view.title");
+        }
 
         fieldName.setText(category.getTitle());
+		categoriesModel.setSelectedItem(category.getParent());
     }
 
     @Override
     protected void buildView(PanelBuilder builder){
         builder.addI18nLabel(Category.NAME, builder.gbcSet(0, 0));
 
-        Action saveAction = new AcValidateCategoryView();
+        Action saveAction = new ValidateCategoryViewAction();
 
-        fieldName = builder.add(new JTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
-		ConstraintManager.configure(fieldName, Category.NAME);
+        fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
+		ConstraintManager.configure(fieldName.getTextField(), Category.NAME);
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
-        builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1),
-                saveAction, getCloseAction("category.actions.cancel"));
+        builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 
-        reload();
+		categoriesModel = new DataContainerCachedComboBoxModel<Category>(
+				SwingBuildedDialogView.<DataContainer<Category>>getBean("categoriesService"));
+
+		builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1,1));
+
+        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
+                saveAction, getCloseAction("category.actions.cancel"));
     }
 
     @Override
-    public JTextField getFieldName(){
-        return fieldName;
+    public String getCategoryName(){
+        return fieldName.getText();
     }
+
+	@Override
+	public Category getSelectedCategory(){
+		return categoriesModel.getSelectedData();
+	}
 
     @Override
     public void refreshText(){

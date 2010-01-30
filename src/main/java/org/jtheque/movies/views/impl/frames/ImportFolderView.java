@@ -19,14 +19,14 @@ package org.jtheque.movies.views.impl.frames;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.view.able.components.IModel;
 import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.services.impl.parsers.FileParser;
+import org.jtheque.movies.utils.TempSwingUtils;
 import org.jtheque.movies.views.able.IImportFolderView;
-import org.jtheque.movies.views.impl.actions.movies.folder.AcDeleteFile;
-import org.jtheque.movies.views.impl.actions.movies.folder.AcImportFiles;
-import org.jtheque.movies.views.impl.actions.movies.folder.AcSearchFiles;
+import org.jtheque.movies.views.impl.actions.movies.folder.DeleteFileAction;
+import org.jtheque.movies.views.impl.actions.movies.folder.ImportFilesAction;
+import org.jtheque.movies.views.impl.actions.movies.folder.SearchFilesAction;
 import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
 import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
@@ -35,7 +35,6 @@ import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JList;
 import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -47,7 +46,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class ImportFolderView extends SwingBuildedDialogView<IModel> implements IImportFolderView {
+public final class ImportFolderView extends SwingFilthyBuildedDialogView<IModel> implements IImportFolderView {
     private FilthyFileChooserPanel directoryChooser;
     private JList listFiles;
 
@@ -100,7 +99,7 @@ public final class ImportFolderView extends SwingBuildedDialogView<IModel> imple
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
 
-        builder.addButton(new AcSearchFiles(), builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
+        builder.addButton(new SearchFilesAction(), builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
     }
 
     /**
@@ -111,13 +110,10 @@ public final class ImportFolderView extends SwingBuildedDialogView<IModel> imple
     private void addTitleList(PanelBuilder builder){
         modelListFiles = new SimpleListModel<File>();
 
-        listFiles = new JList(modelListFiles);
-        listFiles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listFiles = builder.addList(modelListFiles, null, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
         listFiles.setVisibleRowCount(5);
-        listFiles.getActionMap().put("delete", new AcDeleteFile());
+        listFiles.getActionMap().put("delete", new DeleteFileAction());
         listFiles.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
-
-        builder.addScrolled(listFiles, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
     }
 
     /**
@@ -134,8 +130,8 @@ public final class ImportFolderView extends SwingBuildedDialogView<IModel> imple
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
-                new AcImportFiles(), getCloseAction("movie.auto.folder.actions.cancel"));
+        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
+                new ImportFilesAction(), getCloseAction("movie.auto.folder.actions.cancel"));
     }
 
     @Override
@@ -146,11 +142,6 @@ public final class ImportFolderView extends SwingBuildedDialogView<IModel> imple
     @Override
     public void removeSelectedFile(){
         modelListFiles.remove(listFiles.getSelectedIndex());
-    }
-
-    @Override
-    public void clearFiles(){
-        modelListFiles.clear();
     }
 
     @Override

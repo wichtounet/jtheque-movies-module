@@ -23,6 +23,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -73,6 +74,31 @@ public final class CategoriesService implements ICategoriesService {
     }
 
     @Override
+    public boolean existsInOtherCategory(String title, Category category) {
+        for(Category other : daoCategories.getCategories()){
+            if(other.getId() != category.getId() && title.equals(other.getTitle())){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+	@Override
+	public Collection<Category> getSubCategories(Category category){
+		Collection<Category> categories = new ArrayList<Category>(20);
+
+		for(Category cat : getCategories()){
+			if(cat.getParent() == category){
+				categories.add(cat);
+				categories.addAll(getSubCategories(cat));
+			}
+		}
+
+		return categories;
+	}
+
+	@Override
     public Collection<Category> getDatas(){
         return getCategories();
     }

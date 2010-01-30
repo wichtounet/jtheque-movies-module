@@ -1,7 +1,6 @@
 package org.jtheque.movies;
 
 import org.jtheque.core.managers.state.AbstractState;
-import org.jtheque.utils.StringUtils;
 
 /*
  * This file is part of JTheque.
@@ -47,11 +46,6 @@ public final class MovieConfiguration extends AbstractState implements IMovieCon
     public void setOpeningSystem(Opening opening){
         setProperty(OPENING_SYSTEM, opening.getValue());
     }
-
-	@Override
-	public boolean isFFmpegInstalled(){
-		return StringUtils.isNotEmpty(getFFmpegLocation());
-	}
 	
 	@Override
 	public String getFFmpegLocation(){

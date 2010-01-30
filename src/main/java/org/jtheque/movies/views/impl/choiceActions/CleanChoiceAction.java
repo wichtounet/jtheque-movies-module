@@ -16,13 +16,11 @@ package org.jtheque.movies.views.impl.choiceActions;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.movies.controllers.able.ICleanController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.able.ICleanMovieView;
 import org.jtheque.primary.view.impl.choice.AbstractChoiceAction;
-
-import javax.annotation.Resource;
 
 /**
  * An action to modify the selected item.
@@ -30,12 +28,6 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class CleanChoiceAction extends AbstractChoiceAction {
-    @Resource
-    private ICleanMovieView cleanMovieView;
-
-    @Resource
-    private IMoviesService moviesService;
-
     @Override
     public boolean canDoAction(String action){
         return "clean".equals(action);
@@ -44,9 +36,7 @@ public final class CleanChoiceAction extends AbstractChoiceAction {
     @Override
     public void execute(){
         if (ICategoriesService.DATA_TYPE.equals(getContent())){
-            Category cat = (Category) getSelectedItem();
-
-            cleanMovieView.clean(moviesService.getMoviesOf(cat));
+            CoreUtils.<ICleanController>getBean("cleanController").clean((Category) getSelectedItem());
         }
     }
 }

@@ -19,28 +19,20 @@ package org.jtheque.movies.services.impl;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.db.DaoNotes;
-import org.jtheque.movies.IMovieConfiguration;
-import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.PreciseDuration;
-import org.jtheque.movies.utils.Resolution;
-import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 
 /**
  * A files service implementation.
@@ -55,10 +47,9 @@ public final class FilesService implements IFilesService {
     private ICategoriesService categoriesService;
 
     @Resource
-    private IMoviesModule moviesModule;
-    private static final Pattern PATTERN = Pattern.compile(", ");
+    private IFFMpegService ffMpegService;
 
-    @Override
+	@Override
     public void importMovies(Collection<File> files, Collection<FileParser> parsers){
         assert !files.isEmpty() : "Files cannot be empty";
 
@@ -87,8 +78,8 @@ public final class FilesService implements IFilesService {
 
 		File file = new File(filePath);
 
-		movie.setResolution(getResolution(file));
-		movie.setDuration(getDuration(file));
+		movie.setResolution(ffMpegService.getResolution(file));
+		movie.setDuration(ffMpegService.getDuration(file));
 
         extractCategoriesAndTitle(filePath, parsers, movie);
 
@@ -163,81 +154,5 @@ public final class FilesService implements IFilesService {
                 files.add(file);
             }
         }
-    }
-
-    @Override
-    public Resolution getResolution(File f){
-        IMovieConfiguration config = moviesModule.getConfig();
-
-        if(ffmpegIsInstalled()){
-            Scanner scanner = getInformations(f, config);
-
-            if(scanner != null){
-                while(scanner.hasNextLine()){
-                    String line = scanner.nextLine().trim();
-
-                    if(line.startsWith("Stream #0.0: Video:")){
-                        String resolution = PATTERN.split(line)[2].trim();
-
-						if(resolution.contains(" ")){
-							resolution = resolution.substring(0, resolution.indexOf(' '));
-						}
-
-                        return new Resolution(resolution);
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public PreciseDuration getDuration(File f){
-        IMovieConfiguration config = moviesModule.getConfig();
-
-        if(ffmpegIsInstalled()){
-            Scanner scanner = getInformations(f, config);
-
-            if(scanner != null){
-                while(scanner.hasNextLine()){
-                    String line = scanner.nextLine().trim();
-
-                    if(line.startsWith("Duration:")){
-                        String duration = line.substring(10, line.indexOf(',')) + "00";
-
-                        return new PreciseDuration(duration);
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private boolean ffmpegIsInstalled() {
-        IMovieConfiguration config = moviesModule.getConfig();
-
-        boolean notInstalled = StringUtils.isEmpty(config.getFFmpegLocation()) || !new File(config.getFFmpegLocation()).exists();
-
-        if(notInstalled){
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.ffmpeg"));
-        }
-
-        return !notInstalled;
-    }
-
-    private Scanner getInformations(File f, IMovieConfiguration config) {
-        SimpleApplicationConsumer p = new SimpleApplicationConsumer(config.getFFmpegLocation(), "-i", f.getAbsolutePath());
-
-        try {
-            p.consume();
-
-            return new Scanner(p.getResult());
-        } catch (IOException e) {
-            CoreUtils.getLogger(getClass()).error(e);
-        }
-
-        return null;
     }
 }

@@ -59,4 +59,8 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      * @return An empty category.
      */
     Category getEmptyCategory();
+
+    boolean existsInOtherCategory(String title, Category category);
+
+	Collection<Category> getSubCategories(Category category);
 }

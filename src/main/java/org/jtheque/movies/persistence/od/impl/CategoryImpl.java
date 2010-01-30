@@ -32,10 +32,20 @@ public final class CategoryImpl extends AbstractData implements Category {
      */
     private String title;
 
+	/**
+	 * The parent category.
+	 */
+	private Category parent;
+
     /**
      * The collection.
      */
     private Collection theCollection;
+
+	/**
+	 * The id of the parent, used only at cache loading to facilitate loading.
+	 */
+	private int temporaryParent;
 
     /**
      * Construct a new empty CategoryImpl.
@@ -77,7 +87,27 @@ public final class CategoryImpl extends AbstractData implements Category {
         this.theCollection = theCollection;
     }
 
-    //Utility methods
+	@Override
+	public Category getParent(){
+		return parent;
+	}
+
+	@Override
+	public void setParent(Category parent){
+		this.parent = parent;
+	}
+
+	@Override
+	public void setTemporaryParent(int temporaryParent){
+		this.temporaryParent = temporaryParent;
+	}
+
+	@Override
+	public int getTemporaryParent(){
+		return temporaryParent;
+	}
+
+	//Utility methods
 
     @Override
     public String getDisplayableText(){

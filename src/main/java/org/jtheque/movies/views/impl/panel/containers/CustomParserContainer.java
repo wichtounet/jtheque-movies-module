@@ -1,7 +1,5 @@
 package org.jtheque.movies.views.impl.panel.containers;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
 import javax.swing.JCheckBox;
@@ -45,11 +43,12 @@ public final class CustomParserContainer extends JPanel implements ParserContain
 
         this.parser = parser;
 
-        setBackground(Managers.getManager(IViewManager.class).getViewDefaults().getBackgroundColor());
+        setOpaque(false);
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 		checkBox = new JCheckBox();
+        checkBox.setOpaque(false);
 		add(checkBox);
 
 		add(parser.getCustomView());

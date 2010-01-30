@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.actions.movies;
+package org.jtheque.movies.views.impl.actions.categories;
 
 /*
  * This file is part of JTheque.
@@ -16,37 +16,27 @@ package org.jtheque.movies.views.impl.actions.movies;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.controllers.able.IMovieController;
+import org.jtheque.movies.controllers.able.ICategoryController;
 
 import java.awt.event.ActionEvent;
 
 /**
- * Action to delete a film.
+ * An action to create a new category.
  *
  * @author Baptiste Wicht
  */
-public final class AcDelete extends JThequeAction {
+public final class CreateNewCategoryAction extends JThequeAction {
     /**
-     * Construct a new AcDelete.
+     * Construct a new CreateNewCategoryAction.
      */
-    public AcDelete(){
-        super("movie.actions.delete");
+    public CreateNewCategoryAction(){
+        super("category.actions.new");
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
-                CoreUtils.getMessage("movie.dialogs.confirmDelete",
-                        CoreUtils.<IMovieController>getBean("movieController").
-                                getViewModel().getCurrentMovie().getDisplayableText()),
-                CoreUtils.getMessage("movie.dialogs.confirmDelete.title"));
-
-        if (yes){
-            CoreUtils.<IMovieController>getBean("movieController").deleteCurrent();
-        }
+        CoreUtils.<ICategoryController>getBean("categoryController").newCategory();
     }
 }

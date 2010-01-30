@@ -32,7 +32,7 @@ import java.awt.event.ActionEvent;
  *
  * @author Baptiste Wicht
  */
-public final class AcImportFiles extends JThequeAction {
+public final class ImportFilesAction extends JThequeAction {
     @Resource
     private IFilesService filesService;
 
@@ -42,7 +42,7 @@ public final class AcImportFiles extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      */
-    public AcImportFiles(){
+    public ImportFilesAction(){
         super("generic.view.actions.search");
 
         Managers.getManager(IBeansManager.class).inject(this);

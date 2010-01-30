@@ -38,13 +38,6 @@ public interface IMovieView extends IView {
     IMovieFormBean fillMovieFormBean();
 
     /**
-     * Return the currently displayed list.
-     *
-     * @return The currently display list.
-     */
-    Iterable<Movie> getDisplayList();
-
-    /**
      * Set the intern view to display.
      *
      * @param view The view to display.

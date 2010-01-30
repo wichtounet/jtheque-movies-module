@@ -17,6 +17,7 @@ package org.jtheque.movies.services.impl.parsers;
  */
 
 import org.jtheque.core.managers.persistence.able.DataContainer;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyComboBox;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -51,7 +52,7 @@ public final class StaticCategoryParser implements FileParser {
 		categoriesModel = new DataContainerCachedComboBoxModel<Category>(
 				CoreUtils.<DataContainer<Category>>getBean("categoriesService"));
 
-		categoriesComboBox = new JComboBox(categoriesModel);
+		categoriesComboBox = new FilthyComboBox(categoriesModel);
     }
 
     @Override

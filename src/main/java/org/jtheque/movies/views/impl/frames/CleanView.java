@@ -17,15 +17,17 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.view.able.components.IModel;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
-import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.movies.views.able.ICleanMovieView;
-import org.jtheque.movies.views.impl.actions.clean.AcValidateCleanViewAction;
+import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.views.able.ICleanView;
+import org.jtheque.movies.views.able.models.ICleanModel;
+import org.jtheque.movies.views.impl.actions.clean.ValidateCleanViewAction;
+import org.jtheque.movies.views.impl.models.CleanModel;
 import org.jtheque.movies.views.impl.panel.containers.CleanerContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
+import javax.swing.JCheckBox;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -34,16 +36,17 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class CleanMovieView extends SwingBuildedDialogView<IModel> implements ICleanMovieView {
+public final class CleanView extends SwingFilthyBuildedDialogView<IModel> implements ICleanView {
     private final Collection<CleanerContainer> cleanerContainers;
-    private final Collection<Movie> movies = new ArrayList<Movie>(25);
+
+    private JCheckBox checkBoxSub;
 
     /**
-     * Construct a new CleanMovieView.
+     * Construct a new CleanView.
      *
      * @param cleaners       The name cleaners.
      */
-    public CleanMovieView(Collection<NameCleaner> cleaners){
+    public CleanView(Collection<NameCleaner> cleaners){
         super();
 
         cleanerContainers = new ArrayList<CleanerContainer>(cleaners.size());
@@ -57,41 +60,32 @@ public final class CleanMovieView extends SwingBuildedDialogView<IModel> impleme
 
     @Override
     protected void initView(){
+		setModel(new CleanModel());
         setTitleKey("movie.clean.title");
         setResizable(false);
     }
 
     @Override
     protected void buildView(PanelBuilder builder){
-        builder.addI18nLabel("movie.clean.options", builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        PanelBuilder optionsBuilder = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        optionsBuilder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.clean.options"));
 
-        int i = 1;
+        int i = 0;
 
         for (CleanerContainer container : cleanerContainers){
-            builder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
+            optionsBuilder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
-                new AcValidateCleanViewAction(), getCloseAction("movie.auto.actions.cancel"));
+		checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories",
+				builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
+
+        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
+                new ValidateCleanViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override
-    public void clean(Movie movie){
-        movies.clear();
-        movies.add(movie);
-        display();
-    }
-
-    @Override
-    public Collection<Movie> getMovies(){
-        return movies;
-    }
-
-    @Override
-    public void clean(Collection<Movie> movies){
-        this.movies.clear();
-        this.movies.addAll(movies);
-        display();
+    public boolean areSubCategoriesIncluded(){
+        return checkBoxSub.isSelected();
     }
 
     @Override
@@ -106,4 +100,9 @@ public final class CleanMovieView extends SwingBuildedDialogView<IModel> impleme
 
         return cleaners;
     }
+
+	@Override
+	public ICleanModel getModel(){
+		return (ICleanModel) super.getModel();
+	}
 }

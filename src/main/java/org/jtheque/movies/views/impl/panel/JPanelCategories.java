@@ -30,7 +30,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoriesView;
-import org.jtheque.movies.views.impl.actions.categories.AcNewCategory;
+import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
@@ -98,7 +98,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         PanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
         
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
-        manageButtons.addButton(new AcNewCategory(), builder.gbcSet(1, 0));
+        manageButtons.addButton(new CreateNewCategoryAction(), builder.gbcSet(1, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE),
                 builder.gbcSet(2, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE),

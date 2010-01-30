@@ -30,4 +30,6 @@ public interface IMoviesModule {
      * @return The configuration of the module.
      */
     IMovieConfiguration getConfig();
+
+	String getThumbnailFolderPath();
 }

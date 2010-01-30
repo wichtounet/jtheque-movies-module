@@ -47,6 +47,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     private boolean mementoState;
 
     private String title;
+	private String image;
     private final Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
@@ -121,6 +122,16 @@ public final class MovieImpl extends AbstractData implements Movie {
 		this.resolution = resolution;
 	}
 
+	@Override
+	public String getImage(){
+		return image;
+	}
+
+	@Override
+	public void setImage(String image){
+		this.image = image;
+	}
+
 	//Utility methods
 
     @Override
@@ -135,7 +146,7 @@ public final class MovieImpl extends AbstractData implements Movie {
 
     @Override
     public int hashCode(){
-        return TempUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution);
+        return TempUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution, image);
     }
 
     @Override
@@ -144,11 +155,16 @@ public final class MovieImpl extends AbstractData implements Movie {
 			return false;
 		}
 
+        if(!(obj instanceof Movie)){
+            return false;
+        }
+
         Movie movie = (Movie)obj;
 
         return TempUtils.areEqualsDirect(this, movie,
-                title, categories, file, note, theCollection,
-                movie.getTitle(), movie.getCategories(), movie.getFile(), movie.getNote(), movie.getTheCollection());
+                title, categories, file, note, theCollection, duration, resolution, image,
+                movie.getTitle(), movie.getCategories(), movie.getFile(), movie.getNote(), movie.getTheCollection(),
+				movie.getDuration(), movie.getResolution(), movie.getImage());
     }
 
     @Override

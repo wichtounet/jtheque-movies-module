@@ -20,8 +20,6 @@ import org.jtheque.core.managers.view.able.IView;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 
-import javax.swing.JTextField;
-
 /**
  * @author Baptiste Wicht
  */
@@ -31,20 +29,15 @@ public interface ICategoryView extends IView {
      *
      * @return The field for the name.
      */
-    JTextField getFieldName();
+    String getCategoryName();
 
     @Override
     ICategoryModel getModel();
 
     /**
-     * Reload the view using the specified category.
-     *
-     * @param category The category.
-     */
-    void reload(Category category);
-
-    /**
      * Reload the view.
      */
     void reload();
+
+	Category getSelectedCategory();
 }
