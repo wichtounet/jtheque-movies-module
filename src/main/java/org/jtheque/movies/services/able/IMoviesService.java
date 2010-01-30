@@ -65,4 +65,6 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
 	void saveImage(Movie movie, BufferedImage image);
 
     void fillInformations(Set<Movie> movies, boolean duration, boolean resolution, boolean image);
+
+	Movie getMovie(String title);
 }

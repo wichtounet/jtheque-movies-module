@@ -30,6 +30,6 @@ public class ExtensionCleanerTest {
     public void clearName(){
         ExtensionCleaner cleaner = new ExtensionCleaner();
 
-        assertEquals(cleaner.clearName(new MovieImpl(), "super fichier.wma"), "super fichier");
+        assertEquals("super fichier", cleaner.clearName(new MovieImpl(), "super fichier.wma"));
     }
 }

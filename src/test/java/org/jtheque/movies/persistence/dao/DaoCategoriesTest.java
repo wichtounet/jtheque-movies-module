@@ -16,8 +16,6 @@ package org.jtheque.movies.persistence.dao;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;

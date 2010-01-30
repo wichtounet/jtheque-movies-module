@@ -30,6 +30,6 @@ public class NumberCleanerTest {
     public void clearName(){
         NumberCleaner cleaner = new NumberCleaner();
 
-        assertEquals(cleaner.clearName(new MovieImpl(), "555super 3245fichier123.wma46"), "super fichier.wma");
+        assertEquals("super fichier.wma", cleaner.clearName(new MovieImpl(), "555super 3245fichier123.wma46"));
     }
 }

@@ -73,4 +73,6 @@ public interface IDaoMovies extends JThequeDao {
      * @return The movie of the specified id if found else null.
      */
     Movie getMovie(int id);
+
+	Movie getMovie(String title);
 }

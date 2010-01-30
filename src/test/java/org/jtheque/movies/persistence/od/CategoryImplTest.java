@@ -49,6 +49,17 @@ public class CategoryImplTest {
         assertFalse(category.hashCode() == category2.hashCode());
     }
 
+	@Test
+	public void testToString(){
+		category.setTitle("Super title");
+
+		assertEquals("Super title", category.toString());
+
+		category.setTitle("Super title 2");
+
+		assertEquals("Super title 2", category.toString());
+	}
+
     @Test
     public void equals(){
         category.setId(123);
@@ -57,8 +68,8 @@ public class CategoryImplTest {
         Entity category2 = new CategoryImpl("Test");
         category2.setId(123);
 
-        assertTrue(category.equals(category2));
-        assertTrue(category2.equals(category));
+		assertEquals(category, category2);
+		assertEquals(category2, category);
 
         category.setTitle("Test 1234");
 

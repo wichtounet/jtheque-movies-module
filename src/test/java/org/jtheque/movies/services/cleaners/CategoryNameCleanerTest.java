@@ -37,6 +37,6 @@ public class CategoryNameCleanerTest {
         movie.addCategory(new CategoryImpl("cat1"));
         movie.addCategory(new CategoryImpl("cat2"));
 
-        assertEquals(cleaner.clearName(movie, "super cat1 fichiercat2.wma"), "super  fichier.wma");
+        assertEquals("super  fichier.wma", cleaner.clearName(movie, "super cat1 fichiercat2.wma"));
     }
 }

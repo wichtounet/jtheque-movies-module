@@ -113,6 +113,19 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
+    public void getMovieByTitle(){
+        Movie movie = daoMovies.getMovie("Movie 1");
+
+        assertNotNull(movie);
+        assertEquals("Movie 1", movie.getTitle());
+        assertEquals(1, movie.getId());
+
+        Movie movie2 = daoMovies.getMovie("Movie asdf");
+
+        assertNull(movie2);
+    }
+
+    @Test
     public void relations(){
         Movie movie = daoMovies.getMovie(2);
 

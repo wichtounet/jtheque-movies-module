@@ -121,7 +121,18 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
         return get(id);
     }
 
-    @Override
+	@Override
+	public Movie getMovie(String title){
+        for (Movie movie : getMovies()){
+            if (movie.getTitle().equals(title)){
+                return movie;
+            }
+        }
+
+        return null;
+	}
+
+	@Override
     public void save(Movie movie){
         super.save(movie);
 

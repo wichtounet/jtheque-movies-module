@@ -1,5 +1,6 @@
 package org.jtheque.movies.services.parsers;
 
+import org.apache.log4j.Logger;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser;
 import org.junit.AfterClass;
@@ -40,7 +41,7 @@ import static org.junit.Assert.*;
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class BetweenCharCategoryParserTest {
-    @Resource
+	@Resource
     private BetweenCharCategoryParser parser;
 
     private static File f;
@@ -52,10 +53,8 @@ public class BetweenCharCategoryParserTest {
         try {
             f.createNewFile();
         } catch (IOException e){
-            e.printStackTrace();
+			Logger.getLogger(getClass()).error(e.getMessage(), e);
         }
-
-        parser.parseFilePath(f);
     }
 
     @AfterClass
@@ -66,11 +65,24 @@ public class BetweenCharCategoryParserTest {
     @Test
     public void initOK(){
         assertNotNull(parser);
+		assertFalse(parser.hasCustomView());
     }
 
     @Test
+	public void testNotExistingFile(){
+		File f2 = new File(" not existing file.txt");
+
+		assertFalse(f2.exists());
+
+		parser.parseFilePath(f2);
+
+		assertEquals(0, parser.getExtractedCategories().size());
+	}
+
+    @Test
     public void getExtractedCategories(){
-        assertEquals(parser.getExtractedCategories().size(), 2);
+        parser.parseFilePath(f);
+        assertEquals(2, parser.getExtractedCategories().size());
 
         for (Category c : parser.getExtractedCategories()){
             if (!"cat1".equals(c.getTitle()) && !"cat2".equals(c.getTitle())){

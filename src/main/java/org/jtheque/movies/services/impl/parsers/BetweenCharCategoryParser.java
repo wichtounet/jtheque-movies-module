@@ -32,7 +32,7 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class BetweenCharCategoryParser implements FileParser {
-    private Collection<Category> categories;
+    private final Collection<Category> categories = new ArrayList<Category>(5);
 
     private final String characterStart;
     private final String characterEnd;
@@ -62,8 +62,6 @@ public final class BetweenCharCategoryParser implements FileParser {
     public void parseFilePath(File file){
         if (file.isFile()){
             String fileName = file.getName();
-
-            categories = new ArrayList<Category>(5);
 
             while (fileName.contains(characterStart) && fileName.contains(characterEnd)){
                 String name = fileName.substring(fileName.indexOf(characterStart) + 1, fileName.indexOf(characterEnd));

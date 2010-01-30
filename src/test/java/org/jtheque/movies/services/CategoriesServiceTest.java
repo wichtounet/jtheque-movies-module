@@ -16,136 +16,84 @@ package org.jtheque.movies.services;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.persistence.dao.able.IDaoCategories;
-import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.impl.CategoryImpl;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.services.impl.CategoriesService;
-import org.jtheque.utils.collections.CollectionUtils;
-import org.junit.Before;
+import org.jtheque.primary.PrimaryUtils;
+import org.jtheque.primary.dao.able.IDaoCollections;
+import org.jtheque.primary.od.able.Collection;
+import org.jtheque.primary.od.impl.CollectionImpl;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.lang.reflect.Field;
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.sql.DataSource;
 
-import static org.easymock.EasyMock.*;
+import static org.junit.Assert.*;
 
 /**
  * @author Baptiste Wicht
  */
-public class CategoriesServiceTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+        "/org/jtheque/core/spring/core-test-beans.xml",
+        "/org/jtheque/movies/movies-test-beans.xml",
+        "/org/jtheque/primary/spring/primary-test-beans.xml"})
+public class CategoriesServiceTest extends AbstractDBUnitTest {
+	@Resource
     private ICategoriesService categoriesService;
 
-    private IDaoCategories daoCategories;
+    @Resource
+    private IDaoCollections daoCollections;
 
-    @Before
-    public void setUp(){
-        categoriesService = new CategoriesService();
+    @Resource
+    private DataSource dataSource;
 
-        daoCategories = createMock(IDaoCategories.class);
+	static {
+		Logger.getRootLogger().setLevel(Level.ERROR);
+	}
 
-        try {
-            Field field = CategoriesService.class.getDeclaredField("daoCategories");
+    public CategoriesServiceTest(){
+        super("categories.xml");
+    }
 
-            field.setAccessible(true);
+    @PostConstruct
+    public void init(){
+        initDB(dataSource);
 
-            field.set(categoriesService, daoCategories);
-        } catch (NoSuchFieldException e){
-            e.printStackTrace();
-        } catch (IllegalAccessException e){
-            e.printStackTrace();
-        }
+        PrimaryUtils.setPrimaryImpl("Movies");
+
+        Collection collection = new CollectionImpl();
+        collection.setId(1);
+        collection.setPassword("");
+        collection.setProtection(false);
+        collection.setTitle("Collection 1");
+        collection.setPrimaryImpl("Movies");
+
+        daoCollections.setCurrentCollection(collection);
     }
 
     @Test
-    public void testGetCategories(){
-        expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
-
-        replay(daoCategories);
-
-        categoriesService.getCategories();
-
-        verify(daoCategories);
+    public void initOK(){
+        assertNotNull(categoriesService);
     }
 
     @Test
-    public void testDelete(){
-        expect(daoCategories.delete(new CategoryImpl())).andReturn(true);
-
-        replay(daoCategories);
-
-        categoriesService.delete(new CategoryImpl());
-
-        verify(daoCategories);
-    }
+	public void existsInOtherCategory(){
+		assertFalse(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 1")));
+		assertTrue(categoriesService.existsInOtherCategory("Category 2", categoriesService.getCategory("Category 1")));
+		assertTrue(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 2")));
+	}
 
     @Test
-    public void testCreate(){
-        daoCategories.create(new CategoryImpl());
-
-        replay(daoCategories);
-
-        categoriesService.create(new CategoryImpl());
-
-        verify(daoCategories);
-    }
-
-    @Test
-    public void testSave(){
-        daoCategories.save(new CategoryImpl());
-
-        replay(daoCategories);
-
-        categoriesService.save(new CategoryImpl());
-
-        verify(daoCategories);
-    }
-
-    @Test
-    public void testExists(){
-        // Add your code here
-    }
-
-    @Test
-    public void testGetCategory(){
-        expect(daoCategories.getCategory("asdf")).andReturn(null);
-
-        replay(daoCategories);
-
-        categoriesService.getCategory("asdf");
-
-        verify(daoCategories);
-    }
-
-    @Test
-    public void testGetEmptyCategory(){
-        expect(daoCategories.createCategory()).andReturn(new CategoryImpl(""));
-
-        replay(daoCategories);
-
-        categoriesService.getEmptyCategory();
-
-        verify(daoCategories);
-    }
-
-    @Test
-    public void testGetDatas(){
-        expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
-
-        replay(daoCategories);
-
-        categoriesService.getDatas();
-
-        verify(daoCategories);
-    }
-
-    @Test
-    public void testClearAll(){
-        daoCategories.clearAll();
-
-        replay(daoCategories);
-
-        categoriesService.clearAll();
-
-        verify(daoCategories);
-    }
+	public void getSubCategories(){
+		assertEquals(0, categoriesService.getSubCategories(null).size());
+		assertEquals(0, categoriesService.getSubCategories(categoriesService.getCategory("Category 3")).size());
+		assertEquals(1, categoriesService.getSubCategories(categoriesService.getCategory("Category 2")).size());
+		assertEquals(2, categoriesService.getSubCategories(categoriesService.getCategory("Category 1")).size());
+	}
 }

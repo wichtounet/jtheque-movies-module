@@ -16,6 +16,7 @@ package org.jtheque.movies.services.parsers;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.apache.log4j.Logger;
 import org.jtheque.core.utils.SystemProperty;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.impl.parsers.FolderCategoryParser;
@@ -55,12 +56,11 @@ public class FolderCategoryParserTest {
         try {
             f.createNewFile();
         } catch (IOException e){
-            e.printStackTrace();
+			Logger.getLogger(getClass()).error(e.getMessage(), e);
         }
         f.deleteOnExit();
 
         FileUtils.createIfNotExists(f);
-        parser.parseFilePath(f);
     }
 
     @AfterClass
@@ -71,11 +71,24 @@ public class FolderCategoryParserTest {
     @Test
     public void initOK(){
         assertNotNull(parser);
+		assertFalse(parser.hasCustomView());
     }
 
     @Test
+	public void testNotExistingFile(){
+		f = new File(" not existing file.txt");
+
+		assertFalse(f.exists());
+
+		parser.parseFilePath(f);
+
+		assertEquals(0, parser.getExtractedCategories().size());
+	}
+
+    @Test
     public void getExtractedCategories(){
-        assertEquals(parser.getExtractedCategories().size(), 1);
+        parser.parseFilePath(f);
+        assertEquals(1, parser.getExtractedCategories().size());
 
         for (Category c : parser.getExtractedCategories()){
             if (!parent.getName().equals(c.getTitle())){

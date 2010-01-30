@@ -182,6 +182,11 @@ public final class MoviesService implements IMoviesService {
         }
     }
 
+	@Override
+	public Movie getMovie(String title){
+		return daoMovies.getMovie(title);
+	}
+
 	private void generateInfos(boolean duration, boolean resolution, boolean image, Movie movie){
 		File f = new File(movie.getFile());
 

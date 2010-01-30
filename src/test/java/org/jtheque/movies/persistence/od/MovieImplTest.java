@@ -91,6 +91,17 @@ public class MovieImplTest {
         assertTrue(movie.hasCategories());
     }
 
+	@Test
+	public void testToString(){
+		movie.setTitle("Super title");
+
+		assertEquals("Super title", movie.toString());
+
+		movie.setTitle("Super title 2");
+
+		assertEquals("Super title 2", movie.toString());
+	}
+
     @Test
     public void testHashCode(){
         movie.setId(123);
@@ -131,6 +142,24 @@ public class MovieImplTest {
     }
 
     @Test
+	public void testIsOfCategory(){
+		Category cat1 = new CategoryImpl("Test 1");
+        cat1.setId(12);
+
+        Category cat2 = new CategoryImpl("Test 2");
+        cat2.setId(122);
+
+		assertFalse(movie.isOfCategory(null));
+		assertFalse(movie.isOfCategory(cat1));
+		assertFalse(movie.isOfCategory(cat2));
+
+		movie.addCategory(cat1);
+
+		assertTrue(movie.isOfCategory(cat1));
+		assertFalse(movie.isOfCategory(null));
+	}
+	
+    @Test
     public void equals(){
         movie.setId(123);
         movie.setTitle("Test");
@@ -155,8 +184,13 @@ public class MovieImplTest {
         movie2.addCategory(cat1);
         movie2.addCategory(cat2);
 
-        assertTrue(movie.equals(movie2));
-        assertTrue(movie2.equals(movie));
+		assertFalse(movie.equals(null));
+		assertFalse(movie2.equals(null));
+
+		assertFalse(movie.equals(new CategoryImpl()));
+
+		assertEquals(movie, movie2);
+		assertEquals(movie2, movie);
 
         movie2.getCategories().clear();
 

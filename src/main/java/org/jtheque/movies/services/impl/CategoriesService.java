@@ -20,6 +20,7 @@ import org.jtheque.core.managers.persistence.able.DataListener;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.utils.collections.CollectionUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -86,6 +87,10 @@ public final class CategoriesService implements ICategoriesService {
 
 	@Override
 	public Collection<Category> getSubCategories(Category category){
+		if(category == null){
+			return CollectionUtils.emptyList();
+		}
+
 		Collection<Category> categories = new ArrayList<Category>(20);
 
 		for(Category cat : getCategories()){

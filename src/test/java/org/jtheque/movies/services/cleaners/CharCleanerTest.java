@@ -30,6 +30,6 @@ public class CharCleanerTest {
     public void clearName(){
         CharCleaner cleaner = new CharCleaner("--");
 
-        assertEquals(cleaner.clearName(new MovieImpl(), "super -- fichier--.wma"), "super  fichier.wma");
+        assertEquals("super  fichier.wma", cleaner.clearName(new MovieImpl(), "super -- fichier--.wma"));
     }
 }
