@@ -1,19 +1,4 @@
-package org.jtheque.movies.views.impl.panel;
-
-import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
-import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
-import org.jtheque.utils.ui.SwingUtils;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.io.File;
+package org.jtheque.movies.views.impl.panel.players;
 
 /*
  * This file is part of JTheque.
@@ -31,27 +16,38 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
+import org.jtheque.utils.ui.SwingUtils;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.io.File;
+
 /**
- * A VLC panel implementation.
+ * A viewer panel. It's a panel for a specific mode for movies.
  *
  * @author Baptiste Wicht
  */
-public final class JPanelVLC extends ViewerPanel {
+public abstract class ViewerPanel extends JPanel {
     private final JLabel labelFile;
-    private JVLCPlayer player;
 
-    /**
-     * Construct a new VLC panel.
-     */
-    public JPanelVLC(){
-        super();
+	protected ViewerPanel(){
+		super();
 
-        setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
         GridBagConstraints cons = new GridBagConstraints();
         Container playerFilePanel = new JPanel(new GridBagLayout());
 
-        Component playerFileLabel = new JLabel("File: ");
+        JComponent playerFileLabel = new JLabel("File: ");
+        playerFileLabel.setOpaque(false);
         cons.gridx = 0;
         cons.gridy = 0;
         cons.insets = new Insets(2, 2, 2, 0);
@@ -73,21 +69,24 @@ public final class JPanelVLC extends ViewerPanel {
         SwingUtils.inEdt(new Runnable() {
             @Override
             public void run(){
-                player = new JVLCPlayer();
-                player.setControlBarVisible(true);
-                add(player, BorderLayout.CENTER);
+                addPlayer();
             }
         });
+	}
+
+	/**
+     * Set the file to read in the viewer.
+     *
+     * @param file The file to open.
+     */
+    public void setFile(File file){
+		labelFile.setText(file.getAbsolutePath());
     }
 
-    @Override
-    public void setFile(File f){
-        labelFile.setText(f.getAbsolutePath());
-        player.load(f.getAbsolutePath());
-    }
+	protected abstract void addPlayer();
 
-    @Override
-    public void stop(){
-        player.getVLCPlaylist().stop();
-    }
+    /**
+     * Stop the reader.
+     */
+    public abstract void stop();
 }

@@ -1,4 +1,8 @@
-package org.jtheque.movies.views.impl.panel;
+package org.jtheque.movies.views.impl.panel.players;
+
+import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
+import java.awt.BorderLayout;
+import java.io.File;
 
 /*
  * This file is part of JTheque.
@@ -16,24 +20,29 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import javax.swing.JPanel;
-import java.io.File;
-
 /**
- * A viewer panel. It's a panel for a specific mode for movies.
+ * A WMP panel implementation.
  *
  * @author Baptiste Wicht
  */
-public abstract class ViewerPanel extends JPanel {
-    /**
-     * Set the file to read in the viewer.
-     *
-     * @param file The file to open.
-     */
-    public abstract void setFile(File file);
+public final class JPanelWMP extends ViewerPanel {
+    private JWMediaPlayer player;
 
-    /**
-     * Stop the reader.
-     */
-    public abstract void stop();
+	@Override
+	protected void addPlayer(){
+		player = new JWMediaPlayer();
+		player.setControlBarVisible(true);
+		add(player, BorderLayout.CENTER);
+	}
+
+	@Override
+    public void setFile(File f){
+        super.setFile(f);
+        player.load(f.getAbsolutePath());
+    }
+
+    @Override
+    public void stop(){
+        player.getWMPControls().stop();
+    }
 }

@@ -21,8 +21,6 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.IErrorManager;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.persistence.able.Entity;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.able.IView;
 import org.jtheque.core.managers.view.impl.actions.utils.DisplayViewAction;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyCardPanel;
@@ -33,9 +31,9 @@ import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
-import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.utils.TempSwingUtils;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.actions.movies.CollapseAction;
@@ -56,7 +54,6 @@ import org.jtheque.primary.view.impl.listeners.ObjectChangedEvent;
 import org.jtheque.primary.view.impl.models.tree.JThequeTreeModel;
 import org.jtheque.primary.view.impl.models.tree.TreeElement;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.utils.ui.ImageUtils;
 import org.jtheque.utils.ui.SizeTracker;
 
 import javax.annotation.PostConstruct;
@@ -64,18 +61,12 @@ import javax.annotation.Resource;
 import javax.swing.JLabel;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
-import java.awt.Composite;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.LinearGradientPaint;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -95,9 +86,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
 
     @Resource
     private Font filthyTitleFont;
-
-    @Resource
-    private LinearGradientPaint backgroundPaint;
 
     @PostConstruct
     public void init() {
@@ -127,8 +115,6 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
         private final SizeTracker tracker = new SizeTracker(this);
 
         private Image gradientImage;
-        private final BufferedImage light = Managers.getManager(IResourceManager.class).getImage(
-                IMoviesModule.IMAGES_BASE_NAME, "light", ImageType.PNG);
 
         private static final double LIST_COLUMN = 0.3;
 
@@ -229,26 +215,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
                 return;
             }
 
-            Graphics2D g2 = (Graphics2D) g;
-
-            if (gradientImage == null || tracker.hasSizeChanged()){
-                gradientImage = ImageUtils.createCompatibleImage(getWidth(), getHeight());
-                Graphics2D g2d = (Graphics2D) gradientImage.getGraphics();
-                Composite composite = g2.getComposite();
-                g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-                        RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                g2d.setPaint(backgroundPaint);
-                g2d.fillRect(0, 0, getWidth(), getHeight());
-                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-
-                g2d.drawImage(light, 0, 0, getWidth(), light.getHeight(), null);
-                g2d.setComposite(composite);
-                g2d.dispose();
-            }
-
-            g2.drawImage(gradientImage, 0, 0, null);
-
-            tracker.updateSize();
+			gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
         }
 
         @Override

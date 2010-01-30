@@ -22,9 +22,9 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
-import org.jtheque.movies.views.impl.panel.JPanelVLC;
-import org.jtheque.movies.views.impl.panel.JPanelWMP;
-import org.jtheque.movies.views.impl.panel.ViewerPanel;
+import org.jtheque.movies.views.impl.panel.players.JPanelVLC;
+import org.jtheque.movies.views.impl.panel.players.JPanelWMP;
+import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.primary.controller.able.ControllerState;
 import org.jtheque.primary.controller.impl.PrincipalController;
 

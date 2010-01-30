@@ -18,7 +18,6 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.able.components.IModel;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.controllers.able.IMovieController;
@@ -28,13 +27,10 @@ import org.jtheque.movies.utils.TempSwingUtils;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
 import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
-import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
-import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -42,10 +38,8 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class AddFromFileView extends SwingFilthyBuildedDialogView<IModel> implements IAddFromFileView {
+public final class AddFromFileView extends AbstractParserView implements IAddFromFileView {
     private FilthyFileChooserPanel fileChooser;
-
-    private final Collection<ParserContainer> parserContainers;
 
     /**
      * Construct a new Category View.
@@ -53,19 +47,7 @@ public final class AddFromFileView extends SwingFilthyBuildedDialogView<IModel> 
      * @param parsers The category parsers.
      */
     public AddFromFileView(Collection<FileParser> parsers){
-        super();
-
-        parserContainers = new ArrayList<ParserContainer>(parsers.size());
-
-        for (FileParser p : parsers){
-			if(p.hasCustomView()){
-				parserContainers.add(new CustomParserContainer(p));
-			} else {
-            	parserContainers.add(new SimpleParserContainer(p));
-			}
-        }
-
-        build();
+        super(parsers);
     }
 
     @Override
@@ -84,7 +66,7 @@ public final class AddFromFileView extends SwingFilthyBuildedDialogView<IModel> 
 
         int i = 1;
 
-        for (ParserContainer container : parserContainers){
+        for (ParserContainer container : getContainers()){
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
@@ -116,17 +98,4 @@ public final class AddFromFileView extends SwingFilthyBuildedDialogView<IModel> 
 			errors.add(new InternationalizedError("movie.errors.filenotfound"));
 		}
 	}
-
-	@Override
-    public Collection<FileParser> getSelectedParsers(){
-        Collection<FileParser> parsers = new ArrayList<FileParser>(5);
-
-        for (ParserContainer container : parserContainers){
-            if (container.isSelected()){
-                parsers.add(container.getParser());
-            }
-        }
-
-        return parsers;
-    }
 }

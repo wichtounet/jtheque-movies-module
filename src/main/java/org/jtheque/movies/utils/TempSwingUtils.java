@@ -3,9 +3,15 @@ package org.jtheque.movies.utils;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.language.ILanguageManager;
 import org.jtheque.core.managers.language.Internationalizable;
+import org.jtheque.core.managers.resource.IResourceManager;
+import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.components.JThequeCheckBox;
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.movies.IMoviesModule;
 import org.jtheque.utils.ui.ButtonBarBuilder;
+import org.jtheque.utils.ui.ImageUtils;
+import org.jtheque.utils.ui.SizeTracker;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -13,7 +19,16 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 
 /*
  * This file is part of JTheque.
@@ -32,8 +47,40 @@ import java.awt.Color;
  */
 
 public final class TempSwingUtils {
+	private static final BufferedImage LIGHT;
+    private static final LinearGradientPaint BACKGROUND_PAINT;
+
+	static {
+		BACKGROUND_PAINT = CoreUtils.getBean("backgroundPaint");
+		LIGHT = Managers.getManager(IResourceManager.class).getImage(IMoviesModule.IMAGES_BASE_NAME, "light", ImageType.PNG);
+	}
+
 	private TempSwingUtils(){
 		super();
+	}
+
+	public static Image paintFilthyBackground(Graphics g, Image gradientImage, SizeTracker tracker, Component panel){
+		Graphics2D g2 = (Graphics2D) g;
+
+		if (gradientImage == null || tracker.hasSizeChanged()){
+			gradientImage = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
+			Graphics2D g2d = (Graphics2D) gradientImage.getGraphics();
+			Composite composite = g2.getComposite();
+			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+			g2d.setPaint(BACKGROUND_PAINT);
+			g2d.fillRect(0, 0, panel.getWidth(), panel.getHeight());
+			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+
+			g2d.drawImage(LIGHT, 0, 0, panel.getWidth(), LIGHT.getHeight(), null);
+			g2d.setComposite(composite);
+			g2d.dispose();
+		}
+
+		g2.drawImage(gradientImage, 0, 0, null);
+
+		tracker.updateSize();
+
+		return gradientImage;
 	}
 
 	/**

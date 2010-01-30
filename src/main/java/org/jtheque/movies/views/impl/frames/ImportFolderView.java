@@ -17,7 +17,6 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.able.components.IModel;
 import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
@@ -28,9 +27,7 @@ import org.jtheque.movies.views.impl.actions.movies.folder.DeleteFileAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.ImportFilesAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.SearchFilesAction;
 import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
-import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
-import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JList;
@@ -38,7 +35,6 @@ import javax.swing.KeyStroke;
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -46,7 +42,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class ImportFolderView extends SwingFilthyBuildedDialogView<IModel> implements IImportFolderView {
+public final class ImportFolderView extends AbstractParserView implements IImportFolderView {
     private FilthyFileChooserPanel directoryChooser;
     private JList listFiles;
 
@@ -54,27 +50,13 @@ public final class ImportFolderView extends SwingFilthyBuildedDialogView<IModel>
 
     private Phase phase = Phase.CHOOSE_FOLDER;
 
-    private final Collection<ParserContainer> parserContainers;
-
     /**
      * Construct a new ImportFolderView.
      *
      * @param parsers            A List of parsers used to extract the categories from the file name.
      */
     public ImportFolderView(Collection<FileParser> parsers){
-        super();
-
-        parserContainers = new ArrayList<ParserContainer>(parsers.size());
-
-        for (FileParser p : parsers){
-			if(p.hasCustomView()){
-				parserContainers.add(new CustomParserContainer(p));
-			} else {
-            	parserContainers.add(new SimpleParserContainer(p));
-			}
-        }
-
-		build();
+        super(parsers);
     }
 
     @Override
@@ -126,7 +108,7 @@ public final class ImportFolderView extends SwingFilthyBuildedDialogView<IModel>
 
         int i = 3;
 
-        for (ParserContainer container : parserContainers){
+        for (ParserContainer container : getContainers()){
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
@@ -168,18 +150,5 @@ public final class ImportFolderView extends SwingFilthyBuildedDialogView<IModel>
         this.phase = phase;
 
         return validateContent();
-    }
-
-    @Override
-    public Collection<FileParser> getSelectedParsers(){
-        Collection<FileParser> parsers = new ArrayList<FileParser>(5);
-
-        for (ParserContainer container : parserContainers){
-            if (container.isSelected()){
-                parsers.add(container.getParser());
-            }
-        }
-
-        return parsers;
     }
 }
