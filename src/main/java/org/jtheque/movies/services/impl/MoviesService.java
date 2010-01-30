@@ -171,32 +171,34 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     public void fillInformations(Set<Movie> movies, boolean duration, boolean resolution, boolean image) {
-        if(!resolution && !duration && !image){
-            return;
-        }
+		assert resolution || duration || image : "This method must be called with one of duration, resolution or image";
 
         for(Movie movie : movies){
             if(new File(movie.getFile()).exists()){
-                File f = new File(movie.getFile());
+				generateInfos(duration, resolution, image, movie);
 
-                if(duration){
-                    movie.setDuration(ffMpegService.getDuration(f));
-                }
-
-                if(resolution){
-                    movie.setResolution(ffMpegService.getResolution(f));
-                }
-
-                if(image){
-                    saveImage(movie, ffMpegService.generateRandomPreviewImage(f));
-                }
+				save(movie);
             }
-
-            save(movie);
         }
     }
 
-    private static String getFreeName(String folder, String name){
+	private void generateInfos(boolean duration, boolean resolution, boolean image, Movie movie){
+		File f = new File(movie.getFile());
+
+		if(duration){
+			movie.setDuration(ffMpegService.getDuration(f));
+		}
+
+		if(resolution){
+			movie.setResolution(ffMpegService.getResolution(f));
+		}
+
+		if(image){
+			saveImage(movie, ffMpegService.generateRandomPreviewImage(f));
+		}
+	}
+
+	private static String getFreeName(String folder, String name){
 		if(new File(folder, name).exists()){
 			int count = 1;
 

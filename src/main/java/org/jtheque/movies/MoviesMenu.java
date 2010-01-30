@@ -24,7 +24,7 @@ import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 
 import java.util.List;
 
-public final class MoviesMenu extends AbstractMenu {
+final class MoviesMenu extends AbstractMenu {
     @Override
     protected List<Feature> getMenuMainFeatures(){
         return features(

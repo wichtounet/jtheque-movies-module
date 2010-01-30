@@ -1,5 +1,6 @@
 package org.jtheque.movies.utils;
 
+import org.jtheque.utils.Constants;
 import org.jtheque.utils.StringUtils;
 
 import java.util.regex.Pattern;
@@ -61,6 +62,6 @@ public final class Resolution {
 
 	@Override
 	public int hashCode(){
-		return 17 + 31 * width + height;
+		return Constants.HASH_CODE_START + Constants.HASH_CODE_PRIME * width + height;
 	}
 }

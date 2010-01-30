@@ -99,10 +99,13 @@ public final class SimpleApplicationConsumer {
 
 				Thread current = Thread.currentThread();
 				CharBuffer cb = CharBuffer.allocate(BUF_SIZE);
-				int len;
+
 
 				cb.clear();
-				while ((len = in.read(cb)) > 0 && !current.isInterrupted()) {
+
+				int len = in.read(cb);
+
+				while (len > 0 && !current.isInterrupted()) {
 					cb.position(0).limit(len);
 					out.append(cb);
 					cb.clear();
@@ -111,6 +114,8 @@ public final class SimpleApplicationConsumer {
 					if(current.isInterrupted()){
 						break;
 					}
+
+					len = in.read(cb);
 				}
 			} finally {
 				tryToClose(in);

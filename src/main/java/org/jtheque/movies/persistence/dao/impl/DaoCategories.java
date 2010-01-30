@@ -155,7 +155,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     /**
      * Set if the cache has been entirely loaded or not.
      */
-    protected void setEntirelyLoaded() {
+	void setEntirelyLoaded() {
         cacheEntirelyLoaded = true;
 
 		setCacheEntirelyLoaded();

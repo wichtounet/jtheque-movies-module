@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.choiceActions;
+package org.jtheque.movies.views.impl.choice;
 
 /*
  * This file is part of JTheque.

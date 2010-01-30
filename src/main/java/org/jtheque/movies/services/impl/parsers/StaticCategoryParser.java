@@ -20,10 +20,8 @@ import org.jtheque.core.managers.persistence.able.DataContainer;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyComboBox;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 
-import javax.annotation.Resource;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import java.io.File;
@@ -38,9 +36,6 @@ import java.util.Collection;
 public final class StaticCategoryParser implements FileParser {
 	private final DataContainerCachedComboBoxModel<Category> categoriesModel;
 	private final JComboBox categoriesComboBox;
-
-    @Resource
-    private ICategoriesService categoriesService;
 
 	/**
      * Construct a new StaticCategoryParser.

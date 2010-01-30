@@ -15,9 +15,9 @@
     <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" lazy-init="false">
         <constructor-arg index="0">
             <util:list>
-                <bean class="org.jtheque.movies.views.impl.choiceActions.ModifyChoiceAction"/>
-                <bean class="org.jtheque.movies.views.impl.choiceActions.DeleteChoiceAction"/>
-                <bean class="org.jtheque.movies.views.impl.choiceActions.CleanChoiceAction"/>
+                <bean class="org.jtheque.movies.views.impl.choice.ModifyChoiceAction"/>
+                <bean class="org.jtheque.movies.views.impl.choice.DeleteChoiceAction"/>
+                <bean class="org.jtheque.movies.views.impl.choice.CleanChoiceAction"/>
             </util:list>
         </constructor-arg>
         <constructor-arg index="1">

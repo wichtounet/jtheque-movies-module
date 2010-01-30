@@ -130,7 +130,7 @@ public final class FilthyFormattedTextField extends JPanel {
      *
      * @param field The field to make filthy.
      */
-    static void makeFilthy(JTextComponent field) {
+    private static void makeFilthy(JTextComponent field) {
         ViewDefaults defaults = Managers.getManager(IViewManager.class).getViewDefaults();
 
         Font inputFont = defaults.getFilthyInputFont();

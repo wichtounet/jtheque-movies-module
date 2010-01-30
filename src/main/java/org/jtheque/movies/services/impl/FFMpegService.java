@@ -45,7 +45,10 @@ public final class FFMpegService implements IFFMpegService {
     private static final Pattern PATTERN = Pattern.compile(", ");
 	private static final Random RANDOM = new Random();
 
-    @Override
+	private static final int THUMBNAIL_WIDTH = 200;
+	private static final int MAX_RANDOM_TIME = 50;
+
+	@Override
     public Resolution getResolution(File f){
         if(ffmpegIsInstalled()){
             Scanner scanner = getInformations(f);
@@ -117,7 +120,7 @@ public final class FFMpegService implements IFFMpegService {
 			BufferedImage image = ImageUtils.openCompatibleImage(
 				Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName));
 
-			return ImageUtils.createThumbnail(image, 200);
+			return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
 		}
 
 		return null;
@@ -128,7 +131,7 @@ public final class FFMpegService implements IFFMpegService {
 		BufferedImage image = ImageUtils.openCompatibleImage(
 				Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath()));
 
-		return ImageUtils.createThumbnail(image, 200);
+		return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
 	}
 
 	private static boolean ffmpegIsInstalled() {
@@ -164,6 +167,6 @@ public final class FFMpegService implements IFFMpegService {
     }
 
 	private static String getRandomTime(){
-		return String.valueOf(RANDOM.nextInt(50) + 1);
+		return String.valueOf(RANDOM.nextInt(MAX_RANDOM_TIME) + 1);
 	}
 }

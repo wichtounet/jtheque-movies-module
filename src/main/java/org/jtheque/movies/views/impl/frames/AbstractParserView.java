@@ -38,7 +38,7 @@ public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IM
      *
      * @param parsers The category parsers.
      */
-    public AbstractParserView(Collection<FileParser> parsers){
+	AbstractParserView(Collection<FileParser> parsers){
         super();
 
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
@@ -54,11 +54,11 @@ public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IM
         build();
     }
 
-	public Collection<ParserContainer> getContainers(){
+	final Iterable<ParserContainer> getContainers(){
 		return parserContainers;
 	}
 
-    public Collection<FileParser> getSelectedParsers(){
+    public final Collection<FileParser> getSelectedParsers(){
         Collection<FileParser> parsers = new ArrayList<FileParser>(5);
 
         for (ParserContainer container : parserContainers){

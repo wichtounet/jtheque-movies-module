@@ -27,7 +27,11 @@ public final class PreciseDuration {
     private static final Pattern PATTERN = Pattern.compile(":");
     private static final Pattern PATTERN1 = Pattern.compile("\\.");
 
-    public PreciseDuration(CharSequence duration) {
+	private static final long MILLISECONDS = 1000L;
+	private static final int SECONDS_PER_MINUTE = 60;
+	private static final long SECONDS_PER_HOUR = 3600L;
+
+	public PreciseDuration(CharSequence duration) {
         super();
 
         String[] times = PATTERN.split(duration);
@@ -44,20 +48,23 @@ public final class PreciseDuration {
     public PreciseDuration(long time){
 		super();
 
-		hours = (byte) (time / (3600 * 1000));
+		hours = (byte) (time / (SECONDS_PER_HOUR * MILLISECONDS));
 
-		long rest = time - hours * 3600 * 1000;
+		long rest = time - hours * SECONDS_PER_HOUR * MILLISECONDS;
 
-		minutes = (byte) (rest / (60 * 1000));
+		minutes = (byte) (rest / (SECONDS_PER_MINUTE * MILLISECONDS));
 
-		rest -= minutes * 60 * 1000;
+		rest -= minutes * SECONDS_PER_MINUTE * MILLISECONDS;
 
-		seconds = (byte) (rest / 1000);
-		milliSeconds = (short) (rest - seconds * 1000);
+		seconds = (byte) (rest / MILLISECONDS);
+		milliSeconds = (short) (rest - seconds * MILLISECONDS);
 	}
 
 	public long getTime(){
-		return milliSeconds + seconds * 1000 + minutes * 60 * 1000 + hours * 3600 * 100;
+		return milliSeconds +
+				seconds * MILLISECONDS +
+				minutes * SECONDS_PER_MINUTE * MILLISECONDS +
+				hours * SECONDS_PER_HOUR * MILLISECONDS;
 	}
 
 	@Override

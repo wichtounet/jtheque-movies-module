@@ -95,7 +95,7 @@ public abstract class SwingFilthyBuildedDialogView<T extends IModel> extends Swi
     }
 
     @Override
-    public T getModel(){
+    public final T getModel(){
         return (T) super.getModel();
     }
 

@@ -38,7 +38,7 @@ import java.io.File;
 public abstract class ViewerPanel extends JPanel {
     private final JLabel labelFile;
 
-	protected ViewerPanel(){
+	ViewerPanel(){
 		super();
 
 		setLayout(new BorderLayout());

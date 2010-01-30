@@ -60,11 +60,13 @@ public final class TempSwingUtils {
 	}
 
 	public static Image paintFilthyBackground(Graphics g, Image gradientImage, SizeTracker tracker, Component panel){
+		Image gradient = gradientImage;
+
 		Graphics2D g2 = (Graphics2D) g;
 
-		if (gradientImage == null || tracker.hasSizeChanged()){
-			gradientImage = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
-			Graphics2D g2d = (Graphics2D) gradientImage.getGraphics();
+		if (gradient == null || tracker.hasSizeChanged()){
+			gradient = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
+			Graphics2D g2d = (Graphics2D) gradient.getGraphics();
 			Composite composite = g2.getComposite();
 			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 			g2d.setPaint(BACKGROUND_PAINT);
@@ -76,11 +78,11 @@ public final class TempSwingUtils {
 			g2d.dispose();
 		}
 
-		g2.drawImage(gradientImage, 0, 0, null);
+		g2.drawImage(gradient, 0, 0, null);
 
 		tracker.updateSize();
 
-		return gradientImage;
+		return gradient;
 	}
 
 	/**

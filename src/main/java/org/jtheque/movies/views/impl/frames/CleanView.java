@@ -16,7 +16,6 @@ package org.jtheque.movies.views.impl.frames;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.view.able.components.IModel;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.movies.utils.TempSwingUtils;
@@ -36,7 +35,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class CleanView extends SwingFilthyBuildedDialogView<IModel> implements ICleanView {
+public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> implements ICleanView {
     private final Collection<CleanerContainer> cleanerContainers;
 
     private JCheckBox checkBoxSub;
@@ -100,9 +99,4 @@ public final class CleanView extends SwingFilthyBuildedDialogView<IModel> implem
 
         return cleaners;
     }
-
-	@Override
-	public ICleanModel getModel(){
-		return (ICleanModel) super.getModel();
-	}
 }
