@@ -9,6 +9,7 @@
     <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService"/>
     <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService"/>
     <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
+    <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
 
     <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
         <constructor-arg value="{"/>
