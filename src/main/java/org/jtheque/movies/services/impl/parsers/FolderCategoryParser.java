@@ -42,14 +42,7 @@ public final class FolderCategoryParser extends AbstractSimpleCategoryParser {
         if (file.isFile()) {
             String name = file.getParentFile().getName();
 
-            if (categoriesService.exists(name)) {
-                addCategory(categoriesService.getCategory(name));
-            } else {
-                Category category = categoriesService.getEmptyCategory();
-                category.setTitle(name);
-
-                addCategory(category);
-            }
+            addCategory(name);
         }
     }
 

@@ -1,6 +1,8 @@
 package org.jtheque.movies.services.impl.parsers;
 
+import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -22,12 +24,31 @@ import java.util.Collection;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An abstract simple file parser.
+ *
+ * @author Baptiste Wicht
+ */
 abstract class AbstractSimpleCategoryParser implements FileParser {
     private final Collection<Category> categories = new ArrayList<Category>(5);
 
-    void addCategory(Category category){
-        categories.add(category);
-    }
+	/**
+	 * Add category to the list. If there category doesn't exists, it will be created.
+	 *
+	 * @param name The name of the category. 
+	 */
+	void addCategory(String name){
+		ICategoriesService categoriesService = CoreUtils.getBean("categoriesService");
+
+		if (categoriesService.exists(name)) {
+			categories.add(categoriesService.getCategory(name));
+		} else {
+			Category category = categoriesService.getEmptyCategory();
+			category.setTitle(name);
+
+			categories.add(category);
+		}
+	}
 
     @Override
     public Collection<Category> getExtractedCategories() {

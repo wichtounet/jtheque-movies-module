@@ -61,14 +61,7 @@ public final class BetweenCharCategoryParser extends AbstractSimpleCategoryParse
             while (fileName.contains(characterStart) && fileName.contains(characterEnd)) {
                 String name = fileName.substring(fileName.indexOf(characterStart) + 1, fileName.indexOf(characterEnd));
 
-                if (categoriesService.exists(name)) {
-                    addCategory(categoriesService.getCategory(name));
-                } else {
-                    Category category = categoriesService.getEmptyCategory();
-                    category.setTitle(name);
-
-                    addCategory(category);
-                }
+                addCategory(name);
 
                 fileName = fileName.substring(fileName.indexOf(characterEnd) + 1);
             }

@@ -55,14 +55,7 @@ public final class ToCharCategoryParser extends AbstractSimpleCategoryParser {
         if (file.isFile()) {
             String name = file.getName().substring(0, file.getName().indexOf(character)).trim();
 
-            if (categoriesService.exists(name)) {
-                addCategory(categoriesService.getCategory(name));
-            } else {
-                Category category = categoriesService.getEmptyCategory();
-                category.setTitle(name);
-
-                addCategory(category);
-            }
+            addCategory(name);
         }
     }
 
