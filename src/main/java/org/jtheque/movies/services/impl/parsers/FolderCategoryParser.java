@@ -29,9 +29,6 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class FolderCategoryParser extends AbstractSimpleCategoryParser {
-    @Resource
-    private ICategoriesService categoriesService;
-
     @Override
     public String getTitle() {
         return CoreUtils.getMessage("movie.auto.parser.folder");

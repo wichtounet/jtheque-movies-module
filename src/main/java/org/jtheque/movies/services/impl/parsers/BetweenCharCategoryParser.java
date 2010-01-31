@@ -32,9 +32,6 @@ public final class BetweenCharCategoryParser extends AbstractSimpleCategoryParse
     private final String characterStart;
     private final String characterEnd;
 
-    @Resource
-    private ICategoriesService categoriesService;
-
     /**
      * Construct a new BetweenCharCategoryParser.
      *

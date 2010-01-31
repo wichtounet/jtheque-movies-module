@@ -31,9 +31,6 @@ import java.io.File;
 public final class ToCharCategoryParser extends AbstractSimpleCategoryParser {
     private final String character;
 
-    @Resource
-    private ICategoriesService categoriesService;
-
     /**
      * Construct a new ToCharCategoryParser with the specified end character.
      *
