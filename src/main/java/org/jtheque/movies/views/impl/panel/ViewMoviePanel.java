@@ -25,8 +25,12 @@ import org.jtheque.primary.view.impl.actions.principal.ManualEditPrincipalAction
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.ListCellRenderer;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Insets;
 import java.util.Collection;
 
 /*
@@ -64,6 +68,9 @@ public final class ViewMoviePanel extends MoviePanel {
 
     private SimpleListModel<Category> categoriesModel;
 
+    private static final float TITLE_FONT_SIZE = 18f;
+    private static final float BUTTON_FONT_SIZE = 14f;
+
     /**
      * Construct a new ViewMoviePanel.
      */
@@ -87,11 +94,11 @@ public final class ViewMoviePanel extends MoviePanel {
 
         Font filthyTitleFont = CoreUtils.getBean("filthyTitleFont");
 
-        titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(18f), Color.white),
+        titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(TITLE_FONT_SIZE), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
         JButton button = title.addButton(new PlayMovieAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
-        button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(14f));
+        button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
 

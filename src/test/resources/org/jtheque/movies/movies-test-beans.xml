@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule">
+        <constructor-arg index="0">
+            <util:list/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <null />
+        </constructor-arg>
+    </bean>
 
     <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories" scope="prototype"/>
     <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies" scope="prototype"/>

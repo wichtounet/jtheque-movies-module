@@ -1,5 +1,7 @@
 package org.jtheque.movies.utils;
 
+import org.jtheque.utils.Constants;
+
 import java.util.regex.Pattern;
 
 /*
@@ -33,7 +35,7 @@ public final class PreciseDuration {
     private static final Pattern PATTERN1 = Pattern.compile("\\.");
 
     private static final long MILLISECONDS = 1000L;
-    private static final int SECONDS_PER_MINUTE = 60;
+    private static final long SECONDS_PER_MINUTE = 60L;
     private static final long SECONDS_PER_HOUR = 3600L;
 
     /**
@@ -110,12 +112,12 @@ public final class PreciseDuration {
 
     @Override
     public int hashCode() {
-        int result = 17;
+        int result = Constants.HASH_CODE_START;
 
-        result = 31 * result + (int) hours;
-        result = 31 * result + (int) minutes;
-        result = 31 * result + (int) seconds;
-        result = 31 * result + (int) milliSeconds;
+        result = Constants.HASH_CODE_START * result + (int) hours;
+        result = Constants.HASH_CODE_START * result + (int) minutes;
+        result = Constants.HASH_CODE_START * result + (int) seconds;
+        result = Constants.HASH_CODE_START * result + (int) milliSeconds;
 
         return result;
 	}

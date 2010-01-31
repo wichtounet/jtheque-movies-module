@@ -43,6 +43,8 @@ public final class FilthyFileChooserPanel extends JPanel implements Internationa
     private boolean directoriesOnly;
 
     private String key;
+    
+    private static final int FIELD_COLUMNS = 15;
 
     /**
      * Construct a new FileChooserPanel.
@@ -89,7 +91,7 @@ public final class FilthyFileChooserPanel extends JPanel implements Internationa
         panel.setOpaque(false);
         panel.setBorder(BorderFactory.createEtchedBorder(1));
 
-        fieldFilePath = new FilthyTextField(15);
+        fieldFilePath = new FilthyTextField(FIELD_COLUMNS);
         Insets insets = fieldFilePath.getTextField().getMargin();
         fieldFilePath.setBorder(BorderFactory.createEmptyBorder(insets.top, insets.left, insets.bottom, insets.right));
         panel.add(fieldFilePath, BorderLayout.CENTER);
@@ -198,6 +200,8 @@ public final class FilthyFileChooserPanel extends JPanel implements Internationa
      * @author Baptiste Wicht
      */
     private static final class BrowseButton extends JButton {
+        private static final int BUTTON_WIDTH = 20;
+
         /**
          * Construct a new BrowseButton.
          *
@@ -210,8 +214,10 @@ public final class FilthyFileChooserPanel extends JPanel implements Internationa
         @Override
         public Dimension getPreferredSize() {
             Dimension size = super.getPreferredSize();
+
             size.height = 10;
-            size.width = 20;
+            size.width = BUTTON_WIDTH;
+
             return size;
         }
     }
