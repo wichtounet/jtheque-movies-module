@@ -35,7 +35,7 @@ public class CategoryModelTest {
 
     @Test
     public void testGetState() throws Exception {
-        assertEquals(ViewMode.VIEW, model.getState());
+        assertEquals(ViewMode.NEW, model.getState());
 
         model.setState(ViewMode.AUTO);
 
