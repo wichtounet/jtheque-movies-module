@@ -1,8 +1,8 @@
 package org.jtheque.movies.services.impl;
 
+import org.jtheque.core.utils.SystemProperty;
 import org.junit.Test;
 
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileFilter;
 
@@ -30,7 +30,7 @@ public class MovieFileNameFilterTest {
 
     @Test
     public void acceptPicturesFiles(){
-        assertTrue(filter.accept(FileSystemView.getFileSystemView().getDefaultDirectory()));
+        assertTrue(filter.accept(new File(SystemProperty.USER_DIR.get())));
         assertTrue(filter.accept(new File("test.avi")));
         assertTrue(filter.accept(new File("test.mpeg")));
         assertTrue(filter.accept(new File("test.wma")));
