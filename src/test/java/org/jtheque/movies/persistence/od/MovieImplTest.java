@@ -34,12 +34,12 @@ public class MovieImplTest {
     private MovieImpl movie;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         movie = new MovieImpl();
     }
 
     @Test
-    public void testAddCategories(){
+    public void testAddCategories() {
         Category category1 = new CategoryImpl();
         category1.setId(1);
 
@@ -54,7 +54,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void testAddCategory(){
+    public void testAddCategory() {
         Category category = new CategoryImpl();
 
         movie.addCategory(category);
@@ -64,7 +64,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void testIsInCollection(){
+    public void testIsInCollection() {
         Collection collection1 = new CollectionImpl();
         collection1.setId(10);
 
@@ -81,7 +81,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void testHasCategories(){
+    public void testHasCategories() {
         assertFalse(movie.hasCategories());
 
         Category category = new CategoryImpl();
@@ -91,19 +91,19 @@ public class MovieImplTest {
         assertTrue(movie.hasCategories());
     }
 
-	@Test
-	public void testToString(){
-		movie.setTitle("Super title");
+    @Test
+    public void testToString() {
+        movie.setTitle("Super title");
 
-		assertEquals("Super title", movie.toString());
+        assertEquals("Super title", movie.toString());
 
-		movie.setTitle("Super title 2");
+        movie.setTitle("Super title 2");
 
-		assertEquals("Super title 2", movie.toString());
-	}
+        assertEquals("Super title 2", movie.toString());
+    }
 
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         movie.setId(123);
         movie.setTitle("Test");
         movie.setFile("C:\\test.dat");
@@ -142,25 +142,25 @@ public class MovieImplTest {
     }
 
     @Test
-	public void testIsOfCategory(){
-		Category cat1 = new CategoryImpl("Test 1");
+    public void testIsOfCategory() {
+        Category cat1 = new CategoryImpl("Test 1");
         cat1.setId(12);
 
         Category cat2 = new CategoryImpl("Test 2");
         cat2.setId(122);
 
-		assertFalse(movie.isOfCategory(null));
-		assertFalse(movie.isOfCategory(cat1));
-		assertFalse(movie.isOfCategory(cat2));
+        assertFalse(movie.isOfCategory(null));
+        assertFalse(movie.isOfCategory(cat1));
+        assertFalse(movie.isOfCategory(cat2));
 
-		movie.addCategory(cat1);
+        movie.addCategory(cat1);
 
-		assertTrue(movie.isOfCategory(cat1));
-		assertFalse(movie.isOfCategory(null));
-	}
-	
+        assertTrue(movie.isOfCategory(cat1));
+        assertFalse(movie.isOfCategory(null));
+    }
+
     @Test
-    public void equals(){
+    public void equals() {
         movie.setId(123);
         movie.setTitle("Test");
         movie.setFile("C:\\test.dat");
@@ -184,13 +184,13 @@ public class MovieImplTest {
         movie2.addCategory(cat1);
         movie2.addCategory(cat2);
 
-		assertFalse(movie.equals(null));
-		assertFalse(movie2.equals(null));
+        assertFalse(movie.equals(null));
+        assertFalse(movie2.equals(null));
 
-		assertFalse(movie.equals(new CategoryImpl()));
+        assertFalse(movie.equals(new CategoryImpl()));
 
-		assertEquals(movie, movie2);
-		assertEquals(movie2, movie);
+        assertEquals(movie, movie2);
+        assertEquals(movie2, movie);
 
         movie2.getCategories().clear();
 

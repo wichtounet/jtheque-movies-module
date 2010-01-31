@@ -30,9 +30,8 @@ import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.JList;
-import javax.swing.KeyStroke;
-import java.awt.GridBagConstraints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Collection;
@@ -53,19 +52,19 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     /**
      * Construct a new ImportFolderView.
      *
-     * @param parsers            A List of parsers used to extract the categories from the file name.
+     * @param parsers A List of parsers used to extract the categories from the file name.
      */
-    public ImportFolderView(Collection<FileParser> parsers){
+    public ImportFolderView(Collection<FileParser> parsers) {
         super(parsers);
     }
 
     @Override
-    protected void initView(){
+    protected void initView() {
         setTitleKey("movie.auto.folder.title");
     }
 
     @Override
-    protected void buildView(PanelBuilder builder){
+    protected void buildView(PanelBuilder builder) {
         addDirectoryChooser(builder);
         addTitleList(builder);
         addParsers(builder);
@@ -76,7 +75,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
      *
      * @param builder The parent builder
      */
-    private void addDirectoryChooser(PanelBuilder builder){
+    private void addDirectoryChooser(PanelBuilder builder) {
         directoryChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
@@ -89,7 +88,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
      *
      * @param builder The parent builder
      */
-    private void addTitleList(PanelBuilder builder){
+    private void addTitleList(PanelBuilder builder) {
         modelListFiles = new SimpleListModel<File>();
 
         listFiles = builder.addList(modelListFiles, null, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
@@ -103,12 +102,12 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
      *
      * @param builder The parent builder
      */
-    private void addParsers(PanelBuilder builder){
+    private void addParsers(PanelBuilder builder) {
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
 
         int i = 3;
 
-        for (ParserContainer container : getContainers()){
+        for (ParserContainer container : getContainers()) {
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
@@ -117,36 +116,36 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     }
 
     @Override
-    public String getFolderPath(){
+    public String getFolderPath() {
         return directoryChooser.getFilePath();
     }
 
     @Override
-    public void removeSelectedFile(){
+    public void removeSelectedFile() {
         modelListFiles.remove(listFiles.getSelectedIndex());
     }
 
     @Override
-    public void setFiles(Collection<File> files){
+    public void setFiles(Collection<File> files) {
         modelListFiles.setElements(files);
     }
 
     @Override
-    public Collection<File> getFiles(){
+    public Collection<File> getFiles() {
         return modelListFiles.getObjects();
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors){
-        if (Phase.CHOOSE_FOLDER == phase){
+    protected void validate(Collection<JThequeError> errors) {
+        if (Phase.CHOOSE_FOLDER == phase) {
             ValidationUtils.rejectIfEmpty(directoryChooser.getFilePath(), "movie.auto.folder.errors.folderEmpty", errors);
-        } else if (Phase.CHOOSE_FILES == phase){
+        } else if (Phase.CHOOSE_FILES == phase) {
             ValidationUtils.rejectIfEmpty(listFiles, "movie.auto.folder.errors.filesEmpty", errors);
         }
     }
 
     @Override
-    public boolean validateContent(Phase phase){
+    public boolean validateContent(Phase phase) {
         this.phase = phase;
 
         return validateContent();

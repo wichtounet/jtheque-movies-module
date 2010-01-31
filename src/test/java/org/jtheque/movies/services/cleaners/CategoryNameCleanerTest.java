@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class CategoryNameCleanerTest {
     @Test
-    public void clearName(){
+    public void clearName() {
         CategoryNameCleaner cleaner = new CategoryNameCleaner();
 
         Movie movie = new MovieImpl();

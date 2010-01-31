@@ -21,7 +21,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,7 +46,7 @@ public final class BetweenCharCategoryParser implements FileParser {
      * @param characterStart The start character.
      * @param characterEnd   The end character.
      */
-    public BetweenCharCategoryParser(String characterStart, String characterEnd){
+    public BetweenCharCategoryParser(String characterStart, String characterEnd) {
         super();
 
         this.characterStart = characterStart;
@@ -54,19 +54,19 @@ public final class BetweenCharCategoryParser implements FileParser {
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.auto.parser.between.char", characterStart, characterEnd);
     }
 
     @Override
-    public void parseFilePath(File file){
-        if (file.isFile()){
+    public void parseFilePath(File file) {
+        if (file.isFile()) {
             String fileName = file.getName();
 
-            while (fileName.contains(characterStart) && fileName.contains(characterEnd)){
+            while (fileName.contains(characterStart) && fileName.contains(characterEnd)) {
                 String name = fileName.substring(fileName.indexOf(characterStart) + 1, fileName.indexOf(characterEnd));
 
-                if (categoriesService.exists(name)){
+                if (categoriesService.exists(name)) {
                     categories.add(categoriesService.getCategory(name));
                 } else {
                     Category category = categoriesService.getEmptyCategory();
@@ -81,10 +81,10 @@ public final class BetweenCharCategoryParser implements FileParser {
     }
 
     @Override
-    public String clearFileName(String fileName){
+    public String clearFileName(String fileName) {
         String name = fileName;
 
-        for (Category cat : categories){
+        for (Category cat : categories) {
             name = name.replace(characterStart + cat.getTitle() + characterEnd, "");
         }
 
@@ -92,17 +92,17 @@ public final class BetweenCharCategoryParser implements FileParser {
     }
 
     @Override
-    public Collection<Category> getExtractedCategories(){
+    public Collection<Category> getExtractedCategories() {
         return categories;
     }
 
-	@Override
-	public boolean hasCustomView(){
-		return false;
-	}
+    @Override
+    public boolean hasCustomView() {
+        return false;
+    }
 
-	@Override
-	public JComponent getCustomView(){
-		return null;
-	}
+    @Override
+    public JComponent getCustomView() {
+        return null;
+    }
 }

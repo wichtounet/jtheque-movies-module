@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class CharCleanerTest {
     @Test
-    public void clearName(){
+    public void clearName() {
         CharCleaner cleaner = new CharCleaner("--");
 
         assertEquals("super  fichier.wma", cleaner.clearName(new MovieImpl(), "super -- fichier--.wma"));

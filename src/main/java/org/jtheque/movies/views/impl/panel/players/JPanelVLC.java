@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.panel.players;
 
 import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.io.File;
 
 /*
@@ -29,21 +29,21 @@ import java.io.File;
 public final class JPanelVLC extends ViewerPanel {
     private JVLCPlayer player;
 
-	@Override
-	protected void addPlayer(){
-		player = new JVLCPlayer();
-		player.setControlBarVisible(true);
-		add(player, BorderLayout.CENTER);
-	}
+    @Override
+    protected void addPlayer() {
+        player = new JVLCPlayer();
+        player.setControlBarVisible(true);
+        add(player, BorderLayout.CENTER);
+    }
 
-	@Override
-    public void setFile(File f){
+    @Override
+    public void setFile(File f) {
         super.setFile(f);
         player.load(f.getAbsolutePath());
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         player.getVLCPlaylist().stop();
     }
 }

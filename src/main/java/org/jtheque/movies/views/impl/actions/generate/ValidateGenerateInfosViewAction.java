@@ -31,12 +31,12 @@ public final class ValidateGenerateInfosViewAction extends JThequeAction {
     /**
      * Construct a new ValidateCleanViewAction.
      */
-    public ValidateGenerateInfosViewAction(){
+    public ValidateGenerateInfosViewAction() {
         super("movie.actions.generate.validate");
     }
 
-	@Override
-    public void actionPerformed(ActionEvent e){
+    @Override
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<IGenerateInfosController>getBean("generateInfosController").generate();
     }
 }

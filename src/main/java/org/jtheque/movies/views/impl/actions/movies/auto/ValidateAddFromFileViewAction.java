@@ -32,17 +32,17 @@ public final class ValidateAddFromFileViewAction extends JThequeAction {
     /**
      * Construct a new ValidateAddFromFileViewAction.
      */
-    public ValidateAddFromFileViewAction(){
+    public ValidateAddFromFileViewAction() {
         super("movie.auto.actions.add");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         IAddFromFileView view = CoreUtils.getBean("addFromFileView");
 
-		if(view.validateContent()){
-			CoreUtils.<IAddFromFileController>getBean("addFromFileController").add(
+        if (view.validateContent()) {
+            CoreUtils.<IAddFromFileController>getBean("addFromFileController").add(
                     view.getFilePath(), view.getSelectedParsers());
-		}
+        }
     }
 }

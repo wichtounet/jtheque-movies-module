@@ -13,21 +13,10 @@ import org.jtheque.utils.ui.ButtonBarBuilder;
 import org.jtheque.utils.ui.ImageUtils;
 import org.jtheque.utils.ui.SizeTracker;
 
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Composite;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.LinearGradientPaint;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /*
@@ -46,46 +35,64 @@ import java.awt.image.BufferedImage;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A temporary swing utility class. This class must be moved to JTheque Core/Utils at
+ * the next release of this two projects.
+ *
+ * @author Baptiste Wicht
+ */
 public final class TempSwingUtils {
-	private static final BufferedImage LIGHT;
+    private static final BufferedImage LIGHT;
     private static final LinearGradientPaint BACKGROUND_PAINT;
 
-	static {
-		BACKGROUND_PAINT = CoreUtils.getBean("backgroundPaint");
-		LIGHT = Managers.getManager(IResourceManager.class).getImage(IMoviesModule.IMAGES_BASE_NAME, "light", ImageType.PNG);
-	}
+    static {
+        BACKGROUND_PAINT = CoreUtils.getBean("backgroundPaint");
+        LIGHT = Managers.getManager(IResourceManager.class).getImage(IMoviesModule.IMAGES_BASE_NAME, "light", ImageType.PNG);
+    }
 
-	private TempSwingUtils(){
-		super();
-	}
+    /**
+     * Utility class, not instanciable.
+     */
+    private TempSwingUtils() {
+        super();
+    }
 
-	public static Image paintFilthyBackground(Graphics g, Image gradientImage, SizeTracker tracker, Component panel){
-		Image gradient = gradientImage;
+    /**
+     * Paint a filthy background to a panel.
+     *
+     * @param g             The graphics to paint to.
+     * @param gradientImage The gradient image to use.
+     * @param tracker       The size tracker of the panel.
+     * @param panel         The panel to paint.
+     * @return The current gradient image buffer.
+     */
+    public static Image paintFilthyBackground(Graphics g, Image gradientImage, SizeTracker tracker, Component panel) {
+        Image gradient = gradientImage;
 
-		Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
-		if (gradient == null || tracker.hasSizeChanged()){
-			gradient = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
-			Graphics2D g2d = (Graphics2D) gradient.getGraphics();
-			Composite composite = g2.getComposite();
-			g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			g2d.setPaint(BACKGROUND_PAINT);
-			g2d.fillRect(0, 0, panel.getWidth(), panel.getHeight());
-			g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+        if (gradient == null || tracker.hasSizeChanged()) {
+            gradient = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
+            Graphics2D g2d = (Graphics2D) gradient.getGraphics();
+            Composite composite = g2.getComposite();
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2d.setPaint(BACKGROUND_PAINT);
+            g2d.fillRect(0, 0, panel.getWidth(), panel.getHeight());
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
-			g2d.drawImage(LIGHT, 0, 0, panel.getWidth(), LIGHT.getHeight(), null);
-			g2d.setComposite(composite);
-			g2d.dispose();
-		}
+            g2d.drawImage(LIGHT, 0, 0, panel.getWidth(), LIGHT.getHeight(), null);
+            g2d.setComposite(composite);
+            g2d.dispose();
+        }
 
-		g2.drawImage(gradient, 0, 0, null);
+        g2.drawImage(gradient, 0, 0, null);
 
-		tracker.updateSize();
+        tracker.updateSize();
 
-		return gradient;
-	}
+        return gradient;
+    }
 
-	/**
+    /**
      * Create a filthy titled border.
      *
      * @param key The internationalization key.
@@ -94,18 +101,18 @@ public final class TempSwingUtils {
     public static Border createFilthyTitledBorder(String key) {
         TitledBorder border = BorderFactory.createTitledBorder(Managers.getManager(ILanguageManager.class).getMessage(key));
 
-		border.setTitleColor(Color.white);
+        border.setTitleColor(Color.white);
 
         Managers.getManager(ILanguageManager.class).addInternationalizable(new BorderUpdater(border, key));
 
         return border;
     }
 
-	/**
+    /**
      * Add a button bar.
      *
-     * @param panel The panel builder to add the button bar to. 
-	 * @param constraints The constraints to use to add to the panel.
+     * @param panel       The panel builder to add the button bar to.
+     * @param constraints The constraints to use to add to the panel.
      * @param actions     The actions to add to the button bar.
      */
     public static void addFilthyButtonBar(PanelBuilder panel, Object constraints, Action... actions) {
@@ -115,40 +122,54 @@ public final class TempSwingUtils {
 
         builder.addActions(actions);
 
-		((JComponent) builder.getPanel()).setOpaque(false);
+        ((JComponent) builder.getPanel()).setOpaque(false);
 
         panel.add(builder.getPanel(), constraints);
     }
 
-	public static JCheckBox addFilthyCheckbox(PanelBuilder panel, String key, Object constraints){
-		JCheckBox checkBox = new JThequeCheckBox(key);
+    /**
+     * Add a filthy checkbox to the panel builder.
+     *
+     * @param panel       The panel builder to add the check box to.
+     * @param key         The i18n key of the check box.
+     * @param constraints The constraints to use to add the check box to the builder.
+     * @return The added checkbox.
+     */
+    public static JCheckBox addFilthyCheckbox(PanelBuilder panel, String key, Object constraints) {
+        JCheckBox checkBox = new JThequeCheckBox(key);
 
         checkBox.setForeground(Color.white);
         checkBox.setOpaque(false);
 
-		return panel.add(checkBox, constraints);
-	}
+        return panel.add(checkBox, constraints);
+    }
 
-	private static final class BorderUpdater implements Internationalizable {
-    	private final TitledBorder border;
-   		private final String key;
+    /**
+     * A Border Updater. It seems a internationalizable who keeps the title of a border up to date
+     * with the current locale.
+     *
+     * @author Baptiste Wicht
+     */
+    private static final class BorderUpdater implements Internationalizable {
+        private final TitledBorder border;
+        private final String key;
 
-		/**
-		 * Construct a new BorderUpdater for a specific border with a internationalization key.
-		 *
-		 * @param border The titled border.
-		 * @param key    The internationalization key.
-		 */
-		BorderUpdater(TitledBorder border, String key) {
-			super();
+        /**
+         * Construct a new BorderUpdater for a specific border with a internationalization key.
+         *
+         * @param border The titled border.
+         * @param key    The internationalization key.
+         */
+        BorderUpdater(TitledBorder border, String key) {
+            super();
 
-			this.border = border;
-			this.key = key;
-		}
+            this.border = border;
+            this.key = key;
+        }
 
-		@Override
-		public void refreshText() {
-			border.setTitle(Managers.getManager(ILanguageManager.class).getMessage(key));
+        @Override
+        public void refreshText() {
+            border.setTitle(Managers.getManager(ILanguageManager.class).getMessage(key));
 		}
 	}
 }

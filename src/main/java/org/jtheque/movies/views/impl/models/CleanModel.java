@@ -20,6 +20,12 @@ import org.jtheque.movies.views.able.models.ICleanModel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A clean model implementation. This model store the current category or movie of the
+ * clean view.
+ *
+ * @author Baptiste Wicht
+ */
 public final class CleanModel implements ICleanModel {
     private Category category;
     private Movie movie;
@@ -47,7 +53,7 @@ public final class CleanModel implements ICleanModel {
     }
 
     @Override
-    public boolean isMovieMode(){
+    public boolean isMovieMode() {
         return movie != null;
     }
 }

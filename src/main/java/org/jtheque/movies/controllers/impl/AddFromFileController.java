@@ -50,13 +50,13 @@ public final class AddFromFileController extends AbstractController implements I
     private IMovieController movieController;
 
     @Override
-    public IAddFromFileView getView(){
+    public IAddFromFileView getView() {
         return addFromFileView;
     }
 
     @Override
     public void add(String filePath, Collection<FileParser> parsers) {
-        if(moviesService.fileExists(filePath)){
+        if (moviesService.fileExists(filePath)) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
         } else {
             Movie movie = filesService.createMovie(filePath, parsers);

@@ -24,18 +24,18 @@ import org.jtheque.core.managers.state.AbstractState;
  * @author Baptiste Wicht
  */
 public final class MovieConfiguration extends AbstractState implements IMovieConfiguration {
-	private static final String OPENING_SYSTEM = "opening";
-	private static final String FFMPEG_LOCATION = "ffmpeg";
+    private static final String OPENING_SYSTEM = "opening";
+    private static final String FFMPEG_LOCATION = "ffmpeg";
 
-	@Override
-    public Opening getOpeningSystem(){
+    @Override
+    public Opening getOpeningSystem() {
         String opening = getProperty(OPENING_SYSTEM, "system");
 
-        if (Opening.SYSTEM.getValue().equals(opening)){
+        if (Opening.SYSTEM.getValue().equals(opening)) {
             return Opening.SYSTEM;
-        } else if (Opening.VLC.getValue().equals(opening)){
+        } else if (Opening.VLC.getValue().equals(opening)) {
             return Opening.VLC;
-        } else if (Opening.WMP.getValue().equals(opening)){
+        } else if (Opening.WMP.getValue().equals(opening)) {
             return Opening.WMP;
         } else {
             return Opening.SYSTEM;
@@ -43,17 +43,17 @@ public final class MovieConfiguration extends AbstractState implements IMovieCon
     }
 
     @Override
-    public void setOpeningSystem(Opening opening){
+    public void setOpeningSystem(Opening opening) {
         setProperty(OPENING_SYSTEM, opening.getValue());
     }
-	
-	@Override
-	public String getFFmpegLocation(){
-		return getProperty(FFMPEG_LOCATION, "");
-	}
 
-	@Override
-	public void setFFmpegLocation(String location){
-		setProperty(FFMPEG_LOCATION, location);
-	}
+    @Override
+    public String getFFmpegLocation() {
+        return getProperty(FFMPEG_LOCATION, "");
+    }
+
+    @Override
+    public void setFFmpegLocation(String location) {
+        setProperty(FFMPEG_LOCATION, location);
+    }
 }

@@ -31,12 +31,12 @@ public final class ValidateCleanViewAction extends JThequeAction {
     /**
      * Construct a new ValidateCleanViewAction.
      */
-    public ValidateCleanViewAction(){
+    public ValidateCleanViewAction() {
         super("movie.actions.clean.validate");
     }
 
-	@Override
-    public void actionPerformed(ActionEvent e){
+    @Override
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<ICleanController>getBean("cleanController").clean();
     }
 }

@@ -4,7 +4,7 @@ import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.util.Collection;
 
 /*
@@ -36,7 +36,7 @@ public abstract class MoviePanel extends JPanel {
      *
      * @param key The key identifying the panel.
      */
-    MoviePanel(String key){
+    MoviePanel(String key) {
         super();
 
         this.key = key;
@@ -68,7 +68,7 @@ public abstract class MoviePanel extends JPanel {
      *
      * @return The key of the panel.
      */
-    public final String getKey(){
+    public final String getKey() {
         return key;
     }
 }

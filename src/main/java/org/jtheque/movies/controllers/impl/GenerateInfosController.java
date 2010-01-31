@@ -36,7 +36,7 @@ public final class GenerateInfosController extends AbstractController implements
     private IMoviesService moviesService;
 
     @Override
-    public IGenerateInfosView getView(){
+    public IGenerateInfosView getView() {
         return generateInfosView;
     }
 

@@ -30,7 +30,7 @@ import org.jtheque.primary.od.impl.abstraction.AbstractData;
 import org.jtheque.primary.utils.TempUtils;
 import org.jtheque.utils.StringUtils;
 
-import javax.swing.Icon;
+import javax.swing.*;
 import java.io.File;
 import java.util.Collection;
 import java.util.Date;
@@ -47,172 +47,172 @@ public final class MovieImpl extends AbstractData implements Movie {
     private boolean mementoState;
 
     private String title;
-	private String image;
+    private String image;
     private final Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
     private org.jtheque.primary.od.able.Collection theCollection;
-	private PreciseDuration duration;
-	private Resolution resolution; 
+    private PreciseDuration duration;
+    private Resolution resolution;
 
     //Data methods
 
     @Override
-    public org.jtheque.primary.od.able.Collection getTheCollection(){
+    public org.jtheque.primary.od.able.Collection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(org.jtheque.primary.od.able.Collection theCollection){
+    public void setTheCollection(org.jtheque.primary.od.able.Collection theCollection) {
         this.theCollection = theCollection;
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
     @Override
-    public Set<Category> getCategories(){
+    public Set<Category> getCategories() {
         return categories;
     }
 
     @Override
-    public String getFile(){
+    public String getFile() {
         return file;
     }
 
     @Override
-    public void setFile(String file){
+    public void setFile(String file) {
         this.file = file;
     }
 
     @Override
-    public Note getNote(){
+    public Note getNote() {
         return note;
     }
 
     @Override
-    public void setNote(Note note){
+    public void setNote(Note note) {
         this.note = note;
     }
 
-	@Override
-	public PreciseDuration getDuration(){
-		return duration;
-	}
-
-	@Override
-	public void setDuration(PreciseDuration duration){
-		this.duration = duration;
-	}
-
-	@Override
-	public Resolution getResolution(){
-		return resolution;
-	}
-
-	@Override
-	public void setResolution(Resolution resolution){
-		this.resolution = resolution;
-	}
-
-	@Override
-	public String getImage(){
-		return image;
-	}
-
-	@Override
-	public void setImage(String image){
-		this.image = image;
-	}
-
-	//Utility methods
+    @Override
+    public PreciseDuration getDuration() {
+        return duration;
+    }
 
     @Override
-    public String getDisplayableText(){
+    public void setDuration(PreciseDuration duration) {
+        this.duration = duration;
+    }
+
+    @Override
+    public Resolution getResolution() {
+        return resolution;
+    }
+
+    @Override
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
+    }
+
+    @Override
+    public String getImage() {
+        return image;
+    }
+
+    @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    //Utility methods
+
+    @Override
+    public String getDisplayableText() {
         return title;
     }
 
     @Override
-    public Icon getIcon(){
+    public Icon getIcon() {
         return Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "movie", ImageType.PNG);
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return TempUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution, image);
     }
 
     @Override
-    public boolean equals(Object obj){
-		if(obj == null){
-			return false;
-		}
-
-        if(!(obj instanceof Movie)){
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
 
-        Movie movie = (Movie)obj;
+        if (!(obj instanceof Movie)) {
+            return false;
+        }
+
+        Movie movie = (Movie) obj;
 
         return TempUtils.areEqualsDirect(this, movie,
                 title, categories, file, note, theCollection, duration, resolution, image,
                 movie.getTitle(), movie.getCategories(), movie.getFile(), movie.getNote(), movie.getTheCollection(),
-				movie.getDuration(), movie.getResolution(), movie.getImage());
+                movie.getDuration(), movie.getResolution(), movie.getImage());
     }
 
     @Override
-    public void saveToMemento(){
+    public void saveToMemento() {
         mementoState = true;
 
         memento = Managers.getManager(IPropertiesManager.class).createMemento(this);
 
-        if (memento == null){
+        if (memento == null) {
             mementoState = false;
         }
     }
 
     @Override
-    public void restoreMemento(){
-        if (mementoState){
+    public void restoreMemento() {
+        if (mementoState) {
             Managers.getManager(IPropertiesManager.class).restoreMemento(this, memento);
         }
     }
 
     @Override
-    public void addCategories(Collection<Category> categories){
+    public void addCategories(Collection<Category> categories) {
         this.categories.addAll(categories);
     }
 
     @Override
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         categories.add(category);
     }
 
     @Override
-    public boolean isInCollection(org.jtheque.primary.od.able.Collection collection){
+    public boolean isInCollection(org.jtheque.primary.od.able.Collection collection) {
         return theCollection != null && theCollection.equals(collection);
     }
 
     @Override
-    public boolean hasCategories(){
+    public boolean hasCategories() {
         return !categories.isEmpty();
     }
 
     @Override
-    public boolean isOfCategory(Category category){
+    public boolean isOfCategory(Category category) {
         return category != null && categories.contains(category);
     }
 
     @Override
-    public Date getFileLastModifiedDate(){
-        if (StringUtils.isEmpty(file)){
+    public Date getFileLastModifiedDate() {
+        if (StringUtils.isEmpty(file)) {
             return null;
         }
 
@@ -222,8 +222,8 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public long getFileSize(){
-        if (StringUtils.isEmpty(file)){
+    public long getFileSize() {
+        if (StringUtils.isEmpty(file)) {
             return 0;
         }
 
@@ -231,7 +231,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return title;
     }
 }

@@ -25,96 +25,120 @@ import org.jtheque.movies.views.impl.models.CategoryElement;
 import org.jtheque.primary.view.impl.models.tree.JThequeTreeModel;
 import org.jtheque.primary.view.impl.models.tree.TreeElement;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public final class MoviesSorter{
-	private MoviesSorter(){
-		super();
-	}
-
-	public static void sort(JThequeTreeModel model){
-        TreeElement root = model.getRoot();
-
-		root.clear();
-
-        Collection<Category> categories = CoreUtils.<ICategoriesService>getBean("categoriesService").getCategories();
-		Map<Category, CategoryElement> elements = new HashMap<Category, CategoryElement>(categories.size());
-
-		addCategories(root, categories, elements);
-
-		sortCategories(root);
-
-		addMovies(root, elements);
-
-		model.setRootElement(root);
+/**
+ * A sorter for the movies tree.
+ *
+ * @author Baptiste Wicht
+ */
+public final class MoviesSorter {
+    /**
+     * Utility class, not instanciable.
+     */
+    private MoviesSorter() {
+        super();
     }
 
-	private static void addCategories(TreeElement root, Collection<Category> categories, Map<Category, CategoryElement> elements){
-		while(!categories.isEmpty()){
-			Iterator<Category> iterator = categories.iterator();
+    /**
+     * Sort the specified tree model.
+     *
+     * @param model The tree model to sort.
+     */
+    public static void sort(JThequeTreeModel model) {
+        TreeElement root = model.getRoot();
 
-			while(iterator.hasNext()){
-				Category category = iterator.next();
+        root.clear();
 
-				if(category.getParent() == null){
-					CategoryElement element = new CategoryElement(category.getElementName());
+        Collection<Category> categories = CoreUtils.<ICategoriesService>getBean("categoriesService").getCategories();
+        Map<Category, CategoryElement> elements = new HashMap<Category, CategoryElement>(categories.size());
 
-					elements.put(category, element);
-					root.add(element);
+        addCategories(root, categories, elements);
 
-					iterator.remove();
-				} else if(elements.containsKey(category.getParent())){
-					CategoryElement element = new CategoryElement(category.getElementName());
+        sortCategories(root);
 
-					elements.put(category, element);
-					elements.get(category.getParent()).add(element);
+        addMovies(root, elements);
 
-					iterator.remove();
-				}
-			}
-		}
-	}
+        model.setRootElement(root);
+    }
 
-	private static void sortCategories(TreeElement root){
-		List<CategoryElement> categories = new ArrayList<CategoryElement>(root.getChildCount());
+    /**
+     * Add the categories to the model.
+     *
+     * @param root       The root element of the model.
+     * @param categories The categories to add to the model.
+     * @param elements   The elements collection to fill.
+     */
+    private static void addCategories(TreeElement root, Collection<Category> categories, Map<Category, CategoryElement> elements) {
+        while (!categories.isEmpty()) {
+            Iterator<Category> iterator = categories.iterator();
 
-		for(int i = 0; i < root.getChildCount(); i++){
-			categories.add((CategoryElement) root.getChild(i));
-		}
+            while (iterator.hasNext()) {
+                Category category = iterator.next();
 
-		root.clear();
+                if (category.getParent() == null) {
+                    CategoryElement element = new CategoryElement(category.getElementName());
 
-		Collections.sort(categories, new Comparator<CategoryElement>(){
-			@Override
-			public int compare(CategoryElement o1, CategoryElement o2){
-				return o1.getElementName().compareToIgnoreCase(o2.getElementName());
-			}
-		});
+                    elements.put(category, element);
+                    root.add(element);
 
-		root.addAll(categories);
+                    iterator.remove();
+                } else if (elements.containsKey(category.getParent())) {
+                    CategoryElement element = new CategoryElement(category.getElementName());
 
-		for(CategoryElement element : categories){
-			if(!element.isLeaf()){
-				sortCategories(element);
-			}
-		}
-	}
+                    elements.put(category, element);
+                    elements.get(category.getParent()).add(element);
 
-	private static void addMovies(TreeElement root, Map<Category, CategoryElement> elements){
-		for (Movie movie : CoreUtils.<IMoviesService>getBean("moviesService").getMovies()){
-            if (movie.hasCategories()){
-                for (Category category : movie.getCategories()){
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    /**
+     * Sort the categories from the root.
+     *
+     * @param root The root element.
+     */
+    private static void sortCategories(TreeElement root) {
+        List<CategoryElement> categories = new ArrayList<CategoryElement>(root.getChildCount());
+
+        for (int i = 0; i < root.getChildCount(); i++) {
+            categories.add((CategoryElement) root.getChild(i));
+        }
+
+        root.clear();
+
+        Collections.sort(categories, new Comparator<CategoryElement>() {
+            @Override
+            public int compare(CategoryElement o1, CategoryElement o2) {
+                return o1.getElementName().compareToIgnoreCase(o2.getElementName());
+            }
+        });
+
+        root.addAll(categories);
+
+        for (CategoryElement element : categories) {
+            if (!element.isLeaf()) {
+                sortCategories(element);
+            }
+        }
+    }
+
+    /**
+     * Add the movies to to the tree.
+     *
+     * @param root     The root element of the tree.
+     * @param elements The category elements to add the movies to.
+     */
+    private static void addMovies(TreeElement root, Map<Category, CategoryElement> elements) {
+        for (Movie movie : CoreUtils.<IMoviesService>getBean("moviesService").getMovies()) {
+            if (movie.hasCategories()) {
+                for (Category category : movie.getCategories()) {
                     elements.get(category).add(movie);
                 }
             } else {
-            	root.add(movie);
+                root.add(movie);
             }
         }
 	}

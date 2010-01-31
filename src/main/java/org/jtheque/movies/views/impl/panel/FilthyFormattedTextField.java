@@ -7,19 +7,12 @@ import org.jtheque.core.managers.view.able.ViewDefaults;
 import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.utils.ui.PaintUtils;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 /*
  * This file is part of JTheque.
@@ -37,48 +30,64 @@ import java.awt.Graphics2D;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A filthy formatted text field.
+ *
+ * @author Baptiste Wicht
+ */
 public final class FilthyFormattedTextField extends JPanel {
     private final JFormattedTextField textField;
 
     /**
      * Construct a new FilthyFormattedTextField.
-	 * 
-	 * @param formatter The formatter for the display of the text field.
-	 */
+     *
+     * @param formatter The formatter for the display of the text field.
+     */
     public FilthyFormattedTextField(MaskFormatter formatter) {
         super();
 
-		initUI();
+        initUI();
 
-		textField = new JFormattedTextField(formatter);
+        textField = new JFormattedTextField(formatter);
 
         initComponent();
     }
 
-	public FilthyFormattedTextField(NumberFormatter formatter){
-		super();
+    /**
+     * Construct a new FilthyFormattedTextField with a certain formatter.
+     *
+     * @param formatter The number formatter to use to format the field.
+     */
+    public FilthyFormattedTextField(NumberFormatter formatter) {
+        super();
 
-		initUI();
+        initUI();
 
-		textField = new JFormattedTextField(formatter);
+        textField = new JFormattedTextField(formatter);
 
         initComponent();
-	}
+    }
 
-	private void initUI(){
-		IResourceManager resources = Managers.getManager(IResourceManager.class);
+    /**
+     * Init the UI of the text field.
+     */
+    private void initUI() {
+        IResourceManager resources = Managers.getManager(IResourceManager.class);
 
-		Color inputColor = resources.getColor("filthyInputColor");
-		Color inputBorderColor = resources.getColor("filthyInputBorderColor");
+        Color inputColor = resources.getColor("filthyInputColor");
+        Color inputBorderColor = resources.getColor("filthyInputBorderColor");
 
-		setLayout(new BorderLayout());
-		setBackground(inputColor);
-		setBorder(new CompoundBorder(
-				BorderFactory.createLineBorder(inputBorderColor, 2),
-				BorderFactory.createEmptyBorder(2, 2, 2, 2)));
-	}
+        setLayout(new BorderLayout());
+        setBackground(inputColor);
+        setBorder(new CompoundBorder(
+                BorderFactory.createLineBorder(inputBorderColor, 2),
+                BorderFactory.createEmptyBorder(2, 2, 2, 2)));
+    }
 
-	private void initComponent() {
+    /**
+     * Init the component.
+     */
+    private void initComponent() {
         makeFilthy(textField);
 
         add(textField);

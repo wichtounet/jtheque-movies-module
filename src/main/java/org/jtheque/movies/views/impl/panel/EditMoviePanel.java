@@ -16,8 +16,8 @@ import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.actions.clean.CleanMovieAction;
-import org.jtheque.movies.views.impl.actions.movies.SaveMovieAction;
 import org.jtheque.movies.views.impl.actions.movies.GetInformationsAction;
+import org.jtheque.movies.views.impl.actions.movies.SaveMovieAction;
 import org.jtheque.movies.views.impl.actions.movies.image.EditImageAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
@@ -26,12 +26,9 @@ import org.jtheque.primary.view.impl.models.NotesComboBoxModel;
 import org.jtheque.primary.view.impl.renderers.NoteComboRenderer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.AbstractButton;
-import javax.swing.JComboBox;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.text.MaskFormatter;
-import java.awt.Color;
-import java.awt.Insets;
+import java.awt.*;
 import java.text.ParseException;
 import java.util.Collection;
 
@@ -58,8 +55,8 @@ import java.util.Collection;
  */
 public final class EditMoviePanel extends MoviePanel {
     private FilthyTextField fieldTitle;
-	private FilthyFormattedTextField fieldDuration;
-	private FilthyFormattedTextField fieldResolution;
+    private FilthyFormattedTextField fieldDuration;
+    private FilthyFormattedTextField fieldResolution;
     private FilthyFileChooserPanel fieldFile;
 
     private NotesComboBoxModel modelNotes;
@@ -71,7 +68,7 @@ public final class EditMoviePanel extends MoviePanel {
     /**
      * Construct a new EditMoviePanel.
      */
-    public EditMoviePanel(){
+    public EditMoviePanel() {
         super(IMovieView.EDIT_VIEW);
 
         setOpaque(false);
@@ -84,7 +81,7 @@ public final class EditMoviePanel extends MoviePanel {
 
         addTitleField(builder);
         addFileField(builder);
-		addInformationsField(builder);
+        addInformationsField(builder);
         addNoteField(builder);
 
         builder.add(categoriesView.getImpl(), builder.gbcSet(0, 5, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, -1, 1.0, 1.0));
@@ -98,12 +95,12 @@ public final class EditMoviePanel extends MoviePanel {
                 buttons.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
 
-	/**
+    /**
      * Add the field for the title.
      *
-     * @param builder     The builder of the view.
+     * @param builder The builder of the view.
      */
-    private void addTitleField(PanelBuilder builder){
+    private void addTitleField(PanelBuilder builder) {
         builder.addI18nLabel(Movie.TITLE, builder.gbcSet(0, 0));
 
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 2, 1, 1.0, 0.0));
@@ -118,53 +115,58 @@ public final class EditMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the view.
      */
-    private void addFileField(PanelBuilder builder){
+    private void addFileField(PanelBuilder builder) {
         builder.addI18nLabel(Movie.FILE, builder.gbcSet(0, 1));
 
         fieldFile = builder.add(new FilthyFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 0, 1));
-		fieldFile.setFilesOnly();
-		ConstraintManager.configure(fieldFile.getTextField(), Movie.FILE);
+        fieldFile.setFilesOnly();
+        ConstraintManager.configure(fieldFile.getTextField(), Movie.FILE);
     }
 
-	private void addInformationsField(PanelBuilder parent){
-		parent.addI18nLabel(Movie.DURATION, parent.gbcSet(0, 2));
-		parent.addI18nLabel(Movie.RESOLUTION, parent.gbcSet(0, 3));
+    /**
+     * Add the informations fields.
+     *
+     * @param parent The builder to add the fields to.
+     */
+    private void addInformationsField(PanelBuilder parent) {
+        parent.addI18nLabel(Movie.DURATION, parent.gbcSet(0, 2));
+        parent.addI18nLabel(Movie.RESOLUTION, parent.gbcSet(0, 3));
 
-		try {
-			fieldDuration = new FilthyFormattedTextField(new MaskFormatter("##:##:##.###"));
+        try {
+            fieldDuration = new FilthyFormattedTextField(new MaskFormatter("##:##:##.###"));
             fieldDuration.setText("00:00:00:000");
-			fieldDuration.getTextField().setColumns(10);
-        	parent.add(fieldDuration, parent.gbcSet(1, 2));
-		} catch (ParseException e){
-			CoreUtils.getLogger(getClass()).error(e);
-		}
+            fieldDuration.getTextField().setColumns(10);
+            parent.add(fieldDuration, parent.gbcSet(1, 2));
+        } catch (ParseException e) {
+            CoreUtils.getLogger(getClass()).error(e);
+        }
 
-		try {
-			fieldResolution = new FilthyFormattedTextField(new MaskFormatter("####x####"));
+        try {
+            fieldResolution = new FilthyFormattedTextField(new MaskFormatter("####x####"));
             fieldResolution.setText("0000x0000");
-			fieldResolution.getTextField().setColumns(10);
-        	parent.add(fieldResolution, parent.gbcSet(1, 3));
-		} catch (ParseException e){
-			CoreUtils.getLogger(getClass()).error(e);
-		}
+            fieldResolution.getTextField().setColumns(10);
+            parent.add(fieldResolution, parent.gbcSet(1, 3));
+        } catch (ParseException e) {
+            CoreUtils.getLogger(getClass()).error(e);
+        }
 
         PanelBuilder builder =
                 parent.addPanel(parent.gbcSet(2, 2, GridBagUtils.HORIZONTAL, GridBagUtils.LINE_START, 2, 2, 1.0, 0.0));
 
-		builder.getPanel().setBackground(Color.blue);
+        builder.getPanel().setBackground(Color.blue);
 
         builder.addButton(new GetInformationsAction(this),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
-	}
+    }
 
     /**
      * Add the field for the note.
      *
      * @param builder The builder of the view.
      */
-    private void addNoteField(PanelBuilder builder){
+    private void addNoteField(PanelBuilder builder) {
         builder.addI18nLabel(Movie.NOTE, builder.gbcSet(0, 4));
-        
+
         modelNotes = new NotesComboBoxModel();
 
         JComboBox box = new JComboBox(modelNotes);
@@ -185,7 +187,7 @@ public final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void setMovie(Movie movie){
+    public void setMovie(Movie movie) {
         fieldTitle.setText(movie.getTitle());
         fieldFile.setFilePath(movie.getFile());
         fieldDuration.setText(movie.getDuration() == null ? "00:00:00.000" : movie.getDuration().toString());
@@ -196,15 +198,15 @@ public final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors){
-		ConstraintManager.validate(Movie.TITLE, fieldTitle.getText(), errors);
-		ConstraintManager.validate(Movie.FILE, fieldFile.getFilePath(), errors);
-		
+    public void validate(Collection<JThequeError> errors) {
+        ConstraintManager.validate(Movie.TITLE, fieldTitle.getText(), errors);
+        ConstraintManager.validate(Movie.FILE, fieldFile.getFilePath(), errors);
+
         categoriesView.validate(errors);
     }
 
     @Override
-    public IMovieFormBean fillMovieFormBean(){
+    public IMovieFormBean fillMovieFormBean() {
         IMovieFormBean fb = new MovieFormBean();
 
         fb.setTitle(fieldTitle.getText());
@@ -212,7 +214,7 @@ public final class EditMoviePanel extends MoviePanel {
         fb.setResolution(new Resolution(fieldResolution.getText()));
         fb.setDuration(new PreciseDuration(fieldDuration.getText()));
 
-        if (modelNotes.getSelectedNote() != null){
+        if (modelNotes.getSelectedNote() != null) {
             fb.setNote(modelNotes.getSelectedNote());
         } else {
             fb.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
@@ -223,14 +225,29 @@ public final class EditMoviePanel extends MoviePanel {
         return fb;
     }
 
+    /**
+     * Return the entered file path.
+     *
+     * @return The entered file path.
+     */
     public String getFilePath() {
         return fieldFile.getFilePath();
     }
 
+    /**
+     * Set the resolution.
+     *
+     * @param resolution The resolution to set.
+     */
     public void setResolution(Resolution resolution) {
         fieldResolution.setText(resolution.toString());
     }
 
+    /**
+     * Set the duration.
+     *
+     * @param duration The duration to set.
+     */
     public void setDuration(PreciseDuration duration) {
         fieldDuration.setText(duration.toString());
     }

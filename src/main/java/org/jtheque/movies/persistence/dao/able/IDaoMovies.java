@@ -74,5 +74,11 @@ public interface IDaoMovies extends JThequeDao {
      */
     Movie getMovie(int id);
 
-	Movie getMovie(String title);
+    /**
+     * Return the movie of the specified title.
+     *
+     * @param title The title to search for.
+     * @return The movie with the specified title if there is one else null.
+     */
+    Movie getMovie(String title);
 }

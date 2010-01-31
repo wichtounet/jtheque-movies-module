@@ -5,7 +5,8 @@ import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /*
  * This file is part of JTheque.
@@ -30,12 +31,12 @@ public class CategoryImplTest {
     private CategoryImpl category;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         category = new CategoryImpl();
     }
 
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         category.setId(123);
         category.setTitle("Test");
 
@@ -49,27 +50,27 @@ public class CategoryImplTest {
         assertFalse(category.hashCode() == category2.hashCode());
     }
 
-	@Test
-	public void testToString(){
-		category.setTitle("Super title");
+    @Test
+    public void testToString() {
+        category.setTitle("Super title");
 
-		assertEquals("Super title", category.toString());
+        assertEquals("Super title", category.toString());
 
-		category.setTitle("Super title 2");
+        category.setTitle("Super title 2");
 
-		assertEquals("Super title 2", category.toString());
-	}
+        assertEquals("Super title 2", category.toString());
+    }
 
     @Test
-    public void equals(){
+    public void equals() {
         category.setId(123);
         category.setTitle("Test");
 
         Entity category2 = new CategoryImpl("Test");
         category2.setId(123);
 
-		assertEquals(category, category2);
-		assertEquals(category2, category);
+        assertEquals(category, category2);
+        assertEquals(category2, category);
 
         category.setTitle("Test 1234");
 

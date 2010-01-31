@@ -31,26 +31,31 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An action to generate an image at a fixed time of the movie.
+ *
+ * @author Baptiste Wicht
+ */
 public final class GenerateTimeImageAction extends JThequeAction {
     /**
      * Construct a new GenerateRandomImageAction.
      */
-    public GenerateTimeImageAction(){
+    public GenerateTimeImageAction() {
         super("movie.image.actions.ffmpeg.fixed");
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
 
         File file = new File(movie.getFile());
 
-        if(StringUtils.isNotEmpty(movie.getFile()) && file.exists()){
-			IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
+        if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
+            IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
 
-			view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generatePreviewImage(file, view.getTime()));
+            view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generatePreviewImage(file, view.getTime()));
         } else {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
         }
-	}
+    }
 }

@@ -23,41 +23,41 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class PreciseDurationTest {
-	private PreciseDuration duration1;
-	private PreciseDuration duration2;
-	private PreciseDuration duration3;
+    private PreciseDuration duration1;
+    private PreciseDuration duration2;
+    private PreciseDuration duration3;
 
-	@Before
-	public void setUp(){
-		duration1 = new PreciseDuration("01:49:22.800");
-		duration2 = new PreciseDuration("01:49:22.800");
-		duration3 = new PreciseDuration("12:49:22.800");
-	}
+    @Before
+    public void setUp() {
+        duration1 = new PreciseDuration("01:49:22.800");
+        duration2 = new PreciseDuration("01:49:22.800");
+        duration3 = new PreciseDuration("12:49:22.800");
+    }
 
-	@Test
-	public void testToString() throws Exception {
-		assertEquals("01:49:22.800", duration1.toString());
-		assertEquals("01:49:22.800", duration2.toString());
-		assertEquals("12:49:22.800", duration3.toString());
-	}
+    @Test
+    public void testToString() throws Exception {
+        assertEquals("01:49:22.800", duration1.toString());
+        assertEquals("01:49:22.800", duration2.toString());
+        assertEquals("12:49:22.800", duration3.toString());
+    }
 
-	@Test
-	public void testEquals() throws Exception {
-		assertEquals(duration1, duration2);
-		assertEquals(duration2, duration1);
+    @Test
+    public void testEquals() throws Exception {
+        assertEquals(duration1, duration2);
+        assertEquals(duration2, duration1);
 
-		assertFalse(duration1.equals(duration3));
-		assertFalse(duration1.equals(null));
+        assertFalse(duration1.equals(duration3));
+        assertFalse(duration1.equals(null));
 
-		assertFalse(duration3.equals(duration1));
-		assertFalse(duration3.equals(duration2));
+        assertFalse(duration3.equals(duration1));
+        assertFalse(duration3.equals(duration2));
 
-	}
+    }
 
-	@Test
-	public void testHashCode() throws Exception {
-		assertEquals(duration1.hashCode(), duration2.hashCode());
-		assertFalse(duration3.hashCode() == duration2.hashCode());
-		assertFalse(duration3.hashCode() == duration1.hashCode());
-	}
+    @Test
+    public void testHashCode() throws Exception {
+        assertEquals(duration1.hashCode(), duration2.hashCode());
+        assertFalse(duration3.hashCode() == duration2.hashCode());
+        assertFalse(duration3.hashCode() == duration1.hashCode());
+    }
 }

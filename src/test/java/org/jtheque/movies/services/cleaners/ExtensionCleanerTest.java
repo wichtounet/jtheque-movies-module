@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExtensionCleanerTest {
     @Test
-    public void clearName(){
+    public void clearName() {
         ExtensionCleaner cleaner = new ExtensionCleaner();
 
         assertEquals("super fichier", cleaner.clearName(new MovieImpl(), "super fichier.wma"));

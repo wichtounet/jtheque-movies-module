@@ -21,47 +21,57 @@ import java.util.regex.Pattern;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A resolution for movie. The resolution is of format widthxheight.
+ *
+ * @author Baptiste Wicht
+ */
 public final class Resolution {
-	private final short width;
-	private final short height;
+    private final short width;
+    private final short height;
 
-	private static final Pattern RESOLUTION_PATTERN = Pattern.compile("x");
+    private static final Pattern RESOLUTION_PATTERN = Pattern.compile("x");
 
-	public Resolution(String resolution){
-		super();
+    /**
+     * Construct a new Resolution.
+     *
+     * @param resolution The string representation of the resolution.
+     */
+    public Resolution(String resolution) {
+        super();
 
-		if(StringUtils.isEmpty(resolution) || !resolution.contains("x")){
-			throw new IllegalArgumentException("Resolution must be of form \"widthxheigh\"");
-		}
+        if (StringUtils.isEmpty(resolution) || !resolution.contains("x")) {
+            throw new IllegalArgumentException("Resolution must be of form \"widthxheigh\"");
+        }
 
-		String[] sizes = RESOLUTION_PATTERN.split(resolution);
+        String[] sizes = RESOLUTION_PATTERN.split(resolution);
 
-		width = Short.parseShort(sizes[0]);
-		height = Short.parseShort(sizes[1]);
-	}
+        width = Short.parseShort(sizes[0]);
+        height = Short.parseShort(sizes[1]);
+    }
 
-	@Override
-	public String toString(){
-		return String.format("%04dx%04d", width, height);
-	}
+    @Override
+    public String toString() {
+        return String.format("%04dx%04d", width, height);
+    }
 
-	@Override
-	public boolean equals(Object o){
-		if (this == o){
-			return true;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
 
-		if (o == null || getClass() != o.getClass()){
-			return false;
-		}
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		Resolution that = (Resolution) o;
+        Resolution that = (Resolution) o;
 
-		return !(height != that.height || width != that.width);
-	}
+        return !(height != that.height || width != that.width);
+    }
 
-	@Override
-	public int hashCode(){
-		return Constants.HASH_CODE_START + Constants.HASH_CODE_PRIME * width + height;
+    @Override
+    public int hashCode() {
+        return Constants.HASH_CODE_START + Constants.HASH_CODE_PRIME * width + height;
 	}
 }

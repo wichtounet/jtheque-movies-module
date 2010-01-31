@@ -33,26 +33,26 @@ public final class MovieFormBean implements IMovieFormBean {
     private Collection<Category> categories = new ArrayList<Category>(6);
     private String file;
     private Note note;
-	private PreciseDuration duration;
-	private Resolution resolution;
+    private PreciseDuration duration;
+    private Resolution resolution;
 
     @Override
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
     @Override
-    public void setCategories(Collection<Category> categories){
+    public void setCategories(Collection<Category> categories) {
         this.categories = new ArrayList<Category>(categories);
     }
 
     @Override
-    public void setFile(String file){
+    public void setFile(String file) {
         this.file = file;
     }
 
     @Override
-    public void setNote(Note note){
+    public void setNote(Note note) {
         this.note = note;
     }
 
@@ -67,7 +67,7 @@ public final class MovieFormBean implements IMovieFormBean {
     }
 
     @Override
-    public void fillMovie(Movie movie){
+    public void fillMovie(Movie movie) {
         movie.setTitle(title);
         movie.addCategories(categories);
         movie.setNote(note);

@@ -57,16 +57,16 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     @Resource
     private DataSource dataSource;
 
-	static {
-		Logger.getRootLogger().setLevel(Level.ERROR);
-	}
+    static {
+        Logger.getRootLogger().setLevel(Level.ERROR);
+    }
 
-    public DaoCategoriesTest(){
+    public DaoCategoriesTest() {
         super("categories.xml");
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initDB(dataSource);
 
         PrimaryUtils.setPrimaryImpl("Movies");
@@ -82,12 +82,12 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void initOK(){
+    public void initOK() {
         assertNotNull(daoCategories);
     }
 
     @Test
-    public void getCategoryById(){
+    public void getCategoryById() {
         Category cat = daoCategories.getCategory(2);
 
         assertNotNull(cat);
@@ -96,14 +96,14 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getCategories(){
+    public void getCategories() {
         Collection<Category> categories = daoCategories.getCategories();
 
         assertEquals(2, categories.size());
     }
 
     @Test
-    public void getExistingCategoryByName(){
+    public void getExistingCategoryByName() {
         Category cat = daoCategories.getCategory("Category 2");
 
         assertNotNull(cat);
@@ -112,21 +112,21 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getNonExistingCategoryByName(){
+    public void getNonExistingCategoryByName() {
         Category cat = daoCategories.getCategory("Perhaps 3");
 
         assertNull(cat);
     }
 
     @Test
-    public void getFalseCollectionCategoryByName(){
+    public void getFalseCollectionCategoryByName() {
         Category cat = daoCategories.getCategory("Category 3");
 
         assertNull(cat);
     }
 
     @Test
-    public void createCategory(){
+    public void createCategory() {
         Category cat = new CategoryImpl("Created category");
 
         daoCategories.create(cat);
@@ -135,7 +135,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void saveCategory(){
+    public void saveCategory() {
         Category cat = daoCategories.getCategory(1);
         cat.setTitle("New title");
 
@@ -145,7 +145,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void deleteCategory(){
+    public void deleteCategory() {
         Category cat = daoCategories.getCategory(1);
         daoCategories.delete(cat);
 
@@ -154,7 +154,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void clearAll(){
+    public void clearAll() {
         daoCategories.clearAll();
 
         assertEquals(0, getTable("T_MOVIE_CATEGORIES").getRowCount());

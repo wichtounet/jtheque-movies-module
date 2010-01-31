@@ -35,8 +35,13 @@ public interface ICleanView extends IView {
      */
     Collection<NameCleaner> getSelectedCleaners();
 
+    /**
+     * Indicate if the subcategories are included in the clean process.
+     *
+     * @return true if we must include the subcategories else false.
+     */
     boolean areSubCategoriesIncluded();
 
-	@Override
-	ICleanModel getModel();
+    @Override
+    ICleanModel getModel();
 }

@@ -32,16 +32,16 @@ public final class ValidateCategoryViewAction extends JThequeAction {
     /**
      * Construct a new AcValidateKindView.
      */
-    public ValidateCategoryViewAction(){
+    public ValidateCategoryViewAction() {
         super("category.actions.ok");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         ICategoryView view = CoreUtils.getBean("categoryView");
 
-        if (view.validateContent()){
-			String title = view.getCategoryName();
+        if (view.validateContent()) {
+            String title = view.getCategoryName();
 
             CoreUtils.<ICategoryController>getBean("categoryController").save(title, view.getSelectedCategory());
         }

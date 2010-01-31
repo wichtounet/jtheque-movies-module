@@ -20,7 +20,7 @@ import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Collection;
 
 /**

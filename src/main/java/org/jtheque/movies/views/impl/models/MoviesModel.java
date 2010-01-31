@@ -33,24 +33,27 @@ import java.util.Collection;
 public final class MoviesModel extends PrincipalDataModel<Movie> implements IMoviesModel {
     private Movie currentMovie;
 
-    public MoviesModel(){
+    /**
+     * Construct a new MoviesModel.
+     */
+    public MoviesModel() {
         super();
 
         CoreUtils.<IMoviesService>getBean("moviesService").addDataListener(this);
     }
 
-	@Override
-	public Collection<Movie> getDatas(){
-		return CoreUtils.<IMoviesService>getBean("moviesService").getDatas();
-	}
+    @Override
+    public Collection<Movie> getDatas() {
+        return CoreUtils.<IMoviesService>getBean("moviesService").getDatas();
+    }
 
-	@Override
-    public Movie getCurrentMovie(){
+    @Override
+    public Movie getCurrentMovie() {
         return currentMovie;
     }
 
     @Override
-    public void setCurrentMovie(Movie currentMovie){
+    public void setCurrentMovie(Movie currentMovie) {
         this.currentMovie = currentMovie;
 
         fireCurrentObjectChanged(new ObjectChangedEvent(this, currentMovie));

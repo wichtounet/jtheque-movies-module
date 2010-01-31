@@ -18,41 +18,41 @@ package org.jtheque.movies;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class MovieConfigurationTest {
-	@Test
-	public void openingSystem() throws Exception {
-		IMovieConfiguration config = new MovieConfiguration();
+    @Test
+    public void openingSystem() throws Exception {
+        IMovieConfiguration config = new MovieConfiguration();
 
-		assertEquals(IMovieConfiguration.Opening.SYSTEM, config.getOpeningSystem());
+        assertEquals(IMovieConfiguration.Opening.SYSTEM, config.getOpeningSystem());
 
-		config.setOpeningSystem(IMovieConfiguration.Opening.SYSTEM);
+        config.setOpeningSystem(IMovieConfiguration.Opening.SYSTEM);
 
-		assertEquals(IMovieConfiguration.Opening.SYSTEM, config.getOpeningSystem());
+        assertEquals(IMovieConfiguration.Opening.SYSTEM, config.getOpeningSystem());
 
-		config.setOpeningSystem(IMovieConfiguration.Opening.VLC);
+        config.setOpeningSystem(IMovieConfiguration.Opening.VLC);
 
-		assertEquals(IMovieConfiguration.Opening.VLC, config.getOpeningSystem());
+        assertEquals(IMovieConfiguration.Opening.VLC, config.getOpeningSystem());
 
-		config.setOpeningSystem(IMovieConfiguration.Opening.WMP);
+        config.setOpeningSystem(IMovieConfiguration.Opening.WMP);
 
-		assertEquals(IMovieConfiguration.Opening.WMP, config.getOpeningSystem());
-	}
+        assertEquals(IMovieConfiguration.Opening.WMP, config.getOpeningSystem());
+    }
 
-	@Test
-	public void testGetFFmpegLocation() throws Exception {
-		IMovieConfiguration config = new MovieConfiguration();
+    @Test
+    public void testGetFFmpegLocation() throws Exception {
+        IMovieConfiguration config = new MovieConfiguration();
 
-		assertEquals("", config.getFFmpegLocation());
+        assertEquals("", config.getFFmpegLocation());
 
-		config.setFFmpegLocation("Super location");
+        config.setFFmpegLocation("Super location");
 
-		assertEquals("Super location", config.getFFmpegLocation());
+        assertEquals("Super location", config.getFFmpegLocation());
 
-		config.setFFmpegLocation("Nobuta Wo Produce");
-		
-		assertEquals("Nobuta Wo Produce", config.getFFmpegLocation());
+        config.setFFmpegLocation("Nobuta Wo Produce");
 
-	}
+        assertEquals("Nobuta Wo Produce", config.getFFmpegLocation());
+
+    }
 }

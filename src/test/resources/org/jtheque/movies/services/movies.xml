@@ -7,12 +7,18 @@
     <T_MOVIE_CATEGORIES ID='2' TITLE='Category 2' THE_PARENT_FK="1" THE_COLLECTION_FK='1'/>
     <T_MOVIE_CATEGORIES ID='3' TITLE='Category 3' THE_PARENT_FK="1" THE_COLLECTION_FK='2'/>
 
-    <T_MOVIES ID='1' TITLE='Movie 1' NOTE='5' FILE='C:\movies\movie1.avi' THE_COLLECTION_FK='1' RESOLUTION='200x400' DURATION='2500' IMAGE='Movie 1.jpg'/>
-    <T_MOVIES ID='2' TITLE='Movie 2' NOTE='2' FILE='C:\movies\movie2.avi' THE_COLLECTION_FK='1' RESOLUTION='240x480' DURATION='25000' IMAGE='Movie 2.jpg'/>
-    <T_MOVIES ID='3' TITLE='Movie 3' NOTE='2' FILE='C:\movies\movie3.avi' THE_COLLECTION_FK='1' RESOLUTION='300x400' DURATION='200' IMAGE='Movie 3.jpg'/>
-    <T_MOVIES ID='4' TITLE='Movie 4' NOTE='7' FILE='C:\movies\movie4.avi' THE_COLLECTION_FK='1' RESOLUTION='200x400' DURATION='20500' IMAGE='Movie 4.jpg'/>
-    <T_MOVIES ID='5' TITLE='Movie 5' NOTE='1' FILE='C:\movies\movie5.avi' THE_COLLECTION_FK='1' RESOLUTION='480x400' DURATION='52500' IMAGE='Movie 5.jpg'/>
-    <T_MOVIES ID='6' TITLE='Movie 6' NOTE='1' FILE='C:\movies\movie6.avi' THE_COLLECTION_FK='2' RESOLUTION='600x400' DURATION='12500' IMAGE='Movie 6.jpg'/>
+    <T_MOVIES ID='1' TITLE='Movie 1' NOTE='5' FILE='C:\movies\movie1.avi' THE_COLLECTION_FK='1' RESOLUTION='200x400'
+              DURATION='2500' IMAGE='Movie 1.jpg'/>
+    <T_MOVIES ID='2' TITLE='Movie 2' NOTE='2' FILE='C:\movies\movie2.avi' THE_COLLECTION_FK='1' RESOLUTION='240x480'
+              DURATION='25000' IMAGE='Movie 2.jpg'/>
+    <T_MOVIES ID='3' TITLE='Movie 3' NOTE='2' FILE='C:\movies\movie3.avi' THE_COLLECTION_FK='1' RESOLUTION='300x400'
+              DURATION='200' IMAGE='Movie 3.jpg'/>
+    <T_MOVIES ID='4' TITLE='Movie 4' NOTE='7' FILE='C:\movies\movie4.avi' THE_COLLECTION_FK='1' RESOLUTION='200x400'
+              DURATION='20500' IMAGE='Movie 4.jpg'/>
+    <T_MOVIES ID='5' TITLE='Movie 5' NOTE='1' FILE='C:\movies\movie5.avi' THE_COLLECTION_FK='1' RESOLUTION='480x400'
+              DURATION='52500' IMAGE='Movie 5.jpg'/>
+    <T_MOVIES ID='6' TITLE='Movie 6' NOTE='1' FILE='C:\movies\movie6.avi' THE_COLLECTION_FK='2' RESOLUTION='600x400'
+              DURATION='12500' IMAGE='Movie 6.jpg'/>
 
     <T_MOVIES_CATEGORIES THE_MOVIE_FK='1' THE_CATEGORY_FK='1'/>
     <T_MOVIES_CATEGORIES THE_MOVIE_FK='1' THE_CATEGORY_FK='2'/>

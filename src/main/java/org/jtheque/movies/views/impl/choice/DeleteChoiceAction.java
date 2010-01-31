@@ -34,11 +34,11 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
     /**
      * Construct a new DeleteChoiceAction.
      */
-    public DeleteChoiceAction(){
+    public DeleteChoiceAction() {
         super();
 
         addDeleters(new MovieDeleter(), new CategoryDeleter());
-		addPrimaryDeleters();
+        addPrimaryDeleters();
     }
 
     /**
@@ -50,15 +50,15 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
         /**
          * Construct a new MovieDeleter.
          */
-        private MovieDeleter(){
+        private MovieDeleter() {
             super(IMoviesService.DATA_TYPE);
         }
 
         @Override
-        public void delete(Movie o){
+        public void delete(Movie o) {
             addEditIfDeleted(
-					CoreUtils.<IMoviesService>getBean("moviesService").delete(o),
-					new GenericDataDeletedEdit<Movie>("moviesService", o));
+                    CoreUtils.<IMoviesService>getBean("moviesService").delete(o),
+                    new GenericDataDeletedEdit<Movie>("moviesService", o));
         }
     }
 
@@ -71,15 +71,15 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
         /**
          * Construct a new CategoryDeleter.
          */
-        private CategoryDeleter(){
+        private CategoryDeleter() {
             super(ICategoriesService.DATA_TYPE);
         }
 
         @Override
-        public void delete(Category o){
+        public void delete(Category o) {
             addEditIfDeleted(
-					CoreUtils.<ICategoriesService>getBean("categoriesService").delete(o),
-					new GenericDataDeletedEdit<Category>("categoriesService", o));
+                    CoreUtils.<ICategoriesService>getBean("categoriesService").delete(o),
+                    new GenericDataDeletedEdit<Category>("categoriesService", o));
         }
     }
 }

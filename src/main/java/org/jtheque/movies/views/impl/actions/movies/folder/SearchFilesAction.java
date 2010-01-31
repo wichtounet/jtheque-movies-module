@@ -44,15 +44,15 @@ public final class SearchFilesAction extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      */
-    public SearchFilesAction(){
+    public SearchFilesAction() {
         super("generic.view.actions.search");
 
         Managers.getManager(IBeansManager.class).inject(this);
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0){
-        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)){
+    public void actionPerformed(ActionEvent arg0) {
+        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
             new Thread(new SearchTitlesRunnable()).start();
         }
     }
@@ -64,10 +64,10 @@ public final class SearchFilesAction extends JThequeAction {
      */
     private final class SearchTitlesRunnable implements Runnable {
         @Override
-        public void run(){
+        public void run() {
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run(){
+                public void run() {
                     importFolderView.startWait();
                 }
             });
@@ -76,7 +76,7 @@ public final class SearchFilesAction extends JThequeAction {
 
             Managers.getManager(IViewManager.class).execute(new SimpleTask() {
                 @Override
-                public void run(){
+                public void run() {
                     importFolderView.setFiles(files);
                     importFolderView.stopWait();
                 }

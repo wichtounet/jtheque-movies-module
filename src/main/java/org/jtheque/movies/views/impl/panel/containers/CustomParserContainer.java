@@ -2,10 +2,8 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
+import javax.swing.*;
+import java.awt.*;
 
 /*
  * This file is part of JTheque.
@@ -31,41 +29,41 @@ import java.awt.FlowLayout;
 public final class CustomParserContainer extends JPanel implements ParserContainer {
     private final FileParser parser;
 
-	private final JCheckBox checkBox;
+    private final JCheckBox checkBox;
 
     /**
      * Construct a new ParserContainer for the specified file parser.
      *
      * @param parser The file parser.
      */
-    public CustomParserContainer(FileParser parser){
+    public CustomParserContainer(FileParser parser) {
         super();
 
         this.parser = parser;
 
         setOpaque(false);
 
-		setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
-		checkBox = new JCheckBox();
+        checkBox = new JCheckBox();
         checkBox.setOpaque(false);
-		add(checkBox);
+        add(checkBox);
 
-		add(parser.getCustomView());
+        add(parser.getCustomView());
     }
 
-	@Override
-	public FileParser getParser(){
+    @Override
+    public FileParser getParser() {
         return parser;
     }
 
-	@Override
-	public boolean isSelected(){
-		return checkBox.isSelected();
-	}
+    @Override
+    public boolean isSelected() {
+        return checkBox.isSelected();
+    }
 
-	@Override
-	public JComponent getImpl(){
-		return this;
-	}
+    @Override
+    public JComponent getImpl() {
+        return this;
+    }
 }

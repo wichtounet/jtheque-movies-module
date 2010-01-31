@@ -60,7 +60,20 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      */
     Category getEmptyCategory();
 
+    /**
+     * Test if the specified title exists in the other categories.
+     *
+     * @param title    The title to search for.
+     * @param category The category to exclude from search.
+     * @return true if this title exists in other category else false.
+     */
     boolean existsInOtherCategory(String title, Category category);
 
-	Collection<Category> getSubCategories(Category category);
+    /**
+     * Return all the sub categories of the specified category.
+     *
+     * @param category The categories to get the child for.
+     * @return A Collection containing all the sub categories of the specified category.
+     */
+    Collection<Category> getSubCategories(Category category);
 }

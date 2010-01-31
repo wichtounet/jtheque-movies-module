@@ -19,9 +19,17 @@ import org.jtheque.movies.views.able.IGenerateInfosView;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A controller to generate informations for all the movies of a category specification.
+ *
+ * @author Baptiste Wicht
+ */
 public interface IGenerateInfosController extends Controller {
-	@Override
-	IGenerateInfosView getView();
+    @Override
+    IGenerateInfosView getView();
 
+    /**
+     * Generate the informations using the informations of the view.
+     */
     void generate();
 }

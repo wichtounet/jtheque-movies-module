@@ -49,37 +49,37 @@ public final class FilesService implements IFilesService {
     @Resource
     private IFFMpegService ffMpegService;
 
-	@Override
-    public void importMovies(Collection<File> files, Collection<FileParser> parsers){
+    @Override
+    public void importMovies(Collection<File> files, Collection<FileParser> parsers) {
         assert !files.isEmpty() : "Files cannot be empty";
 
-		boolean fileNotCreated = false;
+        boolean fileNotCreated = false;
 
-        for (File f : files){
-			if (moviesService.fileExists(f.getAbsolutePath())){
-				fileNotCreated = true;
-			} else {
-				createMovie(f.getAbsolutePath(), parsers);
-			}
+        for (File f : files) {
+            if (moviesService.fileExists(f.getAbsolutePath())) {
+                fileNotCreated = true;
+            } else {
+                createMovie(f.getAbsolutePath(), parsers);
+            }
         }
 
-		if(fileNotCreated){
-			Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotcreated"));
-		}
+        if (fileNotCreated) {
+            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotcreated"));
+        }
 
     }
 
     @Override
-    public Movie createMovie(String filePath, Collection<FileParser> parsers){
+    public Movie createMovie(String filePath, Collection<FileParser> parsers) {
         Movie movie = moviesService.getEmptyMovie();
 
         movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
         movie.setFile(filePath);
 
-		File file = new File(filePath);
+        File file = new File(filePath);
 
-		movie.setResolution(ffMpegService.getResolution(file));
-		movie.setDuration(ffMpegService.getDuration(file));
+        movie.setResolution(ffMpegService.getResolution(file));
+        movie.setDuration(ffMpegService.getDuration(file));
 
         extractCategoriesAndTitle(filePath, parsers, movie);
 
@@ -95,14 +95,14 @@ public final class FilesService implements IFilesService {
      * @param parsers  The parsers to use.
      * @param movie    The movie to fill.
      */
-    private void extractCategoriesAndTitle(String filePath, Iterable<FileParser> parsers, Movie movie){
+    private void extractCategoriesAndTitle(String filePath, Iterable<FileParser> parsers, Movie movie) {
         File file = new File(filePath);
 
         String title = file.getName();
 
         Collection<Category> categories = new ArrayList<Category>(5);
 
-        for (FileParser parser : parsers){
+        for (FileParser parser : parsers) {
             parser.parseFilePath(file);
             categories.addAll(parser.getExtractedCategories());
             title = parser.clearFileName(title);
@@ -119,17 +119,17 @@ public final class FilesService implements IFilesService {
      *
      * @param categories A collection of categories.
      */
-    private void createUnsavedCategories(Iterable<Category> categories){
-        for (Category category : categories){
-            if (!category.isSaved()){
+    private void createUnsavedCategories(Iterable<Category> categories) {
+        for (Category category : categories) {
+            if (!category.isSaved()) {
                 categoriesService.create(category);
             }
         }
     }
 
     @Override
-    public Collection<File> getMovieFiles(File folder){
-        if (folder.isDirectory()){
+    public Collection<File> getMovieFiles(File folder) {
+        if (folder.isDirectory()) {
             Collection<File> files = new ArrayList<File>(50);
 
             readFolder(folder, files);
@@ -146,9 +146,9 @@ public final class FilesService implements IFilesService {
      * @param folder The folder to read.
      * @param files  The collection to add the files to.
      */
-    private static void readFolder(File folder, Collection<File> files){
-        for (File file : folder.listFiles(new MovieFileNameFilter())){
-            if (file.isDirectory()){
+    private static void readFolder(File folder, Collection<File> files) {
+        for (File file : folder.listFiles(new MovieFileNameFilter())) {
+            if (file.isDirectory()) {
                 readFolder(file, files);
             } else {
                 files.add(file);

@@ -24,8 +24,8 @@ import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.able.models.IMoviesModel;
+import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.primary.controller.able.ControllerState;
 import org.jtheque.primary.controller.able.FormBean;
 import org.jtheque.primary.controller.impl.AbstractControllerState;
@@ -47,12 +47,12 @@ public final class ModifyMovieState extends AbstractControllerState {
      *
      * @return The model of the view.
      */
-    private static IMoviesModel getViewModel(){
+    private static IMoviesModel getViewModel() {
         return getController().getViewModel();
     }
 
     @Override
-    public void apply(){
+    public void apply() {
         getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
         getController().getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
 
@@ -60,45 +60,45 @@ public final class ModifyMovieState extends AbstractControllerState {
     }
 
     @Override
-    public ControllerState save(FormBean bean){
-		if(!getController().getView().validateContent()){
-			return null;
-		}
+    public ControllerState save(FormBean bean) {
+        if (!getController().getView().validateContent()) {
+            return null;
+        }
 
         IMovieFormBean infos = (IMovieFormBean) bean;
 
         Movie movie = getViewModel().getCurrentMovie();
-        
+
         infos.fillMovie(movie);
 
-		//If the file has changed and the new file already exists in application
-		if(moviesService.fileExistsInOtherMovie(movie, movie.getFile())){
-			Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
+        //If the file has changed and the new file already exists in application
+        if (moviesService.fileExistsInOtherMovie(movie, movie.getFile())) {
+            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
 
-			return null;
-		}
-		
+            return null;
+        }
+
         moviesService.save(movie);
 
-		getController().getView().refreshData();
+        getController().getView().refreshData();
 
-		return getController().getViewState();
+        return getController().getViewState();
     }
 
     @Override
-    public ControllerState cancel(){
+    public ControllerState cancel() {
         getViewModel().getCurrentMovie().restoreMemento();
 
         return getController().getViewState();
     }
 
     @Override
-    public ControllerState view(Data data){
+    public ControllerState view(Data data) {
         Movie movie = (Movie) data;
 
         if (Managers.getManager(IViewManager.class).askI18nUserForConfirmation(
                 "movie.dialogs.confirmSave",
-                "movie.dialogs.confirmSave.title")){
+                "movie.dialogs.confirmSave.title")) {
             getController().save();
         } else {
             getViewModel().getCurrentMovie().restoreMemento();
@@ -109,7 +109,12 @@ public final class ModifyMovieState extends AbstractControllerState {
         return getController().getViewState();
     }
 
-	private static IMovieController getController(){
-		return CoreUtils.getBean("movieController");
-	}
+    /**
+     * Return the movie controller.
+     *
+     * @return The movie controller.
+     */
+    private static IMovieController getController() {
+        return CoreUtils.getBean("movieController");
+    }
 }

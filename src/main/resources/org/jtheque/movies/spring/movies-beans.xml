@@ -25,17 +25,25 @@
         </constructor-arg>
     </bean>
 
-    <bean id="addFromFileController" class="org.jtheque.movies.controllers.impl.AddFromFileController" />
-    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController" />
-    <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController" />
-    <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController" />
-    <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController" />
+    <bean id="addFromFileController" class="org.jtheque.movies.controllers.impl.AddFromFileController"/>
+    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController"/>
+    <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController"/>
+    <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController"/>
+    <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController"/>
 
     <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
-        <constructor-arg><bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/></constructor-arg>
-        <constructor-arg><bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState"/></constructor-arg>
-        <constructor-arg><bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState"/></constructor-arg>
-        <constructor-arg><null /></constructor-arg>
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <null/>
+        </constructor-arg>
     </bean>
 
     <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories"/>
@@ -54,9 +62,9 @@
     <jtheque:proxy id="imageView" type="org.jtheque.movies.views.impl.frames.ImageView"/>
     <jtheque:proxy id="generateInfosView" type="org.jtheque.movies.views.impl.frames.GenerateInfosView"/>
 
-    <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView" />
-    <bean id="_categoryView" class="org.jtheque.movies.views.impl.frames.CategoryView" />
-    <bean id="_generateInfosView" class="org.jtheque.movies.views.impl.frames.GenerateInfosView" />
+    <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView"/>
+    <bean id="_categoryView" class="org.jtheque.movies.views.impl.frames.CategoryView"/>
+    <bean id="_generateInfosView" class="org.jtheque.movies.views.impl.frames.GenerateInfosView"/>
 
     <bean id="_addFromFileView" class="org.jtheque.movies.views.impl.frames.AddFromFileView">
         <constructor-arg ref="fileParsers"/>
@@ -95,5 +103,5 @@
         </bean>
     </util:list>
 
-    <bean id="_imageView" class="org.jtheque.movies.views.impl.frames.ImageView" />
+    <bean id="_imageView" class="org.jtheque.movies.views.impl.frames.ImageView"/>
 </beans>

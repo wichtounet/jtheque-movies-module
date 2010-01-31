@@ -47,92 +47,102 @@ import java.text.NumberFormat;
  * @author Baptiste Wicht
  */
 public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implements IImageView {
-	private FilthyFormattedTextField timeTextField;
-	private FilthyFileChooserPanel imageChooser;
+    private FilthyFormattedTextField timeTextField;
+    private FilthyFileChooserPanel imageChooser;
 
-	private JXImagePanel imagePanel;
+    private JXImagePanel imagePanel;
 
     /**
      * Construct a new ImageView.
      */
-    public ImageView(){
+    public ImageView() {
         super();
 
         build();
     }
 
-	@Override
-	protected void initView(){
+    @Override
+    protected void initView() {
         setTitleKey("movie.image.title");
-	}
+    }
 
-	@Override
-	protected void buildView(PanelBuilder builder){
-		addFFmpegActions(builder);
-		addFileActions(builder);
+    @Override
+    protected void buildView(PanelBuilder builder) {
+        addFFmpegActions(builder);
+        addFileActions(builder);
 
-		imagePanel = builder.add(new JXImagePanel(), builder.gbcSet(0, 2, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 0, -1, 1.0, 1.0));
-		imagePanel.setOpaque(false);
+        imagePanel = builder.add(new JXImagePanel(), builder.gbcSet(0, 2, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 0, -1, 1.0, 1.0));
+        imagePanel.setOpaque(false);
 
-		TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
-				new ValidateImageViewAction(), getCloseAction("movie.image.actions.cancel"));
-	}
+        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
+                new ValidateImageViewAction(), getCloseAction("movie.image.actions.cancel"));
+    }
 
-	private void addFFmpegActions(PanelBuilder parent){
-		PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
-		builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.ffmpeg"));
+    /**
+     * Add the FFMpeg actions to the builder.
+     *
+     * @param parent The panel builder.
+     */
+    private void addFFmpegActions(PanelBuilder parent) {
+        PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
+        builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.ffmpeg"));
 
-		builder.addButton(new GenerateRandomImageAction(), builder.gbcSet(0,0, GridBagUtils.NONE, 0, 1));
+        builder.addButton(new GenerateRandomImageAction(), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
 
-		builder.addI18nLabel("movie.image.file.time", builder.gbcSet(0, 1));
+        builder.addI18nLabel("movie.image.file.time", builder.gbcSet(0, 1));
 
-		timeTextField = builder.add(new FilthyFormattedTextField(new NumberFormatter(NumberFormat.getIntegerInstance())),
-				builder.gbcSet(1,1));
-		timeTextField.getTextField().setColumns(5);
+        timeTextField = builder.add(new FilthyFormattedTextField(new NumberFormatter(NumberFormat.getIntegerInstance())),
+                builder.gbcSet(1, 1));
+        timeTextField.getTextField().setColumns(5);
 
-		builder.addButton(new GenerateTimeImageAction(), builder.gbcSet(2,1, GridBagUtils.NONE, 0, 1));
-	}
+        builder.addButton(new GenerateTimeImageAction(), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
+    }
 
-	private void addFileActions(PanelBuilder parent){
-		PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
-		builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.file"));
-		builder.getPanel().setOpaque(false);
+    /**
+     * Add file actions to the builder.
+     *
+     * @param parent The panel builder to add the actions to.
+     */
+    private void addFileActions(PanelBuilder parent) {
+        PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
+        builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.file"));
+        builder.getPanel().setOpaque(false);
 
-		imageChooser = builder.add(new FilthyFileChooserPanel(true), builder.gbcSet(0, 0));
-		imageChooser.setTextKey("movie.image.file.location");
-		imageChooser.setFileFilter(new PictureFileNameFilter());
+        imageChooser = builder.add(new FilthyFileChooserPanel(true), builder.gbcSet(0, 0));
+        imageChooser.setTextKey("movie.image.file.location");
+        imageChooser.setFileFilter(new PictureFileNameFilter());
 
-		builder.addButton(new GenerateFileImageAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
-	}
+        builder.addButton(new GenerateFileImageAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
+    }
 
-	@Override
-	public void displayMovie(Movie movie){
-		if(StringUtils.isNotEmpty(movie.getImage())){
-			String resource = "file:" +
-					CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage();
+    @Override
+    public void displayMovie(Movie movie) {
+        if (StringUtils.isNotEmpty(movie.getImage())) {
+            String resource = "file:" +
+                    CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage();
 
-			setImage(ImageUtils.openCompatibleImage(
-					Managers.getManager(IResourceManager.class).getResourceAsStream(resource)));
-		}
-	}
+            setImage(ImageUtils.openCompatibleImage(
+                    Managers.getManager(IResourceManager.class).getResourceAsStream(resource)));
+        }
+    }
 
-	@Override
-	public String getTime(){
-		return timeTextField.getText();
-	}
+    @Override
+    public String getTime() {
+        return timeTextField.getText();
+    }
 
-	@Override
-	public String getImagePath(){
-		return imageChooser.getFilePath();
-	}
+    @Override
+    public String getImagePath() {
+        return imageChooser.getFilePath();
+    }
 
-	@Override
-	public void setImage(BufferedImage image){
-		imagePanel.setImage(image);
-	}
+    @Override
+    public void setImage(BufferedImage image) {
+        imagePanel.setImage(image);
+    }
 
-	@Override
-	public BufferedImage getImage(){
-		return (BufferedImage) imagePanel.getImage();
+    @Override
+    public BufferedImage getImage() {
+        return (BufferedImage) imagePanel.getImage();
 	}
 }

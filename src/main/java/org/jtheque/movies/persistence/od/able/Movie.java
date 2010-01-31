@@ -31,14 +31,14 @@ import java.util.Set;
  * @author Baptiste Wicht
  */
 public interface Movie extends Data {
-	String TITLE = "movie.title";
-	String FILE = "movie.file";
-	String NOTE = "movie.note";
-	String DURATION = "movie.duration";
-	String RESOLUTION = "movie.resolution";
+    String TITLE = "movie.title";
+    String FILE = "movie.file";
+    String NOTE = "movie.note";
+    String DURATION = "movie.duration";
+    String RESOLUTION = "movie.resolution";
 
-	int TITLE_LENGTH = 100;
-	int FILE_LENGTH = 200;
+    int TITLE_LENGTH = 100;
+    int FILE_LENGTH = 200;
 
     /**
      * Return the collection.
@@ -154,15 +154,45 @@ public interface Movie extends Data {
      */
     long getFileSize();
 
-	PreciseDuration getDuration();
+    /**
+     * Return the duration of the movie.
+     *
+     * @return The duration of the movie.
+     */
+    PreciseDuration getDuration();
 
-	void setDuration(PreciseDuration duration);
+    /**
+     * Set the duration of the movie.
+     *
+     * @param duration The duration of the movie.
+     */
+    void setDuration(PreciseDuration duration);
 
-	Resolution getResolution();
+    /**
+     * Return the resolution of the movie.
+     *
+     * @return The resolution of the movie.
+     */
+    Resolution getResolution();
 
-	void setResolution(Resolution resolution);
+    /**
+     * Set the resolution of the movie.
+     *
+     * @param resolution The resolution of the movie.
+     */
+    void setResolution(Resolution resolution);
 
-	String getImage();
+    /**
+     * Return the image of the movie.
+     *
+     * @return The image of the movie.
+     */
+    String getImage();
 
+    /**
+     * Set the image of the movie.
+     *
+     * @param image The image of the movie.
+     */
 	void setImage(String image);
 }

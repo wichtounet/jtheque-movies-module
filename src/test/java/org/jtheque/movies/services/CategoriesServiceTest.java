@@ -44,7 +44,7 @@ import static org.junit.Assert.*;
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class CategoriesServiceTest extends AbstractDBUnitTest {
-	@Resource
+    @Resource
     private ICategoriesService categoriesService;
 
     @Resource
@@ -53,16 +53,16 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     @Resource
     private DataSource dataSource;
 
-	static {
-		Logger.getRootLogger().setLevel(Level.ERROR);
-	}
+    static {
+        Logger.getRootLogger().setLevel(Level.ERROR);
+    }
 
-    public CategoriesServiceTest(){
+    public CategoriesServiceTest() {
         super("categories.xml");
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initDB(dataSource);
 
         PrimaryUtils.setPrimaryImpl("Movies");
@@ -78,22 +78,22 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void initOK(){
+    public void initOK() {
         assertNotNull(categoriesService);
     }
 
     @Test
-	public void existsInOtherCategory(){
-		assertFalse(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 1")));
-		assertTrue(categoriesService.existsInOtherCategory("Category 2", categoriesService.getCategory("Category 1")));
-		assertTrue(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 2")));
-	}
+    public void existsInOtherCategory() {
+        assertFalse(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 1")));
+        assertTrue(categoriesService.existsInOtherCategory("Category 2", categoriesService.getCategory("Category 1")));
+        assertTrue(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 2")));
+    }
 
     @Test
-	public void getSubCategories(){
-		assertEquals(0, categoriesService.getSubCategories(null).size());
-		assertEquals(0, categoriesService.getSubCategories(categoriesService.getCategory("Category 3")).size());
-		//Temp : assertEquals(1, categoriesService.getSubCategories(categoriesService.getCategory("Category 2")).size());
-		//Temp : assertEquals(2, categoriesService.getSubCategories(categoriesService.getCategory("Category 1")).size());
-	}
+    public void getSubCategories() {
+        assertEquals(0, categoriesService.getSubCategories(null).size());
+        assertEquals(0, categoriesService.getSubCategories(categoriesService.getCategory("Category 3")).size());
+        //Temp : assertEquals(1, categoriesService.getSubCategories(categoriesService.getCategory("Category 2")).size());
+        //Temp : assertEquals(2, categoriesService.getSubCategories(categoriesService.getCategory("Category 1")).size());
+    }
 }

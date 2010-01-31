@@ -34,17 +34,17 @@ public final class ModifyChoiceAction extends AbstractChoiceAction {
     private ICategoryController categoryController;
 
     @Override
-    public boolean canDoAction(String action){
+    public boolean canDoAction(String action) {
         return "edit".equals(action);
     }
 
     @Override
-    public void execute(){
-        if(ModifyChoiceActionUtils.execute(getSelectedItem(), getContent())){
+    public void execute() {
+        if (ModifyChoiceActionUtils.execute(getSelectedItem(), getContent())) {
             return;
         }
 
-        if (ICategoriesService.DATA_TYPE.equals(getContent())){
+        if (ICategoriesService.DATA_TYPE.equals(getContent())) {
             categoryController.editCategory((Category) getSelectedItem());
             categoryController.displayView();
         }

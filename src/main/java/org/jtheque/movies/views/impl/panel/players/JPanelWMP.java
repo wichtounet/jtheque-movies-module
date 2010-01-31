@@ -1,7 +1,8 @@
 package org.jtheque.movies.views.impl.panel.players;
 
 import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
-import java.awt.BorderLayout;
+
+import java.awt.*;
 import java.io.File;
 
 /*
@@ -28,21 +29,21 @@ import java.io.File;
 public final class JPanelWMP extends ViewerPanel {
     private JWMediaPlayer player;
 
-	@Override
-	protected void addPlayer(){
-		player = new JWMediaPlayer();
-		player.setControlBarVisible(true);
-		add(player, BorderLayout.CENTER);
-	}
+    @Override
+    protected void addPlayer() {
+        player = new JWMediaPlayer();
+        player.setControlBarVisible(true);
+        add(player, BorderLayout.CENTER);
+    }
 
-	@Override
-    public void setFile(File f){
+    @Override
+    public void setFile(File f) {
         super.setFile(f);
         player.load(f.getAbsolutePath());
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         player.getWMPControls().stop();
     }
 }

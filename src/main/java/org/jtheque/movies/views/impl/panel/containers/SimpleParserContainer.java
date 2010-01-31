@@ -2,9 +2,8 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 
 /*
  * This file is part of JTheque.
@@ -35,7 +34,7 @@ public final class SimpleParserContainer extends JCheckBox implements ParserCont
      *
      * @param parser The file parser.
      */
-    public SimpleParserContainer(FileParser parser){
+    public SimpleParserContainer(FileParser parser) {
         super(parser.getTitle());
 
         this.parser = parser;
@@ -44,13 +43,13 @@ public final class SimpleParserContainer extends JCheckBox implements ParserCont
         setOpaque(false);
     }
 
-	@Override
-	public FileParser getParser(){
+    @Override
+    public FileParser getParser() {
         return parser;
     }
 
-	@Override
-	public JComponent getImpl(){
-		return this;
-	}
+    @Override
+    public JComponent getImpl() {
+        return this;
+    }
 }

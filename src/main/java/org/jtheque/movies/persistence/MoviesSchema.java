@@ -30,17 +30,17 @@ import org.jtheque.utils.bean.Version;
  * @author Baptiste Wicht
  */
 public final class MoviesSchema extends AbstractSchema {
-	private static final String ALTER_TABLE = "ALTER TABLE ";
-	private static final String INSERT_INTO = "INSERT INTO ";
-	private static final String CREATE_TABLE = "CREATE TABLE ";
+    private static final String ALTER_TABLE = "ALTER TABLE ";
+    private static final String INSERT_INTO = "INSERT INTO ";
+    private static final String CREATE_TABLE = "CREATE TABLE ";
 
-	@Override
-    public Version getVersion(){
+    @Override
+    public Version getVersion() {
         return new Version("1.2");
     }
 
     @Override
-    public String getId(){
+    public String getId() {
         return "Movies-Schema";
     }
 
@@ -50,42 +50,48 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     @Override
-    public void install(){
+    public void install() {
         createDataTables();
         createReferentialIntegrityConstraints();
     }
 
     @Override
-    public void update(Version from){
-		String fromVersion = from.getVersion();
+    public void update(Version from) {
+        String fromVersion = from.getVersion();
 
-		if ("1.0".equals(fromVersion) || "1.1".equals(fromVersion)){
-            if("1.0".equals(fromVersion)){
-				createReferentialIntegrityConstraints();
-			}
+        if ("1.0".equals(fromVersion) || "1.1".equals(fromVersion)) {
+            if ("1.0".equals(fromVersion)) {
+                createReferentialIntegrityConstraints();
+            }
 
-			correctUnicityConstraints();
-			addInformationColumns();
+            correctUnicityConstraints();
+            addInformationColumns();
         }
     }
 
-	private void correctUnicityConstraints(){
-		update(ALTER_TABLE + IDaoMovies.TABLE + " DROP CONSTRAINT CONSTRAINT_INDEX_3F");
-		update(ALTER_TABLE + IDaoMovies.TABLE + " ADD CONSTRAINT UNIQUE_FILE UNIQUE(FILE)");
-	}
+    /**
+     * Correct the unicity constraints.
+     */
+    private void correctUnicityConstraints() {
+        update(ALTER_TABLE + IDaoMovies.TABLE + " DROP CONSTRAINT CONSTRAINT_INDEX_3F");
+        update(ALTER_TABLE + IDaoMovies.TABLE + " ADD CONSTRAINT UNIQUE_FILE UNIQUE(FILE)");
+    }
 
-	private void addInformationColumns(){
-		update(ALTER_TABLE + IDaoMovies.TABLE + " ADD DURATION BIGINT");
-		update(ALTER_TABLE + IDaoMovies.TABLE + " ADD RESOLUTION VARCHAR(11)");
-		update(ALTER_TABLE + IDaoMovies.TABLE + " ADD IMAGE VARCHAR(150)");
-		update(ALTER_TABLE + IDaoCategories.TABLE + " ADD THE_PARENT_FK INT");
+    /**
+     * Add the informations column.
+     */
+    private void addInformationColumns() {
+        update(ALTER_TABLE + IDaoMovies.TABLE + " ADD DURATION BIGINT");
+        update(ALTER_TABLE + IDaoMovies.TABLE + " ADD RESOLUTION VARCHAR(11)");
+        update(ALTER_TABLE + IDaoMovies.TABLE + " ADD IMAGE VARCHAR(150)");
+        update(ALTER_TABLE + IDaoCategories.TABLE + " ADD THE_PARENT_FK INT");
         update(ALTER_TABLE + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
-	}
+    }
 
-	/**
+    /**
      * Create the data tables.
      */
-    private void createDataTables(){
+    private void createDataTables() {
         update(CREATE_TABLE + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK INT NOT NULL, THE_CATEGORY_FK INT NOT NULL)");
         update(CREATE_TABLE + IDaoCategories.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL UNIQUE, THE_PARENT_FK INT, THE_COLLECTION_FK INT NOT NULL)");
         update(CREATE_TABLE + IDaoMovies.TABLE + " (ID INT IDENTITY PRIMARY KEY, TITLE VARCHAR(100) NOT NULL, NOTE INT NULL, FILE VARCHAR(200) NOT NULL UNIQUE, DURATION BIGINT, RESOLUTION VARCHAR(11), IMAGE VARCHAR(150), THE_COLLECTION_FK INT NOT NULL)");
@@ -97,7 +103,7 @@ public final class MoviesSchema extends AbstractSchema {
     /**
      * Create the constraints to maintain a referential integrity in the database.
      */
-    private void createReferentialIntegrityConstraints(){
+    private void createReferentialIntegrityConstraints() {
         update(ALTER_TABLE + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "  (ID) ON UPDATE SET NULL");
         update(ALTER_TABLE + IDaoMovies.MOVIES_CATEGORIES_TABLE + " ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES  " + IDaoCategories.TABLE + "  (ID) ON UPDATE SET NULL");
         update(ALTER_TABLE + IDaoCategories.TABLE + " ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + "  (ID) ON UPDATE SET NULL");
@@ -106,7 +112,7 @@ public final class MoviesSchema extends AbstractSchema {
     }
 
     @Override
-    public void importDataFromHSQL(Iterable<Insert> inserts){
+    public void importDataFromHSQL(Iterable<Insert> inserts) {
         HSQLImporter importer = new HSQLImporter();
 
         importer.match("MOVIE_CATEGORY", INSERT_INTO + IDaoMovies.MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?, ?)", 0, 1);

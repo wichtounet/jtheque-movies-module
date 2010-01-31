@@ -29,13 +29,13 @@ import org.jtheque.primary.view.impl.choice.AbstractChoiceAction;
  */
 public final class CleanChoiceAction extends AbstractChoiceAction {
     @Override
-    public boolean canDoAction(String action){
+    public boolean canDoAction(String action) {
         return "clean".equals(action);
     }
 
     @Override
-    public void execute(){
-        if (ICategoriesService.DATA_TYPE.equals(getContent())){
+    public void execute() {
+        if (ICategoriesService.DATA_TYPE.equals(getContent())) {
             CoreUtils.<ICleanController>getBean("cleanController").clean((Category) getSelectedItem());
         }
     }

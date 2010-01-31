@@ -33,7 +33,7 @@ import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.Action;
+import javax.swing.*;
 import java.util.Collection;
 
 /**
@@ -43,79 +43,82 @@ import java.util.Collection;
  */
 public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryModel> implements ICategoryView {
     private FilthyTextField fieldName;
-	private DataContainerCachedComboBoxModel<Category> categoriesModel;
+    private DataContainerCachedComboBoxModel<Category> categoriesModel;
 
     private static final int FIELD_COLUMNS = 15;
 
-	public CategoryView(){
+    /**
+     * Construct a new CategoryView.
+     */
+    public CategoryView() {
         super();
 
         build();
     }
 
     @Override
-    protected void initView(){
+    protected void initView() {
         setModel(new CategoryModel());
 
         setResizable(false);
     }
 
     @Override
-    public void reload(){
+    public void reload() {
         Category category = getModel().getCategory();
 
-        if(category.isSaved()){
-        	setTitle(getMessage("category.view.title.modify") + category.getDisplayableText());
+        if (category.isSaved()) {
+            setTitle(getMessage("category.view.title.modify") + category.getDisplayableText());
         } else {
             setTitleKey("category.view.title");
         }
 
         fieldName.setText(category.getTitle());
-		categoriesModel.setSelectedItem(category.getParent());
+        categoriesModel.setSelectedItem(category.getParent());
     }
 
     @Override
-    protected void buildView(PanelBuilder builder){
+    protected void buildView(PanelBuilder builder) {
         builder.addI18nLabel(Category.NAME, builder.gbcSet(0, 0));
 
         Action saveAction = new ValidateCategoryViewAction();
 
         fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
-		ConstraintManager.configure(fieldName.getTextField(), Category.NAME);
+        ConstraintManager.configure(fieldName.getTextField(), Category.NAME);
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 
-		categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-				SwingBuildedDialogView.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
+                SwingBuildedDialogView.<DataContainer<Category>>getBean("categoriesService"));
 
-		builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1,1));
+        builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 1));
 
         TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
                 saveAction, getCloseAction("category.actions.cancel"));
     }
 
     @Override
-    public String getCategoryName(){
+    public String getCategoryName() {
         return fieldName.getText();
     }
 
-	@Override
-	public Category getSelectedCategory(){
-		return categoriesModel.getSelectedData();
-	}
+    @Override
+    public Category getSelectedCategory() {
+        return categoriesModel.getSelectedData();
+    }
 
     @Override
-    public void refreshText(){
+    public void refreshText() {
         super.refreshText();
 
-        if (getModel().getCategory() != null){
+        if (getModel().getCategory() != null) {
             setTitle(getMessage("category.view.title.modify") + getModel().getCategory().getDisplayableText());
         }
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors){
-		ConstraintManager.validate(Category.NAME, fieldName.getText(), errors);
+    protected void validate(Collection<JThequeError> errors) {
+        ConstraintManager.validate(Category.NAME, fieldName.getText(), errors);
     }
 }

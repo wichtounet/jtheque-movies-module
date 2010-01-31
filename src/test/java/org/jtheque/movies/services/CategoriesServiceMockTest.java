@@ -39,7 +39,7 @@ public class CategoriesServiceMockTest {
     private IDaoCategories daoCategories;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         categoriesService = new CategoriesService();
 
         daoCategories = createMock(IDaoCategories.class);
@@ -50,15 +50,15 @@ public class CategoriesServiceMockTest {
             field.setAccessible(true);
 
             field.set(categoriesService, daoCategories);
-        } catch (NoSuchFieldException e){
-			Logger.getLogger(getClass()).error(e.getMessage(), e);
-        } catch (IllegalAccessException e){
-			Logger.getLogger(getClass()).error(e.getMessage(), e);
+        } catch (NoSuchFieldException e) {
+            Logger.getLogger(getClass()).error(e.getMessage(), e);
+        } catch (IllegalAccessException e) {
+            Logger.getLogger(getClass()).error(e.getMessage(), e);
         }
     }
 
     @Test
-    public void testGetCategories(){
+    public void testGetCategories() {
         expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
 
         replay(daoCategories);
@@ -69,7 +69,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testDelete(){
+    public void testDelete() {
         expect(daoCategories.delete(new CategoryImpl())).andReturn(true);
 
         replay(daoCategories);
@@ -80,7 +80,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testCreate(){
+    public void testCreate() {
         daoCategories.create(new CategoryImpl());
 
         replay(daoCategories);
@@ -91,7 +91,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testSave(){
+    public void testSave() {
         daoCategories.save(new CategoryImpl());
 
         replay(daoCategories);
@@ -102,7 +102,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testGetCategory(){
+    public void testGetCategory() {
         expect(daoCategories.getCategory("asdf")).andReturn(null);
 
         replay(daoCategories);
@@ -113,7 +113,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testGetEmptyCategory(){
+    public void testGetEmptyCategory() {
         expect(daoCategories.createCategory()).andReturn(new CategoryImpl(""));
 
         replay(daoCategories);
@@ -124,7 +124,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testGetDatas(){
+    public void testGetDatas() {
         expect(daoCategories.getCategories()).andReturn(CollectionUtils.<Category>emptyList());
 
         replay(daoCategories);
@@ -135,7 +135,7 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testClearAll(){
+    public void testClearAll() {
         daoCategories.clearAll();
 
         replay(daoCategories);

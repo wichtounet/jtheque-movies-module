@@ -18,10 +18,9 @@ package org.jtheque.movies.views.impl.models;
 
 import org.jtheque.primary.view.impl.models.tree.TreeElement;
 
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 
 /**
  * A cell renderer to display an icon in the JTree.
@@ -32,7 +31,7 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
     /**
      * Construct a new FilthyCellRenderer.
      */
-    public FilthyCellRenderer(){
+    public FilthyCellRenderer() {
         super();
 
         setOpaque(false);
@@ -46,7 +45,7 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
 
     @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
-                                                  boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus){
+                                                  boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 
         super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
 
@@ -54,7 +53,7 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
 
         setText(element.getElementName());
 
-        if (element.getIcon() != null){
+        if (element.getIcon() != null) {
             setIcon(element.getIcon());
         }
 

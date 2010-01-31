@@ -18,20 +18,30 @@ import java.util.regex.Pattern;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A precise duration. It's a duration in the format of hours:minutes:seconds.milliseconds.
+ *
+ * @author Baptiste Wicht
+ */
 public final class PreciseDuration {
-	private final byte hours;
-	private final byte minutes;
-	private final byte seconds;
-	private final short milliSeconds;
+    private final byte hours;
+    private final byte minutes;
+    private final byte seconds;
+    private final short milliSeconds;
 
     private static final Pattern PATTERN = Pattern.compile(":");
     private static final Pattern PATTERN1 = Pattern.compile("\\.");
 
-	private static final long MILLISECONDS = 1000L;
-	private static final int SECONDS_PER_MINUTE = 60;
-	private static final long SECONDS_PER_HOUR = 3600L;
+    private static final long MILLISECONDS = 1000L;
+    private static final int SECONDS_PER_MINUTE = 60;
+    private static final long SECONDS_PER_HOUR = 3600L;
 
-	public PreciseDuration(CharSequence duration) {
+    /**
+     * Construct a new PreciseDuration.
+     *
+     * @param duration The duration string.
+     */
+    public PreciseDuration(CharSequence duration) {
         super();
 
         String[] times = PATTERN.split(duration);
@@ -45,58 +55,68 @@ public final class PreciseDuration {
         milliSeconds = Short.parseShort(times[1]);
     }
 
-    public PreciseDuration(long time){
-		super();
+    /**
+     * Construct a new PreciseDuration.
+     *
+     * @param time The long time.
+     */
+    public PreciseDuration(long time) {
+        super();
 
-		hours = (byte) (time / (SECONDS_PER_HOUR * MILLISECONDS));
+        hours = (byte) (time / (SECONDS_PER_HOUR * MILLISECONDS));
 
-		long rest = time - hours * SECONDS_PER_HOUR * MILLISECONDS;
+        long rest = time - hours * SECONDS_PER_HOUR * MILLISECONDS;
 
-		minutes = (byte) (rest / (SECONDS_PER_MINUTE * MILLISECONDS));
+        minutes = (byte) (rest / (SECONDS_PER_MINUTE * MILLISECONDS));
 
-		rest -= minutes * SECONDS_PER_MINUTE * MILLISECONDS;
+        rest -= minutes * SECONDS_PER_MINUTE * MILLISECONDS;
 
-		seconds = (byte) (rest / MILLISECONDS);
-		milliSeconds = (short) (rest - seconds * MILLISECONDS);
-	}
+        seconds = (byte) (rest / MILLISECONDS);
+        milliSeconds = (short) (rest - seconds * MILLISECONDS);
+    }
 
-	public long getTime(){
-		return milliSeconds +
-				seconds * MILLISECONDS +
-				minutes * SECONDS_PER_MINUTE * MILLISECONDS +
-				hours * SECONDS_PER_HOUR * MILLISECONDS;
-	}
+    /**
+     * Return the long time of the duration.
+     *
+     * @return The long time of the duration.
+     */
+    public long getTime() {
+        return milliSeconds +
+                seconds * MILLISECONDS +
+                minutes * SECONDS_PER_MINUTE * MILLISECONDS +
+                hours * SECONDS_PER_HOUR * MILLISECONDS;
+    }
 
-	@Override
-	public String toString(){
-		return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliSeconds);
-	}
+    @Override
+    public String toString() {
+        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, milliSeconds);
+    }
 
-	@Override
-	public boolean equals(Object o){
-		if (this == o){
-			return true;
-		}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
 
-		if (o == null || getClass() != o.getClass()){
-			return false;
-		}
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
-		PreciseDuration that = (PreciseDuration) o;
+        PreciseDuration that = (PreciseDuration) o;
 
-		return !(hours != that.hours || milliSeconds != that.milliSeconds ||
-				minutes != that.minutes || seconds != that.seconds);
-	}
+        return !(hours != that.hours || milliSeconds != that.milliSeconds ||
+                minutes != that.minutes || seconds != that.seconds);
+    }
 
-	@Override
-	public int hashCode(){
-		int result = 17;
+    @Override
+    public int hashCode() {
+        int result = 17;
 
-		result = 31 * result + (int) hours;
-		result = 31 * result + (int) minutes;
-		result = 31 * result + (int) seconds;
-		result = 31 * result + (int) milliSeconds;
+        result = 31 * result + (int) hours;
+        result = 31 * result + (int) minutes;
+        result = 31 * result + (int) seconds;
+        result = 31 * result + (int) milliSeconds;
 
-		return result;
+        return result;
 	}
 }

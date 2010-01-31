@@ -22,9 +22,20 @@ import java.util.Collection;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An add from file controller specification.
+ *
+ * @author Baptiste Wicht
+ */
 public interface IAddFromFileController extends Controller {
-	@Override
+    @Override
     IAddFromFileView getView();
-    
+
+    /**
+     * Add a movie from the specified file path and parsers.
+     *
+     * @param filePath The path to the file of the movie.
+     * @param parsers  The parsers to use to generate the categories of the movie.
+     */
     void add(String filePath, Collection<FileParser> parsers);
 }

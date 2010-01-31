@@ -47,6 +47,9 @@ public interface IMovieController extends IPrincipalController<Movie> {
      */
     void displayViewer(String wmpView, File file);
 
+    /**
+     * Close the current viewer.
+     */
     void closeViewer();
 
     @Override

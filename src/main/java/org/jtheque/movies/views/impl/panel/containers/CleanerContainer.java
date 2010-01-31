@@ -18,8 +18,8 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 
-import javax.swing.JCheckBox;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * A check box to select a name cleaner.
@@ -34,7 +34,7 @@ public final class CleanerContainer extends JCheckBox {
      *
      * @param cleaner The name cleaner.
      */
-    public CleanerContainer(NameCleaner cleaner){
+    public CleanerContainer(NameCleaner cleaner) {
         super(cleaner.getTitle());
 
         this.cleaner = cleaner;
@@ -48,7 +48,7 @@ public final class CleanerContainer extends JCheckBox {
      *
      * @return The name cleaner.
      */
-    public NameCleaner getCleaner(){
+    public NameCleaner getCleaner() {
         return cleaner;
     }
 }

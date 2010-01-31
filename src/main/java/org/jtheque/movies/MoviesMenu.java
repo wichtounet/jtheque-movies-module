@@ -24,22 +24,27 @@ import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 
 import java.util.List;
 
+/**
+ * A menu for the Movies Module.
+ *
+ * @author Baptiste Wicht
+ */
 final class MoviesMenu extends AbstractMenu {
     @Override
-    protected List<Feature> getMenuMainFeatures(){
+    protected List<Feature> getMenuMainFeatures() {
         return features(
                 createMainFeature(500, "category.menu.title",
-                    createSubFeature(1, new CreateNewCategoryAction()),
-                    createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE)),
-                    createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE)),
-                	createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView")),
-                	createSeparatedSubFeature(100, createDisplayViewAction("movie.generate.infos", "generateInfosView"))
-        ));
+                        createSubFeature(1, new CreateNewCategoryAction()),
+                        createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE)),
+                        createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE)),
+                        createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView")),
+                        createSeparatedSubFeature(100, createDisplayViewAction("movie.generate.infos", "generateInfosView"))
+                ));
     }
 
     @Override
-    protected List<Feature> getFileMenuSubFeatures(){
+    protected List<Feature> getFileMenuSubFeatures() {
         return features(
-				createSeparatedSubFeature(101, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)));
+                createSeparatedSubFeature(101, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)));
     }
 }

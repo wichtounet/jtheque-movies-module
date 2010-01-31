@@ -43,38 +43,43 @@ public final class CleanController extends AbstractController implements ICleanC
     private IMovieController movieController;
 
     @Override
-    public ICleanView getView(){
+    public ICleanView getView() {
         return cleanView;
     }
 
-	@Override
-	public void clean(Movie movie){
-		getViewModel().setMovie(movie);
-		cleanView.display();
-	}
+    @Override
+    public void clean(Movie movie) {
+        getViewModel().setMovie(movie);
+        cleanView.display();
+    }
 
-	@Override
-	public void clean(Category category){
-		getViewModel().setCategory(category);
-		cleanView.display();
-	}
+    @Override
+    public void clean(Category category) {
+        getViewModel().setCategory(category);
+        cleanView.display();
+    }
 
-	@Override
-	public void clean(){
-		if(getViewModel().isMovieMode()){
-			moviesService.clean(getViewModel().getMovie(), cleanView.getSelectedCleaners());
-			
-        	movieController.getView().refreshData();
-		} else {
-			moviesService.clean(
-					moviesService.getMovies(getViewModel().getCategory(), cleanView.areSubCategoriesIncluded()), 
-					cleanView.getSelectedCleaners());
-		}
+    @Override
+    public void clean() {
+        if (getViewModel().isMovieMode()) {
+            moviesService.clean(getViewModel().getMovie(), cleanView.getSelectedCleaners());
+
+            movieController.getView().refreshData();
+        } else {
+            moviesService.clean(
+                    moviesService.getMovies(getViewModel().getCategory(), cleanView.areSubCategoriesIncluded()),
+                    cleanView.getSelectedCleaners());
+        }
 
         cleanView.closeDown();
-	}
+    }
 
-	private ICleanModel getViewModel(){
-		return cleanView.getModel();
+    /**
+     * Return the model of the view.
+     *
+     * @return The model of the view.
+     */
+    private ICleanModel getViewModel() {
+        return cleanView.getModel();
 	}
 }

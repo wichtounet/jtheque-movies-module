@@ -23,8 +23,11 @@ import org.jtheque.utils.io.SimpleFilter;
  *
  * @author Baptiste Wicht
  */
-public final class PictureFileNameFilter extends SimpleFilter{
-	public PictureFileNameFilter(){
-		super("Photos", "png,jpg,jpeg,gif");
+public final class PictureFileNameFilter extends SimpleFilter {
+    /**
+     * Construct a new PictureFileNameFilter.
+     */
+    public PictureFileNameFilter() {
+        super("Photos", "png,jpg,jpeg,gif");
 	}
 }

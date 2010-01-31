@@ -26,15 +26,23 @@ import java.awt.event.ActionEvent;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Action to collapse the tree.
+ *
+ * @author Baptiste Wicht
+ */
 public final class CollapseAction extends JThequeSimpleAction {
-	public CollapseAction(){
-		super();
+    /**
+     * Construct a new CollapseAction.
+     */
+    public CollapseAction() {
+        super();
 
-		setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "collapse", ImageType.PNG));
-	}
+        setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "collapse", ImageType.PNG));
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		CoreUtils.<IMovieView>getBean("movieView").collapseAll();
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        CoreUtils.<IMovieView>getBean("movieView").collapseAll();
+    }
 }

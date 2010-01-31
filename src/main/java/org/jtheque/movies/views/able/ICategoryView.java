@@ -21,6 +21,8 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 
 /**
+ * A category view specification.
+ *
  * @author Baptiste Wicht
  */
 public interface ICategoryView extends IView {
@@ -39,5 +41,10 @@ public interface ICategoryView extends IView {
      */
     void reload();
 
-	Category getSelectedCategory();
+    /**
+     * Return the selected category of the view.
+     *
+     * @return The selected category of the view.
+     */
+    Category getSelectedCategory();
 }

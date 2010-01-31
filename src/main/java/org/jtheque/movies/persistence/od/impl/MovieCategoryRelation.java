@@ -30,7 +30,7 @@ public final class MovieCategoryRelation {
      *
      * @return The category of the relation.
      */
-    public int getCategory(){
+    public int getCategory() {
         return category;
     }
 
@@ -39,7 +39,7 @@ public final class MovieCategoryRelation {
      *
      * @param category The category of the relation.
      */
-    public void setCategory(int category){
+    public void setCategory(int category) {
         this.category = category;
     }
 
@@ -48,7 +48,7 @@ public final class MovieCategoryRelation {
      *
      * @return The movie of the relation.
      */
-    public int getMovie(){
+    public int getMovie() {
         return movie;
     }
 
@@ -57,7 +57,7 @@ public final class MovieCategoryRelation {
      *
      * @param movie The movie of the relation.
      */
-    public void setMovie(int movie){
+    public void setMovie(int movie) {
         this.movie = movie;
     }
 }

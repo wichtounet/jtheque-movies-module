@@ -31,12 +31,12 @@ public final class CreateNewCategoryAction extends JThequeAction {
     /**
      * Construct a new CreateNewCategoryAction.
      */
-    public CreateNewCategoryAction(){
+    public CreateNewCategoryAction() {
         super("category.actions.new");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<ICategoryController>getBean("categoryController").newCategory();
     }
 }

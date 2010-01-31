@@ -32,17 +32,17 @@ public final class ImageController extends AbstractController implements IImageC
     @Resource
     private IImageView imageView;
 
-	@Resource
-	private IMovieController movieController;
-
-	@Override
-	public void editImage(){
-		imageView.displayMovie(movieController.getViewModel().getCurrentMovie());
-		imageView.display();
-	}
+    @Resource
+    private IMovieController movieController;
 
     @Override
-    public IImageView getView(){
+    public void editImage() {
+        imageView.displayMovie(movieController.getViewModel().getCurrentMovie());
+        imageView.display();
+    }
+
+    @Override
+    public IImageView getView() {
         return imageView;
     }
 }

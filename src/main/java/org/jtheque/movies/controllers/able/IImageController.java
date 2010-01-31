@@ -19,9 +19,17 @@ import org.jtheque.movies.views.able.IImageView;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An image controller specification.
+ *
+ * @author Baptiste Wicht
+ */
 public interface IImageController extends Controller {
-	void editImage();
+    /**
+     * Edit the image of the current movie.
+     */
+    void editImage();
 
-	@Override
-	IImageView getView();
+    @Override
+    IImageView getView();
 }

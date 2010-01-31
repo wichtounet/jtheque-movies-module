@@ -54,184 +54,201 @@ public final class MoviesService implements IMoviesService {
     private IFFMpegService ffMpegService;
 
     @Override
-    public Movie getEmptyMovie(){
+    public Movie getEmptyMovie() {
         Movie movie = daoMovies.createMovie();
 
         movie.setTitle(CoreUtils.getMessage("values.new"));
-        
+
         return movie;
     }
 
     @Override
-    public Collection<Movie> getMovies(){
+    public Collection<Movie> getMovies() {
         return daoMovies.getMovies();
     }
 
-	@Override
-	public Set<Movie> getMovies(Category category, boolean includeSubCategory){
-		Set<Movie> movies = new HashSet<Movie>(20);
+    @Override
+    public Set<Movie> getMovies(Category category, boolean includeSubCategory) {
+        Set<Movie> movies = new HashSet<Movie>(20);
 
-		Collection<Category> categories = new HashSet<Category>(10);
+        Collection<Category> categories = new HashSet<Category>(10);
 
-		categories.add(category);
+        categories.add(category);
 
-		if(includeSubCategory){
-			categories.addAll(categoriesService.getSubCategories(category));
-		}
+        if (includeSubCategory) {
+            categories.addAll(categoriesService.getSubCategories(category));
+        }
 
-		for(Movie movie : getMovies()){
-            for(Category cat : categories){
-                if(movie.isOfCategory(cat)){
-					movies.add(movie);
-					break;
+        for (Movie movie : getMovies()) {
+            for (Category cat : categories) {
+                if (movie.isOfCategory(cat)) {
+                    movies.add(movie);
+                    break;
                 }
             }
-		}
+        }
 
-		return movies;
-	}
+        return movies;
+    }
 
-	@Override
+    @Override
     @Transactional
-    public boolean delete(Movie movie){
+    public boolean delete(Movie movie) {
         return daoMovies.delete(movie);
     }
 
     @Override
     @Transactional
-    public void save(Movie movie){
+    public void save(Movie movie) {
         daoMovies.save(movie);
     }
 
     @Override
     @Transactional
-    public void create(Movie movie){
+    public void create(Movie movie) {
         daoMovies.create(movie);
     }
 
-	@Override
-	public void clean(Movie movie, Collection<NameCleaner> cleaners){
-		clean(Arrays.asList(movie), cleaners);
-	}
+    @Override
+    public void clean(Movie movie, Collection<NameCleaner> cleaners) {
+        clean(Arrays.asList(movie), cleaners);
+    }
 
     @Override
-    public void clean(Collection<Movie> movies, Collection<NameCleaner> cleaners){
-        for (Movie movie : movies){
+    public void clean(Collection<Movie> movies, Collection<NameCleaner> cleaners) {
+        for (Movie movie : movies) {
             String title = movie.getTitle();
 
-            for (NameCleaner cleaner : cleaners){
+            for (NameCleaner cleaner : cleaners) {
                 title = cleaner.clearName(movie, title);
             }
 
             title = title.trim();
 
-            if (!title.equals(movie.getTitle())){
+            if (!title.equals(movie.getTitle())) {
                 movie.setTitle(title);
                 save(movie);
             }
         }
     }
 
-	@Override
-	public boolean fileExists(String file){
-		for (Movie movie : getMovies()){
-            if (file.equals(movie.getFile())){
+    @Override
+    public boolean fileExists(String file) {
+        for (Movie movie : getMovies()) {
+            if (file.equals(movie.getFile())) {
                 return true;
             }
         }
 
-		return false;
-	}
+        return false;
+    }
 
     @Override
     public boolean fileExistsInOtherMovie(Movie movie, String file) {
-		for (Movie other : getMovies()){
-            if (movie.getId() != other.getId() && file.equals(other.getFile())){
+        for (Movie other : getMovies()) {
+            if (movie.getId() != other.getId() && file.equals(other.getFile())) {
                 return true;
             }
         }
 
-		return false;
+        return false;
     }
 
-	@Override
-	public void saveImage(Movie movie, BufferedImage image){
-		String folder = CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath();
+    @Override
+    public void saveImage(Movie movie, BufferedImage image) {
+        String folder = CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath();
 
-		String imageName = getFreeName(folder, movie.getTitle()  + ".png");
+        String imageName = getFreeName(folder, movie.getTitle() + ".png");
 
-		try {
-			ImageIO.write(image, "png", new File(folder + imageName));
+        try {
+            ImageIO.write(image, "png", new File(folder + imageName));
 
-			movie.setImage(imageName);
-		} catch (IOException e){
-			CoreUtils.getLogger(getClass()).error(e);
-		}
-	}
+            movie.setImage(imageName);
+        } catch (IOException e) {
+            CoreUtils.getLogger(getClass()).error(e);
+        }
+    }
 
     @Override
     public void fillInformations(Set<Movie> movies, boolean duration, boolean resolution, boolean image) {
-		assert resolution || duration || image : "This method must be called with one of duration, resolution or image";
+        assert resolution || duration || image : "This method must be called with one of duration, resolution or image";
 
-        for(Movie movie : movies){
-            if(new File(movie.getFile()).exists()){
-				generateInfos(duration, resolution, image, movie);
+        for (Movie movie : movies) {
+            if (new File(movie.getFile()).exists()) {
+                generateInfos(duration, resolution, image, movie);
 
-				save(movie);
+                save(movie);
             }
         }
     }
 
-	@Override
-	public Movie getMovie(String title){
-		return daoMovies.getMovie(title);
-	}
+    @Override
+    public Movie getMovie(String title) {
+        return daoMovies.getMovie(title);
+    }
 
-	private void generateInfos(boolean duration, boolean resolution, boolean image, Movie movie){
-		File f = new File(movie.getFile());
+    /**
+     * Generate the informations of the movie.
+     *
+     * @param duration   A boolean tag indicating if we must fill the duration (true) or not (false).
+     * @param resolution A boolean tag indicating if we must fill the resolution (true) or not (false).
+     * @param image      A boolean tag indicating if we must fill the image (true) or not (false).
+     * @param movie      The movie to fill.
+     */
+    private void generateInfos(boolean duration, boolean resolution, boolean image, Movie movie) {
+        File f = new File(movie.getFile());
 
-		if(duration){
-			movie.setDuration(ffMpegService.getDuration(f));
-		}
+        if (duration) {
+            movie.setDuration(ffMpegService.getDuration(f));
+        }
 
-		if(resolution){
-			movie.setResolution(ffMpegService.getResolution(f));
-		}
+        if (resolution) {
+            movie.setResolution(ffMpegService.getResolution(f));
+        }
 
-		if(image){
-			saveImage(movie, ffMpegService.generateRandomPreviewImage(f));
-		}
-	}
+        if (image) {
+            saveImage(movie, ffMpegService.generateRandomPreviewImage(f));
+        }
+    }
 
-	private static String getFreeName(String folder, String name){
-		if(new File(folder, name).exists()){
-			int count = 1;
+    /**
+     * Return the next free name for the specified name in the specified folder.
+     * If there is also a file named name in the specified folder, it will search for files
+     * name[n].extension while it find a not existing file.
+     *
+     * @param folder The folder to search free name in.
+     * @param name   The name to add.
+     * @return The next free name for the specified name in the specified folder.
+     */
+    private static String getFreeName(String folder, String name) {
+        if (new File(folder, name).exists()) {
+            int count = 1;
 
-			String freeName;
+            String freeName;
 
-			do {
-				freeName = name.substring(0, name.lastIndexOf('.')) + '[' + count + ']' + name.substring(name.lastIndexOf('.'));
-				count++;
-			} while (new File(folder, freeName).exists());
+            do {
+                freeName = name.substring(0, name.lastIndexOf('.')) + '[' + count + ']' + name.substring(name.lastIndexOf('.'));
+                count++;
+            } while (new File(folder, freeName).exists());
 
-			return freeName;
-		}
+            return freeName;
+        }
 
-		return name;
-	}
+        return name;
+    }
 
-	@Override
-    public Collection<Movie> getDatas(){
+    @Override
+    public Collection<Movie> getDatas() {
         return getMovies();
     }
 
     @Override
-    public void addDataListener(DataListener listener){
+    public void addDataListener(DataListener listener) {
         daoMovies.addDataListener(listener);
     }
 
     @Override
-    public String getDataType(){
+    public String getDataType() {
         return DATA_TYPE;
     }
 

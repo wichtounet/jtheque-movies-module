@@ -42,36 +42,44 @@ public final class MovieController extends PrincipalController<Movie> implements
 
     private ViewerPanel currentViewer;
 
+    /**
+     * Create a new MovieController.
+     *
+     * @param viewState      The view state.
+     * @param modifyState    The modify state.
+     * @param newObjectState The new object state.
+     * @param autoAddState   The auto add state.
+     */
     public MovieController(ControllerState viewState, ControllerState modifyState, ControllerState newObjectState,
-                           ControllerState autoAddState){
+                           ControllerState autoAddState) {
         super(viewState, modifyState, newObjectState, autoAddState);
     }
 
     @Override
-    public IMovieView getView(){
+    public IMovieView getView() {
         return movieView;
     }
 
     @Override
-    public void save(){
+    public void save() {
         save(movieView.fillMovieFormBean());
     }
 
     @Override
-    public IMoviesModel getViewModel(){
+    public IMoviesModel getViewModel() {
         return (IMoviesModel) movieView.getModel();
     }
 
     @Override
-    public boolean isEditing(){
+    public boolean isEditing() {
         return getState() == getNewObjectState() || getState() == getModifyState();
     }
 
     @Override
-    public void displayViewer(String view, File file){
-        if (view.equals(IMovieView.WMP_VIEW)){
+    public void displayViewer(String view, File file) {
+        if (view.equals(IMovieView.WMP_VIEW)) {
             setCurrentViewer(file, new JPanelWMP());
-        } else if (view.equals(IMovieView.VLC_VIEW)){
+        } else if (view.equals(IMovieView.VLC_VIEW)) {
             setCurrentViewer(file, new JPanelVLC());
         }
     }
@@ -82,7 +90,7 @@ public final class MovieController extends PrincipalController<Movie> implements
      * @param file   The file to open in the viewer.
      * @param viewer The viewer to display.
      */
-    private void setCurrentViewer(File file, ViewerPanel viewer){
+    private void setCurrentViewer(File file, ViewerPanel viewer) {
         CoreUtils.getMainView().setGlassPane(viewer);
         viewer.setFile(file);
         viewer.setVisible(true);
@@ -90,8 +98,8 @@ public final class MovieController extends PrincipalController<Movie> implements
     }
 
     @Override
-    public void closeViewer(){
-        if (currentViewer != null){
+    public void closeViewer() {
+        if (currentViewer != null) {
             currentViewer.stop();
             currentViewer.setVisible(false);
             CoreUtils.getMainView().setGlassPane(null);
@@ -100,7 +108,7 @@ public final class MovieController extends PrincipalController<Movie> implements
     }
 
     @Override
-    public String getDataType(){
+    public String getDataType() {
         return IMoviesService.DATA_TYPE;
     }
 

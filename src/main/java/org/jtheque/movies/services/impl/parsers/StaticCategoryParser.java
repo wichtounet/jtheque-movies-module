@@ -22,8 +22,7 @@ import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,49 +33,48 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class StaticCategoryParser implements FileParser {
-	private final DataContainerCachedComboBoxModel<Category> categoriesModel;
-	private final JComboBox categoriesComboBox;
+    private final DataContainerCachedComboBoxModel<Category> categoriesModel;
+    private final JComboBox categoriesComboBox;
 
-	/**
+    /**
      * Construct a new StaticCategoryParser.
-	 *
      */
-    public StaticCategoryParser(){
+    public StaticCategoryParser() {
         super();
 
-		categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-				CoreUtils.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
+                CoreUtils.<DataContainer<Category>>getBean("categoriesService"));
 
-		categoriesComboBox = new FilthyComboBox(categoriesModel);
+        categoriesComboBox = new FilthyComboBox(categoriesModel);
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return "";
     }
 
     @Override
-    public void parseFilePath(File file){
+    public void parseFilePath(File file) {
 
     }
 
     @Override
-    public String clearFileName(String fileName){
+    public String clearFileName(String fileName) {
         return fileName;
     }
 
     @Override
-    public Collection<Category> getExtractedCategories(){
+    public Collection<Category> getExtractedCategories() {
         return Arrays.asList(categoriesModel.getSelectedData());
     }
 
-	@Override
-	public boolean hasCustomView(){
-		return true;
-	}
+    @Override
+    public boolean hasCustomView() {
+        return true;
+    }
 
-	@Override
-	public JComponent getCustomView(){
-		return categoriesComboBox;
-	}
+    @Override
+    public JComponent getCustomView() {
+        return categoriesComboBox;
+    }
 }

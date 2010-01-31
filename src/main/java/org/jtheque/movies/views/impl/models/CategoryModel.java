@@ -30,17 +30,17 @@ public final class CategoryModel implements ICategoryModel {
     private Category category;
 
     @Override
-    public ViewMode getState(){
+    public ViewMode getState() {
         return state;
     }
 
     @Override
-    public void setState(ViewMode state){
+    public void setState(ViewMode state) {
         this.state = state;
     }
 
     @Override
-    public Category getCategory(){
+    public Category getCategory() {
         return category;
     }
 
@@ -50,7 +50,7 @@ public final class CategoryModel implements ICategoryModel {
      * @param category The current category.
      */
     @Override
-    public void setCategory(Category category){
+    public void setCategory(Category category) {
         this.category = category;
     }
 }

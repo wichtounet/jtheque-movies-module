@@ -29,24 +29,29 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An action to generate an image from a file of the user.
+ *
+ * @author Baptiste Wicht
+ */
 public final class GenerateFileImageAction extends JThequeAction {
     /**
      * Construct a new GenerateFileImageAction.
      */
-    public GenerateFileImageAction(){
+    public GenerateFileImageAction() {
         super("movie.image.actions.file");
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
 
         File file = new File(view.getImagePath());
 
-        if(StringUtils.isNotEmpty(view.getImagePath()) && file.exists()){
-			view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generateImageFromUserInput(file));
+        if (StringUtils.isNotEmpty(view.getImagePath()) && file.exists()) {
+            view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generateImageFromUserInput(file));
         } else {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
         }
-	}
+    }
 }

@@ -23,12 +23,12 @@ import org.jtheque.primary.od.able.Data;
  * @author Baptiste Wicht
  */
 public interface Category extends Data {
-	String NAME = "category.name";
-	String PARENT = "category.parent";
-	
-	int NAME_LENGTH = 100;
+    String NAME = "category.name";
+    String PARENT = "category.parent";
 
-	/**
+    int NAME_LENGTH = 100;
+
+    /**
      * Return the title of the category.
      *
      * @return The title of the category.
@@ -56,11 +56,34 @@ public interface Category extends Data {
      */
     void setTheCollection(Collection theCollection);
 
-	Category getParent();
+    /**
+     * Return the parent category.
+     *
+     * @return the parent Category or null if there is no parent.
+     */
+    Category getParent();
 
-	void setParent(Category parent);
+    /**
+     * Set the parent category.
+     *
+     * @param parent The parent category.
+     */
+    void setParent(Category parent);
 
-	void setTemporaryParent(int anInt);
+    /**
+     * Set the temporary parent. This method is used when we cannot get the category
+     * referenced by the specified id. This method must not be used once the cache of categories
+     * is loaded.
+     *
+     * @param parentId The id of the parent category.
+     */
+    void setTemporaryParent(int parentId);
 
+    /**
+     * Return the id of the temporary parent category.
+     *
+     * @return The id of the parent category.
+     * @see #setTemporaryParent(int)
+     */
 	int getTemporaryParent();
 }

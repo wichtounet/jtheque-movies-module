@@ -26,15 +26,23 @@ import java.awt.event.ActionEvent;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Action to refresh the tree.
+ *
+ * @author Baptiste Wicht
+ */
 public final class RefreshAction extends JThequeSimpleAction {
-	public RefreshAction(){
-		super();
+    /**
+     * Construct a new RefreshAction.
+     */
+    public RefreshAction() {
+        super();
 
-		setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "refresh", ImageType.PNG));
-	}
+        setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "refresh", ImageType.PNG));
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		CoreUtils.<IMovieView>getBean("movieView").resort();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        CoreUtils.<IMovieView>getBean("movieView").resort();
 	}
 }

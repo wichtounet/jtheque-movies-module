@@ -45,29 +45,29 @@ public final class ViewMovieState extends AbstractControllerState {
      *
      * @return The model of the view.
      */
-    private static IMoviesModel getViewModel(){
+    private static IMoviesModel getViewModel() {
         return getController().getViewModel();
     }
 
     @Override
-    public void apply(){
+    public void apply() {
         getController().getView().setDisplayedView(IMovieView.VIEW_VIEW);
 
-		Movie current = getController().getView().getSelectedMovie();
+        Movie current = getController().getView().getSelectedMovie();
 
-		if (current != getViewModel().getCurrentMovie()){
-			getController().getView().select(getViewModel().getCurrentMovie());
-		}
+        if (current != getViewModel().getCurrentMovie()) {
+            getController().getView().select(getViewModel().getCurrentMovie());
+        }
     }
 
     @Override
-    public ControllerState create(){
+    public ControllerState create() {
         return getController().getNewObjectState();
     }
 
     @Override
-    public ControllerState manualEdit(){
-        if (getViewModel().getCurrentMovie() == null){
+    public ControllerState manualEdit() {
+        if (getViewModel().getCurrentMovie() == null) {
             return null;
         }
 
@@ -75,10 +75,10 @@ public final class ViewMovieState extends AbstractControllerState {
     }
 
     @Override
-    public ControllerState delete(){
+    public ControllerState delete() {
         boolean deleted = moviesService.delete(getViewModel().getCurrentMovie());
 
-        if (deleted){
+        if (deleted) {
             Managers.getManager(IUndoRedoManager.class).addEdit(
                     new GenericDataDeletedEdit<Movie>("moviesService", getViewModel().getCurrentMovie()));
 
@@ -89,7 +89,7 @@ public final class ViewMovieState extends AbstractControllerState {
     }
 
     @Override
-    public ControllerState view(Data data){
+    public ControllerState view(Data data) {
         Movie movie = (Movie) data;
 
         getViewModel().setCurrentMovie(movie);
@@ -97,7 +97,12 @@ public final class ViewMovieState extends AbstractControllerState {
         return null;
     }
 
-	private static IMovieController getController(){
-		return CoreUtils.getBean("movieController");
-	}
+    /**
+     * Return the movie controller.
+     *
+     * @return The movie controller.
+     */
+    private static IMovieController getController() {
+        return CoreUtils.getBean("movieController");
+    }
 }

@@ -30,19 +30,19 @@ public final class CharCleaner implements NameCleaner {
      *
      * @param character The character to clean.
      */
-    public CharCleaner(String character){
+    public CharCleaner(String character) {
         super();
 
         this.character = character;
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.clean.cleaner.char", character);
     }
 
     @Override
-    public String clearName(Movie movie, String name){
+    public String clearName(Movie movie, String name) {
         return name.replace(character, "");
     }
 }

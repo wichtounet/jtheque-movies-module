@@ -26,15 +26,15 @@ import org.jtheque.movies.persistence.od.able.Movie;
  */
 public final class ExtensionCleaner implements NameCleaner {
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.clean.cleaner.extension");
     }
 
     @Override
-    public String clearName(Movie movie, String name){
+    public String clearName(Movie movie, String name) {
         String cleared = name;
 
-        if (cleared.contains(".")){
+        if (cleared.contains(".")) {
             cleared = cleared.substring(0, cleared.lastIndexOf('.'));
         }
 

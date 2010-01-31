@@ -26,15 +26,23 @@ import java.awt.event.ActionEvent;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Action to expand the tree.
+ *
+ * @author Baptiste Wicht
+ */
 public final class ExpandAction extends JThequeSimpleAction {
-	public ExpandAction(){
-		super();
+    /**
+     * Construct a new ExpandAction.
+     */
+    public ExpandAction() {
+        super();
 
-		setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "expand", ImageType.PNG));
-	}
+        setIcon(Managers.getManager(IResourceManager.class).getIcon(MoviesModule.IMAGES_BASE_NAME, "expand", ImageType.PNG));
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		CoreUtils.<IMovieView>getBean("movieView").expandAll();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        CoreUtils.<IMovieView>getBean("movieView").expandAll();
 	}
 }

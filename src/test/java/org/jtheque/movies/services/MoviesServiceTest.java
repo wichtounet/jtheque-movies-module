@@ -49,7 +49,7 @@ import static org.junit.Assert.*;
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class MoviesServiceTest extends AbstractDBUnitTest {
-	@Resource
+    @Resource
     private IMoviesService moviesService;
 
     @Resource
@@ -58,23 +58,23 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     @Resource
     private DataSource dataSource;
 
-	private org.jtheque.primary.od.able.Collection collection;
+    private org.jtheque.primary.od.able.Collection collection;
 
-	static {
-		Logger.getRootLogger().setLevel(Level.ERROR);
-	}
+    static {
+        Logger.getRootLogger().setLevel(Level.ERROR);
+    }
 
-    public MoviesServiceTest(){
+    public MoviesServiceTest() {
         super("movies.xml");
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initDB(dataSource);
 
         PrimaryUtils.setPrimaryImpl("Movies");
 
-		collection = new CollectionImpl();
+        collection = new CollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);
@@ -85,38 +85,38 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void initOK(){
+    public void initOK() {
         assertNotNull(moviesService);
     }
 
     @Test
-    public void fileExists(){
-		assertFalse(moviesService.fileExists("C:\\test.avi"));
-		assertTrue(moviesService.fileExists("C:\\movies\\movie1.avi"));
-	}
+    public void fileExists() {
+        assertFalse(moviesService.fileExists("C:\\test.avi"));
+        assertTrue(moviesService.fileExists("C:\\movies\\movie1.avi"));
+    }
 
     @Test
-    public void fileExistsInOtherMovie(){
-		assertFalse(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 1"), "C:\\test.avi"));
-		assertFalse(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 1"), "C:\\movies\\movie1.avi"));
-		assertTrue(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 2"), "C:\\movies\\movie1.avi"));
-	}
+    public void fileExistsInOtherMovie() {
+        assertFalse(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 1"), "C:\\test.avi"));
+        assertFalse(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 1"), "C:\\movies\\movie1.avi"));
+        assertTrue(moviesService.fileExistsInOtherMovie(moviesService.getMovie("Movie 2"), "C:\\movies\\movie1.avi"));
+    }
 
     @Test
-    public void testCleanOne(){
+    public void testCleanOne() {
         Collection<NameCleaner> cleaners = new ArrayList<NameCleaner>(1);
 
         cleaners.add(new ExtensionCleaner());
 
-		Movie m1 = new MovieImpl();
+        Movie m1 = new MovieImpl();
         m1.setTitle(" asdf.txt");
-		m1.setTheCollection(collection);
+        m1.setTheCollection(collection);
 
-		moviesService.clean(m1, cleaners);
-	}
+        moviesService.clean(m1, cleaners);
+    }
 
     @Test
-    public void testCleanCollection(){
+    public void testCleanCollection() {
         Collection<NameCleaner> cleaners = new ArrayList<NameCleaner>(1);
 
         cleaners.add(new ExtensionCleaner());
@@ -125,22 +125,22 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
         Movie m1 = new MovieImpl();
         m1.setTitle(" asdf.txt");
-		m1.setTheCollection(collection);
+        m1.setTheCollection(collection);
         movies.add(m1);
 
         Movie m2 = new MovieImpl();
         m2.setTitle(" asdf.wba ");
-		m2.setTheCollection(collection);
+        m2.setTheCollection(collection);
         movies.add(m2);
 
         Movie m3 = new MovieImpl();
         m3.setTitle(" asdf    ");
-		m3.setTheCollection(collection);
+        m3.setTheCollection(collection);
         movies.add(m3);
 
         moviesService.clean(movies, cleaners);
 
-        for (Movie m : movies){
+        for (Movie m : movies) {
             assertEquals("asdf", m.getTitle());
         }
     }

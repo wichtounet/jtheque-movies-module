@@ -31,12 +31,12 @@ public final class EditImageAction extends JThequeAction {
     /**
      * Construct a new AcPrintFilm.
      */
-    public EditImageAction(){
+    public EditImageAction() {
         super("movie.actions.image");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<IImageController>getBean("imageController").editImage();
     }
 }

@@ -24,7 +24,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
-import javax.swing.DefaultListModel;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +44,7 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
     /**
      * Construct a new ActorsListModel.
      */
-    public CategoriesListModel(){
+    public CategoriesListModel() {
         super();
 
         Managers.getManager(IBeansManager.class).inject(this);
@@ -54,46 +54,46 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
     }
 
     @Override
-    public Object getElementAt(int index){
+    public Object getElementAt(int index) {
         return categories.get(index);
     }
 
     @Override
-    public Object get(int index){
+    public Object get(int index) {
         return categories.get(index);
     }
 
     @Override
-    public int getSize(){
+    public int getSize() {
         return categories.size();
     }
 
     @Override
-    public Object remove(int i){
+    public Object remove(int i) {
         Category category = categories.remove(i);
         fireIntervalRemoved(this, i, i);
         return category;
     }
 
     @Override
-    public void addElement(Object obj){
+    public void addElement(Object obj) {
         categories.add((Category) obj);
         fireIntervalAdded(this, getSize(), getSize());
     }
 
     @Override
-    public void removeAllElements(){
+    public void removeAllElements() {
         categories.clear();
         fireContentsChanged(this, 0, getSize());
     }
 
     @Override
-    public boolean removeElement(Object obj){
+    public boolean removeElement(Object obj) {
         Category category = (Category) obj;
 
         int index = categories.indexOf(category);
 
-        if (index != -1){
+        if (index != -1) {
             boolean remove = categories.remove(category);
             fireIntervalRemoved(this, index, index);
             return remove;
@@ -103,18 +103,18 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
     }
 
     @Override
-    public void dataChanged(){
+    public void dataChanged() {
         reload();
     }
 
     /**
      * Reload the model.
      */
-    public void reload(){
+    public void reload() {
         categories = new ArrayList<Category>(categoriesService.getCategories());
 
-        if (linkedModel != null){
-            for (Category category : linkedModel.getObjects()){
+        if (linkedModel != null) {
+            for (Category category : linkedModel.getObjects()) {
                 removeElement(category);
             }
         }
@@ -128,7 +128,7 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
      *
      * @param linkedModel The model to link to.
      */
-    public void setLinkedModel(SimpleListModel<Category> linkedModel){
+    public void setLinkedModel(SimpleListModel<Category> linkedModel) {
         this.linkedModel = linkedModel;
     }
 }

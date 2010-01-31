@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class NumberCleanerTest {
     @Test
-    public void clearName(){
+    public void clearName() {
         NumberCleaner cleaner = new NumberCleaner();
 
         assertEquals("super fichier.wma", cleaner.clearName(new MovieImpl(), "555super 3245fichier123.wma46"));

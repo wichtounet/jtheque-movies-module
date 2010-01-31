@@ -21,13 +21,31 @@ import org.jtheque.movies.views.able.ICleanView;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A clean controller specification.
+ *
+ * @author Baptiste Wicht
+ */
 public interface ICleanController extends Controller {
-	@Override
+    @Override
     ICleanView getView();
 
-	void clean(Movie movie);
+    /**
+     * Clean the specified movie.
+     *
+     * @param movie The movie to clean.
+     */
+    void clean(Movie movie);
 
-	void clean(Category category);
+    /**
+     * Clean the category.
+     *
+     * @param category The category to clean.
+     */
+    void clean(Category category);
 
+    /**
+     * Clean the current content.
+     */
 	void clean();
 }

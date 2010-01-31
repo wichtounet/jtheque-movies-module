@@ -32,25 +32,25 @@ public final class CategoryImpl extends AbstractData implements Category {
      */
     private String title;
 
-	/**
-	 * The parent category.
-	 */
-	private Category parent;
+    /**
+     * The parent category.
+     */
+    private Category parent;
 
     /**
      * The collection.
      */
     private Collection theCollection;
 
-	/**
-	 * The id of the parent, used only at cache loading to facilitate loading.
-	 */
-	private int temporaryParent;
+    /**
+     * The id of the parent, used only at cache loading to facilitate loading.
+     */
+    private int temporaryParent;
 
     /**
      * Construct a new empty CategoryImpl.
      */
-    public CategoryImpl(){
+    public CategoryImpl() {
         this("");
     }
 
@@ -59,7 +59,7 @@ public final class CategoryImpl extends AbstractData implements Category {
      *
      * @param title The title of the category.
      */
-    public CategoryImpl(String title){
+    public CategoryImpl(String title) {
         super();
 
         this.title = title;
@@ -68,69 +68,69 @@ public final class CategoryImpl extends AbstractData implements Category {
     //Data methods
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public void setTitle(String title){
+    public void setTitle(String title) {
         this.title = title;
     }
 
     @Override
-    public Collection getTheCollection(){
+    public Collection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(Collection theCollection){
+    public void setTheCollection(Collection theCollection) {
         this.theCollection = theCollection;
     }
 
-	@Override
-	public Category getParent(){
-		return parent;
-	}
-
-	@Override
-	public void setParent(Category parent){
-		this.parent = parent;
-	}
-
-	@Override
-	public void setTemporaryParent(int temporaryParent){
-		this.temporaryParent = temporaryParent;
-	}
-
-	@Override
-	public int getTemporaryParent(){
-		return temporaryParent;
-	}
-
-	//Utility methods
+    @Override
+    public Category getParent() {
+        return parent;
+    }
 
     @Override
-    public String getDisplayableText(){
+    public void setParent(Category parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public void setTemporaryParent(int temporaryParent) {
+        this.temporaryParent = temporaryParent;
+    }
+
+    @Override
+    public int getTemporaryParent() {
+        return temporaryParent;
+    }
+
+    //Utility methods
+
+    @Override
+    public String getDisplayableText() {
         return title;
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return title;
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return TempUtils.hashCodeDirect(getId(), title, theCollection);
     }
 
     @Override
-    public boolean equals(Object obj){
-		if(obj == null){
-			return false;
-		}
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
 
-        Category category = (Category)obj;
+        Category category = (Category) obj;
 
         return TempUtils.areEqualsDirect(this, category,
                 getId(), title, theCollection,

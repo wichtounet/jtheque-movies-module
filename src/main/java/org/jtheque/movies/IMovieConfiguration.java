@@ -36,11 +36,21 @@ public interface IMovieConfiguration {
      */
     void setOpeningSystem(Opening opening);
 
-	String getFFmpegLocation();
+    /**
+     * Return the location of the FFMpeg.exe file.
+     *
+     * @return The location of FFMpeg file.
+     */
+    String getFFmpegLocation();
 
-	void setFFmpegLocation(String location);
+    /**
+     * Set the location of the FFMpeg.exe file.
+     *
+     * @param location The location of FFmpeg file.
+     */
+    void setFFmpegLocation(String location);
 
-	/**
+    /**
      * An enum for different opening system.
      *
      * @author Baptiste Wicht
@@ -57,7 +67,7 @@ public interface IMovieConfiguration {
          *
          * @param value The string internationalization key.
          */
-        Opening(String value){
+        Opening(String value) {
             this.value = value;
         }
 
@@ -66,12 +76,12 @@ public interface IMovieConfiguration {
          *
          * @return The i18n key.
          */
-        String getValue(){
+        String getValue() {
             return value;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return CoreUtils.getMessage(value);
         }
     }

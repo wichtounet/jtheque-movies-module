@@ -19,20 +19,24 @@ package org.jtheque.movies.views.impl.panel;
 import org.jtheque.movies.utils.TempSwingUtils;
 import org.jtheque.utils.ui.SizeTracker;
 
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 
+/**
+ * A panel with a filthy background.
+ *
+ * @author Baptiste Wicht
+ */
 public final class FilthyBackgroundPanel extends JPanel {
-	private final SizeTracker tracker = new SizeTracker(this);
-	private Image gradientImage;
+    private final SizeTracker tracker = new SizeTracker(this);
+    private Image gradientImage;
 
-	@Override
-	public void paintComponent(Graphics g){
-		if (!isVisible()){
-			return;
-		}
+    @Override
+    public void paintComponent(Graphics g) {
+        if (!isVisible()) {
+            return;
+        }
 
-		gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
-	}
+        gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+    }
 }

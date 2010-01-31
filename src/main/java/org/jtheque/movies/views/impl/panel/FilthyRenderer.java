@@ -4,11 +4,9 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.utils.ui.Borders;
 
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.JList;
+import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.*;
 
 /*
  * This file is part of JTheque.
@@ -27,7 +25,7 @@ import java.awt.Component;
  */
 
 /**
- * A basic renderer for this combo box.
+ * A filthy renderer for this combo box.
  *
  * @author Baptiste Wicht
  */
@@ -36,6 +34,9 @@ public final class FilthyRenderer extends DefaultListCellRenderer {
     private final Color selectionBackground = new Color(170, 170, 170);
     private final Border border;
 
+    /**
+     * Construct a new FilthyRenderer.
+     */
     public FilthyRenderer() {
         super();
 
@@ -46,12 +47,12 @@ public final class FilthyRenderer extends DefaultListCellRenderer {
     @Override
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-        
+
         setBorder(border);
         setForeground(Color.white);
         setOpaque(true);
 
-        if(isSelected){
+        if (isSelected) {
             setBackground(selectionBackground);
         } else {
             setBackground(background);

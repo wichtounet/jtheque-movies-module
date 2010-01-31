@@ -28,13 +28,45 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public interface IFFMpegService {
+    /**
+     * Return the resolution of the movie specified by the file.
+     *
+     * @param f The file of the movie.
+     * @return The resolution of the file else null if this not possible to get that information.
+     */
     Resolution getResolution(File f);
 
+    /**
+     * Return the duration of the movie specified by the file.
+     *
+     * @param f The file of the movie.
+     * @return The duration of the file else null if this not possible to get that information.
+     */
     PreciseDuration getDuration(File f);
 
-	BufferedImage generateRandomPreviewImage(File file);
+    /**
+     * Generate a random preview image from the movie file.
+     *
+     * @param file The file of the movie.
+     * @return A random preview image else null if this not possible to get that information.
+     */
+    BufferedImage generateRandomPreviewImage(File file);
 
-	BufferedImage generatePreviewImage(File file, String time);
+    /**
+     * Generate a preview image at the specified time.
+     *
+     * @param file The file of the movie.
+     * @param time The time at which we must get the image.
+     * @return The preview image at the specified time else null if this not possible to get that information.
+     */
+    BufferedImage generatePreviewImage(File file, String time);
 
-	BufferedImage generateImageFromUserInput(File file);
+    /**
+     * Generate a preview image from a file specified by the user.
+     *
+     * @param file The file specified by the user.
+     * @return The image specified by the user scaled and stored to be a preview image else
+     *         null if this not possible to get that information.
+     */
+    BufferedImage generateImageFromUserInput(File file);
 }

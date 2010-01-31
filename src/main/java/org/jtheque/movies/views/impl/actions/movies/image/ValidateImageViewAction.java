@@ -26,21 +26,26 @@ import java.awt.event.ActionEvent;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An action to validate the current image of the image view.
+ *
+ * @author Baptiste Wicht
+ */
 public final class ValidateImageViewAction extends JThequeAction {
     /**
      * Construct a new ValidateImageViewAction.
      */
-    public ValidateImageViewAction(){
+    public ValidateImageViewAction() {
         super("movie.image.actions.validate");
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
-		IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
+        IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
 
-		CoreUtils.<IMoviesService>getBean("moviesService").saveImage(movie, view.getImage());
+        CoreUtils.<IMoviesService>getBean("moviesService").saveImage(movie, view.getImage());
 
-		view.closeDown();
-	}
+        view.closeDown();
+    }
 }

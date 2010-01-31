@@ -25,10 +25,38 @@ import org.jtheque.movies.persistence.od.able.Category;
  * @author Baptiste Wicht
  */
 public interface IGenerateInfosView extends IView {
+    /**
+     * Indicate if the user want to generate the duration.
+     *
+     * @return true if the user want to generate the duration else false.
+     */
     boolean mustGenerateDuration();
+
+    /**
+     * Indicate if the user want to generate the resolution.
+     *
+     * @return true if the user want to generate the resolution else false.
+     */
     boolean mustGenerateResolution();
+
+    /**
+     * Indicate if the user want to generate the image.
+     *
+     * @return true if the user want to generate the image else false.
+     */
     boolean mustGenerateImage();
+
+    /**
+     * Indicate if the user want include the subcategories or not.
+     *
+     * @return true if the user want to generate the informations for the subcategories to else false.
+     */
     boolean areSubCategoriesIncluded();
 
-	Category getSelectedCategory();
+    /**
+     * Return the selected category.
+     *
+     * @return The selected category.
+     */
+    Category getSelectedCategory();
 }

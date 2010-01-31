@@ -31,12 +31,12 @@ public final class QuitPlayerViewAction extends JThequeAction {
     /**
      * Construct a new AcPrintFilm.
      */
-    public QuitPlayerViewAction(){
+    public QuitPlayerViewAction() {
         super("movie.actions.view.quit");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<IMovieController>getBean("movieController").closeViewer();
     }
 }

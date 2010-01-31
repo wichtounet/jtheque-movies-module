@@ -22,7 +22,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -44,23 +44,23 @@ public final class ToCharCategoryParser implements FileParser {
      *
      * @param character The end character.
      */
-    public ToCharCategoryParser(String character){
+    public ToCharCategoryParser(String character) {
         super();
 
         this.character = character;
     }
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.auto.parser.to.char", "-");
     }
 
     @Override
-    public void parseFilePath(File file){
-        if (file.isFile()){
+    public void parseFilePath(File file) {
+        if (file.isFile()) {
             String name = file.getName().substring(0, file.getName().indexOf(character)).trim();
 
-            if (categoriesService.exists(name)){
+            if (categoriesService.exists(name)) {
                 category = categoriesService.getCategory(name);
             } else {
                 category = categoriesService.getEmptyCategory();
@@ -70,8 +70,8 @@ public final class ToCharCategoryParser implements FileParser {
     }
 
     @Override
-    public String clearFileName(String fileName){
-        if (!fileName.contains(character)){
+    public String clearFileName(String fileName) {
+        if (!fileName.contains(character)) {
             return fileName;
         }
 
@@ -79,21 +79,21 @@ public final class ToCharCategoryParser implements FileParser {
     }
 
     @Override
-    public Collection<Category> getExtractedCategories(){
-        if (category == null){
+    public Collection<Category> getExtractedCategories() {
+        if (category == null) {
             return CollectionUtils.emptyList();
         }
 
         return Arrays.asList(category);
     }
 
-	@Override
-	public boolean hasCustomView(){
-		return false;
-	}
+    @Override
+    public boolean hasCustomView() {
+        return false;
+    }
 
-	@Override
-	public JComponent getCustomView(){
-		return null;
-	}
+    @Override
+    public JComponent getCustomView() {
+        return null;
+    }
 }

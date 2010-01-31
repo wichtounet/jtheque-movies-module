@@ -30,25 +30,30 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An action to generate a random image from the file.
+ *
+ * @author Baptiste Wicht
+ */
 public final class GenerateRandomImageAction extends JThequeAction {
     /**
      * Construct a new GenerateRandomImageAction.
      */
-    public GenerateRandomImageAction(){
+    public GenerateRandomImageAction() {
         super("movie.image.actions.ffmpeg.random");
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e){
-		Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
 
         File file = new File(movie.getFile());
 
-        if(StringUtils.isNotEmpty(movie.getFile()) && file.exists()){
-			CoreUtils.<IImageController>getBean("imageController").getView().setImage(
-					CoreUtils.<IFFMpegService>getBean("ffmpegService").generateRandomPreviewImage(file));
+        if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
+            CoreUtils.<IImageController>getBean("imageController").getView().setImage(
+                    CoreUtils.<IFFMpegService>getBean("ffmpegService").generateRandomPreviewImage(file));
         } else {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
         }
-	}
+    }
 }

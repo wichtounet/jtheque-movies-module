@@ -49,21 +49,21 @@ public final class CreateMovieState extends AbstractControllerState {
      *
      * @return The model of the view.
      */
-    private static IMoviesModel getViewModel(){
+    private static IMoviesModel getViewModel() {
         return getController().getViewModel();
     }
 
     @Override
-    public void apply(){
+    public void apply() {
         getViewModel().setCurrentMovie(moviesService.getEmptyMovie());
         getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
     }
 
     @Override
-    public ControllerState save(FormBean bean){
-		if(!getController().getView().validateContent()){
-			return null;
-		}
+    public ControllerState save(FormBean bean) {
+        if (!getController().getView().validateContent()) {
+            return null;
+        }
 
         IMovieFormBean infos = (IMovieFormBean) bean;
 
@@ -71,11 +71,11 @@ public final class CreateMovieState extends AbstractControllerState {
 
         infos.fillMovie(movie);
 
-		if(moviesService.fileExists(movie.getFile())){
-			Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
+        if (moviesService.fileExists(movie.getFile())) {
+            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.existingfile"));
 
-			return null;
-		}
+            return null;
+        }
 
         moviesService.create(movie);
 
@@ -87,12 +87,12 @@ public final class CreateMovieState extends AbstractControllerState {
     }
 
     @Override
-    public ControllerState cancel(){
+    public ControllerState cancel() {
         ControllerState nextState = null;
 
         getController().getView().selectFirst();
 
-        if (moviesService.getMovies().size() <= 0){
+        if (moviesService.getMovies().size() <= 0) {
             nextState = getController().getViewState();
         }
 
@@ -100,7 +100,7 @@ public final class CreateMovieState extends AbstractControllerState {
     }
 
     @Override
-    public ControllerState view(Data data){
+    public ControllerState view(Data data) {
         switchMovie(data);
 
         return getController().getViewState();
@@ -111,19 +111,24 @@ public final class CreateMovieState extends AbstractControllerState {
      *
      * @param data The new movie to display.
      */
-    private static void switchMovie(Data data){
+    private static void switchMovie(Data data) {
         Movie movie = (Movie) data;
 
         if (Managers.getManager(IViewManager.class).askI18nUserForConfirmation(
                 "movie.dialogs.confirmSave",
-                "movie.dialogs.confirmSave.title")){
+                "movie.dialogs.confirmSave.title")) {
             getController().save();
         }
 
         getViewModel().setCurrentMovie(movie);
     }
 
-	private static IMovieController getController(){
-		return CoreUtils.getBean("movieController");
+    /**
+     * Return the movie controller.
+     *
+     * @return The movie controller.
+     */
+    private static IMovieController getController() {
+        return CoreUtils.getBean("movieController");
 	}
 }

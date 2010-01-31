@@ -30,9 +30,19 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * An action to get informations about a movie from its file.
+ *
+ * @author Baptiste Wicht
+ */
 public final class GetInformationsAction extends JThequeAction {
     private final EditMoviePanel editMoviePanel;
 
+    /**
+     * Construct a new GetInformationsAction.
+     *
+     * @param editMoviePanel The edit movie panel.
+     */
     public GetInformationsAction(EditMoviePanel editMoviePanel) {
         super("movie.actions.infos");
 
@@ -45,15 +55,15 @@ public final class GetInformationsAction extends JThequeAction {
 
         File file = new File(filePath);
 
-        if(StringUtils.isNotEmpty(filePath) && file.exists()){
+        if (StringUtils.isNotEmpty(filePath) && file.exists()) {
             Resolution resolution = CoreUtils.<IFFMpegService>getBean("ffmpegService").getResolution(file);
             PreciseDuration duration = CoreUtils.<IFFMpegService>getBean("ffmpegService").getDuration(file);
 
-            if(resolution != null){
+            if (resolution != null) {
                 editMoviePanel.setResolution(resolution);
             }
 
-            if(duration != null){
+            if (duration != null) {
                 editMoviePanel.setDuration(duration);
             }
         } else {

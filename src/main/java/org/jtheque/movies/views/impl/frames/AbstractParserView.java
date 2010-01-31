@@ -30,7 +30,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IModel>{
+public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IModel> {
     private final Collection<ParserContainer> parserContainers;
 
     /**
@@ -38,31 +38,41 @@ public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IM
      *
      * @param parsers The category parsers.
      */
-	AbstractParserView(Collection<FileParser> parsers){
+    AbstractParserView(Collection<FileParser> parsers) {
         super();
 
         parserContainers = new ArrayList<ParserContainer>(parsers.size());
 
-        for (FileParser p : parsers){
-			if(p.hasCustomView()){
-				parserContainers.add(new CustomParserContainer(p));
-			} else {
-            	parserContainers.add(new SimpleParserContainer(p));
-			}
+        for (FileParser p : parsers) {
+            if (p.hasCustomView()) {
+                parserContainers.add(new CustomParserContainer(p));
+            } else {
+                parserContainers.add(new SimpleParserContainer(p));
+            }
         }
 
         build();
     }
 
-	final Iterable<ParserContainer> getContainers(){
-		return parserContainers;
-	}
+    /**
+     * Return all the parser containers of the view.
+     *
+     * @return An Iterable for all the parsers containers.
+     */
+    final Iterable<ParserContainer> getContainers() {
+        return parserContainers;
+    }
 
-    public final Collection<FileParser> getSelectedParsers(){
+    /**
+     * Return all the selected parsers.
+     *
+     * @return A Collection containing all the selected parsers.
+     */
+    public final Collection<FileParser> getSelectedParsers() {
         Collection<FileParser> parsers = new ArrayList<FileParser>(5);
 
-        for (ParserContainer container : parserContainers){
-            if (container.isSelected()){
+        for (ParserContainer container : parserContainers) {
+            if (container.isSelected()) {
                 parsers.add(container.getParser());
             }
         }

@@ -41,58 +41,58 @@ import static org.junit.Assert.*;
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class BetweenCharCategoryParserTest {
-	@Resource
+    @Resource
     private BetweenCharCategoryParser parser;
 
     private static File f;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         f = new File(" {cat1} asdf {cat2}.txt");
 
         try {
             f.createNewFile();
-        } catch (IOException e){
-			Logger.getLogger(getClass()).error(e.getMessage(), e);
+        } catch (IOException e) {
+            Logger.getLogger(getClass()).error(e.getMessage(), e);
         }
     }
 
     @AfterClass
-    public static void release(){
+    public static void release() {
         f.delete();
     }
 
     @Test
-    public void initOK(){
+    public void initOK() {
         assertNotNull(parser);
-		assertFalse(parser.hasCustomView());
+        assertFalse(parser.hasCustomView());
     }
 
     @Test
-	public void testNotExistingFile(){
-		File f2 = new File(" not existing file.txt");
+    public void testNotExistingFile() {
+        File f2 = new File(" not existing file.txt");
 
-		assertFalse(f2.exists());
+        assertFalse(f2.exists());
 
-		parser.parseFilePath(f2);
+        parser.parseFilePath(f2);
 
-		assertEquals(0, parser.getExtractedCategories().size());
-	}
+        assertEquals(0, parser.getExtractedCategories().size());
+    }
 
     @Test
-    public void getExtractedCategories(){
+    public void getExtractedCategories() {
         parser.parseFilePath(f);
         assertEquals(2, parser.getExtractedCategories().size());
 
-        for (Category c : parser.getExtractedCategories()){
-            if (!"cat1".equals(c.getTitle()) && !"cat2".equals(c.getTitle())){
+        for (Category c : parser.getExtractedCategories()) {
+            if (!"cat1".equals(c.getTitle()) && !"cat2".equals(c.getTitle())) {
                 fail();
             }
         }
     }
 
     @Test
-    public void clearFileName(){
+    public void clearFileName() {
         assertEquals("  asdf .txt", parser.clearFileName(f.getName()));
     }
 }

@@ -28,7 +28,7 @@ import org.jtheque.movies.views.impl.panel.FilthyRenderer;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 /**
  * A view implementation to select the options to clean the name of movies.
@@ -36,7 +36,7 @@ import javax.swing.JCheckBox;
  * @author Baptiste Wicht
  */
 public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel> implements IGenerateInfosView {
-	private DataContainerCachedComboBoxModel<Category> categoriesModel;
+    private DataContainerCachedComboBoxModel<Category> categoriesModel;
 
     private JCheckBox checkBoxDuration;
     private JCheckBox checkBoxResolution;
@@ -46,58 +46,58 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
     /**
      * Construct a new CleanView.
      */
-    public GenerateInfosView(){
+    public GenerateInfosView() {
         super();
 
-		build();
+        build();
     }
 
     @Override
-    protected void initView(){
+    protected void initView() {
         setTitleKey("movie.generate.title");
         setResizable(false);
     }
 
     @Override
-    protected void buildView(PanelBuilder builder){
-		builder.addI18nLabel("data.titles.category", builder.gbcSet(0, 0));
+    protected void buildView(PanelBuilder builder) {
+        builder.addI18nLabel("data.titles.category", builder.gbcSet(0, 0));
 
-		categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-				SwingDialogView.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
+                SwingDialogView.<DataContainer<Category>>getBean("categoriesService"));
 
-		builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
+        builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
 
-		checkBoxDuration = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
-		checkBoxResolution = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
-		checkBoxImage = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
-		checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
-		
+        checkBoxDuration = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxResolution = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxImage = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
+
         TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
                 new ValidateGenerateInfosViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
-	@Override
-	public Category getSelectedCategory(){
-		return categoriesModel.getSelectedData();
-	}
+    @Override
+    public Category getSelectedCategory() {
+        return categoriesModel.getSelectedData();
+    }
 
     @Override
-    public boolean areSubCategoriesIncluded(){
+    public boolean areSubCategoriesIncluded() {
         return checkBoxSub.isSelected();
     }
 
-	@Override
-	public boolean mustGenerateDuration(){
-		return checkBoxDuration.isSelected();
-	}
+    @Override
+    public boolean mustGenerateDuration() {
+        return checkBoxDuration.isSelected();
+    }
 
-	@Override
-	public boolean mustGenerateResolution(){
-		return checkBoxResolution.isSelected();
-	}
+    @Override
+    public boolean mustGenerateResolution() {
+        return checkBoxResolution.isSelected();
+    }
 
-	@Override
-	public boolean mustGenerateImage(){
-		return checkBoxImage.isSelected();
-	}
+    @Override
+    public boolean mustGenerateImage() {
+        return checkBoxImage.isSelected();
+    }
 }

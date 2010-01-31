@@ -19,29 +19,26 @@ package org.jtheque.movies.views.impl.panel.players;
 import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 /**
- * A viewer panel. It's a panel for a specific mode for movies.
+ * A abstract viewer panel. This class construct the base of a frame and let the
+ * extended class to build the rest of the view.
  *
  * @author Baptiste Wicht
  */
 public abstract class ViewerPanel extends JPanel {
     private final JLabel labelFile;
 
-	ViewerPanel(){
-		super();
+    /**
+     * Construct a new ViewerPanel.
+     */
+    ViewerPanel() {
+        super();
 
-		setLayout(new BorderLayout());
+        setLayout(new BorderLayout());
 
         GridBagConstraints cons = new GridBagConstraints();
         Container playerFilePanel = new JPanel(new GridBagLayout());
@@ -68,22 +65,25 @@ public abstract class ViewerPanel extends JPanel {
 
         SwingUtils.inEdt(new Runnable() {
             @Override
-            public void run(){
+            public void run() {
                 addPlayer();
             }
         });
-	}
+    }
 
-	/**
+    /**
      * Set the file to read in the viewer.
      *
      * @param file The file to open.
      */
-    public void setFile(File file){
-		labelFile.setText(file.getAbsolutePath());
+    public void setFile(File file) {
+        labelFile.setText(file.getAbsolutePath());
     }
 
-	protected abstract void addPlayer();
+    /**
+     * Add the player the view.
+     */
+    protected abstract void addPlayer();
 
     /**
      * Stop the reader.

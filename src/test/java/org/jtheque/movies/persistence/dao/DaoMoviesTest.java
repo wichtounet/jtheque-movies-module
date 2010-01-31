@@ -61,16 +61,16 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     @Resource
     private DataSource dataSource;
 
-	static {
-		Logger.getRootLogger().setLevel(Level.ERROR);
-	}
+    static {
+        Logger.getRootLogger().setLevel(Level.ERROR);
+    }
 
-    public DaoMoviesTest(){
+    public DaoMoviesTest() {
         super("movies.xml");
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initDB(dataSource);
 
         PrimaryUtils.setPrimaryImpl("Movies");
@@ -86,17 +86,17 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void initOK(){
+    public void initOK() {
         assertNotNull(daoMovies);
     }
 
     @Test
-    public void getMovies(){
+    public void getMovies() {
         assertEquals(5, daoMovies.getMovies().size());
     }
 
     @Test
-    public void createEmptyMovie(){
+    public void createEmptyMovie() {
         Movie movie = daoMovies.createMovie();
 
         assertNotNull(movie);
@@ -104,7 +104,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getMovieById(){
+    public void getMovieById() {
         Movie movie = daoMovies.getMovie(2);
 
         assertNotNull(movie);
@@ -113,7 +113,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getMovieByTitle(){
+    public void getMovieByTitle() {
         Movie movie = daoMovies.getMovie("Movie 1");
 
         assertNotNull(movie);
@@ -126,18 +126,18 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void relations(){
+    public void relations() {
         Movie movie = daoMovies.getMovie(2);
 
         assertEquals(2, movie.getCategories().size());
 
-        for (Category c : movie.getCategories()){
+        for (Category c : movie.getCategories()) {
             assertTrue(c.getId() == 2 || c.getId() == 3);
         }
     }
 
     @Test
-    public void createMovie(){
+    public void createMovie() {
         Movie movie = daoMovies.createMovie();
         movie.setTitle("Created category");
 
@@ -150,7 +150,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void deleteMovie(){
+    public void deleteMovie() {
         Movie movie = daoMovies.getMovie(1);
         daoMovies.delete(movie);
 
@@ -160,7 +160,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void saveMovie(){
+    public void saveMovie() {
         Movie movie = daoMovies.getMovie(1);
         movie.setTitle("New title");
 
@@ -170,7 +170,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void clearAll(){
+    public void clearAll() {
         daoMovies.clearAll();
 
         assertEquals(0, getTable("T_MOVIES").getRowCount());

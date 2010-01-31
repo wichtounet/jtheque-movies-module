@@ -26,9 +26,8 @@ import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.views.impl.panel.FilthyBackgroundPanel;
 
-import javax.swing.JFrame;
-import java.awt.Container;
-import java.awt.Frame;
+import javax.swing.*;
+import java.awt.*;
 import java.util.Collection;
 
 /**
@@ -40,7 +39,7 @@ public abstract class SwingFilthyBuildedDialogView<T extends IModel> extends Swi
     /**
      * Construct a SwingDialogView modal to the main view.
      */
-    protected SwingFilthyBuildedDialogView(){
+    protected SwingFilthyBuildedDialogView() {
         this((Frame) Managers.getManager(IViewManager.class).getViews().getMainView().getImpl());
     }
 
@@ -64,7 +63,7 @@ public abstract class SwingFilthyBuildedDialogView<T extends IModel> extends Swi
     /**
      * Build the view.
      */
-    protected final void build(){
+    protected final void build() {
         initView();
 
         setContentPane(buildContentPane());
@@ -79,8 +78,8 @@ public abstract class SwingFilthyBuildedDialogView<T extends IModel> extends Swi
      *
      * @return The builded content pane.
      */
-    private Container buildContentPane(){
-		FilthyBackgroundPanel contentPane = new FilthyBackgroundPanel();
+    private Container buildContentPane() {
+        FilthyBackgroundPanel contentPane = new FilthyBackgroundPanel();
 
         PanelBuilder builder = new FilthyPanelBuilder(contentPane);
 
@@ -90,12 +89,12 @@ public abstract class SwingFilthyBuildedDialogView<T extends IModel> extends Swi
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors){
+    protected void validate(Collection<JThequeError> errors) {
         //Default empty implementation
     }
 
     @Override
-    public final T getModel(){
+    public final T getModel() {
         return (T) super.getModel();
     }
 

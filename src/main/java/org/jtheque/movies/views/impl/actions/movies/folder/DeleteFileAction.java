@@ -31,12 +31,12 @@ public final class DeleteFileAction extends JThequeAction {
     /**
      * Create a new AcDeleteTitle action.
      */
-    public DeleteFileAction(){
+    public DeleteFileAction() {
         super("generic.view.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent arg0){
+    public void actionPerformed(ActionEvent arg0) {
         CoreUtils.<IImportFolderView>getBean("importFolderView").removeSelectedFile();
     }
 }

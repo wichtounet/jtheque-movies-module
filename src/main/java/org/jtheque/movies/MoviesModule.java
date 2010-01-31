@@ -73,13 +73,13 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
 
     private String thumbnailFolderPath;
 
-	/**
+    /**
      * Create a new MovieModule. This constructor must only be accessed using Spring, not directly, expect for tests.
      *
      * @param choiceActions The choice actions to inject.
      * @param panelConfig   The panel config.
      */
-    public MoviesModule(ChoiceAction[] choiceActions, IOpeningConfigView panelConfig){
+    public MoviesModule(ChoiceAction[] choiceActions, IOpeningConfigView panelConfig) {
         super();
 
         this.choiceActions = ArrayUtils.copyOf(choiceActions);
@@ -90,7 +90,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
      * Pre plug the module.
      */
     @PrePlug
-    private void prePlug(){
+    private void prePlug() {
         PrimaryUtils.setPrimaryImpl("Movies");
         PrimaryUtils.prePlug();
 
@@ -103,7 +103,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
      * Plug the module.
      */
     @Plug
-    private void plug(){
+    private void plug() {
         PrimaryUtils.plug();
 
         loadConfiguration();
@@ -116,13 +116,13 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     /**
      * Load the configuration.
      */
-    private void loadConfiguration(){
+    private void loadConfiguration() {
         config = Managers.getManager(IStateManager.class).getState(MovieConfiguration.class);
 
-        if (config == null){
+        if (config == null) {
             try {
                 config = Managers.getManager(IStateManager.class).createState(MovieConfiguration.class);
-            } catch (StateException e){
+            } catch (StateException e) {
                 CoreUtils.getLogger(getClass()).error(e);
                 config = new MovieConfiguration();
                 Managers.getManager(IErrorManager.class).addError(new InternationalizedError("error.loading.configuration"));
@@ -131,13 +131,13 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     }
 
     @Override
-    public boolean chooseCollection(String collection, String password, boolean create){
+    public boolean chooseCollection(String collection, String password, boolean create) {
         ICollectionsService collectionsService = CoreUtils.getBean("collectionsService");
 
-        if (create){
+        if (create) {
             collectionsService.createCollectionAndUse(collection, password);
         } else {
-            if (!collectionsService.login(collection, password)){
+            if (!collectionsService.login(collection, password)) {
                 return false;
             }
         }
@@ -146,38 +146,41 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     }
 
     @Override
-    public void plugCollection(){
+    public void plugCollection() {
         NativeInterface.open();
 
-        for (ChoiceAction action : choiceActions){
+        for (ChoiceAction action : choiceActions) {
             ChoiceActionFactory.addChoiceAction(action);
         }
 
-		configureDataConstraints();
+        configureDataConstraints();
 
         panelConfig.build();
         Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
 
         Managers.getManager(IViewManager.class).setMainComponent(CoreUtils.<ViewComponent>getBean("movieView"));
-		
+
         moviesMenu = new MoviesMenu();
         Managers.getManager(IFeatureManager.class).addMenu(moviesMenu);
     }
 
-	private static void configureDataConstraints(){
-		ConstraintManager.addConstraint(Category.NAME, new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
-		ConstraintManager.addConstraint(Movie.TITLE, new MaxLengthConstraint(Movie.TITLE_LENGTH, Movie.TITLE, false, false));
-		ConstraintManager.addConstraint(Movie.FILE, new MaxLengthConstraint(Movie.FILE_LENGTH, Movie.FILE, false, false));
-	}
+    /**
+     * Configure the data constraints.
+     */
+    private static void configureDataConstraints() {
+        ConstraintManager.addConstraint(Category.NAME, new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
+        ConstraintManager.addConstraint(Movie.TITLE, new MaxLengthConstraint(Movie.TITLE_LENGTH, Movie.TITLE, false, false));
+        ConstraintManager.addConstraint(Movie.FILE, new MaxLengthConstraint(Movie.FILE_LENGTH, Movie.FILE, false, false));
+    }
 
-	/**
+    /**
      * Unplug the module.
      */
     @UnPlug
-    private void unplug(){
+    private void unplug() {
         Managers.getManager(IFeatureManager.class).removeMenu(moviesMenu);
 
-        for (ChoiceAction action : choiceActions){
+        for (ChoiceAction action : choiceActions) {
             ChoiceActionFactory.removeChoiceAction(action);
         }
 
@@ -195,7 +198,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     }
 
     @Override
-    public IMovieConfiguration getConfig(){
+    public IMovieConfiguration getConfig() {
         return config;
     }
 
@@ -206,7 +209,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
 
             FileUtils.createIfNotExists(thumbnailFolder);
 
-			thumbnailFolderPath = thumbnailFolder.getAbsolutePath() + '/';
+            thumbnailFolderPath = thumbnailFolder.getAbsolutePath() + '/';
         }
 
         return thumbnailFolderPath;

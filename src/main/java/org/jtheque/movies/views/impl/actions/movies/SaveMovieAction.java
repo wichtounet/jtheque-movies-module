@@ -23,20 +23,20 @@ import org.jtheque.movies.controllers.able.IMovieController;
 import java.awt.event.ActionEvent;
 
 /**
- * Action to save the current film.
+ * Action to save the current movie.
  *
  * @author Baptiste Wicht
  */
 public final class SaveMovieAction extends JThequeAction {
     /**
-     * Construct a new AcSaveFilm.
+     * Construct a new SaveMovieAction.
      */
-    public SaveMovieAction(){
+    public SaveMovieAction() {
         super("movie.actions.save");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         CoreUtils.<IMovieController>getBean("movieController").save();
     }
 }

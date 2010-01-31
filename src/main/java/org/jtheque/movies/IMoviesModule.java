@@ -31,5 +31,10 @@ public interface IMoviesModule {
      */
     IMovieConfiguration getConfig();
 
-	String getThumbnailFolderPath();
+    /**
+     * Return the folder containing the thumbnails of the application.
+     *
+     * @return The path to the folder containing the thumbnails.
+     */
+    String getThumbnailFolderPath();
 }

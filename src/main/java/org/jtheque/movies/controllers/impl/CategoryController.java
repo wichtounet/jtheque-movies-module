@@ -44,31 +44,31 @@ public final class CategoryController extends AbstractController implements ICat
     private ICategoryView categoryView;
 
     @Override
-    public void newCategory(){
+    public void newCategory() {
         categoryView.getModel().setState(ViewMode.NEW);
 
-		categoryView.getModel().setCategory(categoriesService.getEmptyCategory());
+        categoryView.getModel().setCategory(categoriesService.getEmptyCategory());
         categoryView.reload();
 
         displayView();
     }
 
     @Override
-    public void editCategory(Category category){
+    public void editCategory(Category category) {
         categoryView.getModel().setState(ViewMode.EDIT);
         categoryView.getModel().setCategory(category);
         categoryView.reload();
     }
 
     @Override
-    public void save(String title, Category parent){
-        if(CoreUtils.<ICategoriesService>getBean("categoriesService").existsInOtherCategory(title, parent)){
+    public void save(String title, Category parent) {
+        if (CoreUtils.<ICategoriesService>getBean("categoriesService").existsInOtherCategory(title, parent)) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("category.errors.exists"));
         } else {
             categoryView.getModel().getCategory().setTitle(title);
             categoryView.getModel().getCategory().setParent(parent);
 
-            if (categoryView.getModel().getState() == ViewMode.NEW){
+            if (categoryView.getModel().getState() == ViewMode.NEW) {
                 categoriesService.create(categoryView.getModel().getCategory());
 
                 Managers.getManager(IUndoRedoManager.class).addEdit(
@@ -80,9 +80,9 @@ public final class CategoryController extends AbstractController implements ICat
             closeView();
         }
     }
-	
+
     @Override
-    public ICategoryView getView(){
+    public ICategoryView getView() {
         return categoryView;
     }
 }

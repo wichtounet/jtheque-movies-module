@@ -25,15 +25,15 @@ import org.jtheque.movies.persistence.od.able.Movie;
  */
 public final class CategoryNameCleaner implements NameCleaner {
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.clean.cleaner.category");
     }
 
     @Override
-    public String clearName(Movie movie, String name){
+    public String clearName(Movie movie, String name) {
         String cleared = name;
 
-        for (Category cat : movie.getCategories()){
+        for (Category cat : movie.getCategories()) {
             cleared = cleared.replace(cat.getTitle(), "");
         }
 

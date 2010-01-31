@@ -51,17 +51,42 @@ public interface IMovieView extends IView {
      */
     MoviePanel getCurrentView();
 
+    /**
+     * Sort the tree.
+     */
     void resort();
 
+    /**
+     * Select the first element of the tree.
+     */
     void selectFirst();
 
-	void expandAll();
+    /**
+     * Expand the tree.
+     */
+    void expandAll();
 
-	void collapseAll();
+    /**
+     * Collapse tree.
+     */
+    void collapseAll();
 
-	void select(Movie movie);
+    /**
+     * Select the specified movie in the tree.
+     *
+     * @param movie The movie to select.
+     */
+    void select(Movie movie);
 
-	void refreshData();
+    /**
+     * Refresh the datas.
+     */
+    void refreshData();
 
-	Movie getSelectedMovie();
+    /**
+     * Return the selected movie.
+     *
+     * @return The selected movie.
+     */
+    Movie getSelectedMovie();
 }

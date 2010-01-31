@@ -37,47 +37,47 @@ public final class CategoriesService implements ICategoriesService {
     private IDaoCategories daoCategories;
 
     @Override
-    public Collection<Category> getCategories(){
+    public Collection<Category> getCategories() {
         return daoCategories.getCategories();
     }
 
     @Override
     @Transactional
-    public boolean delete(Category category){
+    public boolean delete(Category category) {
         return daoCategories.delete(category);
     }
 
     @Override
     @Transactional
-    public void create(Category category){
+    public void create(Category category) {
         daoCategories.create(category);
     }
 
     @Override
     @Transactional
-    public void save(Category category){
+    public void save(Category category) {
         daoCategories.save(category);
     }
 
     @Override
-    public boolean exists(String category){
+    public boolean exists(String category) {
         return daoCategories.getCategory(category) != null;
     }
 
     @Override
-    public Category getCategory(String name){
+    public Category getCategory(String name) {
         return daoCategories.getCategory(name);
     }
 
     @Override
-    public Category getEmptyCategory(){
+    public Category getEmptyCategory() {
         return daoCategories.createCategory();
     }
 
     @Override
     public boolean existsInOtherCategory(String title, Category category) {
-        for(Category other : daoCategories.getCategories()){
-            if(other.getId() != category.getId() && title.equals(other.getTitle())){
+        for (Category other : daoCategories.getCategories()) {
+            if (other.getId() != category.getId() && title.equals(other.getTitle())) {
                 return true;
             }
         }
@@ -85,42 +85,42 @@ public final class CategoriesService implements ICategoriesService {
         return false;
     }
 
-	@Override
-	public Collection<Category> getSubCategories(Category category){
-		if(category == null){
-			return CollectionUtils.emptyList();
-		}
+    @Override
+    public Collection<Category> getSubCategories(Category category) {
+        if (category == null) {
+            return CollectionUtils.emptyList();
+        }
 
-		Collection<Category> categories = new ArrayList<Category>(20);
+        Collection<Category> categories = new ArrayList<Category>(20);
 
-		for(Category cat : getCategories()){
-			if(cat.getParent() == category){
-				categories.add(cat);
-				categories.addAll(getSubCategories(cat));
-			}
-		}
+        for (Category cat : getCategories()) {
+            if (cat.getParent() == category) {
+                categories.add(cat);
+                categories.addAll(getSubCategories(cat));
+            }
+        }
 
-		return categories;
-	}
+        return categories;
+    }
 
-	@Override
-    public Collection<Category> getDatas(){
+    @Override
+    public Collection<Category> getDatas() {
         return getCategories();
     }
 
     @Override
-    public void addDataListener(DataListener listener){
+    public void addDataListener(DataListener listener) {
         daoCategories.addDataListener(listener);
     }
 
     @Override
-    public String getDataType(){
+    public String getDataType() {
         return DATA_TYPE;
     }
 
     @Override
     @Transactional
-    public void clearAll(){
+    public void clearAll() {
         daoCategories.clearAll();
     }
 }

@@ -33,19 +33,19 @@ public final class DeleteMovieAction extends JThequeAction {
     /**
      * Construct a new DeleteMovieAction.
      */
-    public DeleteMovieAction(){
+    public DeleteMovieAction() {
         super("movie.actions.delete");
     }
 
     @Override
-    public void actionPerformed(ActionEvent e){
+    public void actionPerformed(ActionEvent e) {
         final boolean yes = Managers.getManager(IViewManager.class).askUserForConfirmation(
                 CoreUtils.getMessage("movie.dialogs.confirmDelete",
                         CoreUtils.<IMovieController>getBean("movieController").
                                 getViewModel().getCurrentMovie().getDisplayableText()),
                 CoreUtils.getMessage("movie.dialogs.confirmDelete.title"));
 
-        if (yes){
+        if (yes) {
             CoreUtils.<IMovieController>getBean("movieController").deleteCurrent();
         }
     }

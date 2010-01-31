@@ -25,20 +25,8 @@ import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.utils.io.SimpleFilter;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -228,11 +216,16 @@ public final class FilthyFileChooserPanel extends JPanel implements Internationa
         }
     }
 
-	public JTextField getTextField(){
-		return fieldFilePath.getTextField();
-	}
+    /**
+     * Return the text field of the file chooser.
+     *
+     * @return The text field of the file chooser.
+     */
+    public JTextField getTextField() {
+        return fieldFilePath.getTextField();
+    }
 
-	/**
+    /**
      * A Browse action.
      *
      * @author Baptiste Wicht

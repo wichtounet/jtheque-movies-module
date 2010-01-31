@@ -6,7 +6,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -39,16 +39,16 @@ public final class FolderCategoryParser implements FileParser {
     private ICategoriesService categoriesService;
 
     @Override
-    public String getTitle(){
+    public String getTitle() {
         return CoreUtils.getMessage("movie.auto.parser.folder");
     }
 
     @Override
-    public void parseFilePath(File file){
-        if (file.isFile()){
+    public void parseFilePath(File file) {
+        if (file.isFile()) {
             String name = file.getParentFile().getName();
 
-            if (categoriesService.exists(name)){
+            if (categoriesService.exists(name)) {
                 category = categoriesService.getCategory(name);
             } else {
                 category = categoriesService.getEmptyCategory();
@@ -58,26 +58,26 @@ public final class FolderCategoryParser implements FileParser {
     }
 
     @Override
-    public String clearFileName(String fileName){
+    public String clearFileName(String fileName) {
         return fileName;
     }
 
     @Override
-    public Collection<Category> getExtractedCategories(){
-        if (category == null){
+    public Collection<Category> getExtractedCategories() {
+        if (category == null) {
             return CollectionUtils.emptyList();
         }
 
         return Arrays.asList(category);
     }
 
-	@Override
-	public boolean hasCustomView(){
-		return false;
-	}
+    @Override
+    public boolean hasCustomView() {
+        return false;
+    }
 
-	@Override
-	public JComponent getCustomView(){
-		return null;
-	}
+    @Override
+    public JComponent getCustomView() {
+        return null;
+    }
 }

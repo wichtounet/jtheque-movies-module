@@ -18,17 +18,32 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
+/**
+ * A parser container. It's simply a swing container for file parser.
+ *
+ * @author Baptiste Wicht
+ */
 public interface ParserContainer {
-	/**
+    /**
      * Return the file parser for this checkbox.
      *
      * @return The file parser.
      */
-	FileParser getParser();
+    FileParser getParser();
 
-	boolean isSelected();
+    /**
+     * Indicate if the parser is selected or not.
+     *
+     * @return true if the file parser is selected else false.
+     */
+    boolean isSelected();
 
-	JComponent getImpl();
+    /**
+     * Return the implementation of the file parser.
+     *
+     * @return the component implementation.
+     */
+    JComponent getImpl();
 }

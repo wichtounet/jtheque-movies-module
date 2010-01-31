@@ -26,7 +26,7 @@ import org.jtheque.movies.views.impl.models.CleanModel;
 import org.jtheque.movies.views.impl.panel.containers.CleanerContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -43,56 +43,56 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
     /**
      * Construct a new CleanView.
      *
-     * @param cleaners       The name cleaners.
+     * @param cleaners The name cleaners.
      */
-    public CleanView(Collection<NameCleaner> cleaners){
+    public CleanView(Collection<NameCleaner> cleaners) {
         super();
 
         cleanerContainers = new ArrayList<CleanerContainer>(cleaners.size());
 
-        for (NameCleaner p : cleaners){
+        for (NameCleaner p : cleaners) {
             cleanerContainers.add(new CleanerContainer(p));
         }
 
-		build();
+        build();
     }
 
     @Override
-    protected void initView(){
-		setModel(new CleanModel());
+    protected void initView() {
+        setModel(new CleanModel());
         setTitleKey("movie.clean.title");
         setResizable(false);
     }
 
     @Override
-    protected void buildView(PanelBuilder builder){
+    protected void buildView(PanelBuilder builder) {
         PanelBuilder optionsBuilder = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         optionsBuilder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.clean.options"));
 
         int i = 0;
 
-        for (CleanerContainer container : cleanerContainers){
+        for (CleanerContainer container : cleanerContainers) {
             optionsBuilder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-		checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories",
-				builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
+        checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories",
+                builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 
         TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
                 new ValidateCleanViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override
-    public boolean areSubCategoriesIncluded(){
+    public boolean areSubCategoriesIncluded() {
         return checkBoxSub.isSelected();
     }
 
     @Override
-    public Collection<NameCleaner> getSelectedCleaners(){
+    public Collection<NameCleaner> getSelectedCleaners() {
         Collection<NameCleaner> cleaners = new ArrayList<NameCleaner>(5);
 
-        for (CleanerContainer container : cleanerContainers){
-            if (container.isSelected()){
+        for (CleanerContainer container : cleanerContainers) {
+            if (container.isSelected()) {
                 cleaners.add(container.getCleaner());
             }
         }

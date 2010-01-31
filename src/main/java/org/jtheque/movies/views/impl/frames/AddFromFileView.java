@@ -46,18 +46,18 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
      *
      * @param parsers The category parsers.
      */
-    public AddFromFileView(Collection<FileParser> parsers){
+    public AddFromFileView(Collection<FileParser> parsers) {
         super(parsers);
     }
 
     @Override
-    protected void initView(){
+    protected void initView() {
         setTitleKey("movie.auto.title");
         setResizable(false);
     }
 
     @Override
-    protected void buildView(PanelBuilder builder){
+    protected void buildView(PanelBuilder builder) {
         fileChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
@@ -66,7 +66,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
 
         int i = 1;
 
-        for (ParserContainer container : getContainers()){
+        for (ParserContainer container : getContainers()) {
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
@@ -75,27 +75,27 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
     }
 
     @Override
-    public void display(){
+    public void display() {
         IMovieController controller = getBean("movieController");
 
-        if (controller.isEditing()){
-           getManager().displayI18nText("movie.dialogs.currentEdit");
+        if (controller.isEditing()) {
+            getManager().displayI18nText("movie.dialogs.currentEdit");
         } else {
             super.display();
         }
     }
-    
+
     @Override
-    public String getFilePath(){
+    public String getFilePath() {
         return fileChooser.getFilePath();
     }
 
-	@Override
-	protected void validate(Collection<JThequeError> errors){
-		ConstraintManager.validate(Movie.FILE, getFilePath(), errors);
+    @Override
+    protected void validate(Collection<JThequeError> errors) {
+        ConstraintManager.validate(Movie.FILE, getFilePath(), errors);
 
-		if(errors.isEmpty() && !new File(getFilePath()).exists()){
-			errors.add(new InternationalizedError("movie.errors.filenotfound"));
-		}
-	}
+        if (errors.isEmpty() && !new File(getFilePath()).exists()) {
+            errors.add(new InternationalizedError("movie.errors.filenotfound"));
+        }
+    }
 }

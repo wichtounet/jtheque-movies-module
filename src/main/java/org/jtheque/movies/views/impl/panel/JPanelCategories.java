@@ -22,6 +22,7 @@ import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeSimpleAction;
 import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
+import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
 import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
@@ -33,16 +34,12 @@ import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
-import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
 import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.ListCellRenderer;
-import java.awt.Component;
-import java.awt.Font;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,7 +59,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
     /**
      * Construct a new JPanelCategories with the given actions.
      */
-    public JPanelCategories(){
+    public JPanelCategories() {
         super();
 
         build();
@@ -71,7 +68,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
     /**
      * Build the view. This method is executed by spring after properties set.
      */
-    private void build(){
+    private void build() {
         PanelBuilder builder = new FilthyPanelBuilder(this);
 
         categoriesModel = new CategoriesListModel();
@@ -96,7 +93,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
                 builder.gbcSet(2, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, -1, anHalf, 1.0));
 
         PanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
-        
+
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
         manageButtons.addButton(new CreateNewCategoryAction(), builder.gbcSet(1, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE),
@@ -106,30 +103,30 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
     }
 
     @Override
-    public void fillFilm(IMovieFormBean fb){
-        if (categoriesForMovieModel.getSize() != 0){
+    public void fillFilm(IMovieFormBean fb) {
+        if (categoriesForMovieModel.getSize() != 0) {
             fb.setCategories(categoriesForMovieModel.getObjects());
         }
     }
 
     @Override
-    public void reload(Movie movie){
+    public void reload(Movie movie) {
         categoriesForMovieModel.removeAllElements();
         categoriesModel.reload();
 
-        for (Category category : movie.getCategories()){
+        for (Category category : movie.getCategories()) {
             categoriesModel.removeElement(category);
             categoriesForMovieModel.addElement(category);
         }
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors){
+    public void validate(Collection<JThequeError> errors) {
         ValidationUtils.rejectIfEmpty(listCategoriesForFilm, "movie.categories", errors);
     }
 
     @Override
-    public Component getImpl(){
+    public Component getImpl() {
         return this;
     }
 
@@ -142,21 +139,21 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         /**
          * Construct a new AcAddToList action with a text ">>".
          */
-        private AcAddToList(){
+        private AcAddToList() {
             super();
 
             setText(" >> ");
         }
 
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             int[] selectedActors = listCategories.getSelectedIndices();
 
             Arrays.sort(selectedActors);
 
             ArrayUtils.reverse(selectedActors);
 
-            for (int index : selectedActors){
+            for (int index : selectedActors) {
                 Object actor = categoriesModel.remove(index);
                 categoriesForMovieModel.addElement(actor);
             }
@@ -172,21 +169,21 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         /**
          * Construct a new AcRemoveFromList action with a text <<.
          */
-        private AcRemoveFromList(){
+        private AcRemoveFromList() {
             super();
 
             setText(" << ");
         }
 
         @Override
-        public void actionPerformed(ActionEvent e){
+        public void actionPerformed(ActionEvent e) {
             int[] selectedActors = listCategoriesForFilm.getSelectedIndices();
 
             Arrays.sort(selectedActors);
 
             ArrayUtils.reverse(selectedActors);
 
-            for (int index : listCategoriesForFilm.getSelectedIndices()){
+            for (int index : listCategoriesForFilm.getSelectedIndices()) {
                 Object actor = categoriesForMovieModel.remove(index);
                 categoriesModel.addElement(actor);
             }

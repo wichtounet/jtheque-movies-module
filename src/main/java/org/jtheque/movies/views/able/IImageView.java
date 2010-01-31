@@ -21,14 +21,45 @@ import org.jtheque.movies.persistence.od.able.Movie;
 
 import java.awt.image.BufferedImage;
 
+/**
+ * An image view specification. This view enable the user to generate and configure a
+ * preview image for a movie.
+ *
+ * @author Baptiste Wicht
+ */
 public interface IImageView extends IWindowView {
-	void displayMovie(Movie movie);
+    /**
+     * Display the specified movie in the view.
+     *
+     * @param movie The movie to display.
+     */
+    void displayMovie(Movie movie);
 
-	String getTime();
+    /**
+     * Return the time entered by the user.
+     *
+     * @return The time entered by the user.
+     */
+    String getTime();
 
-	String getImagePath();
+    /**
+     * Return the path to the image entered by the user.
+     *
+     * @return The path to the image.
+     */
+    String getImagePath();
 
-	void setImage(BufferedImage image);
+    /**
+     * Set the preview image.
+     *
+     * @param image The preview image.
+     */
+    void setImage(BufferedImage image);
 
-	BufferedImage getImage();
+    /**
+     * Return the current preview image.
+     *
+     * @return The current preview image.
+     */
+    BufferedImage getImage();
 }

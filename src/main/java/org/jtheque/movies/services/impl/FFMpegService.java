@@ -43,26 +43,26 @@ import java.util.regex.Pattern;
  */
 public final class FFMpegService implements IFFMpegService {
     private static final Pattern PATTERN = Pattern.compile(", ");
-	private static final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
-	private static final int THUMBNAIL_WIDTH = 200;
-	private static final int MAX_RANDOM_TIME = 50;
+    private static final int THUMBNAIL_WIDTH = 200;
+    private static final int MAX_RANDOM_TIME = 50;
 
-	@Override
-    public Resolution getResolution(File f){
-        if(ffmpegIsInstalled()){
+    @Override
+    public Resolution getResolution(File f) {
+        if (ffmpegIsInstalled()) {
             Scanner scanner = getInformations(f);
 
-            if(scanner != null){
-                while(scanner.hasNextLine()){
+            if (scanner != null) {
+                while (scanner.hasNextLine()) {
                     String line = scanner.nextLine().trim();
 
-                    if(line.startsWith("Stream #0.0: Video:")){
+                    if (line.startsWith("Stream #0.0: Video:")) {
                         String resolution = PATTERN.split(line)[2].trim();
 
-						if(resolution.contains(" ")){
-							resolution = resolution.substring(0, resolution.indexOf(' '));
-						}
+                        if (resolution.contains(" ")) {
+                            resolution = resolution.substring(0, resolution.indexOf(' '));
+                        }
 
                         return new Resolution(resolution);
                     }
@@ -74,15 +74,15 @@ public final class FFMpegService implements IFFMpegService {
     }
 
     @Override
-    public PreciseDuration getDuration(File f){
-        if(ffmpegIsInstalled()){
+    public PreciseDuration getDuration(File f) {
+        if (ffmpegIsInstalled()) {
             Scanner scanner = getInformations(f);
 
-            if(scanner != null){
-                while(scanner.hasNextLine()){
+            if (scanner != null) {
+                while (scanner.hasNextLine()) {
                     String line = scanner.nextLine().trim();
 
-                    if(line.startsWith("Duration:")){
+                    if (line.startsWith("Duration:")) {
                         String duration = line.substring(10, line.indexOf(',')) + "00";
 
                         return new PreciseDuration(duration);
@@ -94,60 +94,71 @@ public final class FFMpegService implements IFFMpegService {
         return null;
     }
 
-	@Override
-	public BufferedImage generateRandomPreviewImage(File f){
+    @Override
+    public BufferedImage generateRandomPreviewImage(File f) {
         return generatePreviewImage(f, getRandomTime());
-	}
+    }
 
-	@Override
-	public BufferedImage generatePreviewImage(File f, String time){
-		if(ffmpegIsInstalled()){
-			String fileName = getModule().getThumbnailFolderPath() + "temp.jpg";
+    @Override
+    public BufferedImage generatePreviewImage(File f, String time) {
+        if (ffmpegIsInstalled()) {
+            String fileName = getModule().getThumbnailFolderPath() + "temp.jpg";
 
-			SimpleApplicationConsumer p = new SimpleApplicationConsumer(getModule().getConfig().getFFmpegLocation(),
-					"-i", 	f.getAbsolutePath(),
-					"-f", 	"mjpeg",
-					"-t", 	"0.001",
-					"-ss", 	time,
-					"-y", 	fileName);
+            SimpleApplicationConsumer p = new SimpleApplicationConsumer(getModule().getConfig().getFFmpegLocation(),
+                    "-i", f.getAbsolutePath(),
+                    "-f", "mjpeg",
+                    "-t", "0.001",
+                    "-ss", time,
+                    "-y", fileName);
 
-			try {
-				p.consume();
-			} catch (IOException e) {
-				CoreUtils.getLogger(getClass()).error(e);
-			}
+            try {
+                p.consume();
+            } catch (IOException e) {
+                CoreUtils.getLogger(getClass()).error(e);
+            }
 
-			BufferedImage image = ImageUtils.openCompatibleImage(
-				Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName));
+            BufferedImage image = ImageUtils.openCompatibleImage(
+                    Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName));
 
-			return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
-		}
+            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public BufferedImage generateImageFromUserInput(File file){
-		BufferedImage image = ImageUtils.openCompatibleImage(
-				Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath()));
+    @Override
+    public BufferedImage generateImageFromUserInput(File file) {
+        BufferedImage image = ImageUtils.openCompatibleImage(
+                Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath()));
 
-		return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
-	}
+        return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+    }
 
-	private static boolean ffmpegIsInstalled() {
+    /**
+     * Indicate if FFMpeg is installed or not.
+     *
+     * @return true if it's installed else false.
+     */
+    private static boolean ffmpegIsInstalled() {
         IMovieConfiguration config = getModule().getConfig();
 
         boolean notInstalled = StringUtils.isEmpty(config.getFFmpegLocation()) || !new File(config.getFFmpegLocation()).exists();
 
-        if(notInstalled){
+        if (notInstalled) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.ffmpeg"));
         }
 
         return !notInstalled;
     }
 
+    /**
+     * Return the FFmpeg informations of the specified files.
+     *
+     * @param f The file to the informations from.
+     * @return A Scanner on the informations result.
+     */
     private Scanner getInformations(File f) {
-		IMovieConfiguration config = getModule().getConfig();
+        IMovieConfiguration config = getModule().getConfig();
 
         SimpleApplicationConsumer p = new SimpleApplicationConsumer(config.getFFmpegLocation(), "-i", f.getAbsolutePath());
 
@@ -162,11 +173,21 @@ public final class FFMpegService implements IFFMpegService {
         return null;
     }
 
-    private static IMoviesModule getModule(){
+    /**
+     * Return the movies module.
+     *
+     * @return The movies module.
+     */
+    private static IMoviesModule getModule() {
         return CoreUtils.getBean("moviesModule");
     }
 
-	private static String getRandomTime(){
-		return String.valueOf(RANDOM.nextInt(MAX_RANDOM_TIME) + 1);
+    /**
+     * Return a random time to generate random preview image.
+     *
+     * @return A random time to generate with ffmpeg.
+     */
+    private static String getRandomTime() {
+        return String.valueOf(RANDOM.nextInt(MAX_RANDOM_TIME) + 1);
 	}
 }

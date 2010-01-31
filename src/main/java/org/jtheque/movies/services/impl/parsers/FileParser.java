@@ -2,7 +2,7 @@ package org.jtheque.movies.services.impl.parsers;
 
 import org.jtheque.movies.persistence.od.able.Category;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import java.io.File;
 import java.util.Collection;
 
@@ -57,7 +57,19 @@ public interface FileParser {
      */
     Collection<Category> getExtractedCategories();
 
-	boolean hasCustomView();
+    /**
+     * Indicate if the parser has a custom view or if we just need to use a simple check box with the
+     * title of the parser.
+     *
+     * @return true if the parser has custom view else false.
+     */
+    boolean hasCustomView();
 
-	JComponent getCustomView();
+    /**
+     * Return the custom view of the parser.
+     *
+     * @return The custom view of the parser or null if the parser has no custom view.
+     * @see #hasCustomView()
+     */
+    JComponent getCustomView();
 }
