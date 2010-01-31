@@ -19,8 +19,28 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * A movie player specification.
+ *
+ * @author Baptiste Wicht
+ */
 public interface IMoviePlayer {
+    /**
+     * Stop the play.
+     */
     void stop();
+
+    /**
+     * Load the specified file.
+     *
+     * @param f The movie file.
+     */
     void load(File f);
+
+    /**
+     * Return the swing component of the player.
+     *
+     * @return The swing component of the player.
+     */
     JComponent getComponent();
 }

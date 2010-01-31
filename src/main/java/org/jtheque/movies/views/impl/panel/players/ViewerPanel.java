@@ -35,7 +35,7 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-public class ViewerPanel extends JPanel {
+public final class ViewerPanel extends JPanel {
     private final JLabel labelFile;
 
     private final IMoviePlayer player;

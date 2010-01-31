@@ -21,9 +21,17 @@ import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
 import javax.swing.JComponent;
 import java.io.File;
 
-public class WMPPlayer implements IMoviePlayer {
+/**
+ * A WMP player implementation.
+ *
+ * @author Baptiste Wicht
+ */
+public final class WMPPlayer implements IMoviePlayer {
     private final JWMediaPlayer player;
 
+    /**
+     * Construct a new WMPPlayer. 
+     */
     public WMPPlayer() {
         super();
 

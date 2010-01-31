@@ -66,6 +66,7 @@ public class BetweenCharCategoryParserTest {
     public void initOK() {
         assertNotNull(parser);
         assertFalse(parser.hasCustomView());
+        assertNull(parser.getCustomView());
     }
 
     @Test

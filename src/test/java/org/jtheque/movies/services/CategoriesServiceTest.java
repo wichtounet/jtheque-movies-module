@@ -34,6 +34,7 @@ import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Baptiste Wicht
@@ -83,6 +84,12 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
+    public void exists(){
+        assertFalse(categoriesService.exists("Category 00"));
+        assertTrue(categoriesService.exists("Category 1"));
+    }
+
+    @Test
     public void existsInOtherCategory() {
         assertFalse(categoriesService.existsInOtherCategory("Category 1", categoriesService.getCategory("Category 1")));
         assertTrue(categoriesService.existsInOtherCategory("Category 2", categoriesService.getCategory("Category 1")));
@@ -95,5 +102,10 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
         assertEquals(0, categoriesService.getSubCategories(categoriesService.getCategory("Category 3")).size());
         //Temp : assertEquals(1, categoriesService.getSubCategories(categoriesService.getCategory("Category 2")).size());
         //Temp : assertEquals(2, categoriesService.getSubCategories(categoriesService.getCategory("Category 1")).size());
+    }
+
+    @Test
+    public void getDataType(){
+        assertEquals("Categories", categoriesService.getDataType());
     }
 }

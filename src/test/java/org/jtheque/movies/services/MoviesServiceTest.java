@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
+import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
@@ -36,6 +37,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.*;
@@ -51,6 +53,9 @@ import static org.junit.Assert.*;
 public class MoviesServiceTest extends AbstractDBUnitTest {
     @Resource
     private IMoviesService moviesService;
+
+    @Resource
+    private ICategoriesService categoriesService;
 
     @Resource
     private IDaoCollections daoCollections;
@@ -138,10 +143,80 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
         m3.setTheCollection(collection);
         movies.add(m3);
 
+        Movie m4 = new MovieImpl();
+        m4.setTitle("asdf");
+        m4.setTheCollection(collection);
+        movies.add(m4);
+
         moviesService.clean(movies, cleaners);
 
         for (Movie m : movies) {
             assertEquals("asdf", m.getTitle());
         }
+    }
+
+    @Test
+    public void getMoviesOfCategory(){
+        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 4"), false);
+
+        assertEquals(2, movies.size());
+
+        String[] moviesCategory4 = {"Movie 3", "Movie 4"};
+
+        for(Movie movie : movies){
+            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+                fail("Movie not in results");
+            }
+        }
+    }
+
+    @Test
+    public void getMoviesOfLeafCategory(){
+        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 4"), true);
+
+        assertEquals(2, movies.size());
+
+        String[] moviesCategory4 = {"Movie 3", "Movie 4"};
+
+        for(Movie movie : movies){
+            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+                fail("Movie not in results");
+            }
+        }
+    }
+
+    @Test
+    public void getMoviesOfNotLeafCategory(){
+        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 5"), false);
+
+        assertEquals(1, movies.size());
+
+        String[] moviesCategory4 = {"Movie 2"};
+
+        for(Movie movie : movies){
+            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+                fail("Movie not in results");
+            }
+        }
+    }
+
+    @Test
+    public void getMoviesOfNotLeafCategory2(){
+        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 5"), true);
+
+        assertEquals(3, movies.size());
+
+        String[] moviesCategory4 = {"Movie 2", "Movie 3", "Movie 4"};
+
+        for(Movie movie : movies){
+            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+                fail("Movie not in results");
+            }
+        }
+    }
+    
+    @Test
+    public void getDataType(){
+        assertEquals("Movies", moviesService.getDataType());
     }
 }

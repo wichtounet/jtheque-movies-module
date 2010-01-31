@@ -51,10 +51,10 @@ public final class PreciseDuration {
         hours = Byte.parseByte(times[0]);
         minutes = Byte.parseByte(times[1]);
 
-        times = PATTERN1.split(times[2]);
+        String[] second = PATTERN1.split(times[2]);
 
-        seconds = Byte.parseByte(times[0]);
-        milliSeconds = Short.parseShort(times[1]);
+        seconds = Byte.parseByte(second[0]);
+        milliSeconds = Short.parseShort(second[1]);
     }
 
     /**

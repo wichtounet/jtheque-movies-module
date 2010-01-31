@@ -21,9 +21,17 @@ import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
 import javax.swing.JComponent;
 import java.io.File;
 
-public class VLCPlayer implements IMoviePlayer {
+/**
+ * A VLC player implementation.
+ *
+ * @author Baptiste Wicht
+ */
+public final class VLCPlayer implements IMoviePlayer {
     private final JVLCPlayer player;
 
+    /**
+     * Construct a new VLCPlayer.
+     */
     public VLCPlayer() {
         super();
 
