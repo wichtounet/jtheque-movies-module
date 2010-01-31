@@ -17,6 +17,8 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.movies.IMovieConfiguration;
+import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -27,6 +29,7 @@ import org.jtheque.movies.views.impl.panel.players.JPanelWMP;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.primary.controller.able.ControllerState;
 import org.jtheque.primary.controller.impl.PrincipalController;
+import org.jtheque.utils.DesktopUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -39,6 +42,9 @@ import java.io.File;
 public final class MovieController extends PrincipalController<Movie> implements IMovieController {
     @Resource
     private IMovieView movieView;
+
+    @Resource
+    private IMoviesModule moviesModule;
 
     private ViewerPanel currentViewer;
 
@@ -68,6 +74,28 @@ public final class MovieController extends PrincipalController<Movie> implements
     @Override
     public IMoviesModel getViewModel() {
         return (IMoviesModel) movieView.getModel();
+    }
+
+    @Override
+    public void playCurrentMovie() {
+        IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
+
+        String file = getViewModel().getCurrentMovie().getFile();
+
+        switch (opening) {
+            case SYSTEM:
+                DesktopUtils.open(new File(file));
+
+                break;
+            case VLC:
+                displayViewer(IMovieView.VLC_VIEW, new File(file));
+
+                break;
+            case WMP:
+                displayViewer(IMovieView.WMP_VIEW, new File(file));
+
+                break;
+        }
     }
 
     @Override

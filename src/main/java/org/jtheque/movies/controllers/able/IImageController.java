@@ -32,4 +32,12 @@ public interface IImageController extends Controller {
 
     @Override
     IImageView getView();
+
+    void generateFileImage(String imagePath);
+
+    void generateRandomImage();
+
+    void generateTimeImage(String time);
+
+    void save();
 }

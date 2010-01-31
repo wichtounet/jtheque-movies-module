@@ -21,15 +21,10 @@ import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.IMovieConfiguration;
-import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesModule;
 import org.jtheque.movies.controllers.able.IMovieController;
-import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.utils.DesktopUtils;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 /**
  * Action to open a movie.
@@ -49,27 +44,9 @@ public final class PlayMovieAction extends JThequeAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         IMovieController movieController = CoreUtils.getBean("movieController");
-        IMoviesModule moviesModule = CoreUtils.getBean("moviesModule");
 
         if (movieController.getViewModel().getCurrentMovie() != null) {
-            IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
-
-            String file = movieController.getViewModel().getCurrentMovie().getFile();
-
-            switch (opening) {
-                case SYSTEM:
-                    DesktopUtils.open(new File(file));
-
-                    break;
-                case VLC:
-                    movieController.displayViewer(IMovieView.VLC_VIEW, new File(file));
-
-                    break;
-                case WMP:
-                    movieController.displayViewer(IMovieView.WMP_VIEW, new File(file));
-
-                    break;
-            }
+            movieController.playCurrentMovie();
         }
     }
 }

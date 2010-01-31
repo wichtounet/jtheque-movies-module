@@ -1,19 +1,11 @@
 package org.jtheque.movies.views.impl.actions.movies.image;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IImageController;
-import org.jtheque.movies.controllers.able.IMovieController;
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.views.able.IImageView;
-import org.jtheque.utils.StringUtils;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 /*
  * This file is part of JTheque.
@@ -43,19 +35,11 @@ public final class GenerateTimeImageAction extends JThequeAction {
     public GenerateTimeImageAction() {
         super("movie.image.actions.ffmpeg.fixed");
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        Movie movie = CoreUtils.<IMovieController>getBean("movieController").getViewModel().getCurrentMovie();
+        IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
 
-        File file = new File(movie.getFile());
-
-        if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
-            IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
-
-            view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generatePreviewImage(file, view.getTime()));
-        } else {
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
-        }
+        CoreUtils.<IImageController>getBean("imageController").generateTimeImage(view.getTime());
     }
 }

@@ -1,17 +1,11 @@
 package org.jtheque.movies.views.impl.actions.movies.image;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.controllers.able.IImageController;
-import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.views.able.IImageView;
-import org.jtheque.utils.StringUtils;
 
 import java.awt.event.ActionEvent;
-import java.io.File;
 
 /*
  * This file is part of JTheque.
@@ -46,12 +40,6 @@ public final class GenerateFileImageAction extends JThequeAction {
     public void actionPerformed(ActionEvent e) {
         IImageView view = CoreUtils.<IImageController>getBean("imageController").getView();
 
-        File file = new File(view.getImagePath());
-
-        if (StringUtils.isNotEmpty(view.getImagePath()) && file.exists()) {
-            view.setImage(CoreUtils.<IFFMpegService>getBean("ffmpegService").generateImageFromUserInput(file));
-        } else {
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
-        }
+        CoreUtils.<IImageController>getBean("imageController").generateFileImage(view.getImagePath());
     }
 }
