@@ -6,8 +6,6 @@ import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.managers.view.impl.actions.JThequeAction;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.services.able.IFFMpegService;
-import org.jtheque.movies.utils.PreciseDuration;
-import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.impl.panel.EditMoviePanel;
 import org.jtheque.utils.StringUtils;
 
@@ -56,16 +54,8 @@ public final class GetInformationsAction extends JThequeAction {
         File file = new File(filePath);
 
         if (StringUtils.isNotEmpty(filePath) && file.exists()) {
-            Resolution resolution = CoreUtils.<IFFMpegService>getBean("ffmpegService").getResolution(file);
-            PreciseDuration duration = CoreUtils.<IFFMpegService>getBean("ffmpegService").getDuration(file);
-
-            if (resolution != null) {
-                editMoviePanel.setResolution(resolution);
-            }
-
-            if (duration != null) {
-                editMoviePanel.setDuration(duration);
-            }
+            editMoviePanel.setResolution(CoreUtils.<IFFMpegService>getBean("ffmpegService").getResolution(file));
+            editMoviePanel.setDuration(CoreUtils.<IFFMpegService>getBean("ffmpegService").getDuration(file));
         } else {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
         }

@@ -24,9 +24,9 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
-import org.jtheque.movies.views.impl.panel.players.JPanelVLC;
-import org.jtheque.movies.views.impl.panel.players.JPanelWMP;
+import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
+import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
 import org.jtheque.primary.controller.able.ControllerState;
 import org.jtheque.primary.controller.impl.PrincipalController;
 import org.jtheque.utils.DesktopUtils;
@@ -106,9 +106,9 @@ public final class MovieController extends PrincipalController<Movie> implements
     @Override
     public void displayViewer(String view, File file) {
         if (view.equals(IMovieView.WMP_VIEW)) {
-            setCurrentViewer(file, new JPanelWMP());
+            setCurrentViewer(file, new ViewerPanel(new WMPPlayer()));
         } else if (view.equals(IMovieView.VLC_VIEW)) {
-            setCurrentViewer(file, new JPanelVLC());
+            setCurrentViewer(file, new ViewerPanel(new VLCPlayer()));
         }
     }
 

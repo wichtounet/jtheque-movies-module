@@ -19,21 +19,16 @@ package org.jtheque.movies.services.impl.parsers;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * A file parser who extracts the category from the start of the file name to a specified character.
  *
  * @author Baptiste Wicht
  */
-public final class ToCharCategoryParser implements FileParser {
-    private Category category;
+public final class ToCharCategoryParser extends AbstractSimpleCategoryParser {
     private final String character;
 
     @Resource
@@ -61,10 +56,12 @@ public final class ToCharCategoryParser implements FileParser {
             String name = file.getName().substring(0, file.getName().indexOf(character)).trim();
 
             if (categoriesService.exists(name)) {
-                category = categoriesService.getCategory(name);
+                addCategory(categoriesService.getCategory(name));
             } else {
-                category = categoriesService.getEmptyCategory();
+                Category category = categoriesService.getEmptyCategory();
                 category.setTitle(name);
+
+                addCategory(category);
             }
         }
     }
@@ -76,24 +73,5 @@ public final class ToCharCategoryParser implements FileParser {
         }
 
         return fileName.substring(fileName.indexOf(character) + 1);
-    }
-
-    @Override
-    public Collection<Category> getExtractedCategories() {
-        if (category == null) {
-            return CollectionUtils.emptyList();
-        }
-
-        return Arrays.asList(category);
-    }
-
-    @Override
-    public boolean hasCustomView() {
-        return false;
-    }
-
-    @Override
-    public JComponent getCustomView() {
-        return null;
     }
 }

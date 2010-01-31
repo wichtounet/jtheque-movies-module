@@ -1,16 +1,11 @@
 package org.jtheque.movies.views.impl.panel.players;
 
-import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
-
-import java.awt.*;
-import java.io.File;
-
 /*
  * This file is part of JTheque.
- * 	   
+ *
  * JTheque is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * the Free Software Foundation, either version 3 of the License.
  *
  * JTheque is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -21,29 +16,33 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * A WMP panel implementation.
- *
- * @author Baptiste Wicht
- */
-public final class JPanelWMP extends ViewerPanel {
-    private JWMediaPlayer player;
+import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
 
-    @Override
-    protected void addPlayer() {
+import javax.swing.JComponent;
+import java.io.File;
+
+public class WMPPlayer implements IMoviePlayer {
+    private final JWMediaPlayer player;
+
+    public WMPPlayer() {
+        super();
+
         player = new JWMediaPlayer();
         player.setControlBarVisible(true);
-        add(player, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void setFile(File f) {
-        super.setFile(f);
-        player.load(f.getAbsolutePath());
     }
 
     @Override
     public void stop() {
         player.getWMPControls().stop();
+    }
+
+    @Override
+    public void load(File f) {
+        player.load(f.getAbsolutePath());
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return player;
     }
 }

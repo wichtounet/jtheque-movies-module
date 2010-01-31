@@ -21,19 +21,14 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * A category parser who extract the category between two chars.
  *
  * @author Baptiste Wicht
  */
-public final class BetweenCharCategoryParser implements FileParser {
-    private final Collection<Category> categories = new ArrayList<Category>(5);
-
+public final class BetweenCharCategoryParser extends AbstractSimpleCategoryParser {
     private final String characterStart;
     private final String characterEnd;
 
@@ -67,12 +62,12 @@ public final class BetweenCharCategoryParser implements FileParser {
                 String name = fileName.substring(fileName.indexOf(characterStart) + 1, fileName.indexOf(characterEnd));
 
                 if (categoriesService.exists(name)) {
-                    categories.add(categoriesService.getCategory(name));
+                    addCategory(categoriesService.getCategory(name));
                 } else {
                     Category category = categoriesService.getEmptyCategory();
                     category.setTitle(name);
 
-                    categories.add(category);
+                    addCategory(category);
                 }
 
                 fileName = fileName.substring(fileName.indexOf(characterEnd) + 1);
@@ -84,25 +79,10 @@ public final class BetweenCharCategoryParser implements FileParser {
     public String clearFileName(String fileName) {
         String name = fileName;
 
-        for (Category cat : categories) {
+        for (Category cat : getExtractedCategories()) {
             name = name.replace(characterStart + cat.getTitle() + characterEnd, "");
         }
 
         return name;
-    }
-
-    @Override
-    public Collection<Category> getExtractedCategories() {
-        return categories;
-    }
-
-    @Override
-    public boolean hasCustomView() {
-        return false;
-    }
-
-    @Override
-    public JComponent getCustomView() {
-        return null;
     }
 }

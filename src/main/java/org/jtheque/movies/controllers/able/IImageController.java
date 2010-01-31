@@ -33,11 +33,27 @@ public interface IImageController extends Controller {
     @Override
     IImageView getView();
 
+    /**
+     * Generate a preview image from an image give by the user.
+     *
+     * @param imagePath The path to the user image.
+     */
     void generateFileImage(String imagePath);
 
+    /**
+     * Generate a random image from the file of the movie.
+     */
     void generateRandomImage();
 
+    /**
+     * Generate an image at the specific time of the movie.
+     *
+     * @param time The time (in seconds) at when we must generate the image.
+     */
     void generateTimeImage(String time);
 
+    /**
+     * Save the current image to the current movie. 
+     */
     void save();
 }

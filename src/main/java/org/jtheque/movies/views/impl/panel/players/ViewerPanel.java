@@ -17,10 +17,16 @@ package org.jtheque.movies.views.impl.panel.players;
  */
 
 import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
-import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.io.File;
 
 /**
@@ -29,14 +35,20 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-public abstract class ViewerPanel extends JPanel {
+public class ViewerPanel extends JPanel {
     private final JLabel labelFile;
+
+    private final IMoviePlayer player;
 
     /**
      * Construct a new ViewerPanel.
+     *
+     * @param player The movie player.
      */
-    ViewerPanel() {
+    public ViewerPanel(IMoviePlayer player) {
         super();
+
+        this.player = player;
 
         setLayout(new BorderLayout());
 
@@ -63,12 +75,7 @@ public abstract class ViewerPanel extends JPanel {
 
         add(playerFilePanel, BorderLayout.NORTH);
 
-        SwingUtils.inEdt(new Runnable() {
-            @Override
-            public void run() {
-                addPlayer();
-            }
-        });
+        add(player.getComponent(), BorderLayout.CENTER);
     }
 
     /**
@@ -81,12 +88,9 @@ public abstract class ViewerPanel extends JPanel {
     }
 
     /**
-     * Add the player the view.
+     * Stop the movie.
      */
-    protected abstract void addPlayer();
-
-    /**
-     * Stop the reader.
-     */
-    public abstract void stop();
+    public void stop() {
+        player.stop();
+    }
 }

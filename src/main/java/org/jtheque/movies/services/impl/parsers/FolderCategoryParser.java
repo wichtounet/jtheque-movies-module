@@ -3,13 +3,9 @@ package org.jtheque.movies.services.impl.parsers;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.utils.collections.CollectionUtils;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
 
 /*
  * This file is part of JTheque.
@@ -32,9 +28,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class FolderCategoryParser implements FileParser {
-    private Category category;
-
+public final class FolderCategoryParser extends AbstractSimpleCategoryParser {
     @Resource
     private ICategoriesService categoriesService;
 
@@ -49,10 +43,12 @@ public final class FolderCategoryParser implements FileParser {
             String name = file.getParentFile().getName();
 
             if (categoriesService.exists(name)) {
-                category = categoriesService.getCategory(name);
+                addCategory(categoriesService.getCategory(name));
             } else {
-                category = categoriesService.getEmptyCategory();
+                Category category = categoriesService.getEmptyCategory();
                 category.setTitle(name);
+
+                addCategory(category);
             }
         }
     }
@@ -60,24 +56,5 @@ public final class FolderCategoryParser implements FileParser {
     @Override
     public String clearFileName(String fileName) {
         return fileName;
-    }
-
-    @Override
-    public Collection<Category> getExtractedCategories() {
-        if (category == null) {
-            return CollectionUtils.emptyList();
-        }
-
-        return Arrays.asList(category);
-    }
-
-    @Override
-    public boolean hasCustomView() {
-        return false;
-    }
-
-    @Override
-    public JComponent getCustomView() {
-        return null;
     }
 }

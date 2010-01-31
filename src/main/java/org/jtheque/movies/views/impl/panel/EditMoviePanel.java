@@ -240,7 +240,9 @@ public final class EditMoviePanel extends MoviePanel {
      * @param resolution The resolution to set.
      */
     public void setResolution(Resolution resolution) {
-        fieldResolution.setText(resolution.toString());
+        if(resolution != null){
+            fieldResolution.setText(resolution.toString());
+        }
     }
 
     /**
@@ -249,6 +251,8 @@ public final class EditMoviePanel extends MoviePanel {
      * @param duration The duration to set.
      */
     public void setDuration(PreciseDuration duration) {
-        fieldDuration.setText(duration.toString());
+        if(duration != null){
+            fieldDuration.setText(duration.toString());
+        }
     }
 }

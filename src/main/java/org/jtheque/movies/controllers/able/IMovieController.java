@@ -58,5 +58,9 @@ public interface IMovieController extends IPrincipalController<Movie> {
     @Override
     IMoviesModel getViewModel();
 
+    /**
+     * Play the current movie using a viewer depending on the current configuration of
+     * the user. 
+     */
     void playCurrentMovie();
 }
