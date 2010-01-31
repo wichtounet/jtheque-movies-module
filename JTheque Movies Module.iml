@@ -22,8 +22,8 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
-    <output url="file://M:/Server/Builds/modules/jtheque-movies-module/classes/production" />
-    <output-test url="file://M:/Server/Builds/modules/jtheque-movies-module/classes/tests" />
+    <output url="file://C:/Server/builds/modules/jtheque-movies-module/classes/production" />
+    <output-test url="file://C:/Server/builds/modules/jtheque-movies-module/classes/tests" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />

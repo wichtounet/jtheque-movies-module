@@ -17,35 +17,39 @@ package org.jtheque.movies.views.impl.models;
  */
 
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.primary.view.able.ViewMode;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- * A model for the kind view.
- *
- * @author Baptiste Wicht
- */
-public final class CategoryModel implements ICategoryModel {
-    private ViewMode state = ViewMode.NEW;
-    private Category category;
+import static org.junit.Assert.*;
 
-    @Override
-    public ViewMode getState() {
-        return state;
+public class CategoryModelTest {
+    private ICategoryModel model;
+
+    @Before
+    public void setUp(){
+        model = new CategoryModel();
     }
 
-    @Override
-    public void setState(ViewMode state) {
-        this.state = state;
+    @Test
+    public void testGetState() throws Exception {
+        assertEquals(ViewMode.VIEW, model.getState());
+
+        model.setState(ViewMode.AUTO);
+
+        assertEquals(ViewMode.AUTO, model.getState());
     }
 
-    @Override
-    public Category getCategory() {
-        return category;
-    }
-    
-    @Override
-    public void setCategory(Category category) {
-        this.category = category;
+    @Test
+    public void testGetCategory() throws Exception {
+        Category category = new CategoryImpl("");
+
+        assertNull(model.getCategory());
+
+        model.setCategory(category);
+
+        assertSame(category, model.getCategory());
     }
 }
