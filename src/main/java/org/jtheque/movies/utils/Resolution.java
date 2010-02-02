@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  */
 
 /**
- * A resolution for movie. The resolution is of format widthxheight.
+ * A resolution for movie. The resolution is of format "widthxheight".
  *
  * @author Baptiste Wicht
  */

@@ -75,6 +75,7 @@ public final class TempSwingUtils {
             gradient = ImageUtils.createCompatibleImage(panel.getWidth(), panel.getHeight());
             Graphics2D g2d = (Graphics2D) gradient.getGraphics();
             Composite composite = g2.getComposite();
+            
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.setPaint(BACKGROUND_PAINT);
             g2d.fillRect(0, 0, panel.getWidth(), panel.getHeight());
