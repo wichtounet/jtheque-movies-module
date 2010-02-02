@@ -22,13 +22,14 @@
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
-    <output url="file://C:/Server/builds/modules/jtheque-movies-module/classes/production" />
-    <output-test url="file://C:/Server/builds/modules/jtheque-movies-module/classes/tests" />
+    <output url="file:///home/wichtounet/Builds/modules/jtheque-movies-module/classes/production" />
+    <output-test url="file:///home/wichtounet/Builds/modules/jtheque-movies-module/classes/tests" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/${env.BUILD_HOME}/modules/jtheque-movies-module" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

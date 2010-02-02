@@ -1,11 +1,10 @@
 package org.jtheque.movies.services.impl.parsers;
 
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -46,7 +45,7 @@ abstract class AbstractSimpleCategoryParser implements FileParser {
 			categories.add(categoriesService.getCategory(name));
 		} else {
 			Category category = categoriesService.getEmptyCategory();
-			category.setTitle(name);
+			category.setTitle(name);                        
 
 			categories.add(category);
 		}

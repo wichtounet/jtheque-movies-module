@@ -18,9 +18,7 @@ package org.jtheque.movies.services.impl.parsers;
 
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.services.able.ICategoriesService;
 
-import javax.annotation.Resource;
 import java.io.File;
 
 /**
