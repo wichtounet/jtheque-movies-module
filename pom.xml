@@ -21,24 +21,11 @@
             <url>ftp://developpez.com/collections/movies</url>
         </site>
         <repository>
-            <id>jtheque-web-server</id>
-            <name>JTheque Repository Server</name>
-            <url>ftp://developpez.com/repository</url>
+            <id>Server-PC-releases</id>
+            <name>Server-PC-releases</name>
+            <url>http://192.168.1.200:8280/artifactory/libs-releases-local</url>
         </repository>
     </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>JTheque</id>
-            <url>http://jtheque.developpez.com/repository</url>
-        </repository>
-        <repository>
-            <id>Version99</id>
-            <name>Version 99 Does Not Exist Maven repository</name>
-            <layout>default</layout>
-            <url>http://no-commons-logging.zapto.org/mvn2</url>
-        </repository>
-    </repositories>
 
     <issueManagement>
         <system>Redmine</system>

@@ -187,6 +187,17 @@ public final class MoviesService implements IMoviesService {
         return daoMovies.getMovie(title);
     }
 
+    @Override
+    public boolean thumbnailIsNotUsed(String name) {
+        for(Movie movie : getMovies()){
+            if(name.equals(movie.getImage())){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     /**
      * Generate the informations of the movie.
      *

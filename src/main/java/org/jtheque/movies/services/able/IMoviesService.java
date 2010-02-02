@@ -114,4 +114,13 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * @return The Movie with the specified title if there is one else null.
      */
 	Movie getMovie(String title);
+
+    /**
+     * Indicate if a thumbnail is not used in any movies.
+     *
+     * @param name The name of the thumbnail.
+     *
+     * @return true if the thumbnail is not used else false.
+     */
+    boolean thumbnailIsNotUsed(String name);
 }

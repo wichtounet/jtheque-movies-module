@@ -94,7 +94,7 @@ public final class CategoriesService implements ICategoriesService {
         Collection<Category> categories = new ArrayList<Category>(20);
 
         for (Category cat : getCategories()) {
-            if (cat.getParent() == category) {
+            if (cat.getParent() != null && cat.getParent().getId() == category.getId()) {
                 categories.add(cat);
                 categories.addAll(getSubCategories(cat));
             }

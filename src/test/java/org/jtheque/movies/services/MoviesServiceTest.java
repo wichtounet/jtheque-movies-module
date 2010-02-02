@@ -19,9 +19,9 @@ package org.jtheque.movies.services;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
+import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
-import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
@@ -55,7 +55,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     private IMoviesService moviesService;
 
     @Resource
-    private ICategoriesService categoriesService;
+    private IDaoCategories daoCategories;
 
     @Resource
     private IDaoCollections daoCollections;
@@ -157,7 +157,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
     @Test
     public void getMoviesOfCategory(){
-        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 4"), false);
+        Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 4"), false);
 
         assertEquals(2, movies.size());
 
@@ -172,7 +172,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
     @Test
     public void getMoviesOfLeafCategory(){
-        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 4"), true);
+        Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 4"), true);
 
         assertEquals(2, movies.size());
 
@@ -187,7 +187,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
     @Test
     public void getMoviesOfNotLeafCategory(){
-        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 5"), false);
+        Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 5"), false);
 
         assertEquals(1, movies.size());
 
@@ -202,7 +202,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
     @Test
     public void getMoviesOfNotLeafCategory2(){
-        Collection<Movie> movies = moviesService.getMovies(categoriesService.getCategory("Category 5"), true);
+        Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 5"), true);
 
         assertEquals(3, movies.size());
 

@@ -20,8 +20,8 @@
     <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories" scope="prototype"/>
     <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies" scope="prototype"/>
 
-    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService"/>
-    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService"/>
+    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService" scope="prototype"/>
+    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService" scope="prototype"/>
     <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
     <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
 
