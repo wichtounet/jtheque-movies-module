@@ -47,6 +47,7 @@ public final class FFMpegService implements IFFMpegService {
 
     private static final int THUMBNAIL_WIDTH = 200;
     private static final int MAX_RANDOM_TIME = 50;
+    private static final Pattern MILLISECONDS_PATTERN = Pattern.compile("\\.");
 
     @Override
     public Resolution getResolution(File f) {
@@ -83,15 +84,32 @@ public final class FFMpegService implements IFFMpegService {
                     String line = scanner.nextLine().trim();
 
                     if (line.startsWith("Duration:")) {
-                        String duration = line.substring(10, line.indexOf(',')) + "00";
-
-                        return new PreciseDuration(duration);
+                        return new PreciseDuration(formatDuration(line));
                     }
                 }
             }
         }
 
         return null;
+    }
+
+    private static StringBuilder formatDuration(String line) {
+        StringBuilder duration = new StringBuilder(line.substring(10, line.indexOf(',')));
+
+        String milliSeconds = MILLISECONDS_PATTERN.split(duration)[1];
+
+        while(milliSeconds.length() != 3){
+            if(milliSeconds.length() > 3){
+                duration.deleteCharAt(duration.length() - 1);
+            }
+
+            if(milliSeconds.length() < 3){
+                duration.append(0);
+            }
+
+            milliSeconds = MILLISECONDS_PATTERN.split(duration)[1];
+        }
+        return duration;
     }
 
     @Override
