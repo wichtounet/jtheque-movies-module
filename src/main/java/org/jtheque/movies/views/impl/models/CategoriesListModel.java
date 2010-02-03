@@ -24,7 +24,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
-import javax.swing.*;
+import javax.swing.DefaultListModel;
 import java.util.ArrayList;
 import java.util.List;
 

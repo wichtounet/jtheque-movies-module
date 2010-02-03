@@ -13,10 +13,21 @@ import org.jtheque.utils.ui.ButtonBarBuilder;
 import org.jtheque.utils.ui.ImageUtils;
 import org.jtheque.utils.ui.SizeTracker;
 
-import javax.swing.*;
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Composite;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 /*

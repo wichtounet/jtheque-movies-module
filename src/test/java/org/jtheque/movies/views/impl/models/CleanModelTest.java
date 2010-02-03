@@ -21,8 +21,8 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.views.able.models.ICleanModel;
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 

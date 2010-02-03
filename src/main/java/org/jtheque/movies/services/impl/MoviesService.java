@@ -26,6 +26,8 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
+import org.jtheque.utils.collections.CollectionUtils;
+import org.jtheque.utils.collections.Filter;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -33,6 +35,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -198,6 +201,15 @@ public final class MoviesService implements IMoviesService {
         return true;
     }
 
+    @Override
+    public Collection<? extends Movie> getMoviesWithInvalidFiles() {
+        Collection<Movie> movies = new ArrayList<Movie>(getMovies());
+
+        CollectionUtils.filter(movies, new InvalidFileFilter());
+
+        return movies;
+    }
+
     /**
      * Generate the informations of the movie.
      *
@@ -267,5 +279,17 @@ public final class MoviesService implements IMoviesService {
     @Transactional
     public void clearAll(){
         daoMovies.clearAll();
+    }
+
+    /**
+     * A collection filter to keep only movies with invalid files.
+     *
+     * @author Baptiste Wicht
+     */
+    private static final class InvalidFileFilter implements Filter<Movie> {
+        @Override
+        public boolean accept(Movie movie) {
+            return movie.getFile() == null || !new File(movie.getFile()).exists();
+        }
     }
 }

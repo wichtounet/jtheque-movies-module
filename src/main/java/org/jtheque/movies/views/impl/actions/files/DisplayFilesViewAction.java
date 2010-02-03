@@ -1,4 +1,10 @@
-package org.jtheque.movies.views.impl.panel;
+package org.jtheque.movies.views.impl.actions.files;
+
+import org.jtheque.core.managers.view.impl.actions.JThequeAction;
+import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.movies.controllers.able.IFilesController;
+
+import java.awt.event.ActionEvent;
 
 /*
  * This file is part of JTheque.
@@ -16,28 +22,21 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.utils.TempSwingUtils;
-import org.jtheque.utils.ui.SizeTracker;
-
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Image;
-
 /**
- * A panel with a filthy background.
+ * An action to display the invalid files of the movies.
  *
  * @author Baptiste Wicht
  */
-public final class FilthyBackgroundPanel extends JPanel {
-    private final SizeTracker tracker = new SizeTracker(this);
-    private Image gradientImage;
+public final class DisplayFilesViewAction extends JThequeAction {
+    /**
+     * Construct a new DisplayFilesViewAction.
+     */
+    public DisplayFilesViewAction() {
+        super("movie.files");
+    }
 
     @Override
-    public void paintComponent(Graphics g) {
-        if (!isVisible()) {
-            return;
-        }
-
-        gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+    public void actionPerformed(ActionEvent e) {
+        CoreUtils.<IFilesController>getBean("filesController").displayFiles();
     }
 }

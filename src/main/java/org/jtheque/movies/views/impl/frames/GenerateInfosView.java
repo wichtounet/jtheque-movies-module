@@ -28,7 +28,7 @@ import org.jtheque.movies.views.impl.panel.FilthyRenderer;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
 
 /**
  * A view implementation to select the options to clean the name of movies.

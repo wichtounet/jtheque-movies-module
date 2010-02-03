@@ -2,8 +2,10 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import java.awt.FlowLayout;
 
 /*
  * This file is part of JTheque.

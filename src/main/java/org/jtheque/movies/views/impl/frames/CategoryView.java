@@ -33,7 +33,7 @@ import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.*;
+import javax.swing.Action;
 import java.util.Collection;
 
 /**

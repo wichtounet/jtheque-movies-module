@@ -26,9 +26,12 @@ import org.jtheque.primary.view.impl.models.NotesComboBoxModel;
 import org.jtheque.primary.view.impl.renderers.NoteComboRenderer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.JComboBox;
+import javax.swing.UIManager;
 import javax.swing.text.MaskFormatter;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Insets;
 import java.text.ParseException;
 import java.util.Collection;
 

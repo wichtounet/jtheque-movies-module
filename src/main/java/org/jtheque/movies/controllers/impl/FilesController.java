@@ -1,4 +1,4 @@
-package org.jtheque.movies.views.impl.panel;
+package org.jtheque.movies.controllers.impl;
 
 /*
  * This file is part of JTheque.
@@ -16,28 +16,34 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.utils.TempSwingUtils;
-import org.jtheque.utils.ui.SizeTracker;
+import org.jtheque.core.managers.view.able.controller.AbstractController;
+import org.jtheque.movies.controllers.able.IFilesController;
+import org.jtheque.movies.views.able.IFilesView;
 
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.annotation.Resource;
 
 /**
- * A panel with a filthy background.
+ * Controller for the files view.
  *
  * @author Baptiste Wicht
  */
-public final class FilthyBackgroundPanel extends JPanel {
-    private final SizeTracker tracker = new SizeTracker(this);
-    private Image gradientImage;
+public final class FilesController extends AbstractController implements IFilesController {
+    @Resource
+    private IFilesView filesView;
 
     @Override
-    public void paintComponent(Graphics g) {
-        if (!isVisible()) {
-            return;
-        }
+    public IFilesView getView() {
+        return filesView;
+    }
 
-        gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+    @Override
+    public void refresh() {
+        filesView.refreshData();
+    }
+
+    @Override
+    public void displayFiles() {
+        refresh();
+        displayView();
     }
 }

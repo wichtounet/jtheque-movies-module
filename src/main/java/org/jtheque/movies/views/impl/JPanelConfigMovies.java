@@ -12,7 +12,9 @@ import org.jtheque.utils.io.SimpleFilter;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import java.util.Collection;
 
 /*

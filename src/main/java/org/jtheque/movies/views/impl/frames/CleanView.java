@@ -26,7 +26,7 @@ import org.jtheque.movies.views.impl.models.CleanModel;
 import org.jtheque.movies.views.impl.panel.containers.CleanerContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -6,7 +6,7 @@ import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.primary.view.impl.models.tree.TreeElement;
 
-import javax.swing.*;
+import javax.swing.Icon;
 import java.util.ArrayList;
 import java.util.List;
 

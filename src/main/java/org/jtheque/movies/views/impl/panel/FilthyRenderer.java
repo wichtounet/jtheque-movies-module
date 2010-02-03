@@ -4,9 +4,11 @@ import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.utils.ui.Borders;
 
-import javax.swing.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.JList;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 /*
  * This file is part of JTheque.

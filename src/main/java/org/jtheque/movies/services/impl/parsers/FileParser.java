@@ -2,7 +2,7 @@ package org.jtheque.movies.services.impl.parsers;
 
 import org.jtheque.movies.persistence.od.able.Category;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.io.File;
 import java.util.Collection;
 

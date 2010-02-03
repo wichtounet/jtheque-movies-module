@@ -38,8 +38,11 @@ import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
 import java.util.Collection;

@@ -30,7 +30,7 @@ import org.jtheque.primary.od.impl.abstraction.AbstractData;
 import org.jtheque.primary.utils.TempUtils;
 import org.jtheque.utils.StringUtils;
 
-import javax.swing.*;
+import javax.swing.Icon;
 import java.io.File;
 import java.util.Collection;
 import java.util.Date;

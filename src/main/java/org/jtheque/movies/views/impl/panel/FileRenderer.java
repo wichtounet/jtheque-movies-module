@@ -1,5 +1,10 @@
 package org.jtheque.movies.views.impl.panel;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.Component;
+import java.io.File;
+
 /*
  * This file is part of JTheque.
  *
@@ -16,28 +21,22 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.utils.TempSwingUtils;
-import org.jtheque.utils.ui.SizeTracker;
-
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Image;
-
 /**
- * A panel with a filthy background.
+ * A renderer for file column.
  *
  * @author Baptiste Wicht
  */
-public final class FilthyBackgroundPanel extends JPanel {
-    private final SizeTracker tracker = new SizeTracker(this);
-    private Image gradientImage;
-
+public final class FileRenderer extends DefaultTableCellRenderer {
     @Override
-    public void paintComponent(Graphics g) {
-        if (!isVisible()) {
-            return;
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+        File file = (File)value;
+
+        if(file != null){
+            setText(file.getAbsolutePath());
         }
 
-        gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+        return this;
     }
 }

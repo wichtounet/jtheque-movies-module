@@ -29,6 +29,7 @@
     <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController"/>
     <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController"/>
     <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController"/>
+    <bean id="filesController" class="org.jtheque.movies.controllers.impl.FilesController"/>
     <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController"/>
 
     <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
@@ -61,8 +62,10 @@
     <jtheque:proxy id="cleanMovieView" type="org.jtheque.movies.views.impl.frames.CleanView"/>
     <jtheque:proxy id="imageView" type="org.jtheque.movies.views.impl.frames.ImageView"/>
     <jtheque:proxy id="generateInfosView" type="org.jtheque.movies.views.impl.frames.GenerateInfosView"/>
+    <jtheque:proxy id="filesView" type="org.jtheque.movies.views.impl.frames.FilesView"/>
 
     <bean id="_movieView" class="org.jtheque.movies.views.impl.MovieView"/>
+    <bean id="_filesView" class="org.jtheque.movies.views.impl.frames.FilesView"/>
     <bean id="_categoryView" class="org.jtheque.movies.views.impl.frames.CategoryView"/>
     <bean id="_generateInfosView" class="org.jtheque.movies.views.impl.frames.GenerateInfosView"/>
 

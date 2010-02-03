@@ -58,10 +58,15 @@ import org.jtheque.utils.ui.SizeTracker;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.TreePath;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -22,7 +22,8 @@ import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;

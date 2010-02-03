@@ -93,7 +93,14 @@ public final class FFMpegService implements IFFMpegService {
         return null;
     }
 
-    private static StringBuilder formatDuration(String line) {
+    /**
+     * Format the durationof the movie.
+     *
+     * @param line The line of the duration.
+     *
+     * @return The duration. 
+     */
+    private static CharSequence formatDuration(String line) {
         StringBuilder duration = new StringBuilder(line.substring(10, line.indexOf(',')));
 
         String milliSeconds = MILLISECONDS_PATTERN.split(duration)[1];
@@ -109,6 +116,7 @@ public final class FFMpegService implements IFFMpegService {
 
             milliSeconds = MILLISECONDS_PATTERN.split(duration)[1];
         }
+
         return duration;
     }
 

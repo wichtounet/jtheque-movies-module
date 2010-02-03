@@ -18,9 +18,10 @@ package org.jtheque.movies.views.impl.models;
 
 import org.jtheque.primary.view.impl.models.tree.TreeElement;
 
-import javax.swing.*;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 
 /**
  * A cell renderer to display an icon in the JTree.

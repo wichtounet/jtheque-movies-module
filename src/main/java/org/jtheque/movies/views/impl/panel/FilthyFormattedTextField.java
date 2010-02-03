@@ -7,12 +7,19 @@ import org.jtheque.core.managers.view.able.ViewDefaults;
 import org.jtheque.core.utils.ui.Borders;
 import org.jtheque.utils.ui.PaintUtils;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 import javax.swing.text.NumberFormatter;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /*
  * This file is part of JTheque.

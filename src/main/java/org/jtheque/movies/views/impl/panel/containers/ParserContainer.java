@@ -18,7 +18,7 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * A parser container. It's simply a swing container for file parser.

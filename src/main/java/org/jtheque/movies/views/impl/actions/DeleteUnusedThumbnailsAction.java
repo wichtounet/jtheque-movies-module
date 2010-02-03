@@ -24,7 +24,15 @@ import java.io.File;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class DeleteUnusedThumbnailsAction extends JThequeAction {
+/**
+ * Action to delete the unused thumbnails file.
+ *
+ * @author Baptiste Wicht
+ */
+public final class DeleteUnusedThumbnailsAction extends JThequeAction {
+    /**
+     * Construct a new DeleteUnusedThumbnailsAction.
+     */
     public DeleteUnusedThumbnailsAction() {
         super("movie.actions.clean.thumbnails");
     }

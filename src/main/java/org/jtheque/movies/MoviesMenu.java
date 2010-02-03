@@ -21,6 +21,7 @@ import org.jtheque.core.managers.feature.Feature;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.impl.actions.DeleteUnusedThumbnailsAction;
 import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
+import org.jtheque.movies.views.impl.actions.files.DisplayFilesViewAction;
 import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
 
 import java.util.List;
@@ -41,8 +42,9 @@ final class MoviesMenu extends AbstractMenu {
                         createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView"))
                 ),
                 createMainFeature(400, "movie.menu.title",
-                        createSeparatedSubFeature(101, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)),
-                        createSeparatedSubFeature(100, createDisplayViewAction("movie.generate.infos", "generateInfosView")),
+                        createSubFeature(100, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)),
+                        createSubFeature(101, createDisplayViewAction("movie.generate.infos", "generateInfosView")),
+                        createSubFeature(102, new DisplayFilesViewAction()),
                         createSubFeature(1, new DeleteUnusedThumbnailsAction())
                 ));
     }

@@ -26,8 +26,9 @@ import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.views.impl.panel.FilthyBackgroundPanel;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Container;
+import java.awt.Frame;
 import java.util.Collection;
 
 /**

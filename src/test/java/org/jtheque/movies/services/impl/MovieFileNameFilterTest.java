@@ -6,8 +6,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileFilter;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /*
  * This file is part of JTheque.

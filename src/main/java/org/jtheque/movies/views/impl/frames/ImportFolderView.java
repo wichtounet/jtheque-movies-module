@@ -30,8 +30,9 @@ import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JList;
+import javax.swing.KeyStroke;
+import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Collection;

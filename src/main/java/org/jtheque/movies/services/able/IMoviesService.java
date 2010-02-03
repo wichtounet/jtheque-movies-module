@@ -123,4 +123,11 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * @return true if the thumbnail is not used else false.
      */
     boolean thumbnailIsNotUsed(String name);
+
+    /**
+     * Return all the movies with invalid files.
+     *
+     * @return A Collection containing all the movies with invalid files. 
+     */
+    Collection<? extends Movie> getMoviesWithInvalidFiles();
 }

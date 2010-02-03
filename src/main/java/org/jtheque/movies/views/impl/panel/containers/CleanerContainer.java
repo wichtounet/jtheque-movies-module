@@ -18,8 +18,8 @@ package org.jtheque.movies.views.impl.panel.containers;
 
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JCheckBox;
+import java.awt.Color;
 
 /**
  * A check box to select a name cleaner.

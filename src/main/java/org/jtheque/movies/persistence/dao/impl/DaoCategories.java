@@ -132,12 +132,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
 
     @Override
     protected void loadCache() {
-        System.out.println("Load categories cache : Table = " + TABLE);
-
-
         java.util.Collection<Category> categories = daoPersistenceContext.getSortedList(TABLE, rowMapper);
-
-        System.out.println("Loaded : " + categories);
 
         for (Category category : categories) {
             getCache().put(category.getId(), category);
