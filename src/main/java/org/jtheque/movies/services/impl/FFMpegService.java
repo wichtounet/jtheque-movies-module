@@ -149,7 +149,11 @@ public final class FFMpegService implements IFFMpegService {
                 CoreUtils.getLogger(getClass()).error(e);
             }
 
+            System.out.println("Image file : " + fileName);
+
             InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName);
+            
+            System.out.println("Stream : " + stream);
 
             BufferedImage image;
             try {
@@ -157,6 +161,8 @@ public final class FFMpegService implements IFFMpegService {
             } catch (HeadlessException e){
                 image = ImageUtils.read(stream);
             }
+
+            System.out.println("Image : " + image);
 
             return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
         }
@@ -166,7 +172,11 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public BufferedImage generateImageFromUserInput(File file) {
+        System.out.println("Image file : " + file.getAbsolutePath());
+
         InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
+
+            System.out.println("Stream : " + stream);
 
         BufferedImage image;
         try {
@@ -174,6 +184,8 @@ public final class FFMpegService implements IFFMpegService {
         } catch (HeadlessException e){
             image = ImageUtils.read(stream);
         }
+
+            System.out.println("Image : " + image);
 
         return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
     }
