@@ -16,13 +16,12 @@ package org.jtheque.movies.persistence.od.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.primary.od.able.Collection;
-import org.jtheque.primary.od.able.Data;
-
 /**
+ * A category specification
+ *
  * @author Baptiste Wicht
  */
-public interface Category extends Data {
+public interface Category extends CollectionData {
     String NAME = "category.name";
     String PARENT = "category.parent";
 
@@ -41,20 +40,6 @@ public interface Category extends Data {
      * @param title The title of the category.
      */
     void setTitle(String title);
-
-    /**
-     * Return the collection.
-     *
-     * @return The collection.
-     */
-    Collection getTheCollection();
-
-    /**
-     * Set the collection of the category.
-     *
-     * @param theCollection The collection of the category.
-     */
-    void setTheCollection(Collection theCollection);
 
     /**
      * Return the parent category.

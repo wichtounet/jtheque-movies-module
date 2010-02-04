@@ -75,8 +75,6 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     public Set<Movie> getMovies(Category category, boolean includeSubCategory) {
-        Set<Movie> movies = new HashSet<Movie>(20);
-
         Collection<Category> categories = new HashSet<Category>(10);
 
         categories.add(category);
@@ -85,14 +83,9 @@ public final class MoviesService implements IMoviesService {
             categories.addAll(categoriesService.getSubCategories(category));
         }
 
-        for (Movie movie : getMovies()) {
-            for (Category cat : categories) {
-                if (movie.isOfCategory(cat)) {
-                    movies.add(movie);
-                    break;
-                }
-            }
-        }
+        Set<Movie> movies = new HashSet<Movie>(getMovies());
+
+        CollectionUtils.filter(movies, new CategoriesFilter(categories));
 
         return movies;
     }
@@ -293,6 +286,37 @@ public final class MoviesService implements IMoviesService {
         @Override
         public boolean accept(Movie movie) {
             return movie.getFile() == null || !new File(movie.getFile()).exists();
+        }
+    }
+
+    /**
+     * A collection to keep only movies with categories in the specified set.
+     *
+     * @author Baptiste Wicht
+     */
+    private static class CategoriesFilter implements Filter<Movie> {
+        private final Collection<Category> categories;
+
+        /**
+         * Construct a new CategoriesFilter.
+         *
+         * @param categories The categories to filter with. 
+         */
+        private CategoriesFilter(Collection<Category> categories) {
+            super();
+
+            this.categories = categories;
+        }
+
+        @Override
+        public boolean accept(Movie movie) {
+            for(Category cat : categories){
+                if(movie.isOfCategory(cat)){
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

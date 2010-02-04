@@ -19,9 +19,8 @@ package org.jtheque.movies.persistence.od.able;
 import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.primary.od.able.Collection;
-import org.jtheque.primary.od.able.Data;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ import java.util.Set;
  *
  * @author Baptiste Wicht
  */
-public interface Movie extends Data {
+public interface Movie extends CollectionData {
     String TITLE = "movie.title";
     String FILE = "movie.file";
     String NOTE = "movie.note";
@@ -39,20 +38,6 @@ public interface Movie extends Data {
 
     int TITLE_LENGTH = 100;
     int FILE_LENGTH = 200;
-
-    /**
-     * Return the collection.
-     *
-     * @return The collection.
-     */
-    Collection getTheCollection();
-
-    /**
-     * Set the collection of the movie.
-     *
-     * @param theCollection The collection of the movie.
-     */
-    void setTheCollection(Collection theCollection);
 
     /**
      * Return the title.
@@ -108,7 +93,7 @@ public interface Movie extends Data {
      *
      * @param categories The categories to add.
      */
-    void addCategories(java.util.Collection<Category> categories);
+    void addCategories(Collection<Category> categories);
 
     /**
      * Add a category to the movie.
@@ -116,14 +101,6 @@ public interface Movie extends Data {
      * @param category The category to add.
      */
     void addCategory(Category category);
-
-    /**
-     * Test if the movie is in the specified collection.
-     *
-     * @param collection The collection to test.
-     * @return true if the movie is in the specified collection else false.
-     */
-    boolean isInCollection(Collection collection);
 
     /**
      * Test if the movie has categories else false.
@@ -201,5 +178,5 @@ public interface Movie extends Data {
      *
      * @param categories The categories of the movie. 
      */
-    void setCategories(java.util.Collection<Category> categories);
+    void setCategories(Collection<Category> categories);
 }

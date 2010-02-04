@@ -25,6 +25,11 @@
             <name>Server-PC-releases</name>
             <url>http://192.168.1.200:8280/artifactory/libs-releases-local</url>
         </repository>
+        <snapshotRepository>
+            <id>Server-PC-snapshots</id>
+            <name>Server-PC-snapshots</name>
+            <url>http://wichtounet.homedns.org:8280/artifactory/libs-snapshots-local</url>
+    </snapshotRepository>
     </distributionManagement>
 
     <issueManagement>
@@ -126,13 +131,13 @@
                     <locales>fr,en</locales>
                 </configuration>
                 <executions>
-                    <execution>
+                    <!-- <execution>
                         <id>deploy-site</id>
                         <phase>deploy</phase>
                         <goals>
                             <goal>deploy</goal>
                         </goals>
-                    </execution>
+                    </execution> -->
                 </executions>
             </plugin>
         </plugins>

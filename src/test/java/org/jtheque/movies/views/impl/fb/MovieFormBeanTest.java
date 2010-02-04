@@ -27,7 +27,6 @@ import org.jtheque.movies.utils.Resolution;
 import org.jtheque.utils.StringUtils;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -36,11 +35,11 @@ import static org.junit.Assert.*;
 public class MovieFormBeanTest {
     @Test
     public void fillMovie(){
-        MovieFormBean fb = new MovieFormBean();
+        IMovieFormBean fb = new MovieFormBean();
 
         PreciseDuration duration = new PreciseDuration(22L);
         Resolution resolution = new Resolution("450x220");
-        Note note = DaoNotes.getInstance().getDefaultNote();
+        Note note = DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED);
 
         Collection<Category> categories = new HashSet<Category>(2);
 

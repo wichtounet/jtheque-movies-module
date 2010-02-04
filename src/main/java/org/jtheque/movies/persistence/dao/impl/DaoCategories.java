@@ -23,9 +23,12 @@ import org.jtheque.core.managers.persistence.able.Entity;
 import org.jtheque.core.managers.persistence.context.IDaoPersistenceContext;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.primary.od.able.Collection;
+import org.jtheque.primary.od.able.Data;
+import org.jtheque.utils.collections.CollectionUtils;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 import javax.annotation.Resource;
@@ -79,20 +82,16 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
      * @param collection The collection to collect categories from.
      * @return A List containing all the categories of the collection.
      */
-    private java.util.Collection<Category> getCategories(Collection collection) {
+    private java.util.Collection<? extends Data> getCategories(Collection collection) {
         if (collection == null || !collection.isSaved()) {
             return getAll();
         }
 
         load();
 
-        java.util.Collection<Category> categories = new ArrayList<Category>(getCache().size() / 2);
+        java.util.Collection<CollectionData> categories = new ArrayList<CollectionData>(getCache().values());
 
-        for (Category category : getCache().values()) {
-            if (category.getTheCollection().getId() == collection.getId()) {
-                categories.add(category);
-            }
-        }
+        CollectionUtils.filter(categories, new CollectionFilter(collection));
 
         return categories;
     }
@@ -134,10 +133,12 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     protected void loadCache() {
         java.util.Collection<Category> categories = daoPersistenceContext.getSortedList(TABLE, rowMapper);
 
+        //First we loads the categories
         for (Category category : categories) {
             getCache().put(category.getId(), category);
         }
 
+        //Then we solve the links between categories
         for (Category category : categories) {
             category.setParent(getCache().get(category.getTemporaryParent()));
         }

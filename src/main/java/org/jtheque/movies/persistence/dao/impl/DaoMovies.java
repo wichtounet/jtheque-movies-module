@@ -25,6 +25,7 @@ import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
@@ -33,6 +34,7 @@ import org.jtheque.movies.utils.Resolution;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.primary.od.able.Data;
 import org.jtheque.utils.StringUtils;
+import org.jtheque.utils.collections.CollectionUtils;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
@@ -98,13 +100,9 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
         load();
 
-        Collection<Movie> movies = new ArrayList<Movie>(getCache().size() / 2);
+        Collection<CollectionData> movies = new ArrayList<CollectionData>(getCache().values());
 
-        for (Movie movie : getCache().values()) {
-            if (movie.isInCollection(collection)) {
-                movies.add(movie);
-            }
-        }
+        CollectionUtils.filter(movies, new CollectionFilter(collection));
 
         return movies;
     }
@@ -247,6 +245,17 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
                 movie.setNote(DaoNotes.getInstance().getDefaultNote());
             }
 
+            mapRelations(movie);
+
+            return movie;
+        }
+
+        /**
+         * Map the relations of the movie.
+         *
+         * @param movie The movie to map the relations for. 
+         */
+        private void mapRelations(Movie movie) {
             if (relationsToCategories != null && !relationsToCategories.isEmpty()) {
                 for (MovieCategoryRelation relation : relationsToCategories) {
                     if (relation.getMovie() == movie.getId()) {
@@ -262,8 +271,6 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 
                 relationsToCategories.clear();
             }
-
-            return movie;
         }
     }
 
@@ -312,4 +319,5 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
 			return values;
 		}
     }
+
 }

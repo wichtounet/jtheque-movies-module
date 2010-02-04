@@ -33,7 +33,7 @@ import java.util.Set;
  */
 public final class MovieFormBean implements IMovieFormBean {
     private String title;
-    private Set<Category> categories = new HashSet<Category>(6);
+    private Collection<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
     private PreciseDuration duration;
@@ -86,7 +86,7 @@ public final class MovieFormBean implements IMovieFormBean {
                 "title='" + title + '\'' +
                 ", categories=" + categories +
                 ", file='" + file + '\'' +
-                ", note=" + note +
+                ", note=" + note.getValue() +
                 ", duration=" + duration +
                 ", resolution=" + resolution +
                 '}';

@@ -110,6 +110,11 @@ public final class CategoryImpl extends AbstractData implements Category {
     //Utility methods
 
     @Override
+    public boolean isInCollection(Collection collection) {
+        return theCollection != null && theCollection.equals(collection);
+    }
+
+    @Override
     public String getDisplayableText() {
         return title;
     }
