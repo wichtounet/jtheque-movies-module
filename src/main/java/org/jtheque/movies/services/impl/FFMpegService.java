@@ -30,9 +30,11 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.ImageUtils;
 
 import javax.annotation.Resource;
+import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -147,8 +149,14 @@ public final class FFMpegService implements IFFMpegService {
                 CoreUtils.getLogger(getClass()).error(e);
             }
 
-            BufferedImage image = ImageUtils.openCompatibleImage(
-                    Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName));
+            InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName);
+
+            BufferedImage image;
+            try {
+                image = ImageUtils.openCompatibleImage(stream);
+            } catch (HeadlessException e){
+                image = ImageUtils.read(stream);
+            }
 
             return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
         }
@@ -158,8 +166,14 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public BufferedImage generateImageFromUserInput(File file) {
-        BufferedImage image = ImageUtils.openCompatibleImage(
-                Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath()));
+        InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
+
+        BufferedImage image;
+        try {
+            image = ImageUtils.openCompatibleImage(stream);
+        } catch (HeadlessException e){
+            image = ImageUtils.read(stream);
+        }
 
         return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
     }
