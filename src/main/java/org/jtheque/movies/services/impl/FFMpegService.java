@@ -30,7 +30,9 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.ImageUtils;
 
 import javax.annotation.Resource;
+import java.awt.Graphics2D;
 import java.awt.HeadlessException;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -149,11 +151,7 @@ public final class FFMpegService implements IFFMpegService {
                 CoreUtils.getLogger(getClass()).error(e);
             }
 
-            System.out.println("Image file : " + fileName);
-
             InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName);
-            
-            System.out.println("Stream : " + stream);
 
             BufferedImage image;
             try {
@@ -162,21 +160,63 @@ public final class FFMpegService implements IFFMpegService {
                 image = ImageUtils.read(stream);
             }
 
-            System.out.println("Image : " + image);
-
-            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+            try {
+                return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+            } catch (HeadlessException e){
+                return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
+            }
         }
 
         return null;
     }
 
+
+    /**
+     * Create a thumbnail of an image.
+     *
+     * @param image              The source image.
+     * @param requestedThumbSize The requested size.
+     * @return The thumbnail
+     */
+    public static BufferedImage createNotCompatibleThumbnail(BufferedImage image, int requestedThumbSize) {
+        float ratio = (float) image.getWidth() / (float) image.getHeight();
+        int width = image.getWidth();
+        boolean divide = requestedThumbSize < width;
+
+        BufferedImage thumb = image;
+
+        do {
+            if (divide) {
+                width /= 2;
+
+                if (width < requestedThumbSize) {
+                    width = requestedThumbSize;
+                }
+            } else {
+                width *= 2;
+
+                if (width > requestedThumbSize) {
+                    width = requestedThumbSize;
+                }
+            }
+
+            BufferedImage temp = new BufferedImage(width, (int) (width / ratio), image.getTransparency());
+
+            Graphics2D g2 = temp.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.drawImage(thumb, 0, 0, temp.getWidth(), temp.getHeight(), null);
+            g2.dispose();
+
+            thumb = temp;
+        } while (width != requestedThumbSize);
+
+        return thumb;
+    }
+
+
     @Override
     public BufferedImage generateImageFromUserInput(File file) {
-        System.out.println("Image file : " + file.getAbsolutePath());
-
         InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
-
-            System.out.println("Stream : " + stream);
 
         BufferedImage image;
         try {
@@ -185,9 +225,11 @@ public final class FFMpegService implements IFFMpegService {
             image = ImageUtils.read(stream);
         }
 
-            System.out.println("Image : " + image);
-
-        return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+        try {
+            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+        } catch (HeadlessException e){
+            return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
+        }
     }
 
     /**
