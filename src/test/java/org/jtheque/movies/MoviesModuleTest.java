@@ -19,7 +19,6 @@ package org.jtheque.movies;
 import org.jtheque.core.managers.core.Core;
 import org.jtheque.core.managers.core.application.Application;
 import org.jtheque.core.managers.resource.ImageType;
-import org.jtheque.core.utils.SystemProperty;
 import org.jtheque.utils.bean.Version;
 import org.jtheque.utils.io.FileUtils;
 import org.junit.Test;
@@ -92,7 +91,7 @@ public class MoviesModuleTest {
 
         @Override
         public String getFolderPath() {
-            return SystemProperty.USER_DIR.get();
+            return System.getenv("JTHEQUE_TESTS");
         }
 
         @Override

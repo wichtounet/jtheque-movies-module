@@ -125,7 +125,7 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Test
     public void generatePreviewImage(){
-        LoggerFactory.getLogger(getClass()).error(testFolder + "gok.avi");
+        System.out.println(testFolder + "gok.avi");
 
         BufferedImage image = ffmMpegService.generatePreviewImage(new File(testFolder + "gok.avi"), "5");
 
@@ -136,7 +136,7 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Test
     public void testGenerateImageFromUserInput(){
-        LoggerFactory.getLogger(getClass()).error(testFolder + "test.jpg");
+        System.out.println(testFolder + "test.jpg");
 
         BufferedImage image = ffmMpegService.generateImageFromUserInput(new File(testFolder + "test.jpg"));
 
