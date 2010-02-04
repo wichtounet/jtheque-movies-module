@@ -17,7 +17,6 @@ package org.jtheque.movies.persistence.od.impl;
  */
 
 import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.properties.IPropertiesManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.utils.db.Note;
@@ -26,6 +25,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
+import org.jtheque.movies.utils.ReflectionUtils;
 import org.jtheque.primary.od.impl.abstraction.AbstractData;
 import org.jtheque.primary.utils.TempUtils;
 import org.jtheque.utils.StringUtils;
@@ -48,12 +48,14 @@ public final class MovieImpl extends AbstractData implements Movie {
 
     private String title;
     private String image;
-    private final Set<Category> categories = new HashSet<Category>(6);
+    private Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
     private org.jtheque.primary.od.able.Collection theCollection;
     private PreciseDuration duration;
     private Resolution resolution;
+
+    private static final String[] FIELDS = {"id", "title", "categories", "file", "note", "theCollection", "duration", "resolution", "image"};
 
     //Data methods
 
@@ -80,6 +82,11 @@ public final class MovieImpl extends AbstractData implements Movie {
     @Override
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @Override
+    public void setCategories(Collection<Category> categories) {
+        this.categories = new HashSet<Category>(categories);
     }
 
     @Override
@@ -170,18 +177,14 @@ public final class MovieImpl extends AbstractData implements Movie {
     @Override
     public void saveToMemento() {
         mementoState = true;
-
-        memento = Managers.getManager(IPropertiesManager.class).createMemento(this);
-
-        if (memento == null) {
-            mementoState = false;
-        }
+        
+        memento = ReflectionUtils.createQuickMemento(this, FIELDS);
     }
 
     @Override
     public void restoreMemento() {
         if (mementoState) {
-            Managers.getManager(IPropertiesManager.class).restoreMemento(this, memento);
+            ReflectionUtils.restoreQuickMemento(this, memento, FIELDS);
         }
     }
 

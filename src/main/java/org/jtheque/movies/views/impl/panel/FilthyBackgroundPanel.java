@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.panel;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.utils.ui.SizeTracker;
 
 import javax.swing.JPanel;
@@ -38,6 +38,6 @@ public final class FilthyBackgroundPanel extends JPanel {
             return;
         }
 
-        gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+        gradientImage = SwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
     }
 }

@@ -247,6 +247,13 @@
             <artifactId>dj-native-swing-swt</artifactId>
             <version>0.9.9-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jtheque</groupId>
+            <artifactId>file-unit</artifactId>
+            <version>1.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <licenses>

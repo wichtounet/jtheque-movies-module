@@ -93,6 +93,14 @@ public class ToCharCategoryParserTest {
     }
 
     @Test
+    public void getExtractedCategoriesWithExisting() {
+        parser.parseFilePath(f);
+        parser.parseFilePath(f);
+
+        assertEquals(2, parser.getExtractedCategories().size());
+    }
+
+    @Test
     public void clearFileName() {
         assertEquals("asdf {cat2}.txt", parser.clearFileName(f.getName()));
     }

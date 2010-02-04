@@ -106,7 +106,8 @@ public final class PreciseDuration {
 
         PreciseDuration that = (PreciseDuration) o;
 
-        return !(hours != that.hours || milliSeconds != that.milliSeconds || minutes != that.minutes || seconds != that.seconds);
+        return getTime() == that.getTime();
+
     }
 
     @Override

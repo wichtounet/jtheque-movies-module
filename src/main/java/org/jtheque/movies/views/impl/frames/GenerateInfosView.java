@@ -21,7 +21,7 @@ import org.jtheque.core.managers.view.able.components.IModel;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IGenerateInfosView;
 import org.jtheque.movies.views.impl.actions.generate.ValidateGenerateInfosViewAction;
 import org.jtheque.movies.views.impl.panel.FilthyRenderer;
@@ -67,12 +67,12 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
 
-        checkBoxDuration = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxResolution = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxImage = TempSwingUtils.addFilthyCheckbox(builder, "movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxDuration = SwingUtils.addFilthyCheckbox(builder, "movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxResolution = SwingUtils.addFilthyCheckbox(builder, "movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxImage = SwingUtils.addFilthyCheckbox(builder, "movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxSub = SwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
                 new ValidateGenerateInfosViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 

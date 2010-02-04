@@ -16,6 +16,7 @@ package org.jtheque.movies.utils;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,6 +43,7 @@ public class PreciseDurationTest {
 
     @Test
     public void testEquals() throws Exception {
+        assertEquals(duration1, duration1);
         assertEquals(duration1, duration2);
         assertEquals(duration2, duration1);
 
@@ -51,6 +53,7 @@ public class PreciseDurationTest {
         assertFalse(duration3.equals(duration1));
         assertFalse(duration3.equals(duration2));
 
+        assertFalse(duration1.equals(new MovieImpl()));
     }
 
     @Test

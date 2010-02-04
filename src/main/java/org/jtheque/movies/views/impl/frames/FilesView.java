@@ -18,7 +18,7 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jdesktop.swingx.JXTable;
 import org.jtheque.core.utils.ui.PanelBuilder;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IFilesView;
 import org.jtheque.movies.views.able.models.ICleanModel;
 import org.jtheque.movies.views.impl.actions.files.RefreshFilesListAction;
@@ -69,7 +69,7 @@ public final class FilesView extends SwingFilthyBuildedDialogView<ICleanModel> i
 
         builder.addScrolled(tableMovies, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 1.0, 1.0));
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL),
                 new RefreshFilesListAction(), getCloseAction("files.actions.close"));
     }
 

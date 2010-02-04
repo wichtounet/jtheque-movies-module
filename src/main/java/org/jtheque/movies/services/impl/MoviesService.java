@@ -56,11 +56,14 @@ public final class MoviesService implements IMoviesService {
     @Resource
     private IFFMpegService ffMpegService;
 
+    @Resource
+    private IMoviesModule moviesModule;
+
     @Override
     public Movie getEmptyMovie() {
         Movie movie = daoMovies.createMovie();
 
-        movie.setTitle(CoreUtils.getMessage("values.new"));
+        movie.setTitle("");
 
         return movie;
     }
@@ -159,7 +162,7 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     public void saveImage(Movie movie, BufferedImage image) {
-        String folder = CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath();
+        String folder = moviesModule.getThumbnailFolderPath();
 
         String imageName = getFreeName(folder, movie.getTitle() + ".png");
 

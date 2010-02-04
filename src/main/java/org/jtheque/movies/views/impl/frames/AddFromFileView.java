@@ -23,7 +23,7 @@ import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
 import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
@@ -70,7 +70,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
                 new ValidateAddFromFileViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 

@@ -66,7 +66,6 @@ public final class FilesService implements IFilesService {
         if (fileNotCreated) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotcreated"));
         }
-
     }
 
     @Override

@@ -17,6 +17,7 @@ package org.jtheque.movies.services;
  */
 
 import org.apache.log4j.Logger;
+import org.jtheque.core.managers.persistence.able.DataListener;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
@@ -141,6 +142,23 @@ public class CategoriesServiceMockTest {
         replay(daoCategories);
 
         categoriesService.clearAll();
+
+        verify(daoCategories);
+    }
+
+    @Test
+    public void testAddDataListener() {
+        final DataListener listener = new DataListener() {
+            @Override
+            public void dataChanged() {
+            }
+        };
+
+        daoCategories.addDataListener(listener);
+
+        replay(daoCategories);
+
+        categoriesService.addDataListener(listener);
 
         verify(daoCategories);
     }

@@ -52,7 +52,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Baptiste Wicht
  */
-public final class TempSwingUtils {
+public final class SwingUtils {
     private static final BufferedImage LIGHT;
     private static final LinearGradientPaint BACKGROUND_PAINT;
 
@@ -64,7 +64,7 @@ public final class TempSwingUtils {
     /**
      * Utility class, not instanciable.
      */
-    private TempSwingUtils() {
+    private SwingUtils() {
         super();
     }
 

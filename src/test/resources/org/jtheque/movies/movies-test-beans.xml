@@ -25,15 +25,15 @@
     <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
     <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
 
-    <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
+    <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser" scope="prototype">
         <constructor-arg value="{"/>
         <constructor-arg value="}"/>
     </bean>
 
-    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser">
+    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser" scope="prototype">
         <constructor-arg value="-"/>
     </bean>
 
-    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"/>
+    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser" scope="prototype"/>
 
 </beans>

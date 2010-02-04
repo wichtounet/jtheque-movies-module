@@ -5,11 +5,14 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
+import org.jtheque.movies.utils.FileUtils;
+import org.jtheque.movies.utils.Resolution;
 import org.jtheque.primary.od.able.Collection;
 import org.jtheque.primary.od.impl.CollectionImpl;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -205,5 +208,46 @@ public class MovieImplTest {
 
         assertFalse(movie.equals(movie2));
         assertFalse(movie2.equals(movie));
+    }
+
+    @Test
+    public void memento(){
+        movie.setTitle("Title before");
+        movie.setFile("File before");
+        movie.setResolution(new Resolution("450x600"));
+
+        movie.saveToMemento();
+
+        movie.setTitle("Title after");
+        movie.setFile("File after");
+        movie.setResolution(new Resolution("600x450"));
+
+        movie.restoreMemento();
+
+        assertEquals("Title before", movie.getTitle());
+        assertEquals("File before", movie.getFile());
+        assertEquals("0450x0600", movie.getResolution().toString());
+    }
+
+    @Test
+    public void getFileSize(){
+        assertEquals(0, movie.getFileSize());
+
+        File f = FileUtils.getAnExistingFile();
+
+        movie.setFile(f.getAbsolutePath());
+
+        assertEquals(f.length(), movie.getFileSize());
+    }
+
+    @Test
+    public void getLastModifiedData(){
+        assertNull(movie.getFileLastModifiedDate());
+
+        File f = FileUtils.getAnExistingFile();
+
+        movie.setFile(f.getAbsolutePath());
+
+        assertEquals(f.lastModified(), movie.getFileLastModifiedDate().getTime());
     }
 }

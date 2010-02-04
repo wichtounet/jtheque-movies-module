@@ -87,19 +87,28 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     }
 
     @Test
+    public void getCategories() {
+        Collection<Category> categories = daoCategories.getCategories();
+
+        assertEquals(2, categories.size());
+    }
+
+    @Test
+    public void getCategoriesWithNoCollection() {
+        daoCollections.setCurrentCollection(null);
+
+        Collection<Category> categories = daoCategories.getCategories();
+
+        assertEquals(3, categories.size());
+    }
+
+    @Test
     public void getCategoryById() {
         Category cat = daoCategories.getCategory(2);
 
         assertNotNull(cat);
         assertEquals("Category 2", cat.getTitle());
         assertEquals(1, cat.getTheCollection().getId());
-    }
-
-    @Test
-    public void getCategories() {
-        Collection<Category> categories = daoCategories.getCategories();
-
-        assertEquals(2, categories.size());
     }
 
     @Test
@@ -138,6 +147,17 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     public void saveCategory() {
         Category cat = daoCategories.getCategory(1);
         cat.setTitle("New title");
+
+        daoCategories.save(cat);
+
+        assertEquals("New title", getValue("T_MOVIE_CATEGORIES", 0, "TITLE").toString());
+    }
+
+    @Test
+    public void saveCategoryWithNoParent() {
+        Category cat = daoCategories.getCategory(1);
+        cat.setTitle("New title");
+        cat.setParent(null);
 
         daoCategories.save(cat);
 

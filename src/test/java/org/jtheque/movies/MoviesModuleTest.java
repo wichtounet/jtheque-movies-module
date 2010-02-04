@@ -59,7 +59,7 @@ public class MoviesModuleTest {
                 Core.getInstance().getFolders().getApplicationFolder()));
     }
 
-    private static class EmptyApplication implements Application {
+    public static class EmptyApplication implements Application {
         @Override
         public String getLogo() {
             return null;

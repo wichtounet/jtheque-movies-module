@@ -195,4 +195,11 @@ public interface Movie extends Data {
      * @param image The image of the movie.
      */
 	void setImage(String image);
+
+    /**
+     * Set the categories of the movie.
+     *
+     * @param categories The categories of the movie. 
+     */
+    void setCategories(java.util.Collection<Category> categories);
 }

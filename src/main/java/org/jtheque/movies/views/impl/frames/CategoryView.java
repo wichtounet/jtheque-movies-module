@@ -23,7 +23,7 @@ import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogV
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
@@ -31,7 +31,6 @@ import org.jtheque.movies.views.impl.models.CategoryModel;
 import org.jtheque.movies.views.impl.panel.FilthyRenderer;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.utils.ui.SwingUtils;
 
 import javax.swing.Action;
 import java.util.Collection;
@@ -85,7 +84,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
         fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         ConstraintManager.configure(fieldName.getTextField(), Category.NAME);
-        SwingUtils.addFieldValidateAction(fieldName, saveAction);
+        org.jtheque.utils.ui.SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 
@@ -94,7 +93,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 1));
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
                 saveAction, getCloseAction("category.actions.cancel"));
     }
 

@@ -33,7 +33,7 @@ import org.jtheque.core.utils.ui.FilthyPanelBuilder;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.actions.movies.CollapseAction;
@@ -238,7 +238,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
                 return;
             }
 
-            gradientImage = TempSwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+            gradientImage = SwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
         }
 
         @Override

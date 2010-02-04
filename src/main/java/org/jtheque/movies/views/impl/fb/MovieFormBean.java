@@ -22,15 +22,18 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
+ * A form bean to keep data about movies.
+ *
  * @author Baptiste Wicht
  */
 public final class MovieFormBean implements IMovieFormBean {
     private String title;
-    private Collection<Category> categories = new ArrayList<Category>(6);
+    private Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
     private PreciseDuration duration;
@@ -43,7 +46,7 @@ public final class MovieFormBean implements IMovieFormBean {
 
     @Override
     public void setCategories(Collection<Category> categories) {
-        this.categories = new ArrayList<Category>(categories);
+        this.categories = new HashSet<Category>(categories);
     }
 
     @Override
@@ -69,6 +72,7 @@ public final class MovieFormBean implements IMovieFormBean {
     @Override
     public void fillMovie(Movie movie) {
         movie.setTitle(title);
+        movie.setCategories(categories);
         movie.addCategories(categories);
         movie.setNote(note);
         movie.setFile(file);

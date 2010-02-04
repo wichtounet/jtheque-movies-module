@@ -96,6 +96,13 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     }
 
     @Test
+    public void getMoviesWithNoCollection() {
+        daoCollections.setCurrentCollection(null);
+
+        assertEquals(6, daoMovies.getMovies().size());
+    }
+
+    @Test
     public void createEmptyMovie() {
         Movie movie = daoMovies.createMovie();
 

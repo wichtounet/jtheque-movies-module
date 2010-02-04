@@ -231,12 +231,20 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
             movie.setTitle(rs.getString("TITLE"));
             movie.setFile(rs.getString("FILE"));
             movie.setImage(rs.getString("IMAGE"));
-            movie.setResolution(new Resolution(rs.getString("RESOLUTION")));
-            movie.setDuration(new PreciseDuration(rs.getLong("DURATION")));
             movie.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
 
+            if(StringUtils.isNotEmpty(rs.getString("RESOLUTION"))){
+                movie.setResolution(new Resolution(rs.getString("RESOLUTION")));
+            }
+
+            if(StringUtils.isNotEmpty(rs.getString("DURATION"))){
+                movie.setDuration(new PreciseDuration(rs.getLong("DURATION")));
+            }
+            
             if (StringUtils.isNotEmpty(rs.getString("NOTE"))) {
                 movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
+            } else {
+                movie.setNote(DaoNotes.getInstance().getDefaultNote());
             }
 
             if (relationsToCategories != null && !relationsToCategories.isEmpty()) {

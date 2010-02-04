@@ -25,7 +25,7 @@ import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
@@ -74,7 +74,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         imagePanel = builder.add(new JXImagePanel(), builder.gbcSet(0, 2, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 0, -1, 1.0, 1.0));
         imagePanel.setOpaque(false);
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
                 new ValidateImageViewAction(), getCloseAction("movie.image.actions.cancel"));
     }
 
@@ -85,7 +85,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
      */
     private void addFFmpegActions(PanelBuilder parent) {
         PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
-        builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.ffmpeg"));
+        builder.getPanel().setBorder(SwingUtils.createFilthyTitledBorder("movie.image.ffmpeg"));
 
         builder.addButton(new GenerateRandomImageAction(), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
 
@@ -105,7 +105,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
      */
     private void addFileActions(PanelBuilder parent) {
         PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
-        builder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.image.file"));
+        builder.getPanel().setBorder(SwingUtils.createFilthyTitledBorder("movie.image.file"));
         builder.getPanel().setOpaque(false);
 
         imageChooser = builder.add(new FilthyFileChooserPanel(true), builder.gbcSet(0, 0));

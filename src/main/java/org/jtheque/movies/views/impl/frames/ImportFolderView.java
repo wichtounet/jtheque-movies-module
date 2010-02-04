@@ -21,7 +21,7 @@ import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.actions.movies.folder.DeleteFileAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.ImportFilesAction;
@@ -112,7 +112,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
                 new ImportFilesAction(), getCloseAction("movie.auto.folder.actions.cancel"));
     }
 

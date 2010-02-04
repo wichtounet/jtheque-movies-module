@@ -18,7 +18,7 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.movies.utils.TempSwingUtils;
+import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.models.ICleanModel;
 import org.jtheque.movies.views.impl.actions.clean.ValidateCleanViewAction;
@@ -67,7 +67,7 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
     @Override
     protected void buildView(PanelBuilder builder) {
         PanelBuilder optionsBuilder = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-        optionsBuilder.getPanel().setBorder(TempSwingUtils.createFilthyTitledBorder("movie.clean.options"));
+        optionsBuilder.getPanel().setBorder(SwingUtils.createFilthyTitledBorder("movie.clean.options"));
 
         int i = 0;
 
@@ -75,10 +75,10 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
             optionsBuilder.add(container, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        checkBoxSub = TempSwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories",
+        checkBoxSub = SwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories",
                 builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 
-        TempSwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
+        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
                 new ValidateCleanViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 

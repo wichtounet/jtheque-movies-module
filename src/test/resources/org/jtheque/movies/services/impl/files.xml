@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <T_COLLECTIONS ID='1' TITLE='Collection 1' PROTECTED='FALSE' PASSWORD='' IMPL='Movies'/>
+
+    <T_MOVIE_CATEGORIES ID='1' TITLE='Category 1' THE_PARENT_FK="1" THE_COLLECTION_FK='1'/>
+
+    <T_MOVIES ID='1' TITLE='Movie 1' NOTE='5' FILE='C:\movies\movie1.avi' THE_COLLECTION_FK='1' RESOLUTION='0200x0400'
+              DURATION='2500' IMAGE='Movie 1.jpg'/>
+
+    <T_MOVIES_CATEGORIES THE_MOVIE_FK='1' THE_CATEGORY_FK='1'/>
+</dataset>        

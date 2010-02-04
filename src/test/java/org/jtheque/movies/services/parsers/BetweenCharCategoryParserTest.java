@@ -94,6 +94,7 @@ public class BetweenCharCategoryParserTest {
 
     @Test
     public void clearFileName() {
+        parser.parseFilePath(f);
         assertEquals("  asdf .txt", parser.clearFileName(f.getName()));
     }
 }

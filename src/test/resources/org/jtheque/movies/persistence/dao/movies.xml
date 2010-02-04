@@ -17,7 +17,7 @@
               DURATION='20500' IMAGE='Movie 4.jpg'/>
     <T_MOVIES ID='5' TITLE='Movie 5' NOTE='1' FILE='C:\movies\movie5' THE_COLLECTION_FK='1' RESOLUTION='480x400'
               DURATION='52500' IMAGE='Movie 5.jpg'/>
-    <T_MOVIES ID='6' TITLE='Movie 6' NOTE='1' FILE='C:\movies\movie6' THE_COLLECTION_FK='2' RESOLUTION='600x400'
+    <T_MOVIES ID='6' TITLE='Movie 6' FILE='C:\movies\movie6' THE_COLLECTION_FK='2' RESOLUTION='600x400'
               DURATION='12500' IMAGE='Movie 6.jpg'/>
 
     <T_MOVIES_CATEGORIES THE_MOVIE_FK='1' THE_CATEGORY_FK='1'/>

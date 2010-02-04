@@ -29,6 +29,7 @@ import org.jtheque.movies.utils.Resolution;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.ImageUtils;
 
+import javax.annotation.Resource;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,9 @@ public final class FFMpegService implements IFFMpegService {
     private static final int THUMBNAIL_WIDTH = 200;
     private static final int MAX_RANDOM_TIME = 50;
     private static final Pattern MILLISECONDS_PATTERN = Pattern.compile("\\.");
+
+    @Resource
+    private IMoviesModule moviesModule;
 
     @Override
     public Resolution getResolution(File f) {
@@ -128,9 +132,9 @@ public final class FFMpegService implements IFFMpegService {
     @Override
     public BufferedImage generatePreviewImage(File f, String time) {
         if (ffmpegIsInstalled()) {
-            String fileName = getModule().getThumbnailFolderPath() + "temp.jpg";
+            String fileName = moviesModule.getThumbnailFolderPath() + "temp.jpg";
 
-            SimpleApplicationConsumer p = new SimpleApplicationConsumer(getModule().getConfig().getFFmpegLocation(),
+            SimpleApplicationConsumer p = new SimpleApplicationConsumer(moviesModule.getConfig().getFFmpegLocation(),
                     "-i", f.getAbsolutePath(),
                     "-f", "mjpeg",
                     "-t", "0.001",
@@ -165,8 +169,8 @@ public final class FFMpegService implements IFFMpegService {
      *
      * @return true if it's installed else false.
      */
-    private static boolean ffmpegIsInstalled() {
-        IMovieConfiguration config = getModule().getConfig();
+    private boolean ffmpegIsInstalled() {
+        IMovieConfiguration config = moviesModule.getConfig();
 
         boolean notInstalled = StringUtils.isEmpty(config.getFFmpegLocation()) || !new File(config.getFFmpegLocation()).exists();
 
@@ -184,7 +188,7 @@ public final class FFMpegService implements IFFMpegService {
      * @return A Scanner on the informations result.
      */
     private Scanner getInformations(File f) {
-        IMovieConfiguration config = getModule().getConfig();
+        IMovieConfiguration config = moviesModule.getConfig();
 
         SimpleApplicationConsumer p = new SimpleApplicationConsumer(config.getFFmpegLocation(), "-i", f.getAbsolutePath());
 
@@ -197,15 +201,6 @@ public final class FFMpegService implements IFFMpegService {
         }
 
         return null;
-    }
-
-    /**
-     * Return the movies module.
-     *
-     * @return The movies module.
-     */
-    private static IMoviesModule getModule() {
-        return CoreUtils.getBean("moviesModule");
     }
 
     /**

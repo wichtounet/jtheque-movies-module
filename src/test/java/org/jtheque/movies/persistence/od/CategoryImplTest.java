@@ -76,4 +76,9 @@ public class CategoryImplTest {
         assertFalse(category.equals(category2));
         assertFalse(category2.equals(category));
     }
+
+    @Test
+    public void equalsNull() {
+        assertFalse(category.equals(null));
+    }
 }

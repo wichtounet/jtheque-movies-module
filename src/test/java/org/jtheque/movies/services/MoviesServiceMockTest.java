@@ -17,6 +17,7 @@ package org.jtheque.movies.services;
  */
 
 import org.apache.log4j.Logger;
+import org.jtheque.core.managers.persistence.able.DataListener;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
@@ -130,6 +131,23 @@ public class MoviesServiceMockTest {
         replay(daoMovies);
 
         moviesService.clearAll();
+
+        verify(daoMovies);
+    }
+
+    @Test
+    public void testAddDataListener() {
+        final DataListener listener = new DataListener() {
+            @Override
+            public void dataChanged() {
+            }
+        };
+
+        daoMovies.addDataListener(listener);
+
+        replay(daoMovies);
+
+        moviesService.addDataListener(listener);
 
         verify(daoMovies);
     }
