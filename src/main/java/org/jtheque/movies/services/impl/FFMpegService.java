@@ -18,6 +18,7 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.InternationalizedError;
+import org.jtheque.core.managers.log.ILoggingManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.utils.CoreUtils;
@@ -152,36 +153,55 @@ public final class FFMpegService implements IFFMpegService {
                 CoreUtils.getLogger(getClass()).error(e);
             }
 
-            System.out.println("Image file : " + fileName);
-
-            InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + fileName);
-
-            System.out.println("Stream : " + stream);
-
-            BufferedImage image = null;
-            try {
-                image = ImageUtils.openCompatibleImage(stream);
-            } catch (HeadlessException e){
-                try {
-                        ImageIO.setUseCache(false);
-                    image = ImageIO.read(new File(fileName));
-                } catch (IOException e1) {
-                    System.out.println(e1.getMessage());
-                }
-            }
-
-            System.out.println("Image : " + image);
-
-            try {
-                return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
-            } catch (HeadlessException e){
-                return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
-            }
+            return createThumbnail(openImage(new File(fileName)));
         }
 
         return null;
     }
 
+    @Override
+    public BufferedImage generateImageFromUserInput(File file) {
+        return createThumbnail(openImage(file));
+    }
+
+    /**
+     * Open the image specified by a file.
+     *
+     * @param file The file of the image.
+     *
+     * @return The thumbnail of the image.
+     */
+    private static BufferedImage openImage(File file) {
+        InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
+
+        BufferedImage image = null;
+        try {
+            image = ImageUtils.openCompatibleImage(stream);
+        } catch (HeadlessException e){
+            try {
+                ImageIO.setUseCache(false);
+                image = ImageIO.read(file);
+            } catch (IOException e1) {
+                Managers.getManager(ILoggingManager.class).getLogger(FFMpegService.class).error(e);
+            }
+        }
+        return image;
+    }
+
+    /**
+     * Create a thumbnail for the specified image. This method works in normal and in headless mode.
+     *
+     * @param image The image to create thumbnail from.
+     *
+     * @return A thumbnail.
+     */
+    private static BufferedImage createThumbnail(BufferedImage image) {
+        try {
+            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
+        } catch (HeadlessException e){
+            return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
+        }
+    }
 
     /**
      * Create a thumbnail of an image.
@@ -223,37 +243,6 @@ public final class FFMpegService implements IFFMpegService {
         } while (width != requestedThumbSize);
 
         return thumb;
-    }
-
-
-    @Override
-    public BufferedImage generateImageFromUserInput(File file) {
-        System.out.println("Image file : " + file.getAbsolutePath());
-
-        InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
-
-            System.out.println("Stream : " + stream);
-
-        BufferedImage image = null;
-        try {
-            image = ImageUtils.openCompatibleImage(stream);
-        } catch (HeadlessException e){
-            try {
-                        ImageIO.setUseCache(false);
-                image = ImageIO.read(file);
-            } catch (IOException e1) {
-                System.out.println(e1.getMessage());
-            }
-        }
-
-            System.out.println("Image : " + image);
-
-
-        try {
-            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
-        } catch (HeadlessException e){
-            return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
-        }
     }
 
     /**

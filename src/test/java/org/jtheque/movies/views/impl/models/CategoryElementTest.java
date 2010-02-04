@@ -26,11 +26,12 @@ import static org.junit.Assert.*;
 public class CategoryElementTest {
     @Test
     public void getElementName(){
-        CategoryElement element = new CategoryElement("Super category");
+        TreeElement element = new CategoryElement("Super category");
 
         assertEquals("Super category", element.getElementName());
         assertEquals(0, element.getChildCount());
         assertTrue(element.isLeaf());
+        assertTrue(element.isRoot());
         assertTrue(element.isCategory());
     }
 

@@ -28,6 +28,13 @@ import java.lang.reflect.Method;
  */
 public class ReflectionUtils {
     /**
+     * Utility class, not instanciable.
+     */
+    private ReflectionUtils() {
+        super();
+    }
+
+    /**
      * Create a quick memento using the specified fields.
      *
      * @param bean The bean to create the memento from.
@@ -49,7 +56,6 @@ public class ReflectionUtils {
                 getSetterMethod(instance, field).invoke(instance, value);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             LoggerFactory.getLogger(ReflectionUtils.class).error(e.getMessage(), e);
         }
 
@@ -71,7 +77,6 @@ public class ReflectionUtils {
                 getSetterMethod(bean, field).invoke(bean, value);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             LoggerFactory.getLogger(ReflectionUtils.class).error(e.getMessage(), e);
         }
     }

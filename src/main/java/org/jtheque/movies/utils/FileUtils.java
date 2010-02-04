@@ -23,7 +23,7 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-public class FileUtils {
+public final class FileUtils {
     /**
      * Utility class, not instanciable. 
      */
