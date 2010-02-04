@@ -30,6 +30,7 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.ImageUtils;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.HeadlessException;
 import java.awt.RenderingHints;
@@ -157,11 +158,16 @@ public final class FFMpegService implements IFFMpegService {
 
             System.out.println("Stream : " + stream);
 
-            BufferedImage image;
+            BufferedImage image = null;
             try {
                 image = ImageUtils.openCompatibleImage(stream);
             } catch (HeadlessException e){
-                image = ImageUtils.read(stream);
+                try {
+                        ImageIO.setUseCache(false);
+                    image = ImageIO.read(new File(fileName));
+                } catch (IOException e1) {
+                    System.out.println(e1.getMessage());
+                }
             }
 
             System.out.println("Image : " + image);
@@ -228,11 +234,16 @@ public final class FFMpegService implements IFFMpegService {
 
             System.out.println("Stream : " + stream);
 
-        BufferedImage image;
+        BufferedImage image = null;
         try {
             image = ImageUtils.openCompatibleImage(stream);
         } catch (HeadlessException e){
-            image = ImageUtils.read(stream);
+            try {
+                        ImageIO.setUseCache(false);
+                image = ImageIO.read(file);
+            } catch (IOException e1) {
+                System.out.println(e1.getMessage());
+            }
         }
 
             System.out.println("Image : " + image);

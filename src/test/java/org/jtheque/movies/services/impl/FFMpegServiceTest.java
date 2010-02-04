@@ -116,6 +116,8 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Test
     public void generateRandomPreviewImage(){
+        System.out.println("Test generate random preview : " + testFolder + "gok.avi");
+
         BufferedImage image = ffmMpegService.generateRandomPreviewImage(new File(testFolder + "gok.avi"));
 
         assertNotNull(image);
@@ -125,7 +127,7 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Test
     public void generatePreviewImage(){
-        System.out.println(testFolder + "gok.avi");
+        System.out.println("Test generate preview : " + testFolder + "gok.avi");
 
         BufferedImage image = ffmMpegService.generatePreviewImage(new File(testFolder + "gok.avi"), "5");
 
@@ -136,7 +138,7 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Test
     public void testGenerateImageFromUserInput(){
-        System.out.println(testFolder + "test.jpg");
+        System.out.println("Test generate preview from user : " + testFolder + "test.jpg");
 
         BufferedImage image = ffmMpegService.generateImageFromUserInput(new File(testFolder + "test.jpg"));
 
