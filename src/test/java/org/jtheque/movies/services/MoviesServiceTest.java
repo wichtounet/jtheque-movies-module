@@ -42,6 +42,7 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -51,8 +52,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -319,7 +323,16 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
 
     @Test
     public void saveImage(){
-        BufferedImage image = ImageUtils.openCompatibleImageFromFileSystem(testFolder + "test.jpg");
+        BufferedImage image = null;
+        try {
+            image = ImageUtils.openCompatibleImageFromFileSystem(testFolder + "test.jpg");
+        } catch (HeadlessException e){
+            try {
+                image = ImageUtils.read(new FileInputStream(testFolder + "test.jpg"));
+            } catch (FileNotFoundException e1) {
+                LoggerFactory.getLogger(getClass()).error(e1.getMessage());
+            }
+        }
 
         Movie movie = moviesService.getMovie("Movie 1");
 
