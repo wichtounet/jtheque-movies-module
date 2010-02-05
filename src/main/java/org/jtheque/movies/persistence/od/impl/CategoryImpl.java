@@ -19,7 +19,8 @@ package org.jtheque.movies.persistence.od.impl;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.od.able.Collection;
 import org.jtheque.primary.od.impl.abstraction.AbstractData;
-import org.jtheque.primary.utils.TempUtils;
+import org.jtheque.utils.bean.EqualsUtils;
+import org.jtheque.utils.bean.HashCodeUtils;
 
 /**
  * A category implementation.
@@ -126,7 +127,7 @@ public final class CategoryImpl extends AbstractData implements Category {
 
     @Override
     public int hashCode() {
-        return TempUtils.hashCodeDirect(getId(), title, theCollection);
+        return HashCodeUtils.hashCodeDirect(getId(), title, theCollection);
     }
 
     @Override
@@ -137,7 +138,7 @@ public final class CategoryImpl extends AbstractData implements Category {
 
         Category category = (Category) obj;
 
-        return TempUtils.areEqualsDirect(this, category,
+        return EqualsUtils.areEqualsDirect(this, category,
                 getId(), title, theCollection,
                 category.getId(), category.getTitle(), category.getTheCollection());
     }

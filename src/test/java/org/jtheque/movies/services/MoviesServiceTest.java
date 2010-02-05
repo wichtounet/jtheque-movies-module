@@ -34,11 +34,12 @@ import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.FFMpegServiceTest;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.movies.utils.FileUtils;
 import org.jtheque.primary.PrimaryUtils;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.primary.od.impl.CollectionImpl;
 import org.jtheque.utils.StringUtils;
+import org.jtheque.utils.bean.BeanUtils;
+import org.jtheque.utils.io.FileUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -124,26 +125,13 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
         collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
-        
-        try {
-            Field f = MoviesModule.class.getDeclaredField("config");
-            f.setAccessible(true);
-            f.set(moviesModule, new MovieConfiguration());
 
-            Field f2 = Core.class.getDeclaredField("application");
-            f2.setAccessible(true);
-            f2.set(Core.getInstance(), new MoviesModuleTest.EmptyApplication());
+        BeanUtils.set(moviesModule, "config", new MovieConfiguration());
+        BeanUtils.set(Core.getInstance(), "application", new MoviesModuleTest.EmptyApplication());
 
-            Field f3 = Managers.class.getDeclaredField("MANAGERS");
-            f3.setAccessible(true);
+        Map<Class<?>, IManager> managers = BeanUtils.getStatic(Managers.class, "MANAGERS");
 
-            Map<Class<?>, IManager> managers = (Map<Class<?>, IManager>) f3.get(null);
-            managers.put(IResourceManager.class, new FFMpegServiceTest.TestResourceManager(applicationContext));
-        } catch (IllegalAccessException e) {
-            fail(e.getMessage());
-        } catch (NoSuchFieldException e) {
-            fail(e.getMessage());
-        }
+        managers.put(IResourceManager.class, new FFMpegServiceTest.TestResourceManager(applicationContext));
         
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
         testFolder = System.getenv("JTHEQUE_TESTS");
@@ -323,16 +311,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
 
     @Test
     public void saveImage(){
-        BufferedImage image = null;
-        try {
-            image = ImageUtils.openCompatibleImageFromFileSystem(testFolder + "test.jpg");
-        } catch (HeadlessException e){
-            try {
-                image = ImageUtils.read(new FileInputStream(testFolder + "test.jpg"));
-            } catch (FileNotFoundException e1) {
-                LoggerFactory.getLogger(getClass()).error(e1.getMessage());
-            }
-        }
+        BufferedImage image = ImageUtils.openCompatibleImageFromFileSystem(testFolder + "test.jpg");
 
         Movie movie = moviesService.getMovie("Movie 1");
 

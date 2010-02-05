@@ -24,11 +24,11 @@ import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
-import org.jtheque.movies.MoviesModule;
 import org.jtheque.movies.MoviesModuleTest;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
+import org.jtheque.utils.bean.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +48,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -76,25 +75,12 @@ public class FFMpegServiceTest implements ApplicationContextAware{
 
     @Before
     public void setUp(){
-        try {
-            Field f = MoviesModule.class.getDeclaredField("config");
-            f.setAccessible(true);
-            f.set(moviesModule, new MovieConfiguration());
+        BeanUtils.set(moviesModule, "config", new MovieConfiguration());
+        BeanUtils.set(Core.getInstance(), "application", new MoviesModuleTest.EmptyApplication());
 
-            Field f2 = Core.class.getDeclaredField("application");
-            f2.setAccessible(true);
-            f2.set(Core.getInstance(), new MoviesModuleTest.EmptyApplication());
+        Map<Class<?>, IManager> managers = BeanUtils.getStatic(Managers.class, "MANAGERS");
 
-            Field f3 = Managers.class.getDeclaredField("MANAGERS");
-            f3.setAccessible(true);
-
-            Map<Class<?>, IManager> managers = (Map<Class<?>, IManager>) f3.get(null);
-            managers.put(IResourceManager.class, new TestResourceManager(applicationContext));
-        } catch (IllegalAccessException e) {
-            fail(e.getMessage());
-        } catch (NoSuchFieldException e) {
-            fail(e.getMessage());
-        }
+        managers.put(IResourceManager.class, new TestResourceManager(applicationContext));
 
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
         testFolder = System.getenv("JTHEQUE_TESTS");

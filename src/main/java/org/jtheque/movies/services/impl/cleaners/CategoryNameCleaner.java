@@ -17,8 +17,8 @@ package org.jtheque.movies.services.impl.cleaners;
  */
 
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.utils.StringUtils;
 
 /**
  * @author Baptiste Wicht
@@ -31,12 +31,6 @@ public final class CategoryNameCleaner implements NameCleaner {
 
     @Override
     public String clearName(Movie movie, String name) {
-        String cleared = name;
-
-        for (Category cat : movie.getCategories()) {
-            cleared = cleared.replace(cat.getTitle(), "");
-        }
-
-        return cleared;
+        return StringUtils.delete(name, movie.getCategories().toArray());
     }
 }

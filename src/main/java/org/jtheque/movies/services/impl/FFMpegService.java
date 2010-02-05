@@ -18,7 +18,6 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.log.ILoggingManager;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.able.IViewManager;
 import org.jtheque.core.utils.CoreUtils;
@@ -27,14 +26,12 @@ import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
+import org.jtheque.utils.ScannerUtils;
 import org.jtheque.utils.StringUtils;
+import org.jtheque.utils.io.SimpleApplicationConsumer;
 import org.jtheque.utils.ui.ImageUtils;
 
 import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -62,22 +59,16 @@ public final class FFMpegService implements IFFMpegService {
     @Override
     public Resolution getResolution(File f) {
         if (ffmpegIsInstalled()) {
-            Scanner scanner = getInformations(f);
+            String line = ScannerUtils.getLineStartingWith(getInformations(f), "Stream #0.0: Video:");
 
-            if (scanner != null) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine().trim();
+            if(StringUtils.isNotEmpty(line)){
+                String resolution = PATTERN.split(line)[2].trim();
 
-                    if (line.startsWith("Stream #0.0: Video:")) {
-                        String resolution = PATTERN.split(line)[2].trim();
-
-                        if (resolution.contains(" ")) {
-                            resolution = resolution.substring(0, resolution.indexOf(' '));
-                        }
-
-                        return new Resolution(resolution);
-                    }
+                if (resolution.contains(" ")) {
+                    resolution = resolution.substring(0, resolution.indexOf(' '));
                 }
+
+                return new Resolution(resolution);
             }
         }
 
@@ -87,16 +78,10 @@ public final class FFMpegService implements IFFMpegService {
     @Override
     public PreciseDuration getDuration(File f) {
         if (ffmpegIsInstalled()) {
-            Scanner scanner = getInformations(f);
+            String line = ScannerUtils.getLineStartingWith(getInformations(f), "Duration:");
 
-            if (scanner != null) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine().trim();
-
-                    if (line.startsWith("Duration:")) {
-                        return new PreciseDuration(formatDuration(line));
-                    }
-                }
+            if(StringUtils.isNotEmpty(line)){
+                return new PreciseDuration(formatDuration(line));
             }
         }
 
@@ -153,7 +138,7 @@ public final class FFMpegService implements IFFMpegService {
                 CoreUtils.getLogger(getClass()).error(e);
             }
 
-            return createThumbnail(openImage(new File(fileName)));
+            return ImageUtils.createThumbnail(openImage(new File(fileName)), THUMBNAIL_WIDTH);
         }
 
         return null;
@@ -161,7 +146,7 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public BufferedImage generateImageFromUserInput(File file) {
-        return createThumbnail(openImage(file));
+        return ImageUtils.createThumbnail(openImage(file), THUMBNAIL_WIDTH);
     }
 
     /**
@@ -172,77 +157,13 @@ public final class FFMpegService implements IFFMpegService {
      * @return The thumbnail of the image.
      */
     private static BufferedImage openImage(File file) {
+        if(ImageUtils.isHeadless()){
+            return ImageUtils.read(file);
+        }
+
         InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
 
-        BufferedImage image = null;
-        try {
-            image = ImageUtils.openCompatibleImage(stream);
-        } catch (HeadlessException e){
-            try {
-                ImageIO.setUseCache(false);
-                image = ImageIO.read(file);
-            } catch (IOException e1) {
-                Managers.getManager(ILoggingManager.class).getLogger(FFMpegService.class).error(e);
-            }
-        }
-        return image;
-    }
-
-    /**
-     * Create a thumbnail for the specified image. This method works in normal and in headless mode.
-     *
-     * @param image The image to create thumbnail from.
-     *
-     * @return A thumbnail.
-     */
-    private static BufferedImage createThumbnail(BufferedImage image) {
-        try {
-            return ImageUtils.createThumbnail(image, THUMBNAIL_WIDTH);
-        } catch (HeadlessException e){
-            return createNotCompatibleThumbnail(image, THUMBNAIL_WIDTH);
-        }
-    }
-
-    /**
-     * Create a thumbnail of an image.
-     *
-     * @param image              The source image.
-     * @param requestedThumbSize The requested size.
-     * @return The thumbnail
-     */
-    public static BufferedImage createNotCompatibleThumbnail(BufferedImage image, int requestedThumbSize) {
-        float ratio = (float) image.getWidth() / (float) image.getHeight();
-        int width = image.getWidth();
-        boolean divide = requestedThumbSize < width;
-
-        BufferedImage thumb = image;
-
-        do {
-            if (divide) {
-                width /= 2;
-
-                if (width < requestedThumbSize) {
-                    width = requestedThumbSize;
-                }
-            } else {
-                width *= 2;
-
-                if (width > requestedThumbSize) {
-                    width = requestedThumbSize;
-                }
-            }
-
-            BufferedImage temp = new BufferedImage(width, (int) (width / ratio), image.getTransparency());
-
-            Graphics2D g2 = temp.createGraphics();
-            g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            g2.drawImage(thumb, 0, 0, temp.getWidth(), temp.getHeight(), null);
-            g2.dispose();
-
-            thumb = temp;
-        } while (width != requestedThumbSize);
-
-        return thumb;
+        return ImageUtils.openCompatibleImage(stream);
     }
 
     /**

@@ -24,7 +24,6 @@ import org.jtheque.movies.utils.Resolution;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A form bean to keep data about movies.

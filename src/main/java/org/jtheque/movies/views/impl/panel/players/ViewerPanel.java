@@ -85,6 +85,7 @@ public final class ViewerPanel extends JPanel {
      */
     public void setFile(File file) {
         labelFile.setText(file.getAbsolutePath());
+        player.load(file);
     }
 
     /**

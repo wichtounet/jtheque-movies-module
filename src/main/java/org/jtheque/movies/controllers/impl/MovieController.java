@@ -103,8 +103,13 @@ public final class MovieController extends PrincipalController<Movie> implements
         return getState() == getNewObjectState() || getState() == getModifyState();
     }
 
-    @Override
-    public void displayViewer(String view, File file) {
+    /**
+     * Display the specified viewer and load the specified file.
+     *
+     * @param view The viewer to display.
+     * @param file The file to open. 
+     */
+    private void displayViewer(String view, File file) {
         if (view.equals(IMovieView.WMP_VIEW)) {
             setCurrentViewer(file, new ViewerPanel(new WMPPlayer()));
         } else if (view.equals(IMovieView.VLC_VIEW)) {

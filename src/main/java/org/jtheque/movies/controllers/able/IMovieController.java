@@ -40,14 +40,6 @@ public interface IMovieController extends IPrincipalController<Movie> {
     boolean isEditing();
 
     /**
-     * Display the viewer.
-     *
-     * @param wmpView The viewer id to display.
-     * @param file    The file to play.
-     */
-    void displayViewer(String wmpView, File file);
-
-    /**
      * Close the current viewer.
      */
     void closeViewer();

@@ -25,13 +25,13 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.movies.utils.ReflectionUtils;
 import org.jtheque.primary.od.impl.abstraction.AbstractData;
-import org.jtheque.primary.utils.TempUtils;
-import org.jtheque.utils.StringUtils;
+import org.jtheque.utils.bean.BeanUtils;
+import org.jtheque.utils.bean.EqualsUtils;
+import org.jtheque.utils.bean.HashCodeUtils;
+import org.jtheque.utils.io.FileUtils;
 
 import javax.swing.Icon;
-import java.io.File;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -153,7 +153,7 @@ public final class MovieImpl extends AbstractData implements Movie {
 
     @Override
     public int hashCode() {
-        return TempUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution, image);
+        return HashCodeUtils.hashCodeDirect(title, categories, file, note, theCollection, duration, resolution, image);
     }
 
     @Override
@@ -168,7 +168,7 @@ public final class MovieImpl extends AbstractData implements Movie {
 
         Movie movie = (Movie) obj;
 
-        return TempUtils.areEqualsDirect(this, movie,
+        return EqualsUtils.areEqualsDirect(this, movie,
                 title, categories, file, note, theCollection, duration, resolution, image,
                 movie.getTitle(), movie.getCategories(), movie.getFile(), movie.getNote(), movie.getTheCollection(),
                 movie.getDuration(), movie.getResolution(), movie.getImage());
@@ -178,13 +178,13 @@ public final class MovieImpl extends AbstractData implements Movie {
     public void saveToMemento() {
         mementoState = true;
         
-        memento = ReflectionUtils.createQuickMemento(this, FIELDS);
+        memento = BeanUtils.createQuickMemento(this, FIELDS);
     }
 
     @Override
     public void restoreMemento() {
         if (mementoState) {
-            ReflectionUtils.restoreQuickMemento(this, memento, FIELDS);
+            BeanUtils.restoreQuickMemento(this, memento, FIELDS);
         }
     }
 
@@ -215,22 +215,12 @@ public final class MovieImpl extends AbstractData implements Movie {
 
     @Override
     public Date getFileLastModifiedDate() {
-        if (StringUtils.isEmpty(file)) {
-            return null;
-        }
-
-        long lastModified = new File(file).lastModified();
-
-        return lastModified == 0L ? null : new Date(lastModified);
+        return FileUtils.getLastModifiedDate(file);
     }
 
     @Override
     public long getFileSize() {
-        if (StringUtils.isEmpty(file)) {
-            return 0;
-        }
-
-        return new File(file).length();
+        return FileUtils.getFileSize(file);
     }
 
     @Override

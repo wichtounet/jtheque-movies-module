@@ -23,7 +23,6 @@ import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
-import org.jtheque.movies.MoviesModule;
 import org.jtheque.movies.MoviesModuleTest;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.services.able.IFFMpegService;
@@ -34,6 +33,7 @@ import org.jtheque.movies.services.impl.parsers.ToCharCategoryParser;
 import org.jtheque.primary.PrimaryUtils;
 import org.jtheque.primary.dao.able.IDaoCollections;
 import org.jtheque.primary.od.impl.CollectionImpl;
+import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.unit.file.FileUnit;
 import org.junit.After;
 import org.junit.Before;
@@ -49,7 +49,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -96,25 +95,12 @@ public class FilesServiceTest extends AbstractDBUnitTest implements ApplicationC
 
     @Before
     public void setUpAll(){
-        try {
-            Field f = MoviesModule.class.getDeclaredField("config");
-            f.setAccessible(true);
-            f.set(moviesModule, new MovieConfiguration());
+        BeanUtils.set(moviesModule, "config", new MovieConfiguration());
+        BeanUtils.set(Core.getInstance(), "application", new MoviesModuleTest.EmptyApplication());
 
-            Field f2 = Core.class.getDeclaredField("application");
-            f2.setAccessible(true);
-            f2.set(Core.getInstance(), new MoviesModuleTest.EmptyApplication());
+        Map<Class<?>, IManager> managers = BeanUtils.getStatic(Managers.class, "MANAGERS");
 
-            Field f3 = Managers.class.getDeclaredField("MANAGERS");
-            f3.setAccessible(true);
-
-            Map<Class<?>, IManager> managers = (Map<Class<?>, IManager>) f3.get(null);
-            managers.put(IResourceManager.class, new FFMpegServiceTest.TestResourceManager(applicationContext));
-        } catch (IllegalAccessException e) {
-            fail(e.getMessage());
-        } catch (NoSuchFieldException e) {
-            fail(e.getMessage());
-        }
+        managers.put(IResourceManager.class, new FFMpegServiceTest.TestResourceManager(applicationContext));
 
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
 

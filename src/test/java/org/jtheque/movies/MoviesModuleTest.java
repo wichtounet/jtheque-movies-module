@@ -19,6 +19,7 @@ package org.jtheque.movies;
 import org.jtheque.core.managers.core.Core;
 import org.jtheque.core.managers.core.application.Application;
 import org.jtheque.core.managers.resource.ImageType;
+import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.Version;
 import org.jtheque.utils.io.FileUtils;
 import org.junit.Test;
@@ -28,7 +29,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.io.File;
-import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
@@ -43,11 +43,7 @@ public class MoviesModuleTest {
 
     @Test
     public void testGetThumbnailFolderPath() throws Exception {
-        Field f = Core.class.getDeclaredField("application");
-
-        f.setAccessible(true);
-
-        f.set(Core.getInstance(), new EmptyApplication());
+        BeanUtils.set(Core.getInstance(), "application", new EmptyApplication());
 
         assertNotNull(moviesModule.getThumbnailFolderPath());
 

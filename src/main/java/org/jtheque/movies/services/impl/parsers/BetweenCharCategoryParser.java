@@ -18,6 +18,7 @@ package org.jtheque.movies.services.impl.parsers;
 
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.utils.StringUtils;
 
 import java.io.File;
 
@@ -68,7 +69,7 @@ public final class BetweenCharCategoryParser extends AbstractSimpleCategoryParse
         String name = fileName;
 
         for (Category cat : getExtractedCategories()) {
-            name = name.replace(characterStart + cat.getTitle() + characterEnd, "");
+            name = StringUtils.delete(name, characterStart + cat.getTitle() + characterEnd);
         }
 
         return name;

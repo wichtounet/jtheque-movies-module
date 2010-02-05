@@ -18,6 +18,7 @@ package org.jtheque.movies.services.impl.cleaners;
 
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.utils.StringUtils;
 
 /**
  * @author Baptiste Wicht
@@ -43,6 +44,6 @@ public final class CharCleaner implements NameCleaner {
 
     @Override
     public String clearName(Movie movie, String name) {
-        return name.replace(character, "");
+        return StringUtils.delete(name, character);
     }
 }

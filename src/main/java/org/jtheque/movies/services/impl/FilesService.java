@@ -27,7 +27,7 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.utils.collections.CollectionUtils;
+import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -128,30 +128,6 @@ public final class FilesService implements IFilesService {
 
     @Override
     public Collection<File> getMovieFiles(File folder) {
-        if (folder.isDirectory()) {
-            Collection<File> files = new ArrayList<File>(50);
-
-            readFolder(folder, files);
-
-            return files;
-        } else {
-            return CollectionUtils.emptyList();
-        }
-    }
-
-    /**
-     * Read the folder and all the files of the folder in the collection.
-     *
-     * @param folder The folder to read.
-     * @param files  The collection to add the files to.
-     */
-    private static void readFolder(File folder, Collection<File> files) {
-        for (File file : folder.listFiles(new MovieFileNameFilter())) {
-            if (file.isDirectory()) {
-                readFolder(file, files);
-            } else {
-                files.add(file);
-            }
-        }
+        return FileUtils.getFilesOfFolder(folder, new MovieFileNameFilter());
     }
 }

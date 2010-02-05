@@ -28,6 +28,7 @@ import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.utils.collections.CollectionUtils;
 import org.jtheque.utils.collections.Filter;
+import org.jtheque.utils.io.FileUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -157,7 +158,7 @@ public final class MoviesService implements IMoviesService {
     public void saveImage(Movie movie, BufferedImage image) {
         String folder = moviesModule.getThumbnailFolderPath();
 
-        String imageName = getFreeName(folder, movie.getTitle() + ".png");
+        String imageName = FileUtils.getFreeName(folder, movie.getTitle() + ".png");
 
         try {
             ImageIO.write(image, "png", new File(folder + imageName));
@@ -230,32 +231,6 @@ public final class MoviesService implements IMoviesService {
         }
     }
 
-    /**
-     * Return the next free name for the specified name in the specified folder.
-     * If there is also a file named name in the specified folder, it will search for files
-     * name[n].extension while it find a not existing file.
-     *
-     * @param folder The folder to search free name in.
-     * @param name   The name to add.
-     * @return The next free name for the specified name in the specified folder.
-     */
-    private static String getFreeName(String folder, String name) {
-        if (new File(folder, name).exists()) {
-            int count = 1;
-
-            String freeName;
-
-            do {
-                freeName = name.substring(0, name.lastIndexOf('.')) + '[' + count + ']' + name.substring(name.lastIndexOf('.'));
-                count++;
-            } while (new File(folder, freeName).exists());
-
-            return freeName;
-        }
-
-        return name;
-    }
-
     @Override
     public Collection<Movie> getDatas() {
         return getMovies();
@@ -294,7 +269,7 @@ public final class MoviesService implements IMoviesService {
      *
      * @author Baptiste Wicht
      */
-    private static class CategoriesFilter implements Filter<Movie> {
+    private static final class CategoriesFilter implements Filter<Movie> {
         private final Collection<Category> categories;
 
         /**
