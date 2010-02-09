@@ -89,7 +89,7 @@ public final class FFMpegService implements IFFMpegService {
     }
 
     /**
-     * Format the durationof the movie.
+     * Format the duration of the movie.
      *
      * @param line The line of the duration.
      *

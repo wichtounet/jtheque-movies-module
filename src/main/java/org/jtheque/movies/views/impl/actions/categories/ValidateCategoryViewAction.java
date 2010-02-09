@@ -41,9 +41,7 @@ public final class ValidateCategoryViewAction extends JThequeAction {
         ICategoryView view = CoreUtils.getBean("categoryView");
 
         if (view.validateContent()) {
-            String title = view.getCategoryName();
-
-            CoreUtils.<ICategoryController>getBean("categoryController").save(title, view.getSelectedCategory());
+            CoreUtils.<ICategoryController>getBean("categoryController").save(view.getCategoryName(), view.getSelectedCategory());
         }
     }
 }

@@ -17,9 +17,7 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.persistence.able.DataContainer;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingBuildedDialogView;
 import org.jtheque.core.utils.ui.PanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -27,9 +25,9 @@ import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
+import org.jtheque.movies.views.impl.models.CategoriesComboModel;
 import org.jtheque.movies.views.impl.models.CategoryModel;
 import org.jtheque.movies.views.impl.panel.FilthyRenderer;
-import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.Action;
@@ -42,7 +40,7 @@ import java.util.Collection;
  */
 public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryModel> implements ICategoryView {
     private FilthyTextField fieldName;
-    private DataContainerCachedComboBoxModel<Category> categoriesModel;
+    private CategoriesComboModel categoriesModel;
 
     private static final int FIELD_COLUMNS = 15;
 
@@ -88,8 +86,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 
-        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-                SwingBuildedDialogView.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new CategoriesComboModel();
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 1));
 
@@ -104,7 +101,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
     @Override
     public Category getSelectedCategory() {
-        return categoriesModel.getSelectedData();
+        return categoriesModel.getSelectedCategory();
     }
 
     @Override

@@ -62,23 +62,32 @@ public final class CategoryController extends AbstractController implements ICat
 
     @Override
     public void save(String title, Category parent) {
-        if (CoreUtils.<ICategoriesService>getBean("categoriesService").existsInOtherCategory(title, parent)) {
+        if (CoreUtils.<ICategoriesService>getBean("categoriesService").existsInOtherCategory(title, getCurrentCategory())) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("category.errors.exists"));
         } else {
-            categoryView.getModel().getCategory().setTitle(title);
-            categoryView.getModel().getCategory().setParent(parent);
+            getCurrentCategory().setTitle(title);
+            getCurrentCategory().setParent(parent);
 
             if (categoryView.getModel().getState() == ViewMode.NEW) {
-                categoriesService.create(categoryView.getModel().getCategory());
+                categoriesService.create(getCurrentCategory());
 
                 Managers.getManager(IUndoRedoManager.class).addEdit(
                         new GenericDataCreatedEdit<Category>("categoriesService", categoryView.getModel().getCategory()));
             } else {
-                categoriesService.save(categoryView.getModel().getCategory());
+                categoriesService.save(getCurrentCategory());
             }
 
             closeView();
         }
+    }
+
+    /**
+     * Return the current category.
+     *
+     * @return The current category. 
+     */
+    private Category getCurrentCategory() {
+        return categoryView.getModel().getCategory();
     }
 
     @Override

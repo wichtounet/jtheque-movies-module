@@ -21,8 +21,6 @@ import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.primary.controller.able.IPrincipalController;
 
-import java.io.File;
-
 /**
  * @author Baptiste Wicht
  */

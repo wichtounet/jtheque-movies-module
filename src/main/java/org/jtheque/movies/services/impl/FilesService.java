@@ -80,6 +80,8 @@ public final class FilesService implements IFilesService {
         movie.setResolution(ffMpegService.getResolution(file));
         movie.setDuration(ffMpegService.getDuration(file));
 
+        moviesService.saveImage(movie, ffMpegService.generateRandomPreviewImage(file));
+
         extractCategoriesAndTitle(filePath, parsers, movie);
 
         moviesService.create(movie);

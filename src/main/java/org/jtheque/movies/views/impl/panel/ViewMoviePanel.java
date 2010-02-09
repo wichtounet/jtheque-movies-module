@@ -191,6 +191,8 @@ public final class ViewMoviePanel extends MoviePanel {
         if (StringUtils.isNotEmpty(movie.getImage())) {
             imagePanel.setImage(Managers.getManager(IResourceManager.class).getImage("file:" +
                     CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage()));
+        } else {
+            imagePanel.setImage(null);
         }
 
         categoriesModel.clear();
