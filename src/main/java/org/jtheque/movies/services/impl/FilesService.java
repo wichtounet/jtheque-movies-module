@@ -77,10 +77,12 @@ public final class FilesService implements IFilesService {
 
         File file = new File(filePath);
 
-        movie.setResolution(ffMpegService.getResolution(file));
-        movie.setDuration(ffMpegService.getDuration(file));
+        if(ffMpegService.ffmpegIsInstalled()){
+            movie.setResolution(ffMpegService.getResolution(file));
+            movie.setDuration(ffMpegService.getDuration(file));
 
-        moviesService.saveImage(movie, ffMpegService.generateRandomPreviewImage(file));
+            moviesService.saveImage(movie, ffMpegService.generateRandomPreviewImage(file));
+        }
 
         extractCategoriesAndTitle(filePath, parsers, movie);
 

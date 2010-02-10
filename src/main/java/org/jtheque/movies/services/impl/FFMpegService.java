@@ -58,7 +58,7 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public Resolution getResolution(File f) {
-        if (ffmpegIsInstalled()) {
+        if (testFFMpegIsInstalled()) {
             String line = ScannerUtils.getLineStartingWith(getInformations(f), "Stream #0.0: Video:");
 
             if(StringUtils.isNotEmpty(line)){
@@ -77,7 +77,7 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public PreciseDuration getDuration(File f) {
-        if (ffmpegIsInstalled()) {
+        if (testFFMpegIsInstalled()) {
             String line = ScannerUtils.getLineStartingWith(getInformations(f), "Duration:");
 
             if(StringUtils.isNotEmpty(line)){
@@ -122,7 +122,7 @@ public final class FFMpegService implements IFFMpegService {
 
     @Override
     public BufferedImage generatePreviewImage(File f, String time) {
-        if (ffmpegIsInstalled()) {
+        if (testFFMpegIsInstalled()) {
             String fileName = moviesModule.getThumbnailFolderPath() + "temp.jpg";
 
             SimpleApplicationConsumer p = new SimpleApplicationConsumer(moviesModule.getConfig().getFFmpegLocation(),
@@ -167,20 +167,25 @@ public final class FFMpegService implements IFFMpegService {
     }
 
     /**
-     * Indicate if FFMpeg is installed or not.
+     * Indicate if FFMpeg is installed or not. If it's not installed, this method will display an error message.
      *
      * @return true if it's installed else false.
      */
-    private boolean ffmpegIsInstalled() {
-        IMovieConfiguration config = moviesModule.getConfig();
-
-        boolean notInstalled = StringUtils.isEmpty(config.getFFmpegLocation()) || !new File(config.getFFmpegLocation()).exists();
+    private boolean testFFMpegIsInstalled() {
+        boolean notInstalled = !ffmpegIsInstalled();
 
         if (notInstalled) {
             Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.ffmpeg"));
         }
 
         return !notInstalled;
+    }
+
+    @Override
+    public boolean ffmpegIsInstalled() {
+        IMovieConfiguration config = moviesModule.getConfig();
+
+        return StringUtils.isNotEmpty(config.getFFmpegLocation()) && new File(config.getFFmpegLocation()).exists();
     }
 
     /**

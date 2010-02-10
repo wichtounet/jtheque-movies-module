@@ -69,4 +69,11 @@ public interface IFFMpegService {
      *         null if this not possible to get that information.
      */
     BufferedImage generateImageFromUserInput(File file);
+    
+    /**
+     * Indicate if FFMpeg is installed or not.
+     *
+     * @return true if it's installed else false.
+     */
+    boolean ffmpegIsInstalled();
 }

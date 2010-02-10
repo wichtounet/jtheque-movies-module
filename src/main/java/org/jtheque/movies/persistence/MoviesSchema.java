@@ -26,7 +26,7 @@ import org.jtheque.utils.bean.Version;
 
 /**
  * The database schema for the Movies Module.
- *
+ *e
  * @author Baptiste Wicht
  */
 public final class MoviesSchema extends AbstractSchema {

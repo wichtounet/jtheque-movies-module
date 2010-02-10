@@ -29,7 +29,7 @@
             <id>Server-PC-snapshots</id>
             <name>Server-PC-snapshots</name>
             <url>http://wichtounet.homedns.org:8280/artifactory/libs-snapshots-local</url>
-    </snapshotRepository>
+        </snapshotRepository>
     </distributionManagement>
 
     <issueManagement>
@@ -141,6 +141,14 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ftp</artifactId>
+                <version>1.0-beta-5</version>
+            </extension>
+        </extensions>
     </build>
 
     <reporting>
@@ -233,6 +241,12 @@
             <groupId>org.jtheque</groupId>
             <artifactId>jtheque-primary-utils</artifactId>
             <version>1.3.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jtheque</groupId>
+                    <artifactId>jtheque-utils</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
