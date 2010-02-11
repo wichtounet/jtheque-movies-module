@@ -138,7 +138,7 @@
                 <artifactId>maven-scm-plugin</artifactId>
                 <configuration>
                     <tag>${BUILD_NUMBER}</tag>
-                    <tagBase>http://wichtounet.homedns.org/svn/jtheque-movies-modules/continuous/</tagBase>
+                    <tagBase>http://wichtounet.homedns.org/svn/jtheque-movies-module/continuous/</tagBase>
                     <username>wichtounet</username>
                     <password>${svn.password}</password>
                 </configuration>
