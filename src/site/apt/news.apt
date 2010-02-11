@@ -1,5 +1,11 @@
 News
 
+* 11.02.2010 JTheque Movies Module 1.3.1
+
+    La version 1.3.1 de JTheque Movies Module est maintenant disponible. Cette nouvelle version intègre maintenant
+    une hiéarchie de catégories (parents - enfants). De plus, il est maintenant possible de récupérer des informations sur la vidéo,
+    comme la durée, la résolution ou une image de la vidéo.
+
 * 19.12.2009 JTheque Movies Module 1.3
 
     Je viens de terminer la version 1.3 de JTheque Movies Module. Cette nouvelle version voit son interface

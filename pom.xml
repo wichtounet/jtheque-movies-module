@@ -10,7 +10,7 @@
     <artifactId>jtheque-movies-module</artifactId>
     <packaging>jar</packaging>
     <name>JTheque Movies Module</name>
-    <version>1.3.1-SNAPSHOT</version>
+    <version>1.3.1</version>
 
     <url>http://jtheque.developpez.com/collections/movies/</url>
 
@@ -138,7 +138,7 @@
                 <artifactId>maven-scm-plugin</artifactId>
                 <configuration>
                     <tag>${BUILD_NUMBER}</tag>
-                    <tagBase>http://wichtounet.homedns.org/svn/jtheque-movies-module/continuous/</tagBase>
+                    <tagBase>http://wichtounet.homedns.org/svn/jtheque-movies-modules/continuous/</tagBase>
                     <username>wichtounet</username>
                     <password>${svn.password}</password>
                 </configuration>
@@ -244,18 +244,6 @@
             <groupId>org.jtheque</groupId>
             <artifactId>jtheque-primary-utils</artifactId>
             <version>1.3.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jtheque</groupId>
-                    <artifactId>jtheque-utils</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jtheque</groupId>
-            <artifactId>jtheque-utils</artifactId>
-            <version>1.1.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>

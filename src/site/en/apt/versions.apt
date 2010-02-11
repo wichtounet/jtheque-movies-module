@@ -2,6 +2,13 @@ Versions
 
 This document present the different versions of JTheque Movies Module.
 
+* 1.3.1 07.02.2010 JTheque Core 2.0.3.1, informations from FFMpeg
+
+    * JTheque Core 2.0.3.1
+    * Get informations automatically from movie file
+    * Categories hierarchy (parent - childs)
+    * Better automatic generation  from files
+
 * 1.3 19.12.2009 Switch JTheque Core 2.0.2, New interface
 
     * New user interface

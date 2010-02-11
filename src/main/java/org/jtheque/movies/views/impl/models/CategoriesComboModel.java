@@ -35,9 +35,9 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
 
 	private List<Category> datas;
 
-    private final Category EMPTY_CATEGORY;
+    private final Category emptyCategory;
 
-	/**
+    /**
 	 * Construct a new CategoriesComboMode.
 	 */
 	public CategoriesComboModel(){
@@ -45,12 +45,12 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
 
 		categoriesService = CoreUtils.getBean("categoriesService");
 
-        EMPTY_CATEGORY = categoriesService.getEmptyCategory();
+        emptyCategory = categoriesService.getEmptyCategory();
 
 		datas = new ArrayList<Category>(categoriesService.getDatas());
-        datas.add(EMPTY_CATEGORY);
+        datas.add(emptyCategory);
 
-        EMPTY_CATEGORY.setTitle(" ");
+        emptyCategory.setTitle(" ");
 
 		categoriesService.addDataListener(this);
 	}
@@ -68,7 +68,7 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
     @Override
     public int getIndexOf(Object anObject) {
         if(anObject == null){
-            return super.getIndexOf(EMPTY_CATEGORY);
+            return super.getIndexOf(emptyCategory);
         }
 
         return super.getIndexOf(anObject);
@@ -82,13 +82,13 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
 	public Category getSelectedCategory(){
         Category selected = (Category) getSelectedItem();
 
-		return selected == EMPTY_CATEGORY ? null : selected;
+		return selected == emptyCategory ? null : selected;
 	}
 
     @Override
     public void setSelectedItem(Object anObject) {
         if(anObject == null){
-            super.setSelectedItem(EMPTY_CATEGORY);
+            super.setSelectedItem(emptyCategory);
         }
 
         super.setSelectedItem(anObject);
@@ -97,7 +97,7 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
     @Override
 	public void dataChanged(){
 		datas = new ArrayList<Category>(categoriesService.getDatas());
-        datas.add(EMPTY_CATEGORY);
+        datas.add(emptyCategory);
 
 		fireContentsChanged(this, 0, getSize());
 	}
