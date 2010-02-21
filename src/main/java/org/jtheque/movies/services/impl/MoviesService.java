@@ -62,7 +62,7 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     public Movie getEmptyMovie() {
-        Movie movie = daoMovies.createMovie();
+        Movie movie = daoMovies.create();
 
         movie.setTitle("");
 
@@ -162,7 +162,7 @@ public final class MoviesService implements IMoviesService {
 
         try {
             ImageIO.write(image, "png", new File(folder + imageName));
-
+            
             movie.setImage(imageName);
         } catch (IOException e) {
             CoreUtils.getLogger(getClass()).error(e);

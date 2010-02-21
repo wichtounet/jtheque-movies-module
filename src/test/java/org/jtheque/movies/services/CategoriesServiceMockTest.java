@@ -115,7 +115,7 @@ public class CategoriesServiceMockTest {
 
     @Test
     public void testGetEmptyCategory() {
-        expect(daoCategories.createCategory()).andReturn(new CategoryImpl(""));
+        expect(daoCategories.create()).andReturn(new CategoryImpl(""));
 
         replay(daoCategories);
 

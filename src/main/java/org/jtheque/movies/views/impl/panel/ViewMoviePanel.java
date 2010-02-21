@@ -12,8 +12,9 @@ import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -86,7 +87,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private void build() {
         setOpaque(false);
 
-        PanelBuilder builder = new FilthyPanelBuilder(this);
+        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
 
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
@@ -123,7 +124,7 @@ public final class ViewMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the panel.
      */
-    private void addFileField(PanelBuilder builder) {
+    private void addFileField(I18nPanelBuilder builder) {
         builder.addI18nLabel("movie.file", Font.BOLD, builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, -1, 1));
 
         labelFile = builder.addLabel("", builder.gbcSet(1, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 0, 1));
@@ -134,7 +135,7 @@ public final class ViewMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the panel.
      */
-    private void addNoteField(PanelBuilder builder) {
+    private void addNoteField(I18nPanelBuilder builder) {
         builder.addI18nLabel("movie.note", Font.BOLD, builder.gbcSet(0, 3, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, -1, 1));
 
         notePanel = builder.add(new JXImagePanel(), builder.gbcSet(1, 3, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
@@ -152,7 +153,7 @@ public final class ViewMoviePanel extends MoviePanel {
         ListCellRenderer renderer = new IconListRenderer(
                 Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
 
-        builder.addList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
+        builder.addScrolledList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }
 
     /**
@@ -170,7 +171,7 @@ public final class ViewMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the panel.
      */
-    private void addFileInformations(PanelBuilder builder) {
+    private void addFileInformations(I18nPanelBuilder builder) {
         labelDate = builder.addI18nLabel("", builder.gbcSet(0, 5, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
         labelSize = builder.addI18nLabel("", builder.gbcSet(0, 6, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
         labelDuration = builder.addI18nLabel("", builder.gbcSet(0, 7, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));

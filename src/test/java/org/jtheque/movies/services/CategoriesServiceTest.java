@@ -18,12 +18,12 @@ package org.jtheque.movies.services;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jtheque.core.managers.collection.Collection;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.able.Collection;
-import org.jtheque.primary.od.impl.CollectionImpl;
+import org.jtheque.core.managers.collection.IDaoCollections;
+import org.jtheque.core.managers.collection.CollectionImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -72,7 +72,6 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
-        collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
     }

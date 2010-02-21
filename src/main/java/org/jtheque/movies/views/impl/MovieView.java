@@ -29,11 +29,12 @@ import org.jtheque.core.managers.view.impl.components.panel.AbstractPanelView;
 import org.jtheque.core.managers.view.impl.components.panel.CardPanel;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.FilthyUtils;
+import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.actions.movies.CollapseAction;
@@ -131,7 +132,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
          */
         @PostConstruct
         private void build() {
-            PanelBuilder builder = new FilthyPanelBuilder(this);
+            I18nPanelBuilder builder = new FilthyPanelBuilder(this);
 
             buildPanelList(builder);
             buildPanelMovie(builder);
@@ -148,10 +149,10 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
          *
          * @param parent The parent builder.
          */
-        private void buildPanelList(PanelBuilder parent) {
+        private void buildPanelList(I18nPanelBuilder parent) {
             parent.setDefaultInsets(new Insets(2, 2, 2, 5));
 
-            PanelBuilder builder = parent.addPanel(new BorderLayout(2, 2),
+            I18nPanelBuilder builder = parent.addPanel(new BorderLayout(2, 2),
                     parent.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, LIST_COLUMN, 1.0));
 
             parent.setDefaultInsets(new Insets(2, 2, 2, 2));
@@ -169,8 +170,8 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
          *
          * @param builder The panel builder.
          */
-        private void addTitle(PanelBuilder builder) {
-            PanelBuilder titleBuilder = builder.addPanel(BorderLayout.NORTH);
+        private void addTitle(I18nPanelBuilder builder) {
+            I18nPanelBuilder titleBuilder = builder.addPanel(BorderLayout.NORTH);
 
             JLabel label = titleBuilder.addI18nLabel("movie.panel.list.title",
                     titleBuilder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
@@ -187,10 +188,10 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
          *
          * @param builder The panel builder.
          */
-        private void addTree(PanelBuilder builder) {
+        private void addTree(I18nPanelBuilder builder) {
             MoviesSorter.sort(treeModel);
 
-            treeMovies = builder.addScrolledTree(treeModel, new FilthyCellRenderer(), BorderLayout.CENTER);
+            treeMovies = (JXTree) builder.addScrolledTree(treeModel, new FilthyCellRenderer(), BorderLayout.CENTER);
         }
 
         /**
@@ -198,8 +199,8 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
          *
          * @param builder The panel builder.
          */
-        private void addActions(PanelBuilder builder) {
-            PanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
+        private void addActions(I18nPanelBuilder builder) {
+            I18nPanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
 
             panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
                     builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
@@ -238,7 +239,7 @@ public final class MovieView extends AbstractDelegatedView<MovieView.MovieViewIm
                 return;
             }
 
-            gradientImage = SwingUtils.paintFilthyBackground(g, gradientImage, tracker, this);
+            gradientImage = FilthyUtils.paintFilthyBackground(g, gradientImage, tracker, this);
         }
 
         @Override

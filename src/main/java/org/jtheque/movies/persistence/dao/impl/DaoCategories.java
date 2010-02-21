@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.persistence.GenericDao;
+import org.jtheque.core.managers.persistence.CachedJDBCDao;
 import org.jtheque.core.managers.persistence.Query;
 import org.jtheque.core.managers.persistence.QueryMapper;
 import org.jtheque.core.managers.persistence.able.Entity;
@@ -25,10 +25,11 @@ import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.able.Collection;
+import org.jtheque.core.managers.collection.IDaoCollections;
+import org.jtheque.core.managers.collection.Collection;
 import org.jtheque.primary.od.able.Data;
 import org.jtheque.utils.collections.CollectionUtils;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 import javax.annotation.Resource;
@@ -43,11 +44,9 @@ import java.util.List;
  *
  * @author Baptiste Wicht
  */
-public final class DaoCategories extends GenericDao<Category> implements IDaoCategories {
-    private final ParameterizedRowMapper<Category> rowMapper = new CategoryRowMapper();
+public final class DaoCategories extends CachedJDBCDao<Category> implements IDaoCategories {
+    private final RowMapper<Category> rowMapper = new CategoryRowMapper();
     private final QueryMapper queryMapper = new CategoryQueryMapper();
-
-    private boolean cacheEntirelyLoaded;
 
     @Resource
     private IDaoPersistenceContext daoPersistenceContext;
@@ -108,18 +107,18 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
     }
 
     @Override
-    public Category createCategory() {
+    public Category create() {
         return new CategoryImpl();
-    }
-
-    @Override
-    protected ParameterizedRowMapper<Category> getRowMapper() {
-        return rowMapper;
     }
 
     @Override
     protected QueryMapper getQueryMapper() {
         return queryMapper;
+    }
+
+    @Override
+    protected RowMapper<Category> getRowMapper() {
+        return rowMapper;
     }
 
     @Override
@@ -143,7 +142,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
             category.setParent(getCache().get(category.getTemporaryParent()));
         }
 
-        setEntirelyLoaded();
+        setCacheEntirelyLoaded();
     }
 
     @Override
@@ -153,13 +152,9 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
         getCache().put(i, category);
     }
 
-    /**
-     * Set if the cache has been entirely loaded or not.
-     */
-    void setEntirelyLoaded() {
-        cacheEntirelyLoaded = true;
-
-        setCacheEntirelyLoaded();
+    @Override
+    public boolean exists(Category entity) {
+        return getCategory(entity.getTitle()) != null;
     }
 
     /**
@@ -175,7 +170,7 @@ public final class DaoCategories extends GenericDao<Category> implements IDaoCat
             category.setId(rs.getInt("ID"));
             category.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
 
-            if (cacheEntirelyLoaded) {
+            if (isCacheEntirelyLoaded()) {
                 category.setParent(getCategory(rs.getInt("THE_PARENT_FK")));
             } else {
                 category.setTemporaryParent(rs.getInt("THE_PARENT_FK"));

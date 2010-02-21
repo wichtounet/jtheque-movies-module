@@ -71,7 +71,7 @@ public final class CategoriesService implements ICategoriesService {
 
     @Override
     public Category getEmptyCategory() {
-        return daoCategories.createCategory();
+        return daoCategories.create();
     }
 
     @Override

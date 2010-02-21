@@ -1,13 +1,13 @@
 package org.jtheque.movies.persistence.od;
 
+import org.jtheque.core.managers.collection.Collection;
+import org.jtheque.core.managers.collection.CollectionImpl;
 import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.primary.od.able.Collection;
-import org.jtheque.primary.od.impl.CollectionImpl;
 import org.jtheque.utils.io.FileUtils;
 import org.junit.Before;
 import org.junit.Test;

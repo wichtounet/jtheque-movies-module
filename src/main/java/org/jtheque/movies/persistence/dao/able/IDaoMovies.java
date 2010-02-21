@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.persistence.able.JThequeDao;
+import org.jtheque.core.managers.persistence.able.Dao;
 import org.jtheque.movies.persistence.od.able.Movie;
 
 import java.util.Collection;
@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface IDaoMovies extends JThequeDao {
+public interface IDaoMovies extends Dao<Movie> {
     String TABLE = "T_MOVIES";
     String MOVIES_CATEGORIES_TABLE = "T_MOVIES_CATEGORIES";
 
@@ -36,35 +36,6 @@ public interface IDaoMovies extends JThequeDao {
      * @return All the movies of the current collection.
      */
     Collection<Movie> getMovies();
-
-    /**
-     * Create a new movie.
-     *
-     * @param movie The movie to create.
-     */
-    void create(Movie movie);
-
-    /**
-     * Create a movie.
-     *
-     * @return An empty movie.
-     */
-    Movie createMovie();
-
-    /**
-     * Save the movie on the database.
-     *
-     * @param movie The movie to save.
-     */
-    void save(Movie movie);
-
-    /**
-     * Delete a movie.
-     *
-     * @param movie The movie to delete.
-     * @return true if the object is deleted else false.
-     */
-    boolean delete(Movie movie);
 
     /**
      * Return the movie of the specified ID.

@@ -18,13 +18,13 @@ package org.jtheque.movies.persistence.dao;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jtheque.core.managers.collection.CollectionImpl;
+import org.jtheque.core.managers.collection.IDaoCollections;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.impl.CollectionImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -71,12 +71,11 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
 
         PrimaryUtils.setPrimaryImpl("Movies");
 
-        org.jtheque.primary.od.able.Collection collection = new CollectionImpl();
+        org.jtheque.core.managers.collection.Collection collection = new CollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
-        collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
     }

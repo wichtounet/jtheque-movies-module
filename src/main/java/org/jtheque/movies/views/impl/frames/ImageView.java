@@ -20,22 +20,21 @@ import org.jdesktop.swingx.JXImagePanel;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFormattedTextField;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
 import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateTimeImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.ValidateImageViewAction;
-import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
-import org.jtheque.movies.views.impl.panel.FilthyFormattedTextField;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.utils.ui.ImageUtils;
 
 import javax.swing.text.NumberFormatter;
 import java.awt.image.BufferedImage;
@@ -67,14 +66,14 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
     }
 
     @Override
-    protected void buildView(PanelBuilder builder) {
+    protected void buildView(I18nPanelBuilder builder) {
         addFFmpegActions(builder);
         addFileActions(builder);
 
         imagePanel = builder.add(new JXImagePanel(), builder.gbcSet(0, 2, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 0, -1, 1.0, 1.0));
         imagePanel.setOpaque(false);
 
-        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
+        builder.addButtonBar(builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
                 new ValidateImageViewAction(), getCloseAction("movie.image.actions.cancel"));
     }
 
@@ -83,9 +82,9 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
      *
      * @param parent The panel builder.
      */
-    private void addFFmpegActions(PanelBuilder parent) {
-        PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
-        builder.getPanel().setBorder(SwingUtils.createFilthyTitledBorder("movie.image.ffmpeg"));
+    private void addFFmpegActions(I18nPanelBuilder parent) {
+        I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
+        builder.setI18nTitleBorder("movie.image.ffmpeg");
 
         builder.addButton(new GenerateRandomImageAction(), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
 
@@ -93,7 +92,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
 
         timeTextField = builder.add(new FilthyFormattedTextField(new NumberFormatter(NumberFormat.getIntegerInstance())),
                 builder.gbcSet(1, 1));
-        timeTextField.getTextField().setColumns(5);
+        timeTextField.getField().setColumns(5);
 
         builder.addButton(new GenerateTimeImageAction(), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
     }
@@ -103,10 +102,9 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
      *
      * @param parent The panel builder to add the actions to.
      */
-    private void addFileActions(PanelBuilder parent) {
-        PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
-        builder.getPanel().setBorder(SwingUtils.createFilthyTitledBorder("movie.image.file"));
-        builder.getPanel().setOpaque(false);
+    private void addFileActions(I18nPanelBuilder parent) {
+        I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
+        builder.setI18nTitleBorder("movie.image.file");
 
         imageChooser = builder.add(new FilthyFileChooserPanel(true), builder.gbcSet(0, 0));
         imageChooser.setTextKey("movie.image.file.location");
@@ -118,11 +116,11 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
     @Override
     public void displayMovie(Movie movie) {
         if (StringUtils.isNotEmpty(movie.getImage())) {
-            String resource = "file:" +
-                    CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage();
+            String resource = "file:" + CoreUtils.getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage();
 
-            setImage(ImageUtils.openCompatibleImage(
-                    Managers.getManager(IResourceManager.class).getResourceAsStream(resource)));
+            Managers.getManager(IResourceManager.class).invalidateImage(resource);
+            
+            setImage(Managers.getManager(IResourceManager.class).getImage(resource));
         }
     }
 

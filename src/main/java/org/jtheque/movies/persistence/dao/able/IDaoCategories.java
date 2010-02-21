@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.able;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.persistence.able.JThequeDao;
+import org.jtheque.core.managers.persistence.able.Dao;
 import org.jtheque.movies.persistence.od.able.Category;
 
 import java.util.Collection;
@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface IDaoCategories extends JThequeDao {
+public interface IDaoCategories extends Dao<Category> {
     String TABLE = "T_MOVIE_CATEGORIES";
 
     /**
@@ -45,41 +45,10 @@ public interface IDaoCategories extends JThequeDao {
     Category getCategory(int id);
 
     /**
-     * Create a new category.
-     *
-     * @param category The category to create
-     */
-    void create(Category category);
-
-    /**
-     * Save the category.
-     *
-     * @param category The category to save.
-     */
-    void save(Category category);
-
-    /**
-     * Delete a category.
-     *
-     * @param category The category to delete.
-     * @return true if the object is deleted else false.
-     */
-    boolean delete(Category category);
-
-    /**
      * Return the category of the specified name.
      *
      * @param name The name of the category.
      * @return the category of the specified name if it exists else null.
      */
     Category getCategory(String name);
-
-    /**
-     * Create a category and return it. This category must be empty. This category is not in the
-     * database. To made it persistent, use the the <strong>create(Category category)</strong> method.
-     *
-     * @return the created, empty, category.
-     */
-    Category createCategory();
-
 }

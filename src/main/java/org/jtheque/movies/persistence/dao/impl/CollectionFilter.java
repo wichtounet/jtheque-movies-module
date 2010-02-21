@@ -17,7 +17,7 @@ package org.jtheque.movies.persistence.dao.impl;
  */
 
 import org.jtheque.movies.persistence.od.able.CollectionData;
-import org.jtheque.primary.od.able.Collection;
+import org.jtheque.core.managers.collection.Collection;
 import org.jtheque.utils.collections.Filter;
 
 /**

@@ -25,7 +25,6 @@ import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
-import org.jtheque.movies.MoviesModule;
 import org.jtheque.movies.MoviesModuleTest;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -35,15 +34,14 @@ import org.jtheque.movies.services.impl.FFMpegServiceTest;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.impl.CollectionImpl;
+import org.jtheque.core.managers.collection.IDaoCollections;
+import org.jtheque.core.managers.collection.CollectionImpl;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.io.FileUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -53,12 +51,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -92,7 +86,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
     @Resource
     private DataSource dataSource;
 
-    private org.jtheque.primary.od.able.Collection collection;
+    private org.jtheque.core.managers.collection.Collection collection;
 
     private String testFolder;
 
@@ -122,7 +116,6 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
-        collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
 

@@ -17,16 +17,16 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
 import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.actions.movies.folder.DeleteFileAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.ImportFilesAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.SearchFilesAction;
-import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
@@ -65,7 +65,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     }
 
     @Override
-    protected void buildView(PanelBuilder builder) {
+    protected void buildView(I18nPanelBuilder builder) {
         addDirectoryChooser(builder);
         addTitleList(builder);
         addParsers(builder);
@@ -92,7 +92,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     private void addTitleList(PanelBuilder builder) {
         modelListFiles = new SimpleListModel<File>();
 
-        listFiles = builder.addList(modelListFiles, null, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
+        listFiles = builder.addScrolledList(modelListFiles, null, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
         listFiles.setVisibleRowCount(5);
         listFiles.getActionMap().put("delete", new DeleteFileAction());
         listFiles.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
@@ -103,7 +103,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
      *
      * @param builder The parent builder
      */
-    private void addParsers(PanelBuilder builder) {
+    private void addParsers(I18nPanelBuilder builder) {
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
 
         int i = 3;
@@ -112,7 +112,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0));
         }
 
-        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
                 new ImportFilesAction(), getCloseAction("movie.auto.folder.actions.cancel"));
     }
 

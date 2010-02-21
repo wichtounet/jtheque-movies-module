@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;

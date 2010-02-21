@@ -18,6 +18,7 @@ package org.jtheque.movies.services.impl;
 
 import org.jtheque.core.managers.IManager;
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.collection.IDaoCollections;
 import org.jtheque.core.managers.core.Core;
 import org.jtheque.core.managers.resource.IResourceManager;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
@@ -31,8 +32,7 @@ import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.services.impl.parsers.ToCharCategoryParser;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.impl.CollectionImpl;
+import org.jtheque.core.managers.collection.CollectionImpl;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.unit.file.FileUnit;
 import org.junit.After;
@@ -113,12 +113,11 @@ public class FilesServiceTest extends AbstractDBUnitTest implements ApplicationC
 
         PrimaryUtils.setPrimaryImpl("Movies");
 
-        org.jtheque.primary.od.able.Collection collection = new CollectionImpl();
+        org.jtheque.core.managers.collection.Collection collection = new CollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
-        collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
     }

@@ -18,6 +18,7 @@ package org.jtheque.movies;
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import org.jtheque.core.managers.Managers;
+import org.jtheque.core.managers.collection.ICollectionsService;
 import org.jtheque.core.managers.core.Core;
 import org.jtheque.core.managers.error.IErrorManager;
 import org.jtheque.core.managers.error.InternationalizedError;
@@ -44,7 +45,6 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.IOpeningConfigView;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.services.able.ICollectionsService;
 import org.jtheque.primary.utils.DataTypeManager;
 import org.jtheque.primary.view.impl.choice.ChoiceAction;
 import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
@@ -58,8 +58,8 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.3.1", core = "2.0.3",
-        jarFile = "jtheque-movies-module-1.3.1-SNAPSHOT.jar", updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
+@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.4", core = "2.1",
+        updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
 public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
     private final ChoiceAction[] choiceActions;
 
@@ -111,6 +111,22 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
         DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
+
+        NativeInterface.open();
+
+        for (ChoiceAction action : choiceActions) {
+            ChoiceActionFactory.addChoiceAction(action);
+        }
+
+        configureDataConstraints();
+
+        panelConfig.build();
+        Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
+
+        Managers.getManager(IViewManager.class).setMainComponent(CoreUtils.<ViewComponent>getBean("movieView"));
+
+        moviesMenu = new MoviesMenu();
+        Managers.getManager(IFeatureManager.class).addMenu(moviesMenu);
     }
 
     /**
@@ -128,40 +144,6 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
                 Managers.getManager(IErrorManager.class).addError(new InternationalizedError("error.loading.configuration"));
             }
         }
-    }
-
-    @Override
-    public boolean chooseCollection(String collection, String password, boolean create) {
-        ICollectionsService collectionsService = CoreUtils.getBean("collectionsService");
-
-        if (create) {
-            collectionsService.createCollectionAndUse(collection, password);
-        } else {
-            if (!collectionsService.login(collection, password)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    @Override
-    public void plugCollection() {
-        NativeInterface.open();
-
-        for (ChoiceAction action : choiceActions) {
-            ChoiceActionFactory.addChoiceAction(action);
-        }
-
-        configureDataConstraints();
-
-        panelConfig.build();
-        Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
-
-        Managers.getManager(IViewManager.class).setMainComponent(CoreUtils.<ViewComponent>getBean("movieView"));
-
-        moviesMenu = new MoviesMenu();
-        Managers.getManager(IFeatureManager.class).addMenu(moviesMenu);
     }
 
     /**

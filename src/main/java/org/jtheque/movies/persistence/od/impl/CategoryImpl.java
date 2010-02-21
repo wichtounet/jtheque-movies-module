@@ -16,8 +16,8 @@ package org.jtheque.movies.persistence.od.impl;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.jtheque.core.managers.collection.Collection;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.primary.od.able.Collection;
 import org.jtheque.primary.od.impl.abstraction.AbstractData;
 import org.jtheque.utils.bean.EqualsUtils;
 import org.jtheque.utils.bean.HashCodeUtils;

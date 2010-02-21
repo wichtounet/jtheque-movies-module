@@ -17,18 +17,19 @@ package org.jtheque.movies.views.impl.frames;
  */
 
 import org.jtheque.core.managers.error.JThequeError;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyRenderer;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
 import org.jtheque.movies.views.impl.models.CategoriesComboModel;
 import org.jtheque.movies.views.impl.models.CategoryModel;
-import org.jtheque.movies.views.impl.panel.FilthyRenderer;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.utils.ui.SwingUtils;
 
 import javax.swing.Action;
 import java.util.Collection;
@@ -75,14 +76,14 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
     }
 
     @Override
-    protected void buildView(PanelBuilder builder) {
+    protected void buildView(I18nPanelBuilder builder) {
         builder.addI18nLabel(Category.NAME, builder.gbcSet(0, 0));
 
         Action saveAction = new ValidateCategoryViewAction();
 
         fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
-        ConstraintManager.configure(fieldName.getTextField(), Category.NAME);
-        org.jtheque.utils.ui.SwingUtils.addFieldValidateAction(fieldName, saveAction);
+        ConstraintManager.configure(fieldName.getField(), Category.NAME);
+        SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 
@@ -90,8 +91,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 1));
 
-        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
-                saveAction, getCloseAction("category.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1), saveAction, getCloseAction("category.actions.cancel"));
     }
 
     @Override

@@ -18,13 +18,13 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jtheque.core.managers.persistence.able.DataContainer;
 import org.jtheque.core.managers.view.able.components.IModel;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyRenderer;
 import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IGenerateInfosView;
 import org.jtheque.movies.views.impl.actions.generate.ValidateGenerateInfosViewAction;
-import org.jtheque.movies.views.impl.panel.FilthyRenderer;
 import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
 import org.jtheque.utils.ui.GridBagUtils;
 
@@ -59,7 +59,7 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
     }
 
     @Override
-    protected void buildView(PanelBuilder builder) {
+    protected void buildView(I18nPanelBuilder builder) {
         builder.addI18nLabel("data.titles.category", builder.gbcSet(0, 0));
 
         categoriesModel = new DataContainerCachedComboBoxModel<Category>(
@@ -67,13 +67,12 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
 
-        checkBoxDuration = SwingUtils.addFilthyCheckbox(builder, "movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxResolution = SwingUtils.addFilthyCheckbox(builder, "movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxImage = SwingUtils.addFilthyCheckbox(builder, "movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
-        checkBoxSub = SwingUtils.addFilthyCheckbox(builder, "movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxDuration = builder.addI18nCheckBox("movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxResolution = builder.addI18nCheckBox("movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxImage = builder.addI18nCheckBox("movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
+        checkBoxSub = builder.addI18nCheckBox("movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
 
-        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
-                new ValidateGenerateInfosViewAction(), getCloseAction("movie.auto.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1), new ValidateGenerateInfosViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override

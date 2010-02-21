@@ -4,7 +4,8 @@ import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.JThequePanelBuilder;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.utils.OSUtils;
@@ -94,7 +95,7 @@ public final class JPanelConfigMovies extends JPanel implements IOpeningConfigVi
     private final class BuildViewRunnable implements Runnable {
         @Override
         public void run() {
-            PanelBuilder parent = new PanelBuilder(JPanelConfigMovies.this);
+            PanelBuilder parent = new JThequePanelBuilder(JPanelConfigMovies.this);
 
             addOpeningField(parent);
             addFFMPEGField(parent);

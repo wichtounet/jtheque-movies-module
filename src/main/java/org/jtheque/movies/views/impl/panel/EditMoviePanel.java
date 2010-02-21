@@ -3,12 +3,15 @@ package org.jtheque.movies.views.impl.panel;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.core.managers.resource.IResourceManager;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFormattedTextField;
 import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
 import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.core.utils.db.DaoNotes;
 import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
@@ -78,7 +81,7 @@ public final class EditMoviePanel extends MoviePanel {
 
         categoriesView = new JPanelCategories();
 
-        PanelBuilder builder = new FilthyPanelBuilder(this);
+        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
 
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
@@ -103,11 +106,11 @@ public final class EditMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the view.
      */
-    private void addTitleField(PanelBuilder builder) {
+    private void addTitleField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.TITLE, builder.gbcSet(0, 0));
 
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 2, 1, 1.0, 0.0));
-        ConstraintManager.configure(fieldTitle.getTextField(), Movie.TITLE);
+        ConstraintManager.configure(fieldTitle.getField(), Movie.TITLE);
 
         builder.addButton(new CleanMovieAction(), builder.gbcSet(3, 0));
         builder.addButton(new EditImageAction(), builder.gbcSet(4, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
@@ -118,7 +121,7 @@ public final class EditMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the view.
      */
-    private void addFileField(PanelBuilder builder) {
+    private void addFileField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.FILE, builder.gbcSet(0, 1));
 
         fieldFile = builder.add(new FilthyFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 0, 1));
@@ -131,14 +134,14 @@ public final class EditMoviePanel extends MoviePanel {
      *
      * @param parent The builder to add the fields to.
      */
-    private void addInformationsField(PanelBuilder parent) {
+    private void addInformationsField(I18nPanelBuilder parent) {
         parent.addI18nLabel(Movie.DURATION, parent.gbcSet(0, 2));
         parent.addI18nLabel(Movie.RESOLUTION, parent.gbcSet(0, 3));
 
         try {
             fieldDuration = new FilthyFormattedTextField(new MaskFormatter("##:##:##.###"));
             fieldDuration.setText("00:00:00:000");
-            fieldDuration.getTextField().setColumns(10);
+            fieldDuration.getField().setColumns(10);
             parent.add(fieldDuration, parent.gbcSet(1, 2));
         } catch (ParseException e) {
             CoreUtils.getLogger(getClass()).error(e);
@@ -147,7 +150,7 @@ public final class EditMoviePanel extends MoviePanel {
         try {
             fieldResolution = new FilthyFormattedTextField(new MaskFormatter("####x####"));
             fieldResolution.setText("0000x0000");
-            fieldResolution.getTextField().setColumns(10);
+            fieldResolution.getField().setColumns(10);
             parent.add(fieldResolution, parent.gbcSet(1, 3));
         } catch (ParseException e) {
             CoreUtils.getLogger(getClass()).error(e);
@@ -167,7 +170,7 @@ public final class EditMoviePanel extends MoviePanel {
      *
      * @param builder The builder of the view.
      */
-    private void addNoteField(PanelBuilder builder) {
+    private void addNoteField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.NOTE, builder.gbcSet(0, 4));
 
         modelNotes = new NotesComboBoxModel();

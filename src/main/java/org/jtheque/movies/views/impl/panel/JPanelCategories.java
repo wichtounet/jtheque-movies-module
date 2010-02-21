@@ -23,9 +23,10 @@ import org.jtheque.core.managers.resource.ImageType;
 import org.jtheque.core.managers.view.impl.actions.JThequeSimpleAction;
 import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
-import org.jtheque.core.utils.ui.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.core.utils.ui.ValidationUtils;
+import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -72,7 +73,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
      * Build the view. This method is executed by spring after properties set.
      */
     private void build() {
-        PanelBuilder builder = new FilthyPanelBuilder(this);
+        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
 
         categoriesModel = new CategoriesListModel();
 
@@ -81,7 +82,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         ListCellRenderer renderer = new IconListRenderer(
                 Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
 
-        listCategories = builder.addList(categoriesModel, renderer,
+        listCategories = builder.addScrolledList(categoriesModel, renderer,
                 builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, anHalf, 1.0));
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, -1, 1));
@@ -92,10 +93,10 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
         categoriesForMovieModel = new SimpleListModel<Category>();
         categoriesModel.setLinkedModel(categoriesForMovieModel);
 
-        listCategoriesForFilm = builder.addList(categoriesForMovieModel, renderer,
+        listCategoriesForFilm = builder.addScrolledList(categoriesForMovieModel, renderer,
                 builder.gbcSet(2, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, 0, -1, anHalf, 1.0));
 
-        PanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
+        I18nPanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
 
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
         manageButtons.addButton(new CreateNewCategoryAction(), builder.gbcSet(1, 0));

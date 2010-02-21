@@ -51,7 +51,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     private Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
-    private org.jtheque.primary.od.able.Collection theCollection;
+    private org.jtheque.core.managers.collection.Collection theCollection;
     private PreciseDuration duration;
     private Resolution resolution;
 
@@ -60,12 +60,12 @@ public final class MovieImpl extends AbstractData implements Movie {
     //Data methods
 
     @Override
-    public org.jtheque.primary.od.able.Collection getTheCollection() {
+    public org.jtheque.core.managers.collection.Collection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(org.jtheque.primary.od.able.Collection theCollection) {
+    public void setTheCollection(org.jtheque.core.managers.collection.Collection theCollection) {
         this.theCollection = theCollection;
     }
 
@@ -199,7 +199,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public boolean isInCollection(org.jtheque.primary.od.able.Collection collection) {
+    public boolean isInCollection(org.jtheque.core.managers.collection.Collection collection) {
         return theCollection != null && theCollection.equals(collection);
     }
 

@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.jtheque.core.managers.persistence.GenericDao;
+import org.jtheque.core.managers.persistence.CachedJDBCDao;
 import org.jtheque.core.managers.persistence.Query;
 import org.jtheque.core.managers.persistence.QueryMapper;
 import org.jtheque.core.managers.persistence.able.Entity;
@@ -31,10 +31,11 @@ import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.primary.dao.able.IDaoCollections;
+import org.jtheque.core.managers.collection.IDaoCollections;
 import org.jtheque.primary.od.able.Data;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.collections.CollectionUtils;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
@@ -51,7 +52,7 @@ import java.util.List;
  *
  * @author Baptiste Wicht
  */
-public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
+public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies {
     private final ParameterizedRowMapper<Movie> rowMapper = new MovieRowMapper();
     private final ParameterizedRowMapper<MovieCategoryRelation> relationRowMapper = new RelationRowMapper();
     private final QueryMapper queryMapper = new MovieQueryMapper();
@@ -93,7 +94,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
      * @param collection The collection.
      * @return A List containing all the films of the collections.
      */
-    private Collection<? extends Data> getMovies(org.jtheque.primary.od.able.Collection collection) {
+    private Collection<? extends Data> getMovies(org.jtheque.core.managers.collection.Collection collection) {
         if (collection == null || !collection.isSaved()) {
             return getAll();
         }
@@ -117,6 +118,11 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     @Override
     public Movie getMovie(int id) {
         return get(id);
+    }
+
+    @Override
+    public boolean exists(Movie entity) {
+        return getMovie(entity.getTitle()) != null;
     }
 
     @Override
@@ -162,18 +168,18 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     }
 
     @Override
-    public Movie createMovie() {
+    public Movie create() {
         return new MovieImpl();
-    }
-
-    @Override
-    protected ParameterizedRowMapper<Movie> getRowMapper() {
-        return rowMapper;
     }
 
     @Override
     protected QueryMapper getQueryMapper() {
         return queryMapper;
+    }
+
+    @Override
+    protected RowMapper<Movie> getRowMapper() {
+        return rowMapper;
     }
 
     @Override
@@ -223,7 +229,7 @@ public final class DaoMovies extends GenericDao<Movie> implements IDaoMovies {
     private final class MovieRowMapper implements ParameterizedRowMapper<Movie> {
         @Override
         public Movie mapRow(ResultSet rs, int i) throws SQLException {
-            Movie movie = createMovie();
+            Movie movie = create();
 
             movie.setId(rs.getInt("ID"));
             movie.setTitle(rs.getString("TITLE"));

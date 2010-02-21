@@ -8,9 +8,9 @@ import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.primary.dao.able.IDaoCollections;
-import org.jtheque.primary.od.able.Collection;
-import org.jtheque.primary.od.impl.CollectionImpl;
+import org.jtheque.core.managers.collection.IDaoCollections;
+import org.jtheque.core.managers.collection.Collection;
+import org.jtheque.core.managers.collection.CollectionImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -80,7 +80,6 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
         collection.setPassword("");
         collection.setProtection(false);
         collection.setTitle("Collection 1");
-        collection.setPrimaryImpl("Movies");
 
         daoCollections.setCurrentCollection(collection);
     }
@@ -104,7 +103,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
 
     @Test
     public void createEmptyMovie() {
-        Movie movie = daoMovies.createMovie();
+        Movie movie = daoMovies.create();
 
         assertNotNull(movie);
         assertEquals(0, movie.getId());
@@ -145,7 +144,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
 
     @Test
     public void createMovie() {
-        Movie movie = daoMovies.createMovie();
+        Movie movie = daoMovies.create();
         movie.setTitle("Created category");
 
         movie.addCategory(daoCategories.getCategory(1));

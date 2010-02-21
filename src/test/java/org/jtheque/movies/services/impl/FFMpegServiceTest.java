@@ -225,5 +225,15 @@ public class FFMpegServiceTest implements ApplicationContextAware{
         public void close() {
 
         }
+
+        @Override
+        public void invalidateCache() {
+
+        }
+
+        @Override
+        public void invalidateImage(String id) {
+            
+        }
     }
 }

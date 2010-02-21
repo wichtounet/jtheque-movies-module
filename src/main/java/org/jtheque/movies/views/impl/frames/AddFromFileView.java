@@ -18,15 +18,14 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jtheque.core.managers.error.InternationalizedError;
 import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.utils.ui.PanelBuilder;
+import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
+import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.core.utils.ui.constraints.ConstraintManager;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.movies.utils.SwingUtils;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
-import org.jtheque.movies.views.impl.panel.FilthyFileChooserPanel;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.utils.ui.GridBagUtils;
 
@@ -57,7 +56,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
     }
 
     @Override
-    protected void buildView(PanelBuilder builder) {
+    protected void buildView(I18nPanelBuilder builder) {
         fileChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
@@ -70,8 +69,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        SwingUtils.addFilthyButtonBar(builder, builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
-                new ValidateAddFromFileViewAction(), getCloseAction("movie.auto.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override
