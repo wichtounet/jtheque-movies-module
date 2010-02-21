@@ -16,8 +16,8 @@ package org.jtheque.movies.services;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import org.jtheque.core.managers.IManager;
 import org.jtheque.core.managers.Managers;
 import org.jtheque.core.managers.core.Core;
@@ -42,6 +42,7 @@ import org.jtheque.utils.io.FileUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -98,7 +99,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
     }
 
     static {
-        Logger.getRootLogger().setLevel(Level.ERROR);
+        ((Logger) LoggerFactory.getLogger("root")).setLevel(Level.ERROR);
     }
 
     public MoviesServiceTest() {

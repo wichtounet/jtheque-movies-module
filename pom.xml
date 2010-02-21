@@ -205,6 +205,33 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.swing.native</groupId>
+            <artifactId>swt-win32</artifactId>
+            <version>3.5M6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.swing.native</groupId>
+            <artifactId>dj-native-swing</artifactId>
+            <version>0.9.9-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.swing.native</groupId>
+            <artifactId>dj-native-swing-swt</artifactId>
+            <version>0.9.9-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Test dependencies -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
             <version>2.4.4</version>
@@ -212,9 +239,16 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.8</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>0.9.18</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.18</version>
             <scope>test</scope>
         </dependency>
 
@@ -237,24 +271,6 @@
             <artifactId>easymock</artifactId>
             <version>2.4</version>
             <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.swing.native</groupId>
-            <artifactId>swt-win32</artifactId>
-            <version>3.5M6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.swing.native</groupId>
-            <artifactId>dj-native-swing</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.swing.native</groupId>
-            <artifactId>dj-native-swing-swt</artifactId>
-            <version>0.9.9-SNAPSHOT</version>
         </dependency>
 
         <dependency>

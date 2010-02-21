@@ -16,8 +16,8 @@ package org.jtheque.movies.services;
  * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import org.jtheque.core.managers.collection.Collection;
 import org.jtheque.core.utils.test.AbstractDBUnitTest;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -26,6 +26,7 @@ import org.jtheque.core.managers.collection.IDaoCollections;
 import org.jtheque.core.managers.collection.CollectionImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -54,7 +55,7 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     private DataSource dataSource;
 
     static {
-        Logger.getRootLogger().setLevel(Level.ERROR);
+        ((Logger) LoggerFactory.getLogger("root")).setLevel(Level.ERROR);
     }
 
     public CategoriesServiceTest() {
