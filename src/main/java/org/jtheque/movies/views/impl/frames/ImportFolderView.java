@@ -1,34 +1,35 @@
 package org.jtheque.movies.views.impl.frames;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
-import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
-import org.jtheque.core.utils.ui.ValidationUtils;
-import org.jtheque.core.utils.ui.builders.PanelBuilder;
+import org.jtheque.errors.able.IError;
+import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.actions.movies.folder.DeleteFileAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.ImportFilesAction;
 import org.jtheque.movies.views.impl.actions.movies.folder.SearchFilesAction;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
+import org.jtheque.ui.utils.ValidationUtils;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.builders.PanelBuilder;
+import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.ui.utils.models.SimpleListModel;
 
 import javax.swing.JList;
 import javax.swing.KeyStroke;
@@ -81,7 +82,8 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
 
-        builder.addButton(new SearchFilesAction(), builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
+        builder.addButton(new SearchFilesAction(getService(IFilesService.class), this),
+                builder.gbcSet(1, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING));
     }
 
     /**
@@ -94,7 +96,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
 
         listFiles = builder.addScrolledList(modelListFiles, null, builder.gbcSet(0, 1, GridBagConstraints.BOTH, GridBagUtils.BASELINE_LEADING, 0, 1, 1.0, 1.0));
         listFiles.setVisibleRowCount(5);
-        listFiles.getActionMap().put("delete", new DeleteFileAction());
+        listFiles.getActionMap().put("delete", new DeleteFileAction(this));
         listFiles.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0), "delete");
     }
 
@@ -113,7 +115,8 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
         }
 
         builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
-                new ImportFilesAction(), getCloseAction("movie.auto.folder.actions.cancel"));
+                new ImportFilesAction(this, getService(IFilesService.class)), 
+                getCloseAction("movie.auto.folder.actions.cancel"));
     }
 
     @Override
@@ -123,7 +126,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
 
     @Override
     public void removeSelectedFile() {
-        modelListFiles.remove(listFiles.getSelectedIndex());
+        modelListFiles.removeElement((File) listFiles.getSelectedValue());
     }
 
     @Override
@@ -137,7 +140,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     }
 
     @Override
-    protected void validate(Collection<JThequeError> errors) {
+    protected void validate(Collection<IError> errors) {
         if (Phase.CHOOSE_FOLDER == phase) {
             ValidationUtils.rejectIfEmpty(directoryChooser.getFilePath(), "movie.auto.folder.errors.folderEmpty", errors);
         } else if (Phase.CHOOSE_FILES == phase) {

@@ -1,29 +1,28 @@
 package org.jtheque.movies.views.impl.sort;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.impl.models.CategoryElement;
-import org.jtheque.primary.view.impl.models.tree.JThequeTreeModel;
-import org.jtheque.primary.view.impl.models.tree.TreeElement;
+import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
+import org.jtheque.primary.utils.views.tree.TreeElement;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,11 +39,17 @@ import java.util.Map;
  * @author Baptiste Wicht
  */
 public final class MoviesSorter {
+    private ICategoriesService categoriesService;
+    private IMoviesService moviesService;
+
     /**
      * Utility class, not instanciable.
      */
-    private MoviesSorter() {
+    public MoviesSorter(ICategoriesService categoriesService, IMoviesService moviesService) {
         super();
+
+        this.categoriesService = categoriesService;
+        this.moviesService = moviesService;
     }
 
     /**
@@ -52,12 +57,12 @@ public final class MoviesSorter {
      *
      * @param model The tree model to sort.
      */
-    public static void sort(JThequeTreeModel model) {
+    public void sort(JThequeTreeModel model) {
         TreeElement root = model.getRoot();
 
         root.clear();
 
-        Collection<Category> categories = CoreUtils.<ICategoriesService>getBean("categoriesService").getCategories();
+        Collection<Category> categories = categoriesService.getCategories();
         Map<Category, CategoryElement> elements = new HashMap<Category, CategoryElement>(categories.size());
 
         addCategories(root, categories, elements);
@@ -138,8 +143,8 @@ public final class MoviesSorter {
      * @param root     The root element of the tree.
      * @param elements The category elements to add the movies to.
      */
-    private static void addMovies(TreeElement root, Map<Category, CategoryElement> elements) {
-        for (Movie movie : CoreUtils.<IMoviesService>getBean("moviesService").getMovies()) {
+    private void addMovies(TreeElement root, Map<Category, CategoryElement> elements) {
+        for (Movie movie : moviesService.getMovies()) {
             if (movie.hasCategories()) {
                 for (Category category : movie.getCategories()) {
                     elements.get(category).add(movie);

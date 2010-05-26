@@ -1,36 +1,35 @@
 package org.jtheque.movies.persistence.dao.impl;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.persistence.CachedJDBCDao;
-import org.jtheque.core.managers.persistence.Query;
-import org.jtheque.core.managers.persistence.QueryMapper;
-import org.jtheque.core.managers.persistence.able.Entity;
-import org.jtheque.core.managers.persistence.context.IDaoPersistenceContext;
+import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.IDaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.core.managers.collection.IDaoCollections;
-import org.jtheque.core.managers.collection.Collection;
-import org.jtheque.primary.od.able.Data;
+import org.jtheque.persistence.utils.CachedJDBCDao;
+import org.jtheque.persistence.utils.Query;
+import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.able.QueryMapper;
+import org.jtheque.persistence.able.IDaoPersistenceContext;
+import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.collections.CollectionUtils;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 
 import javax.annotation.Resource;
 import java.sql.ResultSet;
@@ -68,6 +67,17 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
         Collections.sort(categories);
 
         return categories;
+    }
+
+    @Override
+    public Category getCategoryByTemporaryId(int id) {
+        for(Category category : getAll()){
+            if(category.getTemporaryContext().getId() == id){
+                return category;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -162,7 +172,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
      *
      * @author Baptiste Wicht
      */
-    private final class CategoryRowMapper implements ParameterizedRowMapper<Category> {
+    private final class CategoryRowMapper implements RowMapper<Category> {
         @Override
         public Category mapRow(ResultSet rs, int i) throws SQLException {
             Category category = createCategory(rs.getString("TITLE"));

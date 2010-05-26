@@ -1,19 +1,12 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFormattedTextField;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyTextField;
-import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.db.DaoNotes;
-import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
-import org.jtheque.core.utils.ui.builders.PanelBuilder;
-import org.jtheque.core.utils.ui.constraints.ConstraintManager;
+import org.jtheque.errors.able.IError;
+import org.jtheque.errors.able.IErrorService;
+import org.jtheque.movies.controllers.able.ICleanController;
+import org.jtheque.movies.controllers.able.IImageController;
+import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.able.ICategoriesView;
@@ -24,11 +17,22 @@ import org.jtheque.movies.views.impl.actions.movies.SaveMovieAction;
 import org.jtheque.movies.views.impl.actions.movies.image.EditImageAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
-import org.jtheque.primary.view.impl.actions.principal.CancelPrincipalAction;
-import org.jtheque.primary.view.impl.models.NotesComboBoxModel;
-import org.jtheque.primary.view.impl.renderers.NoteComboRenderer;
+import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.primary.utils.views.actions.CancelPrincipalAction;
+import org.jtheque.primary.utils.views.NotesComboBoxModel;
+import org.jtheque.primary.utils.views.NoteComboRenderer;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.builders.PanelBuilder;
+import org.jtheque.ui.utils.components.Borders;
+import org.jtheque.ui.utils.constraints.ConstraintManager;
+import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
+import org.jtheque.ui.utils.filthy.FilthyFormattedTextField;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.ui.utils.filthy.FilthyTextField;
+import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import javax.swing.AbstractButton;
 import javax.swing.JComboBox;
 import javax.swing.UIManager;
@@ -39,19 +43,19 @@ import java.text.ParseException;
 import java.util.Collection;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -69,21 +73,21 @@ public final class EditMoviePanel extends MoviePanel {
 
     private static final int FIELD_COLUMNS = 25;
 
-    private final ICategoriesView categoriesView;
+    @Resource
+    private ICategoriesView categoriesView;
 
     /**
      * Construct a new EditMoviePanel.
      */
     public EditMoviePanel() {
         super(IMovieView.EDIT_VIEW);
+    }
 
+	@Override
+	protected void buildView(I18nPanelBuilder builder) {
         setOpaque(false);
 
-        categoriesView = new JPanelCategories();
-
-        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
-
-        setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
+		setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
         addTitleField(builder);
         addFileField(builder);
@@ -96,12 +100,13 @@ public final class EditMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 6, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
-        buttons.addButton(new SaveMovieAction(), buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
-        buttons.addButton(new CancelPrincipalAction("movie.actions.cancel", "movieController"),
+        buttons.addButton(new SaveMovieAction(getBean(IMovieController.class)),
+		        buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
+        buttons.addButton(new CancelPrincipalAction("movie.actions.cancel", getBean(IMovieController.class)),
                 buttons.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
-    }
+	}
 
-    /**
+	/**
      * Add the field for the title.
      *
      * @param builder The builder of the view.
@@ -112,8 +117,8 @@ public final class EditMoviePanel extends MoviePanel {
         fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 2, 1, 1.0, 0.0));
         ConstraintManager.configure(fieldTitle.getField(), Movie.TITLE);
 
-        builder.addButton(new CleanMovieAction(), builder.gbcSet(3, 0));
-        builder.addButton(new EditImageAction(), builder.gbcSet(4, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
+        builder.addButton(new CleanMovieAction(getBean(IMovieController.class), getBean(ICleanController.class)), builder.gbcSet(3, 0));
+        builder.addButton(new EditImageAction(getBean(IImageController.class)), builder.gbcSet(4, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     /**
@@ -144,7 +149,7 @@ public final class EditMoviePanel extends MoviePanel {
             fieldDuration.getField().setColumns(10);
             parent.add(fieldDuration, parent.gbcSet(1, 2));
         } catch (ParseException e) {
-            CoreUtils.getLogger(getClass()).error(e);
+            LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
         }
 
         try {
@@ -153,7 +158,7 @@ public final class EditMoviePanel extends MoviePanel {
             fieldResolution.getField().setColumns(10);
             parent.add(fieldResolution, parent.gbcSet(1, 3));
         } catch (ParseException e) {
-            CoreUtils.getLogger(getClass()).error(e);
+            LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
         }
 
         PanelBuilder builder =
@@ -161,7 +166,7 @@ public final class EditMoviePanel extends MoviePanel {
 
         builder.getPanel().setBackground(Color.blue);
 
-        builder.addButton(new GetInformationsAction(this),
+        builder.addButton(new GetInformationsAction(this, getBean(IFFMpegService.class), getService(IErrorService.class)),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
     }
 
@@ -173,13 +178,15 @@ public final class EditMoviePanel extends MoviePanel {
     private void addNoteField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.NOTE, builder.gbcSet(0, 4));
 
-        modelNotes = new NotesComboBoxModel();
+	    IDaoNotes daoNotes = getService(IDaoNotes.class);
+
+        modelNotes = new NotesComboBoxModel(daoNotes);
 
         JComboBox box = new JComboBox(modelNotes);
-        box.setRenderer(new NoteComboRenderer());
+        box.setRenderer(new NoteComboRenderer(daoNotes));
 
         box.setOpaque(false);
-        box.setBackground(Managers.getManager(IResourceManager.class).getColor("filthyInputColor"));
+        box.setBackground(INPUT_COLOR);
 
         UIManager.put("ComboBox.selectionBackground", Color.black);
 
@@ -204,7 +211,7 @@ public final class EditMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors) {
+    public void validate(Collection<IError> errors) {
         ConstraintManager.validate(Movie.TITLE, fieldTitle.getText(), errors);
         ConstraintManager.validate(Movie.FILE, fieldFile.getFilePath(), errors);
 
@@ -223,7 +230,7 @@ public final class EditMoviePanel extends MoviePanel {
         if (modelNotes.getSelectedNote() != null) {
             fb.setNote(modelNotes.getSelectedNote());
         } else {
-            fb.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
+	        fb.setNote(getService(IDaoNotes.class).getNote(DaoNotes.NoteType.UNDEFINED));
         }
 
         categoriesView.fillFilm(fb);

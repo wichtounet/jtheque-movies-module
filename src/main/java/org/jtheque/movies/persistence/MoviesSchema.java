@@ -1,27 +1,25 @@
 package org.jtheque.movies.persistence;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.schema.DefaultSchema;
-import org.jtheque.core.managers.schema.HSQLImporter;
-import org.jtheque.core.managers.schema.Insert;
+import org.jtheque.collections.able.IDaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
-import org.jtheque.core.managers.collection.IDaoCollections;
+import org.jtheque.schemas.utils.DefaultSchema;
 import org.jtheque.utils.bean.Version;
 
 /**
@@ -70,7 +68,7 @@ public final class MoviesSchema extends DefaultSchema {
         alterTable(IDaoMovies.TABLE, "ADD RESOLUTION VARCHAR(11)");
         alterTable(IDaoMovies.TABLE, "ADD IMAGE VARCHAR(150)");
         alterTable(IDaoCategories.TABLE, "ADD THE_PARENT_FK INT");
-        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES ? (ID) ON UPDATE SET NULL", IDaoCategories.TABLE);
+        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES " + IDaoCategories.TABLE + " (ID) ON UPDATE SET NULL");
     }
 
     /**
@@ -89,22 +87,10 @@ public final class MoviesSchema extends DefaultSchema {
      * Create the constraints to maintain a referential integrity in the database.
      */
     private void createReferentialIntegrityConstraints() {
-        alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  ? (ID) ON UPDATE SET NULL", IDaoMovies.TABLE);
-        alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES ? (ID) ON UPDATE SET NULL", IDaoCategories.TABLE);
-        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  ? (ID) ON UPDATE SET NULL", IDaoCollections.TABLE);
-        alterTable(IDaoMovies.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES ? (ID) ON UPDATE SET NULL", IDaoCollections.TABLE);
-        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES ? (ID) ON UPDATE SET NULL", IDaoCategories.TABLE);
-    }
-
-    @Override
-    public void importDataFromHSQL(Iterable<Insert> inserts) {
-        HSQLImporter importer = new HSQLImporter();
-
-        importer.match("MOVIE_CATEGORY", insert(IDaoMovies.MOVIES_CATEGORIES_TABLE, "(THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?, ?)"), 0, 1);
-        importer.match("OD_CATEGORY", insert(IDaoCategories.TABLE, "(ID, TITLE, THE_COLLECTION_FK) VALUES(?, ?, ?)"), 0, 2, 3);
-        importer.match("OD_MOVIE", insert(IDaoMovies.TABLE, "(ID, TITLE, NOTE, FILE, THE_COLLECTION_FK) VALUES(?, ?, ?, ?, ?)"), 0, 4, 3, 2, 5);
-        importer.match("OD_MOVIE_COLLECTION", insert(IDaoCollections.TABLE, "(ID, TITLE, PROTECTED, PASSWORD, IMPL) VALUES(?,?,?,?,?)"), "Movies", 0, 4, 3, 2);
-
-        importer.importInserts(inserts);
+        alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "(ID) ON UPDATE SET NULL");
+        alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES " + IDaoCategories.TABLE + " (ID) ON UPDATE SET NULL");
+        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
+        alterTable(IDaoMovies.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES " + IDaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
+        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES " + IDaoCategories.TABLE + " (ID) ON UPDATE SET NULL");
     }
 }

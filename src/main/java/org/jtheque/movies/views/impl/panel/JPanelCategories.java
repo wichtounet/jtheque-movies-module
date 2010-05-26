@@ -1,33 +1,24 @@
 package org.jtheque.movies.views.impl.panel;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.resource.ImageType;
-import org.jtheque.core.managers.view.impl.actions.JThequeSimpleAction;
-import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
-import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
-import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
-import org.jtheque.core.utils.ui.ValidationUtils;
-import org.jtheque.core.utils.ui.builders.PanelBuilder;
-import org.jtheque.movies.IMoviesModule;
+import org.jtheque.errors.able.IError;
+import org.jtheque.movies.MoviesResources;
+import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -35,14 +26,21 @@ import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
-import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
+import org.jtheque.primary.able.controller.IChoiceController;
+import org.jtheque.primary.utils.choice.ChoiceViewAction;
+import org.jtheque.resources.able.IResourceService;
+import org.jtheque.ui.utils.ValidationUtils;
+import org.jtheque.ui.utils.actions.JThequeSimpleAction;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.builders.PanelBuilder;
+import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.ui.utils.components.IconListRenderer;
+import org.jtheque.ui.utils.models.SimpleListModel;
 
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -53,34 +51,21 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class JPanelCategories extends JPanel implements ICategoriesView {
+public final class JPanelCategories extends OSGIFilthyBuildedPanel implements ICategoriesView {
     private JList listCategories;
     private JList listCategoriesForFilm;
 
     private CategoriesListModel categoriesModel;
     private SimpleListModel<Category> categoriesForMovieModel;
-
-    /**
-     * Construct a new JPanelCategories with the given actions.
-     */
-    public JPanelCategories() {
-        super();
-
-        build();
-    }
-
-    /**
-     * Build the view. This method is executed by spring after properties set.
-     */
-    private void build() {
-        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
-
-        categoriesModel = new CategoriesListModel();
+	
+	@Override
+	protected void buildView(I18nPanelBuilder builder) {
+		categoriesModel = new CategoriesListModel(getBean(ICategoriesService.class));
 
         double anHalf = 0.5;
 
         ListCellRenderer renderer = new IconListRenderer(
-                Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
+                getService(IResourceService.class).getIcon(MoviesResources.BOX_ICON));
 
         listCategories = builder.addScrolledList(categoriesModel, renderer,
                 builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, anHalf, 1.0));
@@ -98,13 +83,15 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
 
         I18nPanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
 
+		IChoiceController choiceController = getBean(IChoiceController.class);
+
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
-        manageButtons.addButton(new CreateNewCategoryAction(), builder.gbcSet(1, 0));
-        manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE),
+        manageButtons.addButton(new CreateNewCategoryAction(getBean(ICategoryController.class)), builder.gbcSet(1, 0));
+        manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE, choiceController),
                 builder.gbcSet(2, 0));
-        manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE),
+        manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController),
                 builder.gbcSet(3, 0));
-    }
+	}
 
     @Override
     public void fillFilm(IMovieFormBean fb) {
@@ -115,7 +102,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
 
     @Override
     public void reload(Movie movie) {
-        categoriesForMovieModel.removeAllElements();
+        categoriesForMovieModel.clear();
         categoriesModel.reload();
 
         for (Category category : movie.getCategories()) {
@@ -125,13 +112,8 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors) {
+    public void validate(Collection<IError> errors) {
         ValidationUtils.rejectIfEmpty(listCategoriesForFilm, "movie.categories", errors);
-    }
-
-    @Override
-    public Component getImpl() {
-        return this;
     }
 
     /**
@@ -158,7 +140,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
             ArrayUtils.reverse(selectedActors);
 
             for (int index : selectedActors) {
-                Object actor = categoriesModel.remove(index);
+                Category actor = categoriesModel.removeElement(index);
                 categoriesForMovieModel.addElement(actor);
             }
         }
@@ -188,7 +170,7 @@ public final class JPanelCategories extends JPanel implements ICategoriesView {
             ArrayUtils.reverse(selectedActors);
 
             for (int index : listCategoriesForFilm.getSelectedIndices()) {
-                Object actor = categoriesForMovieModel.remove(index);
+                Category actor = categoriesForMovieModel.removeElement(index);
                 categoriesModel.addElement(actor);
             }
         }

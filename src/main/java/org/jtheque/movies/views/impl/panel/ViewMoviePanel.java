@@ -1,30 +1,30 @@
 package org.jtheque.movies.views.impl.panel;
 
 import org.jdesktop.swingx.JXImagePanel;
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.resource.ImageType;
-import org.jtheque.core.managers.view.impl.components.JThequeI18nLabel;
-import org.jtheque.core.managers.view.impl.components.JThequeLabel;
-import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
-import org.jtheque.core.managers.view.impl.components.renderers.IconListRenderer;
-import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.db.DaoNotes;
-import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.builders.FilthyPanelBuilder;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
-import org.jtheque.core.utils.ui.builders.PanelBuilder;
+import org.jtheque.errors.able.IError;
+import org.jtheque.i18n.able.ILanguageService;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.MoviesResources;
+import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.actions.movies.DeleteMovieAction;
 import org.jtheque.movies.views.impl.actions.view.PlayMovieAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-import org.jtheque.primary.view.impl.actions.principal.ManualEditPrincipalAction;
+import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.primary.utils.views.actions.ManualEditPrincipalAction;
+import org.jtheque.resources.able.IResourceService;
+import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.builders.PanelBuilder;
+import org.jtheque.ui.utils.components.Borders;
+import org.jtheque.ui.utils.components.IconListRenderer;
+import org.jtheque.ui.utils.components.JThequeI18nLabel;
+import org.jtheque.ui.utils.components.JThequeLabel;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.ui.utils.models.SimpleListModel;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -35,19 +35,19 @@ import java.awt.Insets;
 import java.util.Collection;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -69,44 +69,36 @@ public final class ViewMoviePanel extends MoviePanel {
 
     private SimpleListModel<Category> categoriesModel;
 
-    private static final float TITLE_FONT_SIZE = 18f;
-    private static final float BUTTON_FONT_SIZE = 14f;
+    private static final float TITLE_FONT_SIZE = 18.0f;
+    private static final float BUTTON_FONT_SIZE = 14.0f;
 
     /**
      * Construct a new ViewMoviePanel.
      */
     public ViewMoviePanel() {
         super(IMovieView.VIEW_VIEW);
-
-        build();
     }
 
-    /**
-     * Build the panel.
-     */
-    private void build() {
-        setOpaque(false);
-
-        I18nPanelBuilder builder = new FilthyPanelBuilder(this);
-
+	@Override
+	protected void buildView(I18nPanelBuilder builder) {
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));
 
-        Font filthyTitleFont = CoreUtils.getBean("filthyTitleFont");
-
-        titleLabel = title.add(new JThequeLabel("", filthyTitleFont.deriveFont(TITLE_FONT_SIZE), Color.white),
+        titleLabel = title.add(new JThequeLabel("", TITLE_FONT.deriveFont(TITLE_FONT_SIZE), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(new PlayMovieAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
+        JButton button = title.addButton(new PlayMovieAction(getBean(IMovieController.class), getService(IResourceService.class)),
+		        builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
-        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", "movieController"), buttons.gbcSet(0, 0));
-        buttons.addButton(new DeleteMovieAction(), buttons.gbcSet(1, 0));
+        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", getBean(IMovieController.class)), buttons.gbcSet(0, 0));
+        buttons.addButton(new DeleteMovieAction(getService(ILanguageService.class), getService(IUIUtils.class), getBean(IMovieController.class)),
+		        buttons.gbcSet(1, 0));
 
         addFileField(builder);
         addNoteField(builder);
@@ -117,7 +109,7 @@ public final class ViewMoviePanel extends MoviePanel {
         addImagePanel(center);
 
         addFileInformations(builder);
-    }
+	}
 
     /**
      * Add the field for the file.
@@ -150,8 +142,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private void addCategoriesView(PanelBuilder builder) {
         categoriesModel = new SimpleListModel<Category>();
 
-        ListCellRenderer renderer = new IconListRenderer(
-                Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "box", ImageType.PNG));
+        ListCellRenderer renderer = new IconListRenderer(getService(IResourceService.class).getIcon(MoviesResources.BOX_ICON));
 
         builder.addScrolledList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }
@@ -180,9 +171,9 @@ public final class ViewMoviePanel extends MoviePanel {
 
     @Override
     public void setMovie(Movie movie) {
-        titleLabel.setText(CoreUtils.getMessage("movie.view.movie.title", movie.getDisplayableText()));
+        titleLabel.setText(getService(ILanguageService.class).getMessage("movie.view.movie.title", movie.getDisplayableText()));
         labelFile.setText(movie.getFile());
-        notePanel.setImage(DaoNotes.getImage(movie.getNote()));
+        notePanel.setImage(getService(IDaoNotes.class).getImage(movie.getNote()));
 
         labelDate.setTextKey("movie.view.file.date", movie.getFileLastModifiedDate());
         labelSize.setTextKey("movie.view.file.size", movie.getFileSize());
@@ -190,19 +181,18 @@ public final class ViewMoviePanel extends MoviePanel {
         labelResolution.setTextKey("movie.view.file.resolution", movie.getResolution());
 
         if (StringUtils.isNotEmpty(movie.getImage())) {
-            imagePanel.setImage(Managers.getManager(IResourceManager.class).getImage("file:" +
-                    CoreUtils.<IMoviesModule>getBean("moviesModule").getThumbnailFolderPath() + movie.getImage()));
+            imagePanel.setImage(getService(IResourceService.class).getFileImage(
+		            getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage()));
         } else {
             imagePanel.setImage(null);
         }
-
-        categoriesModel.clear();
-        categoriesModel.addElements(movie.getCategories());
+        
+        categoriesModel.setElements(movie.getCategories());
     }
 
     @Override
-    public void validate(Collection<JThequeError> errors) {
-        //Nothing to fill
+    public void validate(Collection<IError> errors) {
+        //Nothing to validate
     }
 
     @Override

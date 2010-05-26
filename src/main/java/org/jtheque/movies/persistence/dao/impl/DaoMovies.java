@@ -1,27 +1,22 @@
 package org.jtheque.movies.persistence.dao.impl;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.persistence.CachedJDBCDao;
-import org.jtheque.core.managers.persistence.Query;
-import org.jtheque.core.managers.persistence.QueryMapper;
-import org.jtheque.core.managers.persistence.able.Entity;
-import org.jtheque.core.managers.persistence.context.IDaoPersistenceContext;
-import org.jtheque.core.utils.db.DaoNotes;
+import org.jtheque.collections.able.IDaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -31,13 +26,17 @@ import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.core.managers.collection.IDaoCollections;
-import org.jtheque.primary.od.able.Data;
+import org.jtheque.persistence.utils.CachedJDBCDao;
+import org.jtheque.persistence.utils.Query;
+import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.persistence.able.IDaoPersistenceContext;
+import org.jtheque.persistence.able.QueryMapper;
+import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.collections.CollectionUtils;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import javax.annotation.Resource;
 import java.sql.ResultSet;
@@ -53,8 +52,8 @@ import java.util.List;
  * @author Baptiste Wicht
  */
 public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies {
-    private final ParameterizedRowMapper<Movie> rowMapper = new MovieRowMapper();
-    private final ParameterizedRowMapper<MovieCategoryRelation> relationRowMapper = new RelationRowMapper();
+    private final RowMapper<Movie> rowMapper = new MovieRowMapper();
+    private final RowMapper<MovieCategoryRelation> relationRowMapper = new RelationRowMapper();
     private final QueryMapper queryMapper = new MovieQueryMapper();
 
     private Collection<MovieCategoryRelation> relationsToCategories;
@@ -63,13 +62,13 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     private IDaoPersistenceContext daoPersistenceContext;
 
     @Resource
-    private SimpleJdbcTemplate jdbcTemplate;
-
-    @Resource
     private IDaoCollections daoCollections;
 
     @Resource
     private IDaoCategories daoCategories;
+
+    @Resource
+    private IDaoNotes daoNotes;
 
     /**
      * Construct a new DaoMovies.
@@ -94,7 +93,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      * @param collection The collection.
      * @return A List containing all the films of the collections.
      */
-    private Collection<? extends Data> getMovies(org.jtheque.core.managers.collection.Collection collection) {
+    private Collection<? extends Data> getMovies(org.jtheque.collections.able.Collection collection) {
         if (collection == null || !collection.isSaved()) {
             return getAll();
         }
@@ -110,7 +109,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
 
     @Override
     public boolean delete(Movie movie) {
-        jdbcTemplate.update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
+        daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
 
         return super.delete(movie);
     }
@@ -140,7 +139,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     public void save(Movie movie) {
         super.save(movie);
 
-        jdbcTemplate.update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
+	    daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
 
         createLinks(movie);
     }
@@ -152,7 +151,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      */
     private void createLinks(Movie movie) {
         for (Category category : movie.getCategories()) {
-            jdbcTemplate.update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
+	        daoPersistenceContext.getTemplate().update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
         }
     }
 
@@ -184,7 +183,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
 
     @Override
     protected void loadCache() {
-        relationsToCategories = jdbcTemplate.query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE, relationRowMapper);
+        relationsToCategories = daoPersistenceContext.getTemplate().query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE, relationRowMapper);
 
         Collection<Movie> movies = daoPersistenceContext.getSortedList(TABLE, rowMapper);
 
@@ -209,7 +208,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      *
      * @author Baptiste Wicht
      */
-    private static final class RelationRowMapper implements ParameterizedRowMapper<MovieCategoryRelation> {
+    private static final class RelationRowMapper implements RowMapper<MovieCategoryRelation> {
         @Override
         public MovieCategoryRelation mapRow(ResultSet rs, int i) throws SQLException {
             MovieCategoryRelation relation = new MovieCategoryRelation();
@@ -226,7 +225,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      *
      * @author Baptiste Wicht
      */
-    private final class MovieRowMapper implements ParameterizedRowMapper<Movie> {
+    private final class MovieRowMapper implements RowMapper<Movie> {
         @Override
         public Movie mapRow(ResultSet rs, int i) throws SQLException {
             Movie movie = create();
@@ -246,9 +245,9 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             }
             
             if (StringUtils.isNotEmpty(rs.getString("NOTE"))) {
-                movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
+                movie.setNote(daoNotes.getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
             } else {
-                movie.setNote(DaoNotes.getInstance().getDefaultNote());
+                movie.setNote(daoNotes.getDefaultNote());
             }
 
             mapRelations(movie);
@@ -269,7 +268,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
                     }
                 }
             } else {
-                relationsToCategories = jdbcTemplate.query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", relationRowMapper, movie.getId());
+                relationsToCategories = daoPersistenceContext.getTemplate().query("SELECT * FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", relationRowMapper, movie.getId());
 
                 for (MovieCategoryRelation relation : relationsToCategories) {
                     movie.addCategory(daoCategories.getCategory(relation.getCategory()));
@@ -285,7 +284,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      *
      * @author Baptiste Wicht
      */
-    private static final class MovieQueryMapper implements QueryMapper {
+    private final class MovieQueryMapper implements QueryMapper {
         @Override
         public Query constructInsertQuery(Entity entity) {
             return new Query(
@@ -307,11 +306,11 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
          * @param id    Indicate if we must add the id to the array.
          * @return The filled array.
          */
-        private static Object[] fillArray(Movie movie, boolean id) {
+        private Object[] fillArray(Movie movie, boolean id) {
             Object[] values = new Object[7 + (id ? 1 : 0)];
 
             values[0] = movie.getTitle();
-            values[1] = movie.getNote() == null ? DaoNotes.getInstance().getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue();
+            values[1] = movie.getNote() == null ? daoNotes.getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue();
             values[2] = movie.getFile();
             values[3] = movie.getResolution() == null ? "" : movie.getResolution().toString();
             values[4] = movie.getDuration() == null ? 0 : movie.getDuration().getTime();

@@ -1,26 +1,25 @@
 package org.jtheque.movies.services.impl.parsers;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.persistence.able.DataContainer;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyComboBox;
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
+import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
+import org.jtheque.ui.utils.filthy.FilthyComboBox;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -37,21 +36,27 @@ public final class StaticCategoryParser implements FileParser {
     private final DataContainerCachedComboBoxModel<Category> categoriesModel;
     private final JComboBox categoriesComboBox;
 
+    private static final Object[] REPLACES = new Object[0];
+
     /**
      * Construct a new StaticCategoryParser.
      */
-    public StaticCategoryParser() {
+    public StaticCategoryParser(ICategoriesService categoriesService) {
         super();
 
-        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-                CoreUtils.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new DataContainerCachedComboBoxModel<Category>(categoriesService);
 
         categoriesComboBox = new FilthyComboBox(categoriesModel);
     }
 
     @Override
-    public String getTitle() {
+    public String getTitleKey() {
         return "";
+    }
+
+    @Override
+    public Object[] getTitleReplaces() {
+        return REPLACES;
     }
 
     @Override

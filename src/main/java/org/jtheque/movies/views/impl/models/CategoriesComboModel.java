@@ -1,78 +1,47 @@
 package org.jtheque.movies.views.impl.models;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.persistence.able.DataListener;
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-
-import javax.swing.DefaultComboBoxModel;
-import java.util.ArrayList;
-import java.util.List;
+import org.jtheque.persistence.able.DataListener;
+import org.jtheque.ui.utils.models.SimpleListModel;
 
 /**
  * A categories combo box model with the data in a cache.
  *
  * @author Baptiste Wicht
  */
-public final class CategoriesComboModel extends DefaultComboBoxModel implements DataListener {
-	private final ICategoriesService categoriesService;
-
-	private List<Category> datas;
-
+public final class CategoriesComboModel extends SimpleListModel<Category> implements DataListener {
     private final Category emptyCategory;
 
     /**
 	 * Construct a new CategoriesComboMode.
 	 */
-	public CategoriesComboModel(){
+	public CategoriesComboModel(ICategoriesService categoriesService){
 		super();
 
-		categoriesService = CoreUtils.getBean("categoriesService");
-
-        emptyCategory = categoriesService.getEmptyCategory();
-
-		datas = new ArrayList<Category>(categoriesService.getDatas());
-        datas.add(emptyCategory);
-
+	    emptyCategory = categoriesService.getEmptyCategory();
         emptyCategory.setTitle(" ");
+
+        addElement(emptyCategory);
 
 		categoriesService.addDataListener(this);
 	}
-
-    @Override
-	public Object getElementAt(int index){
-		return datas.get(index);
-	}
-
-	@Override
-	public int getSize(){
-		return datas.size();
-	}
-
-    @Override
-    public int getIndexOf(Object anObject) {
-        if(anObject == null){
-            return super.getIndexOf(emptyCategory);
-        }
-
-        return super.getIndexOf(anObject);
-    }
 
     /**
 	 * Return the selected data in the model.
@@ -80,7 +49,7 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
 	 * @return The data who's selected.
 	 */
 	public Category getSelectedCategory(){
-        Category selected = (Category) getSelectedItem();
+        Category selected = getSelectedItem();
 
 		return selected == emptyCategory ? null : selected;
 	}
@@ -96,8 +65,7 @@ public final class CategoriesComboModel extends DefaultComboBoxModel implements 
 
     @Override
 	public void dataChanged(){
-		datas = new ArrayList<Category>(categoriesService.getDatas());
-        datas.add(emptyCategory);
+		setElements(emptyCategory);
 
 		fireContentsChanged(this, 0, getSize());
 	}

@@ -1,37 +1,35 @@
 package org.jtheque.movies.views.impl;
 
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.impl.components.panel.FileChooserPanel;
-import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.ui.Borders;
-import org.jtheque.core.utils.ui.builders.JThequePanelBuilder;
-import org.jtheque.core.utils.ui.builders.PanelBuilder;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.ui.utils.builded.BuildedPanel;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.components.FileChooserPanel;
+import org.jtheque.ui.utils.constraints.Constraint;
 import org.jtheque.utils.OSUtils;
 import org.jtheque.utils.io.SimpleFilter;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.utils.ui.SwingUtils;
 
+import javax.annotation.Resource;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -39,37 +37,74 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public final class JPanelConfigMovies extends JPanel implements IOpeningConfigView {
+public final class JPanelConfigMovies extends BuildedPanel implements IOpeningConfigView {
     private JComboBox combo;
 
     private FileChooserPanel fileChooser;
 
-    @Override
-    public String getTitle() {
-        return CoreUtils.getMessage("movie.config");
+    @Resource
+    private IMoviesModule moviesModule;
+
+	@Override
+    public String getTitleKey() {
+        return "movie.config";
     }
 
-    @Override
-    public void build() {
-        SwingUtils.inEdt(new BuildViewRunnable());
-    }
+	@Override
+	protected void buildView(I18nPanelBuilder builder) {
+		addOpeningField(builder);
+		addFFMPEGField(builder);
+
+		fillAllFields();
+	}
+
+	/**
+	 * Add the field the configure the opening system to use.
+	 *
+	 * @param parent The parent to add.
+	 */
+	private void addOpeningField(I18nPanelBuilder parent) {
+		I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+		builder.setI18nTitleBorder("movie.config.opening");
+
+		combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+
+		combo.addItem(IMovieConfiguration.Opening.SYSTEM);
+
+		if (OSUtils.isLinux()) {
+			combo.addItem(IMovieConfiguration.Opening.VLC);
+		} else if (OSUtils.isWindows()) {
+			combo.addItem(IMovieConfiguration.Opening.WMP);
+		}
+	}
+
+	/**
+	 * Add the ffmpeg field to configure the location of ffmpeg.
+	 *
+	 * @param parent The panel builder.
+	 */
+	private void addFFMPEGField(I18nPanelBuilder parent) {
+		I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
+		builder.setI18nTitleBorder("movie.config.ffmpeg");
+
+		fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+		fileChooser.setFilesOnly();
+		fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
+		fileChooser.setTextKey("movie.config.ffmpeg.file");
+	}
 
     /**
      * Fill all the fields with the current informations.
      */
     private void fillAllFields() {
-        IMoviesModule module = CoreUtils.getBean("moviesModule");
-
-        combo.setSelectedItem(module.getConfig().getOpeningSystem());
-        fileChooser.setFilePath(module.getConfig().getFFmpegLocation());
+        combo.setSelectedItem(moviesModule.getConfig().getOpeningSystem());
+        fileChooser.setFilePath(moviesModule.getConfig().getFFmpegLocation());
     }
 
     @Override
     public void apply() {
-        IMoviesModule module = CoreUtils.getBean("moviesModule");
-
-        module.getConfig().setOpeningSystem((IMovieConfiguration.Opening) combo.getSelectedItem());
-        module.getConfig().setFFmpegLocation(fileChooser.getFilePath());
+        moviesModule.getConfig().setOpeningSystem((IMovieConfiguration.Opening) combo.getSelectedItem());
+        moviesModule.getConfig().setFFmpegLocation(fileChooser.getFilePath());
     }
 
     @Override
@@ -77,65 +112,13 @@ public final class JPanelConfigMovies extends JPanel implements IOpeningConfigVi
         fillAllFields();
     }
 
-    @Override
-    public void validate(Collection<JThequeError> errors) {
-        //Nothing to validate in the view
-    }
+	@Override
+	public Map<Object, Constraint> getConstraints() {
+		return Collections.emptyMap();
+	}
 
-    @Override
+	@Override
     public JComponent getComponent() {
         return this;
     }
-
-    /**
-     * A Runnable to build the view.
-     *
-     * @author Baptiste Wicht
-     */
-    private final class BuildViewRunnable implements Runnable {
-        @Override
-        public void run() {
-            PanelBuilder parent = new JThequePanelBuilder(JPanelConfigMovies.this);
-
-            addOpeningField(parent);
-            addFFMPEGField(parent);
-
-            fillAllFields();
-        }
-
-        /**
-         * Add the field the configure the opening system to use.
-         *
-         * @param parent The parent to add.
-         */
-        private void addOpeningField(PanelBuilder parent) {
-            PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-            builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.opening"));
-
-            combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-
-            combo.addItem(IMovieConfiguration.Opening.SYSTEM);
-
-            if (OSUtils.isLinux()) {
-                combo.addItem(IMovieConfiguration.Opening.VLC);
-            } else if (OSUtils.isWindows()) {
-                combo.addItem(IMovieConfiguration.Opening.WMP);
-            }
-        }
-
-        /**
-         * Add the ffmpeg field to configure the location of ffmpeg.
-         *
-         * @param parent The panel builder.
-         */
-        private void addFFMPEGField(PanelBuilder parent) {
-            PanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
-            builder.getPanel().setBorder(Borders.createTitledBorder("movie.config.ffmpeg"));
-
-            fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-            fileChooser.setFilesOnly();
-            fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
-            fileChooser.setTextKey("movie.config.ffmpeg.file");
-		}
-	}
 }

@@ -1,25 +1,22 @@
 package org.jtheque.movies.services.impl;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.utils.db.DaoNotes;
+import org.jtheque.errors.able.IErrorService;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -27,6 +24,8 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
+import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;
@@ -49,6 +48,12 @@ public final class FilesService implements IFilesService {
     @Resource
     private IFFMpegService ffMpegService;
 
+    @Resource
+    private IErrorService errorService;
+
+    @Resource
+    private IDaoNotes daoNotes;
+
     @Override
     public void importMovies(Collection<File> files, Collection<FileParser> parsers) {
         assert !files.isEmpty() : "Files cannot be empty";
@@ -64,7 +69,7 @@ public final class FilesService implements IFilesService {
         }
 
         if (fileNotCreated) {
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotcreated"));
+            errorService.addInternationalizedError("movie.errors.filenotcreated");
         }
     }
 
@@ -72,7 +77,7 @@ public final class FilesService implements IFilesService {
     public Movie createMovie(String filePath, Collection<FileParser> parsers) {
         Movie movie = moviesService.getEmptyMovie();
 
-        movie.setNote(DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED));
+        movie.setNote(daoNotes.getNote(DaoNotes.NoteType.UNDEFINED));
         movie.setFile(filePath);
 
         File file = new File(filePath);

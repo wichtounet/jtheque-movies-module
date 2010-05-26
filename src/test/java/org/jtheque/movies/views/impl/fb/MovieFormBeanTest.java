@@ -1,45 +1,58 @@
 package org.jtheque.movies.views.impl.fb;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.utils.db.DaoNotes;
-import org.jtheque.core.utils.db.Note;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
+import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+        "/org/jtheque/core/spring/core-test-beans.xml",
+        "/org/jtheque/movies/movies-test-beans.xml",
+        "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class MovieFormBeanTest {
+    @Resource
+    private IDaoNotes daoNotes;
+
     @Test
     public void fillMovie(){
         IMovieFormBean fb = new MovieFormBean();
 
         PreciseDuration duration = new PreciseDuration(22L);
         Resolution resolution = new Resolution("450x220");
-        Note note = DaoNotes.getInstance().getNote(DaoNotes.NoteType.UNDEFINED);
+        Note note = daoNotes.getNote(DaoNotes.NoteType.UNDEFINED);
 
         Collection<Category> categories = new HashSet<Category>(2);
 

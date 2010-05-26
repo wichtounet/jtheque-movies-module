@@ -1,35 +1,35 @@
 package org.jtheque.movies.views.impl.frames;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.error.JThequeError;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
-import org.jtheque.core.utils.ui.constraints.ConstraintManager;
+import org.jtheque.movies.controllers.able.IAddFromFileController;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
+import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.constraints.ValidFileConstraint;
+import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import java.io.File;
+import javax.annotation.Resource;
 import java.util.Collection;
 
 /**
@@ -39,6 +39,12 @@ import java.util.Collection;
  */
 public final class AddFromFileView extends AbstractParserView implements IAddFromFileView {
     private FilthyFileChooserPanel fileChooser;
+
+    @Resource
+    private IAddFromFileController addFromFileController;
+
+    @Resource
+    private IMovieController movieController;
 
     /**
      * Construct a new Category View.
@@ -61,6 +67,8 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 
+	    addConstraint(fileChooser, new ValidFileConstraint(Movie.FILE, 200));
+
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 
         int i = 1;
@@ -69,15 +77,13 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(), getCloseAction("movie.auto.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(addFromFileController), getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override
     public void display() {
-        IMovieController controller = getBean("movieController");
-
-        if (controller.isEditing()) {
-            getManager().displayI18nText("movie.dialogs.currentEdit");
+        if (movieController.isEditing()) {
+            getService(IUIUtils.class).displayI18nText("movie.dialogs.currentEdit");
         } else {
             super.display();
         }
@@ -86,14 +92,5 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
     @Override
     public String getFilePath() {
         return fileChooser.getFilePath();
-    }
-
-    @Override
-    protected void validate(Collection<JThequeError> errors) {
-        ConstraintManager.validate(Movie.FILE, getFilePath(), errors);
-
-        if (errors.isEmpty() && !new File(getFilePath()).exists()) {
-            errors.add(new InternationalizedError("movie.errors.filenotfound"));
-        }
     }
 }

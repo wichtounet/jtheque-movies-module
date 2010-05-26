@@ -1,31 +1,29 @@
 package org.jtheque.movies.persistence.od.impl;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.resource.ImageType;
-import org.jtheque.core.utils.db.Note;
-import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.primary.od.impl.abstraction.AbstractData;
+import org.jtheque.persistence.able.Note;
+import org.jtheque.primary.utils.AbstractData;
+import org.jtheque.resources.able.IResourceService;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.EqualsUtils;
 import org.jtheque.utils.bean.HashCodeUtils;
@@ -51,7 +49,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     private Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
-    private org.jtheque.core.managers.collection.Collection theCollection;
+    private org.jtheque.collections.able.Collection theCollection;
     private PreciseDuration duration;
     private Resolution resolution;
 
@@ -60,12 +58,12 @@ public final class MovieImpl extends AbstractData implements Movie {
     //Data methods
 
     @Override
-    public org.jtheque.core.managers.collection.Collection getTheCollection() {
+    public org.jtheque.collections.able.Collection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(org.jtheque.core.managers.collection.Collection theCollection) {
+    public void setTheCollection(org.jtheque.collections.able.Collection theCollection) {
         this.theCollection = theCollection;
     }
 
@@ -147,8 +145,8 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public Icon getIcon() {
-        return Managers.getManager(IResourceManager.class).getIcon(IMoviesModule.IMAGES_BASE_NAME, "movie", ImageType.PNG);
+    public Icon getIcon(IResourceService resourceService) {
+        return resourceService.getIcon(MoviesResources.MOVIE_ICON);
     }
 
     @Override
@@ -199,7 +197,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public boolean isInCollection(org.jtheque.core.managers.collection.Collection collection) {
+    public boolean isInCollection(org.jtheque.collections.able.Collection collection) {
         return theCollection != null && theCollection.equals(collection);
     }
 

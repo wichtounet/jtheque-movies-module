@@ -1,26 +1,23 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.core.managers.error.JThequeError;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-
-import javax.swing.JPanel;
-import java.util.Collection;
+import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -28,7 +25,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public abstract class MoviePanel extends JPanel {
+public abstract class MoviePanel extends OSGIFilthyBuildedPanel {
     private final String key;
 
     /**
@@ -48,13 +45,6 @@ public abstract class MoviePanel extends JPanel {
      * @param movie The current movie.
      */
     public abstract void setMovie(Movie movie);
-
-    /**
-     * Validate the view.
-     *
-     * @param errors The errors list to fill.
-     */
-    public abstract void validate(Collection<JThequeError> errors);
 
     /**
      * Fill a movie form bean with the informations of the view.

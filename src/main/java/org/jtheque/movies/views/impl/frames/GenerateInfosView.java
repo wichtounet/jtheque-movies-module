@@ -1,33 +1,34 @@
 package org.jtheque.movies.views.impl.frames;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.persistence.able.DataContainer;
-import org.jtheque.core.managers.view.able.components.IModel;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyRenderer;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingDialogView;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
+import org.jtheque.movies.controllers.able.IGenerateInfosController;
 import org.jtheque.movies.persistence.od.able.Category;
+import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.IGenerateInfosView;
 import org.jtheque.movies.views.impl.actions.generate.ValidateGenerateInfosViewAction;
-import org.jtheque.primary.view.impl.models.DataContainerCachedComboBoxModel;
+import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
+import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
+import org.jtheque.ui.utils.filthy.FilthyRenderer;
 
+import javax.annotation.Resource;
 import javax.swing.JCheckBox;
 
 /**
@@ -43,14 +44,11 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
     private JCheckBox checkBoxImage;
     private JCheckBox checkBoxSub;
 
-    /**
-     * Construct a new CleanView.
-     */
-    public GenerateInfosView() {
-        super();
+    @Resource
+    private ICategoriesService categoriesService;
 
-        build();
-    }
+    @Resource
+    private IGenerateInfosController generateInfosController;
 
     @Override
     protected void initView() {
@@ -62,8 +60,7 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
     protected void buildView(I18nPanelBuilder builder) {
         builder.addI18nLabel("data.titles.category", builder.gbcSet(0, 0));
 
-        categoriesModel = new DataContainerCachedComboBoxModel<Category>(
-                SwingDialogView.<DataContainer<Category>>getBean("categoriesService"));
+        categoriesModel = new DataContainerCachedComboBoxModel<Category>(categoriesService);
 
         builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
 
@@ -72,7 +69,9 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
         checkBoxImage = builder.addI18nCheckBox("movie.infos.image", builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL, 2, 1));
         checkBoxSub = builder.addI18nCheckBox("movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
 
-        builder.addButtonBar(builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1), new ValidateGenerateInfosViewAction(), getCloseAction("movie.auto.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
+                new ValidateGenerateInfosViewAction(generateInfosController),
+                getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override

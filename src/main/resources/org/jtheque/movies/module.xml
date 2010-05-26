@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <i18n>
+        <i18nResource name="jtheque-movies" version="1.0">
+            <classpath>org/jtheque/movies/i18n/movies_en.properties</classpath>
+            <classpath>org/jtheque/movies/i18n/movies_fr.properties</classpath>
+        </i18nResource>
+    </i18n>
+    <resources>
+        <resource name="movies.collapse.icon">
+            <classpath>org/jtheque/movies/images/collapse.png</classpath>
+        </resource>
+        <resource name="movies.expand.icon">
+            <classpath>org/jtheque/movies/images/expand.png</classpath>
+        </resource>
+        <resource name="movies.refresh.icon">
+            <classpath>org/jtheque/movies/images/refresh.png</classpath>
+        </resource>
+        <resource name="movies.play.icon">
+            <classpath>org/jtheque/movies/images/play.png</classpath>
+        </resource>
+        <resource name="movies.box.icon">
+            <classpath>org/jtheque/movies/images/box.png</classpath>
+        </resource>
+        <resource name="movies.movie.icon">
+            <classpath>org/jtheque/movies/images/movie.png</classpath>
+        </resource>
+    </resources>
+</config>

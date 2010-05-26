@@ -1,56 +1,34 @@
 package org.jtheque.movies;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.collection.ICollectionsService;
-import org.jtheque.core.managers.core.Core;
-import org.jtheque.core.managers.error.IErrorManager;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.feature.IFeatureManager;
-import org.jtheque.core.managers.feature.Menu;
-import org.jtheque.core.managers.module.annotations.Module;
-import org.jtheque.core.managers.module.annotations.Plug;
-import org.jtheque.core.managers.module.annotations.PrePlug;
-import org.jtheque.core.managers.module.annotations.UnPlug;
-import org.jtheque.core.managers.module.beans.CollectionBasedModule;
-import org.jtheque.core.managers.schema.ISchemaManager;
-import org.jtheque.core.managers.schema.Schema;
-import org.jtheque.core.managers.state.IStateManager;
-import org.jtheque.core.managers.state.StateException;
-import org.jtheque.core.managers.view.ViewComponent;
-import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.ui.constraints.ConstraintManager;
-import org.jtheque.core.utils.ui.constraints.MaxLengthConstraint;
-import org.jtheque.movies.persistence.MoviesSchema;
-import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.collections.able.ICollectionsService;
+import org.jtheque.core.able.ICore;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.impl.IOpeningConfigView;
-import org.jtheque.primary.PrimaryUtils;
+import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.primary.utils.DataTypeManager;
-import org.jtheque.primary.view.impl.choice.ChoiceAction;
-import org.jtheque.primary.view.impl.choice.ChoiceActionFactory;
-import org.jtheque.utils.collections.ArrayUtils;
+import org.jtheque.states.able.IStateService;
 import org.jtheque.utils.io.FileUtils;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.annotation.Resource;
 import java.io.File;
 
 /**
@@ -58,123 +36,49 @@ import java.io.File;
  *
  * @author Baptiste Wicht
  */
-@Module(id = "jtheque-movies-module", i18n = "classpath:org/jtheque/movies/i18n/movies", version = "1.4", core = "2.1",
-        updateURL = "http://jtheque.developpez.com/public/versions/MoviesModule.versions")
-public final class MoviesModule implements CollectionBasedModule, IMoviesModule {
-    private final ChoiceAction[] choiceActions;
-
-    private Menu moviesMenu;
-
-    private Schema schema;
-
+public final class MoviesModule implements IMoviesModule {
     private IMovieConfiguration config;
-
-    private final IOpeningConfigView panelConfig;
 
     private String thumbnailFolderPath;
 
-    /**
-     * Create a new MovieModule. This constructor must only be accessed using Spring, not directly, expect for tests.
-     *
-     * @param choiceActions The choice actions to inject.
-     * @param panelConfig   The panel config.
-     */
-    public MoviesModule(ChoiceAction[] choiceActions, IOpeningConfigView panelConfig) {
-        super();
+    @Resource
+    private IStateService stateService;
 
-        this.choiceActions = ArrayUtils.copyOf(choiceActions);
-        this.panelConfig = panelConfig;
-    }
+    @Resource
+	private IPrimaryUtils primaryUtils;
+
+    @Resource
+	private ICore core;
 
     /**
      * Pre plug the module.
      */
-    @PrePlug
-    private void prePlug() {
-        PrimaryUtils.setPrimaryImpl("Movies");
-        PrimaryUtils.prePlug();
+    @PostConstruct
+    public void plug() {
+        primaryUtils.setPrimaryImpl("Movies");
+        primaryUtils.prePlug();
 
-        schema = new MoviesSchema();
+        primaryUtils.plug();
 
-        Managers.getManager(ISchemaManager.class).registerSchema(schema);
-    }
-
-    /**
-     * Plug the module.
-     */
-    @Plug
-    private void plug() {
-        PrimaryUtils.plug();
-
-        loadConfiguration();
+        config = stateService.getState(new MovieConfiguration());
 
         DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
 
         NativeInterface.open();
-
-        for (ChoiceAction action : choiceActions) {
-            ChoiceActionFactory.addChoiceAction(action);
-        }
-
-        configureDataConstraints();
-
-        panelConfig.build();
-        Managers.getManager(IViewManager.class).addConfigTabComponent(panelConfig);
-
-        Managers.getManager(IViewManager.class).setMainComponent(CoreUtils.<ViewComponent>getBean("movieView"));
-
-        moviesMenu = new MoviesMenu();
-        Managers.getManager(IFeatureManager.class).addMenu(moviesMenu);
-    }
-
-    /**
-     * Load the configuration.
-     */
-    private void loadConfiguration() {
-        config = Managers.getManager(IStateManager.class).getState(MovieConfiguration.class);
-
-        if (config == null) {
-            try {
-                config = Managers.getManager(IStateManager.class).createState(MovieConfiguration.class);
-            } catch (StateException e) {
-                CoreUtils.getLogger(getClass()).error(e);
-                config = new MovieConfiguration();
-                Managers.getManager(IErrorManager.class).addError(new InternationalizedError("error.loading.configuration"));
-            }
-        }
-    }
-
-    /**
-     * Configure the data constraints.
-     */
-    private static void configureDataConstraints() {
-        ConstraintManager.addConstraint(Category.NAME, new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
-        ConstraintManager.addConstraint(Movie.TITLE, new MaxLengthConstraint(Movie.TITLE_LENGTH, Movie.TITLE, false, false));
-        ConstraintManager.addConstraint(Movie.FILE, new MaxLengthConstraint(Movie.FILE_LENGTH, Movie.FILE, false, false));
     }
 
     /**
      * Unplug the module.
      */
-    @UnPlug
+    @PreDestroy
     private void unplug() {
-        Managers.getManager(IFeatureManager.class).removeMenu(moviesMenu);
-
-        for (ChoiceAction action : choiceActions) {
-            ChoiceActionFactory.removeChoiceAction(action);
-        }
-
-        Managers.getManager(IViewManager.class).removeConfigTabComponent(panelConfig);
-
         DataTypeManager.unbindDataType(ICategoriesService.DATA_TYPE);
         DataTypeManager.unbindDataType(IMoviesService.DATA_TYPE);
         DataTypeManager.unbindDataType(ICollectionsService.DATA_TYPE);
 
-        PrimaryUtils.unplug();
-
-        Managers.getManager(ISchemaManager.class).unregisterSchema(schema);
+        primaryUtils.unplug();
 
         NativeInterface.runEventPump();
     }
@@ -187,7 +91,7 @@ public final class MoviesModule implements CollectionBasedModule, IMoviesModule 
     @Override
     public String getThumbnailFolderPath() {
         if (thumbnailFolderPath == null) {
-            File thumbnailFolder = new File(Core.getInstance().getFolders().getApplicationFolder(), "/thumbnails");
+            File thumbnailFolder = new File(core.getFolders().getApplicationFolder(), "/thumbnails");
 
             FileUtils.createIfNotExists(thumbnailFolder);
 

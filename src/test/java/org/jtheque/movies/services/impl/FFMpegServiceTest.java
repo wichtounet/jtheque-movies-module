@@ -1,27 +1,22 @@
 package org.jtheque.movies.services.impl;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.IManager;
-import org.jtheque.core.managers.ManagerException;
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.core.Core;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.resource.ImageType;
+import org.jtheque.core.able.ICore;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;
@@ -32,23 +27,12 @@ import org.jtheque.utils.bean.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -57,30 +41,22 @@ import static org.junit.Assert.*;
         "/org/jtheque/core/spring/core-test-beans.xml",
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
-public class FFMpegServiceTest implements ApplicationContextAware{
+public class FFMpegServiceTest {
     @Resource
     private IFFMpegService ffmMpegService;
 
     @Resource
     private IMoviesModule moviesModule;
 
+    @Resource
+    private ICore core;
+
     private String testFolder;
-
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     @Before
     public void setUp(){
         BeanUtils.set(moviesModule, "config", new MovieConfiguration());
-        BeanUtils.set(Core.getInstance(), "application", new MoviesModuleTest.EmptyApplication());
-
-        Map<Class<?>, IManager> managers = BeanUtils.getStatic(Managers.class, "MANAGERS");
-
-        managers.put(IResourceManager.class, new TestResourceManager(applicationContext));
+        BeanUtils.set(core, "application", new MoviesModuleTest.EmptyApplication());
 
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
         testFolder = System.getenv("JTHEQUE_TESTS");
@@ -125,115 +101,5 @@ public class FFMpegServiceTest implements ApplicationContextAware{
         assertNotNull(image);
 
         assertEquals(200, image.getWidth());
-    }
-
-    public static final class TestResourceManager implements IResourceManager, IManager {
-        private final ApplicationContext applicationContext;
-
-        public TestResourceManager(ApplicationContext applicationContext) {
-            super();
-
-
-            this.applicationContext = applicationContext;
-        }
-
-        @Override
-        public org.springframework.core.io.Resource getResource(String path) {
-            return applicationContext.getResource(path);
-        }
-
-        @Override
-        public InputStream getResourceAsStream(String path) {
-            InputStream stream = null;
-
-            try {
-                stream = getResource(path).getInputStream();
-            } catch (IOException e) {
-                LoggerFactory.getLogger(getClass()).error("Unable to load stream for {}", path);
-                LoggerFactory.getLogger(getClass()).error(e.getMessage());
-            }
-
-            return stream;
-        }
-
-        @Override
-        public ImageIcon getIcon(String baseName, String id, ImageType type) {
-            return null;
-        }
-
-        @Override
-        public ImageIcon getIcon(String id, ImageType type) {
-            return null;
-        }
-
-        @Override
-        public ImageIcon getIcon(String id) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String baseName, String id, ImageType type, int width) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String baseName, String id, ImageType type) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String id, ImageType type, int width) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String id, ImageType type) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String id, int width) {
-            return null;
-        }
-
-        @Override
-        public BufferedImage getImage(String id) {
-            return null;
-        }
-
-        @Override
-        public Color getColor(String name) {
-            return null;
-        }
-
-        @Override
-        public Action getAction(String name) {
-            return null;
-        }
-
-        @Override
-        public void preInit() {
-
-        }
-
-        @Override
-        public void init() throws ManagerException {
-
-        }
-
-        @Override
-        public void close() {
-
-        }
-
-        @Override
-        public void invalidateCache() {
-
-        }
-
-        @Override
-        public void invalidateImage(String id) {
-            
-        }
     }
 }

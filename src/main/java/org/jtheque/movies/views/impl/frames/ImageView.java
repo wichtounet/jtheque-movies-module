@@ -1,31 +1,24 @@
 package org.jtheque.movies.views.impl.frames;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import org.jdesktop.swingx.JXImagePanel;
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.view.able.components.IModel;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFileChooserPanel;
-import org.jtheque.core.managers.view.impl.components.filthy.FilthyFormattedTextField;
-import org.jtheque.core.managers.view.impl.frame.abstraction.SwingFilthyBuildedDialogView;
-import org.jtheque.core.utils.CoreUtils;
-import org.jtheque.core.utils.ui.builders.I18nPanelBuilder;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.controllers.impl.ImageController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
 import org.jtheque.movies.views.able.IImageView;
@@ -33,9 +26,16 @@ import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageActio
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateTimeImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.ValidateImageViewAction;
+import org.jtheque.resources.able.IResourceService;
+import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
+import org.jtheque.ui.utils.filthy.FilthyFormattedTextField;
+import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
+import javax.annotation.Resource;
 import javax.swing.text.NumberFormatter;
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
@@ -51,14 +51,11 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
 
     private JXImagePanel imagePanel;
 
-    /**
-     * Construct a new ImageView.
-     */
-    public ImageView() {
-        super();
+    @Resource
+    private ImageController imageController;
 
-        build();
-    }
+    @Resource
+    private IMoviesModule moviesModule;
 
     @Override
     protected void initView() {
@@ -74,7 +71,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         imagePanel.setOpaque(false);
 
         builder.addButtonBar(builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
-                new ValidateImageViewAction(), getCloseAction("movie.image.actions.cancel"));
+                new ValidateImageViewAction(imageController), getCloseAction("movie.image.actions.cancel"));
     }
 
     /**
@@ -86,7 +83,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
         builder.setI18nTitleBorder("movie.image.ffmpeg");
 
-        builder.addButton(new GenerateRandomImageAction(), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
+        builder.addButton(new GenerateRandomImageAction(imageController), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
 
         builder.addI18nLabel("movie.image.file.time", builder.gbcSet(0, 1));
 
@@ -94,7 +91,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
                 builder.gbcSet(1, 1));
         timeTextField.getField().setColumns(5);
 
-        builder.addButton(new GenerateTimeImageAction(), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
+        builder.addButton(new GenerateTimeImageAction(imageController), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
     }
 
     /**
@@ -110,17 +107,17 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         imageChooser.setTextKey("movie.image.file.location");
         imageChooser.setFileFilter(new PictureFileNameFilter());
 
-        builder.addButton(new GenerateFileImageAction(), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
+        builder.addButton(new GenerateFileImageAction(imageController), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
     }
 
     @Override
     public void displayMovie(Movie movie) {
         if (StringUtils.isNotEmpty(movie.getImage())) {
-            String resource = "file:" + CoreUtils.getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage();
+	        String resource = moviesModule.getThumbnailFolderPath() + movie.getImage();
 
-            Managers.getManager(IResourceManager.class).invalidateImage(resource);
+            getService(IResourceService.class).invalidateImage(resource);
             
-            setImage(Managers.getManager(IResourceManager.class).getImage(resource));
+            setImage(getService(IResourceService.class).getFileImage(resource));
         }
     }
 

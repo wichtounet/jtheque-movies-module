@@ -1,29 +1,30 @@
 package org.jtheque.movies.views.impl.choice;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.utils.CoreUtils;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.primary.controller.impl.undo.GenericDataDeletedEdit;
-import org.jtheque.primary.view.impl.choice.AbstractPrimaryDeleteChoiceAction;
-import org.jtheque.primary.view.impl.choice.Deleter;
+import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
+import org.jtheque.primary.utils.choice.AbstractPrimaryDeleteChoiceAction;
+import org.jtheque.primary.utils.choice.Deleter;
+
+import javax.annotation.Resource;
 
 /**
  * An action to delete the selected item.
@@ -31,6 +32,12 @@ import org.jtheque.primary.view.impl.choice.Deleter;
  * @author Baptiste Wicht
  */
 public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction {
+	@Resource
+	private IMoviesService moviesService;
+
+	@Resource
+	private ICategoriesService categoriesService;
+
     /**
      * Construct a new DeleteChoiceAction.
      */
@@ -46,7 +53,7 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
      *
      * @author Baptiste Wicht.
      */
-    private static final class MovieDeleter extends Deleter<Movie> {
+    private final class MovieDeleter extends Deleter<Movie> {
         /**
          * Construct a new MovieDeleter.
          */
@@ -57,8 +64,8 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
         @Override
         public void delete(Movie o) {
             addEditIfDeleted(
-                    CoreUtils.<IMoviesService>getBean("moviesService").delete(o),
-                    new GenericDataDeletedEdit<Movie>("moviesService", o));
+                    moviesService.delete(o),
+                    new GenericDataDeletedEdit<Movie>(moviesService, o));
         }
     }
 
@@ -67,7 +74,7 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
      *
      * @author Baptiste Wicht
      */
-    private static final class CategoryDeleter extends Deleter<Category> {
+    private final class CategoryDeleter extends Deleter<Category> {
         /**
          * Construct a new CategoryDeleter.
          */
@@ -78,8 +85,8 @@ public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction 
         @Override
         public void delete(Category o) {
             addEditIfDeleted(
-                    CoreUtils.<ICategoriesService>getBean("categoriesService").delete(o),
-                    new GenericDataDeletedEdit<Category>("categoriesService", o));
+                    categoriesService.delete(o),
+                    new GenericDataDeletedEdit<Category>(categoriesService, o));
         }
     }
 }

@@ -1,28 +1,26 @@
 package org.jtheque.movies.services;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
-import org.jtheque.core.managers.IManager;
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.core.Core;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.utils.test.AbstractDBUnitTest;
+import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.core.able.ICore;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;
@@ -30,22 +28,17 @@ import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.services.impl.FFMpegServiceTest;
 import org.jtheque.movies.services.impl.cleaners.ExtensionCleaner;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.primary.PrimaryUtils;
-import org.jtheque.core.managers.collection.IDaoCollections;
-import org.jtheque.core.managers.collection.CollectionImpl;
+import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.io.FileUtils;
 import org.jtheque.utils.ui.ImageUtils;
+import org.jtheque.utils.unit.db.AbstractDBUnitTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -58,7 +51,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -71,7 +63,7 @@ import static org.junit.Assert.*;
         "/org/jtheque/core/spring/core-test-beans.xml",
         "/org/jtheque/movies/movies-test-beans.xml",
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
-public class MoviesServiceTest extends AbstractDBUnitTest implements ApplicationContextAware {
+public class MoviesServiceTest extends AbstractDBUnitTest {
     @Resource
     private IMoviesService moviesService;
 
@@ -85,18 +77,17 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
     private IMoviesModule moviesModule;
 
     @Resource
+    private IPrimaryUtils primaryUtils;
+
+    @Resource
+    private ICore core;
+
+    @Resource
     private DataSource dataSource;
 
-    private org.jtheque.core.managers.collection.Collection collection;
+    private org.jtheque.collections.able.Collection collection;
 
     private String testFolder;
-
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 
     static {
         ((Logger) LoggerFactory.getLogger("root")).setLevel(Level.ERROR);
@@ -110,7 +101,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
     public void init() {
         initDB(dataSource);
 
-        PrimaryUtils.setPrimaryImpl("Movies");
+        primaryUtils.setPrimaryImpl("Movies");
 
         collection = new CollectionImpl();
         collection.setId(1);
@@ -121,11 +112,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest implements Application
         daoCollections.setCurrentCollection(collection);
 
         BeanUtils.set(moviesModule, "config", new MovieConfiguration());
-        BeanUtils.set(Core.getInstance(), "application", new MoviesModuleTest.EmptyApplication());
-
-        Map<Class<?>, IManager> managers = BeanUtils.getStatic(Managers.class, "MANAGERS");
-
-        managers.put(IResourceManager.class, new FFMpegServiceTest.TestResourceManager(applicationContext));
+        BeanUtils.set(core, "application", new MoviesModuleTest.EmptyApplication());
         
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
         testFolder = System.getenv("JTHEQUE_TESTS");

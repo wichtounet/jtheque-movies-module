@@ -1,31 +1,28 @@
 package org.jtheque.movies.views.impl.actions.movies;
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.managers.view.impl.actions.JThequeAction;
-import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.errors.able.IErrorService;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.views.impl.panel.EditMoviePanel;
+import org.jtheque.ui.utils.actions.JThequeAction;
 import org.jtheque.utils.StringUtils;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 /**
@@ -36,15 +33,22 @@ import java.io.File;
 public final class GetInformationsAction extends JThequeAction {
     private final EditMoviePanel editMoviePanel;
 
+	private final IFFMpegService ffMpegService;
+	private final IErrorService errorService;
+
     /**
      * Construct a new GetInformationsAction.
      *
      * @param editMoviePanel The edit movie panel.
+     * @param ffMpegService
+     * @param errorService
      */
-    public GetInformationsAction(EditMoviePanel editMoviePanel) {
+    public GetInformationsAction(EditMoviePanel editMoviePanel, IFFMpegService ffMpegService, IErrorService errorService) {
         super("movie.actions.infos");
 
         this.editMoviePanel = editMoviePanel;
+	    this.ffMpegService = ffMpegService;
+	    this.errorService = errorService;
     }
 
     @Override
@@ -54,10 +58,10 @@ public final class GetInformationsAction extends JThequeAction {
         File file = new File(filePath);
 
         if (StringUtils.isNotEmpty(filePath) && file.exists()) {
-            editMoviePanel.setResolution(CoreUtils.<IFFMpegService>getBean("ffmpegService").getResolution(file));
-            editMoviePanel.setDuration(CoreUtils.<IFFMpegService>getBean("ffmpegService").getDuration(file));
+            editMoviePanel.setResolution(ffMpegService.getResolution(file));
+            editMoviePanel.setDuration(ffMpegService.getDuration(file));
         } else {
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.filenotfound"));
+            errorService.addInternationalizedError("movie.errors.filenotfound");
         }
     }
 }

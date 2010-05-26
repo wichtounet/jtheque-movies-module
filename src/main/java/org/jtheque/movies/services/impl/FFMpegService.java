@@ -1,26 +1,22 @@
 package org.jtheque.movies.services.impl;
 
 /*
- * This file is part of JTheque.
- * 	   
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License. 
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.error.InternationalizedError;
-import org.jtheque.core.managers.resource.IResourceManager;
-import org.jtheque.core.managers.view.able.IViewManager;
-import org.jtheque.core.utils.CoreUtils;
+import org.jtheque.errors.able.IErrorService;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.services.able.IFFMpegService;
@@ -30,12 +26,12 @@ import org.jtheque.utils.ScannerUtils;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.io.SimpleApplicationConsumer;
 import org.jtheque.utils.ui.ImageUtils;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -55,6 +51,9 @@ public final class FFMpegService implements IFFMpegService {
 
     @Resource
     private IMoviesModule moviesModule;
+
+    @Resource
+    private IErrorService errorService;
 
     @Override
     public Resolution getResolution(File f) {
@@ -135,7 +134,7 @@ public final class FFMpegService implements IFFMpegService {
             try {
                 p.consume();
             } catch (IOException e) {
-                CoreUtils.getLogger(getClass()).error(e);
+            LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
             }
 
             return ImageUtils.createThumbnail(openImage(new File(fileName)), THUMBNAIL_WIDTH);
@@ -157,13 +156,7 @@ public final class FFMpegService implements IFFMpegService {
      * @return The thumbnail of the image.
      */
     private static BufferedImage openImage(File file) {
-        if(ImageUtils.isHeadless()){
-            return ImageUtils.read(file);
-        }
-
-        InputStream stream = Managers.getManager(IResourceManager.class).getResourceAsStream("file:" + file.getAbsolutePath());
-
-        return ImageUtils.openCompatibleImage(stream);
+        return ImageUtils.openCompatibleImage(file);
     }
 
     /**
@@ -175,7 +168,7 @@ public final class FFMpegService implements IFFMpegService {
         boolean notInstalled = !ffmpegIsInstalled();
 
         if (notInstalled) {
-            Managers.getManager(IViewManager.class).displayError(new InternationalizedError("movie.errors.ffmpeg"));
+            errorService.addInternationalizedError("movie.errors.ffmpeg");
         }
 
         return !notInstalled;
@@ -204,7 +197,7 @@ public final class FFMpegService implements IFFMpegService {
 
             return new Scanner(p.getResult());
         } catch (IOException e) {
-            CoreUtils.getLogger(getClass()).error(e);
+            LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
         }
 
         return null;

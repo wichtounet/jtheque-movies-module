@@ -1,28 +1,34 @@
 package org.jtheque.movies;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.feature.AbstractMenu;
-import org.jtheque.core.managers.feature.Feature;
+import org.jtheque.features.able.IFeature;
+import org.jtheque.movies.controllers.able.ICategoryController;
+import org.jtheque.movies.controllers.able.IFilesController;
 import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.services.able.IMoviesService;
+import org.jtheque.movies.views.able.IGenerateInfosView;
+import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.actions.DeleteUnusedThumbnailsAction;
 import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.movies.views.impl.actions.files.DisplayFilesViewAction;
-import org.jtheque.primary.view.impl.actions.choice.ChoiceViewAction;
+import org.jtheque.primary.able.controller.IChoiceController;
+import org.jtheque.primary.utils.choice.ChoiceViewAction;
+import org.jtheque.views.utils.OSGIMenu;
 
 import java.util.List;
 
@@ -31,21 +37,29 @@ import java.util.List;
  *
  * @author Baptiste Wicht
  */
-final class MoviesMenu extends AbstractMenu {
+public final class MoviesMenu extends OSGIMenu {
     @Override
-    protected List<Feature> getMenuMainFeatures() {
+    protected List<IFeature> getMenuMainFeatures() {
+        IMoviesModule moviesModule = getService(IMoviesModule.class);
+        ICategoryController categoryController = getService(ICategoryController.class);
+        IChoiceController choiceController = getService(IChoiceController.class);
+		IFilesController filesController = getService(IFilesController.class);
+        IMoviesService moviesService = getService(IMoviesService.class);
+        IGenerateInfosView generateInfosView = getService(IGenerateInfosView.class);
+        IImportFolderView importFolderView = getService(IImportFolderView.class);
+	    
         return features(
                 createMainFeature(500, "category.menu.title",
-                        createSubFeature(1, new CreateNewCategoryAction()),
-                        createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE)),
-                        createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE)),
-                        createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", "importFolderView"))
+                        createSubFeature(1, new CreateNewCategoryAction(categoryController)),
+                        createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE, choiceController)),
+                        createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController)),
+                        createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", importFolderView))
                 ),
                 createMainFeature(400, "movie.menu.title",
-                        createSubFeature(100, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE)),
-                        createSubFeature(101, createDisplayViewAction("movie.generate.infos", "generateInfosView")),
-                        createSubFeature(102, new DisplayFilesViewAction()),
-                        createSubFeature(1, new DeleteUnusedThumbnailsAction())
+                        createSubFeature(100, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE, choiceController)),
+                        createSubFeature(101, createDisplayViewAction("movie.generate.infos", generateInfosView)),
+                        createSubFeature(102, new DisplayFilesViewAction(filesController)),
+                        createSubFeature(1, new DeleteUnusedThumbnailsAction(moviesModule, moviesService))
                 ));
     }
 }

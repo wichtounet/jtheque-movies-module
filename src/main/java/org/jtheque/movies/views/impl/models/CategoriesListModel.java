@@ -1,105 +1,49 @@
 package org.jtheque.movies.views.impl.models;
 
 /*
- * This file is part of JTheque.
+ * Copyright JTheque (Baptiste Wicht)
  *
- * JTheque is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * JTheque is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with JTheque.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
-import org.jtheque.core.managers.Managers;
-import org.jtheque.core.managers.beans.IBeansManager;
-import org.jtheque.core.managers.persistence.able.DataListener;
-import org.jtheque.core.managers.view.impl.components.model.SimpleListModel;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-
-import javax.annotation.Resource;
-import javax.swing.DefaultListModel;
-import java.util.ArrayList;
-import java.util.List;
+import org.jtheque.persistence.able.DataListener;
+import org.jtheque.ui.utils.models.SimpleListModel;
 
 /**
  * A list model for actors.
  *
  * @author Baptiste Wicht
  */
-public final class CategoriesListModel extends DefaultListModel implements DataListener {
-    @Resource
-    private ICategoriesService categoriesService;
+public final class CategoriesListModel extends SimpleListModel<Category> implements DataListener {
+    private final ICategoriesService categoriesService;
 
     private SimpleListModel<Category> linkedModel;
 
-    private List<Category> categories;
-
     /**
      * Construct a new ActorsListModel.
+     *
+     * @param categoriesService
      */
-    public CategoriesListModel() {
+    public CategoriesListModel(ICategoriesService categoriesService) {
         super();
 
-        Managers.getManager(IBeansManager.class).inject(this);
+	    this.categoriesService = categoriesService;
 
-        categoriesService.addDataListener(this);
-        categories = new ArrayList<Category>(categoriesService.getCategories());
-    }
+	    this.categoriesService.addDataListener(this);
 
-    @Override
-    public Object getElementAt(int index) {
-        return categories.get(index);
-    }
-
-    @Override
-    public Object get(int index) {
-        return categories.get(index);
-    }
-
-    @Override
-    public int getSize() {
-        return categories.size();
-    }
-
-    @Override
-    public Object remove(int i) {
-        Category category = categories.remove(i);
-        fireIntervalRemoved(this, i, i);
-        return category;
-    }
-
-    @Override
-    public void addElement(Object obj) {
-        categories.add((Category) obj);
-        fireIntervalAdded(this, getSize(), getSize());
-    }
-
-    @Override
-    public void removeAllElements() {
-        categories.clear();
-        fireContentsChanged(this, 0, getSize());
-    }
-
-    @Override
-    public boolean removeElement(Object obj) {
-        Category category = (Category) obj;
-
-        int index = categories.indexOf(category);
-
-        if (index != -1) {
-            boolean remove = categories.remove(category);
-            fireIntervalRemoved(this, index, index);
-            return remove;
-        }
-
-        return false;
+        setElements(this.categoriesService.getCategories());
     }
 
     @Override
@@ -111,15 +55,13 @@ public final class CategoriesListModel extends DefaultListModel implements DataL
      * Reload the model.
      */
     public void reload() {
-        categories = new ArrayList<Category>(categoriesService.getCategories());
+        setElements(categoriesService.getCategories());
 
         if (linkedModel != null) {
             for (Category category : linkedModel.getObjects()) {
                 removeElement(category);
             }
         }
-
-        fireContentsChanged(this, 0, getSize());
     }
 
     /**
