@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/osgi
+            http://www.springframework.org/schema/osgi/spring-osgi.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+       default-lazy-init="false">
+
+    <context:annotation-config/>
+
+    <bean class="org.jtheque.persistence.utils.DataContainerPostProcessor"/>
+
+    <osgi:reference id="primaryUtils" interface="org.jtheque.primary.able.IPrimaryUtils"/>
+    <osgi:reference id="languageService" interface="org.jtheque.i18n.able.ILanguageService"/>
+    <osgi:reference id="errorService" interface="org.jtheque.errors.able.IErrorService"/>
+    <osgi:reference id="resourceService" interface="org.jtheque.resources.able.IResourceService"/>
+    <osgi:reference id="schemaService" interface="org.jtheque.schemas.able.ISchemaService"/>
+    <osgi:reference id="stateService" interface="org.jtheque.states.able.IStateService"/>
+    <osgi:reference id="viewService" interface="org.jtheque.views.able.IViewService"/>
+    <osgi:reference id="featureService" interface="org.jtheque.features.able.IFeatureService"/>
+    <osgi:reference id="fileService" interface="org.jtheque.file.able.IFileService"/>
+    <osgi:reference id="undoRedoService" interface="org.jtheque.undo.able.IUndoRedoService"/>
+    <osgi:reference id="uiUtils" interface="org.jtheque.ui.able.IUIUtils"/>
+    <osgi:reference id="core" interface="org.jtheque.core.able.ICore"/>
+    <osgi:reference id="views" interface="org.jtheque.views.able.IViews"/>
+    <osgi:reference id="daoPersistenceContext" interface="org.jtheque.persistence.able.IDaoPersistenceContext"/>
+    <osgi:reference id="daoCollections" interface="org.jtheque.collections.able.IDaoCollections"/>
+    <osgi:reference id="daoNotes" interface="org.jtheque.persistence.able.IDaoNotes"/>
+
+    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" />
+
+    <bean id="addFromFileController" class="org.jtheque.movies.controllers.impl.AddFromFileController"/>
+    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController"/>
+    <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController"/>
+    <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController"/>
+    <bean id="filesController" class="org.jtheque.movies.controllers.impl.FilesController"/>
+    <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController"/>
+
+    <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState"/>
+        </constructor-arg>
+        <constructor-arg>
+            <null/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="daoCategories" class="org.jtheque.movies.persistence.dao.impl.DaoCategories"/>
+    <bean id="daoMovies" class="org.jtheque.movies.persistence.dao.impl.DaoMovies"/>
+
+    <bean id="categoriesService" class="org.jtheque.movies.services.impl.CategoriesService"/>
+    <bean id="moviesService" class="org.jtheque.movies.services.impl.MoviesService"/>
+    <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
+    <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
+
+    <bean class="org.jtheque.movies.views.impl.panel.ViewMoviePanel" lazy-init="true"/>
+    <bean class="org.jtheque.movies.views.impl.panel.EditMoviePanel" lazy-init="true"/>
+    <bean class="org.jtheque.movies.views.impl.panel.JPanelCategories" lazy-init="true"/>
+
+    <bean class="org.jtheque.movies.views.impl.frames.CategoryView" lazy-init="true"/>
+
+    <bean class="org.jtheque.movies.views.impl.frames.AddFromFileView" lazy-init="true">
+        <constructor-arg ref="fileParsers"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.ImportFolderView" lazy-init="true">
+        <constructor-arg ref="fileParsers"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.CleanView" lazy-init="true">
+        <constructor-arg ref="nameCleaners"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.ImageView" lazy-init="true"/>
+
+    <bean class="org.jtheque.movies.views.impl.frames.GenerateInfosView" lazy-init="true"/>
+
+    <bean class="org.jtheque.movies.views.impl.frames.FilesView" lazy-init="true"/>
+
+    <util:list id="fileParsers">
+        <bean class="org.jtheque.movies.services.impl.parsers.StaticCategoryParser"/>
+        <bean class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"/>
+        <bean class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser">
+            <constructor-arg value="-"/>
+        </bean>
+        <bean class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
+            <constructor-arg value="["/>
+            <constructor-arg value="]"/>
+        </bean>
+        <bean class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser">
+            <constructor-arg value="{"/>
+            <constructor-arg value="}"/>
+        </bean>
+    </util:list>
+
+    <util:list id="nameCleaners">
+        <bean class="org.jtheque.movies.services.impl.cleaners.CategoryNameCleaner"/>
+        <bean class="org.jtheque.movies.services.impl.cleaners.NumberCleaner"/>
+        <bean class="org.jtheque.movies.services.impl.cleaners.ExtensionCleaner"/>
+        <bean class="org.jtheque.movies.services.impl.cleaners.CharCleaner">
+            <constructor-arg value="-"/>
+        </bean>
+    </util:list>
+
+    <!-- Auto registration -->
+
+    <bean class="org.jtheque.views.utils.AutoRegistrationPostProcessor">
+        <constructor-arg value="org.jtheque.movies"/>
+        <constructor-arg>
+            <util:list>
+                <value>panelConfigMovies</value>
+                <value>movieView</value>
+            </util:list>
+        </constructor-arg>
+        <property name="views" ref="views"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="featureService" ref="featureService"/>
+        <property name="schemaService" ref="schemaService"/>
+    </bean>
+
+    <bean id="panelConfigMovies" class="org.jtheque.movies.views.impl.JPanelConfigMovies" lazy-init="true"/>
+    <bean id="movieView" class="org.jtheque.movies.views.impl.MovieView" lazy-init="true"/>
+    <bean class="org.jtheque.movies.MoviesMenu"/>
+    <bean class="org.jtheque.movies.persistence.MoviesSchema"/>
+
+    <bean class="org.jtheque.primary.utils.choice.ChoiceActionsPostProcessor" />
+
+    <bean class="org.jtheque.movies.views.impl.choice.ModifyChoiceAction"/>
+    <bean class="org.jtheque.movies.views.impl.choice.DeleteChoiceAction"/>
+    <bean class="org.jtheque.movies.views.impl.choice.CleanChoiceAction"/>
+</beans>
