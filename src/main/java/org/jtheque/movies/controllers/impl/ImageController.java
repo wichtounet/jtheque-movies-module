@@ -23,6 +23,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IImageView;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.views.utils.AbstractController;
 
@@ -35,8 +36,7 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class ImageController extends AbstractController implements IImageController {
-    @Resource
-    private IImageView imageView;
+    private SwingSpringProxy<IImageView> imageView;
 
     @Resource
     private IMovieController movieController;
@@ -47,15 +47,21 @@ public final class ImageController extends AbstractController implements IImageC
     @Resource
     private IMoviesService moviesService;
 
+    public ImageController(SwingSpringProxy<IImageView> imageView) {
+        super();
+
+        this.imageView = imageView;
+    }
+
     @Override
     public void editImage() {
-        imageView.displayMovie(getCurrentMovie());
-        imageView.display();
+        imageView.get().displayMovie(getCurrentMovie());
+        imageView.get().display();
     }
 
     @Override
     public IImageView getView() {
-        return imageView;
+        return imageView.get();
     }
 
     @Override
@@ -63,7 +69,7 @@ public final class ImageController extends AbstractController implements IImageC
         File file = new File(imagePath);
 
         if (StringUtils.isNotEmpty(imagePath) && file.exists()) {
-            imageView.setImage(ffmpegService.generateImageFromUserInput(file));
+            imageView.get().setImage(ffmpegService.generateImageFromUserInput(file));
         } else {
             displayFileNotFoundError();
         }
@@ -76,7 +82,7 @@ public final class ImageController extends AbstractController implements IImageC
         File file = new File(movie.getFile());
 
         if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
-            imageView.setImage(ffmpegService.generateRandomPreviewImage(file));
+            imageView.get().setImage(ffmpegService.generateRandomPreviewImage(file));
         } else {
             displayFileNotFoundError();
         }
@@ -89,7 +95,7 @@ public final class ImageController extends AbstractController implements IImageC
         File file = new File(movie.getFile());
 
         if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
-            imageView.setImage(ffmpegService.generatePreviewImage(file, time));
+            imageView.get().setImage(ffmpegService.generatePreviewImage(file, time));
         } else {
             displayFileNotFoundError();
         }
@@ -97,9 +103,9 @@ public final class ImageController extends AbstractController implements IImageC
 
     @Override
     public void save() {
-        moviesService.saveImage(getCurrentMovie(), imageView.getImage());
+        moviesService.saveImage(getCurrentMovie(), imageView.get().getImage());
 
-        imageView.closeDown();
+        imageView.get().closeDown();
     }
 
     /**

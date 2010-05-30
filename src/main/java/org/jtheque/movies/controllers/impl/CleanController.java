@@ -23,6 +23,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.models.ICleanModel;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -33,8 +34,7 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class CleanController extends AbstractController implements ICleanController {
-    @Resource
-    private ICleanView cleanView;
+    private final SwingSpringProxy<ICleanView> cleanView;
 
     @Resource
     private IMoviesService moviesService;
@@ -42,36 +42,42 @@ public final class CleanController extends AbstractController implements ICleanC
     @Resource
     private IMovieController movieController;
 
+    public CleanController(SwingSpringProxy<ICleanView> cleanView) {
+        super();
+
+        this.cleanView = cleanView;
+    }
+
     @Override
     public ICleanView getView() {
-        return cleanView;
+        return cleanView.get();
     }
 
     @Override
     public void clean(Movie movie) {
         getViewModel().setMovie(movie);
-        cleanView.display();
+        cleanView.get().display();
     }
 
     @Override
     public void clean(Category category) {
         getViewModel().setCategory(category);
-        cleanView.display();
+        cleanView.get().display();
     }
 
     @Override
     public void clean() {
         if (getViewModel().isMovieMode()) {
-            moviesService.clean(getViewModel().getMovie(), cleanView.getSelectedCleaners());
+            moviesService.clean(getViewModel().getMovie(), cleanView.get().getSelectedCleaners());
 
             movieController.getView().refreshData();
         } else {
             moviesService.clean(
-                    moviesService.getMovies(getViewModel().getCategory(), cleanView.areSubCategoriesIncluded()),
-                    cleanView.getSelectedCleaners());
+                    moviesService.getMovies(getViewModel().getCategory(), cleanView.get().areSubCategoriesIncluded()),
+                    cleanView.get().getSelectedCleaners());
         }
 
-        cleanView.closeDown();
+        cleanView.get().closeDown();
     }
 
     /**
@@ -80,6 +86,6 @@ public final class CleanController extends AbstractController implements ICleanC
      * @return The model of the view.
      */
     private ICleanModel getViewModel() {
-        return cleanView.getModel();
+        return cleanView.get().getModel();
 	}
 }

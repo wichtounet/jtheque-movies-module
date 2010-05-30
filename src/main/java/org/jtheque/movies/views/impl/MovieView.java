@@ -53,6 +53,7 @@ import org.jtheque.ui.utils.components.CardPanel;
 import org.jtheque.ui.utils.filthy.FilthyCardPanel;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 
+import javax.annotation.Resource;
 import javax.swing.JLabel;
 import javax.swing.tree.TreePath;
 import java.awt.BorderLayout;
@@ -67,26 +68,44 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentObjectListener, IMovieView, DisplayListListener {
-    private JXTree treeMovies;
-
-    private CardPanel<MoviePanel> layeredPanel;
+	private static final double LIST_COLUMN = 0.3;
 
     private final JThequeTreeModel treeModel = new JThequeTreeModel(new CategoryElement("Movies"));
 
+    private CardPanel<MoviePanel> layeredPanel;
+    private JXTree treeMovies;
     private MoviesSorter moviesSorter;
 
-	private static final double LIST_COLUMN = 0.3;
+    @Resource
+    private IMoviesService moviesService;
 
-	@Override
+    @Resource
+    private ICategoriesService categoriesService;
+
+    @Resource
+    private IMovieController movieController;
+
+    @Resource
+    private IAddFromFileView addFromFileView;
+
+    private final MoviePanel viewMoviePanel;
+    private final MoviePanel editMoviePanel;
+
+    public MovieView(MoviePanel viewMoviePanel, MoviePanel editMoviePanel) {
+        super();
+
+        this.viewMoviePanel = viewMoviePanel;
+        this.editMoviePanel = editMoviePanel;
+    }
+
+    @Override
 	protected void buildView(I18nPanelBuilder builder) {
-		setModel(new MoviesModel(getBean(IMoviesService.class)));
+		setModel(new MoviesModel(moviesService));
 
-		moviesSorter = new MoviesSorter(getBean(ICategoriesService.class), getBean(IMoviesService.class));
+		moviesSorter = new MoviesSorter(categoriesService, moviesService);
 
 		buildPanelList(builder);
 		buildPanelMovie(builder);
-
-		IMovieController movieController = getBean(IMovieController.class);
 
 		treeMovies.addTreeSelectionListener(movieController);
 
@@ -147,7 +166,8 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
 	private void addTree(PanelBuilder builder) {
 		moviesSorter.sort(treeModel);
 
-		treeMovies = (JXTree) builder.addScrolledTree(treeModel, new FilthyCellRenderer(getService(IResourceService.class)), BorderLayout.CENTER);
+		treeMovies = (JXTree) builder.addScrolledTree(treeModel,
+                new FilthyCellRenderer(getService(IResourceService.class)), BorderLayout.CENTER);
 	}
 
 	/**
@@ -162,9 +182,9 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
 				builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
 
 		DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
-		autoAddAction.setView(getBean(IAddFromFileView.class));
+		autoAddAction.setView(addFromFileView);
 
-		panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", getBean(IMovieController.class)),
+		panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", movieController),
 				builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
 		panelButtons.addButton(autoAddAction,
 				builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
@@ -178,11 +198,8 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
 	private void buildPanelMovie(PanelBuilder parent) {
 		layeredPanel = new FilthyCardPanel<MoviePanel>();
 
-		MoviePanel viewPanel = getBean(ViewMoviePanel.class);
-		MoviePanel editPanel = getBean(EditMoviePanel.class);
-
-		layeredPanel.addLayer(viewPanel, viewPanel.getKey());
-		layeredPanel.addLayer(editPanel, editPanel.getKey());
+		layeredPanel.addLayer(viewMoviePanel, viewMoviePanel.getKey());
+		layeredPanel.addLayer(editMoviePanel, editMoviePanel.getKey());
 
 		setDisplayedView(VIEW_VIEW);
 

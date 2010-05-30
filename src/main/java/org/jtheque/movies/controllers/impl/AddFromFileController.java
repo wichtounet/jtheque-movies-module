@@ -24,6 +24,7 @@ import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -35,8 +36,7 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class AddFromFileController extends AbstractController implements IAddFromFileController {
-    @Resource
-    private IAddFromFileView addFromFileView;
+    private final SwingSpringProxy<IAddFromFileView> addFromFileView;
 
     @Resource
     private IMoviesService moviesService;
@@ -47,9 +47,15 @@ public final class AddFromFileController extends AbstractController implements I
     @Resource
     private IMovieController movieController;
 
+    public AddFromFileController(SwingSpringProxy<IAddFromFileView> addFromFileView) {
+        super();
+
+        this.addFromFileView = addFromFileView;
+    }
+
     @Override
     public IAddFromFileView getView() {
-        return addFromFileView;
+        return addFromFileView.get();
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl;
 
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
-import org.jtheque.ui.utils.builded.BuildedPanel;
+import org.jtheque.ui.utils.builded.OSGIBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.components.FileChooserPanel;
 import org.jtheque.ui.utils.constraints.Constraint;
@@ -37,7 +37,7 @@ import java.util.Map;
  *
  * @author Baptiste Wicht
  */
-public final class JPanelConfigMovies extends BuildedPanel implements IOpeningConfigView {
+public final class JPanelConfigMovies extends OSGIBuildedPanel implements IOpeningConfigView {
     private JComboBox combo;
 
     private FileChooserPanel fileChooser;

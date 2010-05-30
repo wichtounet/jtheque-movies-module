@@ -19,6 +19,7 @@ package org.jtheque.movies.controllers.impl;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.able.IMovieController;
+import org.jtheque.movies.controllers.impl.states.MovieState;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -26,12 +27,13 @@ import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
-import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.utils.controller.PrincipalController;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.utils.DesktopUtils;
 import org.jtheque.views.able.IViews;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 
 /**
@@ -40,8 +42,7 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class MovieController extends PrincipalController<Movie> implements IMovieController {
-    @Resource
-    private IMovieView movieView;
+    private final SwingSpringProxy<IMovieView> movieView;
 
     @Resource
     private IMoviesModule moviesModule;
@@ -51,29 +52,35 @@ public final class MovieController extends PrincipalController<Movie> implements
     /**
      * Create a new MovieController.
      *
+     * @param movieView      The movie view.
      * @param viewState      The view state.
      * @param modifyState    The modify state.
      * @param newObjectState The new object state.
-     * @param autoAddState   The auto add state.
      */
-    public MovieController(ControllerState viewState, ControllerState modifyState, ControllerState newObjectState,
-                           ControllerState autoAddState) {
-        super(viewState, modifyState, newObjectState, autoAddState);
+    public MovieController(SwingSpringProxy<IMovieView> movieView, MovieState viewState, MovieState modifyState,
+                           MovieState newObjectState) {
+        super(viewState, modifyState, newObjectState, null);
+
+        viewState.setController(this);
+        modifyState.setController(this);
+        newObjectState.setController(this);
+
+        this.movieView = movieView;
     }
 
     @Override
     public IMovieView getView() {
-        return movieView;
+        return movieView.get();
     }
 
     @Override
     public void save() {
-        save(movieView.fillMovieFormBean());
+        save(movieView.get().fillMovieFormBean());
     }
 
     @Override
     public IMoviesModel getViewModel() {
-        return (IMoviesModel) movieView.getModel();
+        return (IMoviesModel) movieView.get().getModel();
     }
 
     @Override
@@ -107,7 +114,7 @@ public final class MovieController extends PrincipalController<Movie> implements
      * Display the specified viewer and load the specified file.
      *
      * @param view The viewer to display.
-     * @param file The file to open. 
+     * @param file The file to open.
      */
     private void displayViewer(String view, File file) {
         if (view.equals(IMovieView.WMP_VIEW)) {
@@ -144,6 +151,4 @@ public final class MovieController extends PrincipalController<Movie> implements
     public String getDataType() {
         return IMoviesService.DATA_TYPE;
     }
-
-
 }

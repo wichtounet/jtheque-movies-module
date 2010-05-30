@@ -23,6 +23,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
 import org.jtheque.primary.able.views.ViewMode;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.undo.able.IUndoRedoService;
 import org.jtheque.views.utils.AbstractController;
 
@@ -34,27 +35,32 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class CategoryController extends AbstractController implements ICategoryController {
+    private final SwingSpringProxy<ICategoryView> categoryView;
+
     @Resource
     private ICategoriesService categoriesService;
 
-    @Resource
-    private ICategoryView categoryView;
+    public CategoryController(SwingSpringProxy<ICategoryView> categoryView) {
+        super();
+
+        this.categoryView = categoryView;
+    }
 
     @Override
     public void newCategory() {
-        categoryView.getModel().setState(ViewMode.NEW);
+        categoryView.get().getModel().setState(ViewMode.NEW);
 
-        categoryView.getModel().setCategory(categoriesService.getEmptyCategory());
-        categoryView.reload();
+        categoryView.get().getModel().setCategory(categoriesService.getEmptyCategory());
+        categoryView.get().reload();
 
         displayView();
     }
 
     @Override
     public void editCategory(Category category) {
-        categoryView.getModel().setState(ViewMode.EDIT);
-        categoryView.getModel().setCategory(category);
-        categoryView.reload();
+        categoryView.get().getModel().setState(ViewMode.EDIT);
+        categoryView.get().getModel().setCategory(category);
+        categoryView.get().reload();
     }
 
     @Override
@@ -65,10 +71,11 @@ public final class CategoryController extends AbstractController implements ICat
             getCurrentCategory().setTitle(title);
             getCurrentCategory().setParent(parent);
 
-            if (categoryView.getModel().getState() == ViewMode.NEW) {
+            if (categoryView.get().getModel().getState() == ViewMode.NEW) {
                 categoriesService.create(getCurrentCategory());
 
-                getService(IUndoRedoService.class).addEdit(new GenericDataCreatedEdit<Category>(categoriesService, categoryView.getModel().getCategory()));
+                getService(IUndoRedoService.class).addEdit(new GenericDataCreatedEdit<Category>(categoriesService,
+                        categoryView.get().getModel().getCategory()));
             } else {
                 categoriesService.save(getCurrentCategory());
             }
@@ -83,11 +90,11 @@ public final class CategoryController extends AbstractController implements ICat
      * @return The current category. 
      */
     private Category getCurrentCategory() {
-        return categoryView.getModel().getCategory();
+        return categoryView.get().getModel().getCategory();
     }
 
     @Override
     public ICategoryView getView() {
-        return categoryView;
+        return categoryView.get();
     }
 }

@@ -17,7 +17,6 @@ package org.jtheque.movies.controllers.impl.states;
  */
 
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -25,18 +24,17 @@ import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.controller.FormBean;
-import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.ui.able.IUIUtils;
 
 import javax.annotation.Resource;
 
 /**
- * A state of film view correspond with a modify.
+ * A state of movie view correspond with a modify.
  *
  * @author Baptiste Wicht
  */
-public final class ModifyMovieState extends AbstractControllerState {
+public final class ModifyMovieState extends MovieState {
     @Resource
     private IMoviesService moviesService;
 
@@ -46,29 +44,26 @@ public final class ModifyMovieState extends AbstractControllerState {
     @Resource
     private IUIUtils uiUtils;
 
-    @Resource
-    private IMovieController movieController;
-
     /**
      * Return the model of the view.
      *
      * @return The model of the view.
      */
     private IMoviesModel getViewModel() {
-        return movieController.getViewModel();
+        return getController().getViewModel();
     }
 
     @Override
     public void apply() {
-        movieController.getView().setDisplayedView(IMovieView.EDIT_VIEW);
-        movieController.getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
+        getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
+        getController().getView().getCurrentView().setMovie(getViewModel().getCurrentMovie());
 
         getViewModel().getCurrentMovie().saveToMemento();
     }
 
     @Override
     public ControllerState save(FormBean bean) {
-        if (!movieController.getView().validateContent()) {
+        if (!getController().getView().validateContent()) {
             return null;
         }
 
@@ -87,16 +82,16 @@ public final class ModifyMovieState extends AbstractControllerState {
 
         moviesService.save(movie);
 
-        movieController.getView().refreshData();
+        getController().getView().refreshData();
 
-        return movieController.getViewState();
+        return getController().getViewState();
     }
 
     @Override
     public ControllerState cancel() {
         getViewModel().getCurrentMovie().restoreMemento();
 
-        return movieController.getViewState();
+        return getController().getViewState();
     }
 
     @Override
@@ -104,13 +99,13 @@ public final class ModifyMovieState extends AbstractControllerState {
         Movie movie = (Movie) data;
 
         if (uiUtils.askI18nUserForConfirmation("movie.dialogs.confirmSave", "movie.dialogs.confirmSave.title")) {
-            movieController.save();
+            getController().save();
         } else {
             getViewModel().getCurrentMovie().restoreMemento();
         }
 
         getViewModel().setCurrentMovie(movie);
 
-        return movieController.getViewState();
+        return getController().getViewState();
     }
 }

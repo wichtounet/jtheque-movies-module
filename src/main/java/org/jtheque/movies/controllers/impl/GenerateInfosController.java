@@ -19,6 +19,7 @@ package org.jtheque.movies.controllers.impl;
 import org.jtheque.movies.controllers.able.IGenerateInfosController;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IGenerateInfosView;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -29,23 +30,28 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class GenerateInfosController extends AbstractController implements IGenerateInfosController {
-    @Resource
-    private IGenerateInfosView generateInfosView;
+    private final SwingSpringProxy<IGenerateInfosView> generateInfosView;
+
+    public GenerateInfosController(SwingSpringProxy<IGenerateInfosView> generateInfosView) {
+        super();
+
+        this.generateInfosView = generateInfosView;
+    }
 
     @Resource
     private IMoviesService moviesService;
 
     @Override
     public IGenerateInfosView getView() {
-        return generateInfosView;
+        return generateInfosView.get();
     }
 
     @Override
     public void generate() {
         moviesService.fillInformations(
-                moviesService.getMovies(generateInfosView.getSelectedCategory(), generateInfosView.areSubCategoriesIncluded()),
-                generateInfosView.mustGenerateDuration(), generateInfosView.mustGenerateResolution(),
-                generateInfosView.mustGenerateImage());
+                moviesService.getMovies(getView().getSelectedCategory(), getView().areSubCategoriesIncluded()),
+                getView().mustGenerateDuration(), getView().mustGenerateResolution(),
+                getView().mustGenerateImage());
 
         closeView();
     }

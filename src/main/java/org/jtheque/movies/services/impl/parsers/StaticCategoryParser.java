@@ -23,6 +23,7 @@ import org.jtheque.ui.utils.filthy.FilthyComboBox;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,10 +34,10 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class StaticCategoryParser implements FileParser {
+    private static final Object[] REPLACES = new Object[0];
+
     private final DataContainerCachedComboBoxModel<Category> categoriesModel;
     private final JComboBox categoriesComboBox;
-
-    private static final Object[] REPLACES = new Object[0];
 
     /**
      * Construct a new StaticCategoryParser.

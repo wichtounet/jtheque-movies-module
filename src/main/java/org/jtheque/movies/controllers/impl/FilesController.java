@@ -18,6 +18,7 @@ package org.jtheque.movies.controllers.impl;
 
 import org.jtheque.movies.controllers.able.IFilesController;
 import org.jtheque.movies.views.able.IFilesView;
+import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -28,17 +29,22 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class FilesController extends AbstractController implements IFilesController {
-    @Resource
-    private IFilesView filesView;
+    private final SwingSpringProxy<IFilesView> filesView;
+
+    public FilesController(SwingSpringProxy<IFilesView> filesView) {
+        super();
+
+        this.filesView = filesView;
+    }
 
     @Override
     public IFilesView getView() {
-        return filesView;
+        return filesView.get();
     }
 
     @Override
     public void refresh() {
-        filesView.refreshData();
+        filesView.get().refreshData();
     }
 
     @Override

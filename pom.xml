@@ -63,8 +63,7 @@
                         <Module-Core>2.1.0</Module-Core>
                         <Module-UpdateUrl>http://jtheque.developpez.com/public/versions/MoviesModule.versions</Module-UpdateUrl>
                         <Module-Config>org/jtheque/movies/module.xml</Module-Config>
-                        <Module-Libs>org.jtheque.dj-native-swing-0.9.9.jar;org.jtheque.dj-native-swing-swt-0.9.9.jar;
-                            org.jtheque.swt-win32-3.5.6.jar</Module-Libs>
+                        <Module-Libs>org.jtheque.dj-native-swing-0.9.9.jar</Module-Libs>
                         <Module-Dependencies>org.jtheque.primary.utils</Module-Dependencies>
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
                             org.jtheque.file.able</DynamicImport-Package>
@@ -267,14 +266,8 @@
 
         <dependency>
             <groupId>javax.swing-native</groupId>
-            <artifactId>org.jtheque.dj-native-swing-swt</artifactId>
-            <version>0.9.9</version>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.swing-native</groupId>
-            <artifactId>org.jtheque.swt-win32</artifactId>
-            <version>3.5.6</version>
+            <artifactId>org.jtheque.swt-linux64</artifactId>
+            <version>3.6.7</version>
         </dependency>
 
         <!-- Test dependencies -->

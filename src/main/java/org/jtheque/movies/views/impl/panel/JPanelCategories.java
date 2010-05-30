@@ -39,6 +39,7 @@ import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.ui.utils.components.IconListRenderer;
 import org.jtheque.ui.utils.models.SimpleListModel;
 
+import javax.annotation.Resource;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import java.awt.Font;
@@ -57,10 +58,19 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
 
     private CategoriesListModel categoriesModel;
     private SimpleListModel<Category> categoriesForMovieModel;
-	
+
+    @Resource
+    private ICategoriesService categoriesService;
+
+    @Resource
+    private IChoiceController choiceController;
+
+    @Resource
+    private ICategoryController categoryController;
+
 	@Override
 	protected void buildView(I18nPanelBuilder builder) {
-		categoriesModel = new CategoriesListModel(getBean(ICategoriesService.class));
+		categoriesModel = new CategoriesListModel(categoriesService);
 
         double anHalf = 0.5;
 
@@ -83,10 +93,8 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
 
         I18nPanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
 
-		IChoiceController choiceController = getBean(IChoiceController.class);
-
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
-        manageButtons.addButton(new CreateNewCategoryAction(getBean(ICategoryController.class)), builder.gbcSet(1, 0));
+        manageButtons.addButton(new CreateNewCategoryAction(categoryController), builder.gbcSet(1, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE, choiceController),
                 builder.gbcSet(2, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController),

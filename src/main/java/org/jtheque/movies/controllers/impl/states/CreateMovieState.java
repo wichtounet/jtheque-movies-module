@@ -17,7 +17,6 @@ package org.jtheque.movies.controllers.impl.states;
  */
 
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -26,7 +25,6 @@ import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
-import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.undo.able.IUndoRedoService;
@@ -34,11 +32,11 @@ import org.jtheque.undo.able.IUndoRedoService;
 import javax.annotation.Resource;
 
 /**
- * A state of film view correspond with a creation.
+ * A state of movie view correspond with a creation.
  *
  * @author Baptiste Wicht
  */
-public final class CreateMovieState extends AbstractControllerState {
+public final class CreateMovieState extends MovieState {
     @Resource
     private IMoviesService moviesService;
 
@@ -51,27 +49,24 @@ public final class CreateMovieState extends AbstractControllerState {
     @Resource
     private IUIUtils uiUtils;
 
-    @Resource
-    private IMovieController movieController;
-
     /**
      * Return the model of the view.
      *
      * @return The model of the view.
      */
     private IMoviesModel getViewModel() {
-        return movieController.getViewModel();
+        return getController().getViewModel();
     }
 
     @Override
     public void apply() {
         getViewModel().setCurrentMovie(moviesService.getEmptyMovie());
-        movieController.getView().setDisplayedView(IMovieView.EDIT_VIEW);
+        getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
     }
 
     @Override
     public ControllerState save(FormBean bean) {
-        if (!movieController.getView().validateContent()) {
+        if (!getController().getView().validateContent()) {
             return null;
         }
 
@@ -91,19 +86,19 @@ public final class CreateMovieState extends AbstractControllerState {
 
         undoRedoService.addEdit(new GenericDataCreatedEdit<Movie>(moviesService, movie));
 
-        movieController.getView().resort();
+        getController().getView().resort();
 
-        return movieController.getViewState();
+        return getController().getViewState();
     }
 
     @Override
     public ControllerState cancel() {
         ControllerState nextState = null;
 
-        movieController.getView().selectFirst();
+        getController().getView().selectFirst();
 
         if (moviesService.getMovies().size() <= 0) {
-            nextState = movieController.getViewState();
+            nextState = getController().getViewState();
         }
 
         return nextState;
@@ -113,7 +108,7 @@ public final class CreateMovieState extends AbstractControllerState {
     public ControllerState view(Data data) {
         switchMovie(data);
 
-        return movieController.getViewState();
+        return getController().getViewState();
     }
 
     /**
@@ -125,7 +120,7 @@ public final class CreateMovieState extends AbstractControllerState {
         Movie movie = (Movie) data;
 
         if (uiUtils.askI18nUserForConfirmation("movie.dialogs.confirmSave", "movie.dialogs.confirmSave.title")) {
-            movieController.save();
+            getController().save();
         }
 
         getViewModel().setCurrentMovie(movie);

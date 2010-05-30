@@ -26,6 +26,7 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.ui.utils.models.SimpleListModel;
 
+import javax.annotation.Resource;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
@@ -72,6 +73,9 @@ public final class ViewMoviePanel extends MoviePanel {
     private static final float TITLE_FONT_SIZE = 18.0f;
     private static final float BUTTON_FONT_SIZE = 14.0f;
 
+    @Resource
+    private IMovieController movieController;
+
     /**
      * Construct a new ViewMoviePanel.
      */
@@ -88,7 +92,7 @@ public final class ViewMoviePanel extends MoviePanel {
         titleLabel = title.add(new JThequeLabel("", TITLE_FONT.deriveFont(TITLE_FONT_SIZE), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(new PlayMovieAction(getBean(IMovieController.class), getService(IResourceService.class)),
+        JButton button = title.addButton(new PlayMovieAction(movieController, getService(IResourceService.class)),
 		        builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
@@ -96,8 +100,8 @@ public final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
-        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", getBean(IMovieController.class)), buttons.gbcSet(0, 0));
-        buttons.addButton(new DeleteMovieAction(getService(ILanguageService.class), getService(IUIUtils.class), getBean(IMovieController.class)),
+        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", movieController), buttons.gbcSet(0, 0));
+        buttons.addButton(new DeleteMovieAction(getService(ILanguageService.class), getService(IUIUtils.class), movieController),
 		        buttons.gbcSet(1, 0));
 
         addFileField(builder);
