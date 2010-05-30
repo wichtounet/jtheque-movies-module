@@ -48,7 +48,7 @@
 
         <outputDirectory>${env.BUILD_HOME}/modules/jtheque-movies-module/classes/production/</outputDirectory>
         <testOutputDirectory>${env.BUILD_HOME}/modules/jtheque-movies-module/classes/tests/</testOutputDirectory>
-
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
@@ -66,7 +66,7 @@
                         <Module-Libs>org.jtheque.dj-native-swing-0.9.9.jar</Module-Libs>
                         <Module-Dependencies>org.jtheque.primary.utils</Module-Dependencies>
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
-                            org.jtheque.file.able</DynamicImport-Package>
+                            org.jtheque.file.able, org.springframework.jdbc.support</DynamicImport-Package>
                     </instructions>
                 </configuration>
             </plugin>

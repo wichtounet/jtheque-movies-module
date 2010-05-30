@@ -23,7 +23,6 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.IOpeningConfigView;
-import org.jtheque.movies.views.impl.JPanelConfigMovies;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.primary.utils.DataTypeManager;
 import org.jtheque.spring.utils.SwingSpringProxy;
@@ -81,12 +80,10 @@ public final class MoviesModule implements IMoviesModule, ApplicationContextAwar
      * Unplug the module.
      */
     @PreDestroy
-    private void unplug() {
+    public void unplug() {
         DataTypeManager.unbindDataType(ICategoriesService.DATA_TYPE);
         DataTypeManager.unbindDataType(IMoviesService.DATA_TYPE);
         DataTypeManager.unbindDataType(ICollectionsService.DATA_TYPE);
-
-        primaryUtils.unplug();
 
         NativeInterface.runEventPump();
     }
