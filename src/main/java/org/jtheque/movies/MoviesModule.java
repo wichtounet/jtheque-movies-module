@@ -63,9 +63,6 @@ public final class MoviesModule implements IMoviesModule, ApplicationContextAwar
     @PostConstruct
     public void plug() {
         primaryUtils.setPrimaryImpl("Movies");
-        primaryUtils.prePlug();
-
-        primaryUtils.plug();
 
         config = stateService.getState(new MovieConfiguration());
 
