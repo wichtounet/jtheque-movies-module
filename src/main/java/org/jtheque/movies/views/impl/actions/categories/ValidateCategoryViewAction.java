@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ValidateCategoryViewAction extends JThequeAction {
-	private ICategoryController categoryController;
+    private ICategoryController categoryController;
 
     /**
      * Construct a new AcValidateKindView.

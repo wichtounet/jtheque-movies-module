@@ -24,9 +24,9 @@ import org.jtheque.movies.views.impl.actions.generate.ValidateGenerateInfosViewA
 import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
 import org.jtheque.ui.able.IModel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.utils.filthy.FilthyRenderer;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.ui.utils.filthy.FilthyRenderer;
 
 import javax.annotation.Resource;
 import javax.swing.JCheckBox;

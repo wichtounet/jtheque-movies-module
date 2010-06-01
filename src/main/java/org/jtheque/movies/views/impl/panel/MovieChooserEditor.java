@@ -8,6 +8,7 @@ import javax.swing.JTable;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
@@ -96,7 +97,7 @@ public final class MovieChooserEditor extends JButton implements TableCellEditor
     }
 
     /**
-     * Fire an event that say that the editing has been canceled.  
+     * Fire an event that say that the editing has been canceled.
      */
     protected void fireEditingCanceled() {
         CellEditorListener[] editorListeners = listeners.getListeners(CellEditorListener.class);

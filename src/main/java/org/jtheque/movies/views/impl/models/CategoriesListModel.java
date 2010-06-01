@@ -34,14 +34,14 @@ public final class CategoriesListModel extends SimpleListModel<Category> impleme
     /**
      * Construct a new ActorsListModel.
      *
-     * @param categoriesService
+     * @param categoriesService The categories service.
      */
     public CategoriesListModel(ICategoriesService categoriesService) {
         super();
 
-	    this.categoriesService = categoriesService;
+        this.categoriesService = categoriesService;
 
-	    this.categoriesService.addDataListener(this);
+        this.categoriesService.addDataListener(this);
 
         setElements(this.categoriesService.getCategories());
     }

@@ -29,16 +29,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class RefreshAction extends JThequeSimpleAction {
-	private final IMovieView movieView;
+    private final IMovieView movieView;
 
     /**
      * Construct a new RefreshAction.
-     * @param movieView
+     *
+     * @param movieView The movie view.
      */
     public RefreshAction(IMovieView movieView, IResourceService resourceService) {
         super();
 
-	    this.movieView = movieView;
+        this.movieView = movieView;
 
         setIcon(resourceService.getIcon(MoviesResources.REFRESH_ICON));
     }
@@ -46,5 +47,5 @@ public final class RefreshAction extends JThequeSimpleAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         movieView.resort();
-	}
+    }
 }

@@ -16,15 +16,14 @@ package org.jtheque.movies.persistence.dao;
  * limitations under the License.
  */
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.utils.unit.db.AbstractDBUnitTest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.util.Collection;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 import static org.junit.Assert.*;
 

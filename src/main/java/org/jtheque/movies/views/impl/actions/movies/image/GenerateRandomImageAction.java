@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class GenerateRandomImageAction extends JThequeAction {
-	private final IImageController imageController;
+    private final IImageController imageController;
 
     /**
      * Construct a new GenerateRandomImageAction.
-     * @param imageController
+     *
+     * @param imageController The image controller.
      */
     public GenerateRandomImageAction(IImageController imageController) {
         super("movie.image.actions.ffmpeg.random");
-	    
-	    this.imageController = imageController;
+
+        this.imageController = imageController;
     }
 
     @Override

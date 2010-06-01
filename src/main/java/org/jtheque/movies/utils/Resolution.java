@@ -73,5 +73,5 @@ public final class Resolution {
     @Override
     public int hashCode() {
         return Constants.HASH_CODE_START + Constants.HASH_CODE_PRIME * width + height;
-	}
+    }
 }

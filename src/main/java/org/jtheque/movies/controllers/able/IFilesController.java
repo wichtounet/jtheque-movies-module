@@ -30,7 +30,7 @@ public interface IFilesController extends Controller {
     void refresh();
 
     /**
-     * Display the view of the movies with invalid files. 
+     * Display the view of the movies with invalid files.
      */
     void displayFiles();
 }

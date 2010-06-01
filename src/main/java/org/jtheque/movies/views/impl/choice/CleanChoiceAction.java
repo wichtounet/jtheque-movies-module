@@ -29,8 +29,8 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class CleanChoiceAction extends AbstractChoiceAction {
-	@Resource
-	private ICleanController cleanController;
+    @Resource
+    private ICleanController cleanController;
 
     @Override
     public boolean canDoAction(String action) {

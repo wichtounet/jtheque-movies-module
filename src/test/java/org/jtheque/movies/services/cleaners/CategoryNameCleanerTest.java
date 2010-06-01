@@ -20,6 +20,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.services.impl.cleaners.CategoryNameCleaner;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -26,19 +26,21 @@ import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.utils.CachedJDBCDao;
-import org.jtheque.persistence.utils.Query;
 import org.jtheque.persistence.able.Entity;
 import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.persistence.able.IDaoPersistenceContext;
 import org.jtheque.persistence.able.QueryMapper;
 import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.persistence.utils.CachedJDBCDao;
+import org.jtheque.persistence.utils.Query;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.collections.CollectionUtils;
+
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.annotation.Resource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -139,7 +141,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     public void save(Movie movie) {
         super.save(movie);
 
-	    daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
+        daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
 
         createLinks(movie);
     }
@@ -151,7 +153,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      */
     private void createLinks(Movie movie) {
         for (Category category : movie.getCategories()) {
-	        daoPersistenceContext.getTemplate().update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
+            daoPersistenceContext.getTemplate().update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
         }
     }
 
@@ -236,14 +238,14 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             movie.setImage(rs.getString("IMAGE"));
             movie.setTheCollection(daoCollections.getCollection(rs.getInt("THE_COLLECTION_FK")));
 
-            if(StringUtils.isNotEmpty(rs.getString("RESOLUTION"))){
+            if (StringUtils.isNotEmpty(rs.getString("RESOLUTION"))) {
                 movie.setResolution(new Resolution(rs.getString("RESOLUTION")));
             }
 
-            if(StringUtils.isNotEmpty(rs.getString("DURATION"))){
+            if (StringUtils.isNotEmpty(rs.getString("DURATION"))) {
                 movie.setDuration(new PreciseDuration(rs.getLong("DURATION")));
             }
-            
+
             if (StringUtils.isNotEmpty(rs.getString("NOTE"))) {
                 movie.setNote(daoNotes.getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
             } else {
@@ -258,7 +260,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
         /**
          * Map the relations of the movie.
          *
-         * @param movie The movie to map the relations for. 
+         * @param movie The movie to map the relations for.
          */
         private void mapRelations(Movie movie) {
             if (relationsToCategories != null && !relationsToCategories.isEmpty()) {
@@ -319,10 +321,10 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
 
             if (id) {
                 values[7] = movie.getId();
-			}
+            }
 
-			return values;
-		}
+            return values;
+        }
     }
 
 }

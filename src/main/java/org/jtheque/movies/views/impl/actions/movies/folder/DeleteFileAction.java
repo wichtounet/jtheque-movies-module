@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class DeleteFileAction extends JThequeAction {
-	private final IImportFolderView importFolderView;
+    private final IImportFolderView importFolderView;
 
     /**
      * Create a new AcDeleteTitle action.
-     * @param importFolderView
+     *
+     * @param importFolderView The import folder view.
      */
     public DeleteFileAction(IImportFolderView importFolderView) {
         super("generic.view.actions.delete");
 
-	    this.importFolderView = importFolderView;
+        this.importFolderView = importFolderView;
     }
 
     @Override

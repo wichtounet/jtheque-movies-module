@@ -16,7 +16,6 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jdesktop.swingx.JXTable;
 import org.jtheque.movies.controllers.able.IFilesController;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IFilesView;
@@ -29,8 +28,11 @@ import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 
+import org.jdesktop.swingx.JXTable;
+
 import javax.annotation.Resource;
 import javax.swing.JTable;
+
 import java.io.File;
 
 /**
@@ -72,7 +74,7 @@ public final class FilesView extends SwingFilthyBuildedDialogView<ICleanModel> i
     }
 
     @Override
-    public void refreshData(){
+    public void refreshData() {
         tableModel.refresh();
     }
 }

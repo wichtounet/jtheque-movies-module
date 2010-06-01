@@ -22,17 +22,20 @@ import org.jtheque.core.utils.ImageType;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.Version;
 import org.jtheque.utils.io.FileUtils;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.util.Collections;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -53,7 +56,7 @@ public class MoviesModuleTest {
         assertNotNull(moviesModule.getThumbnailFolderPath());
 
         String thumbnailFolder = moviesModule.getThumbnailFolderPath();
-        
+
         assertTrue(new File(thumbnailFolder).exists());
         assertTrue(FileUtils.isFileInDirectory(new File(thumbnailFolder), core.getFolders().getApplicationFolder()));
     }
@@ -139,14 +142,14 @@ public class MoviesModuleTest {
             return null;
         }
 
-	    @Override
-	    public boolean isModuleDiscovery() {
-		    return true;
-	    }
+        @Override
+        public boolean isModuleDiscovery() {
+            return true;
+        }
 
-	    @Override
-	    public Set<String> getModules() {
-		    return Collections.emptySet();
-	    }
+        @Override
+        public Set<String> getModules() {
+            return Collections.emptySet();
+        }
     }
 }

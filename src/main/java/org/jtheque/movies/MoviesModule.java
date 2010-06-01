@@ -16,7 +16,6 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import org.jtheque.collections.able.ICollectionsService;
 import org.jtheque.core.able.ICore;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -36,7 +35,10 @@ import org.springframework.context.ApplicationContextAware;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
+
 import java.io.File;
+
+import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 
 /**
  * A JTheque Module for managing movies.
@@ -52,10 +54,10 @@ public final class MoviesModule implements IMoviesModule, ApplicationContextAwar
     private IStateService stateService;
 
     @Resource
-	private IPrimaryUtils primaryUtils;
+    private IPrimaryUtils primaryUtils;
 
     @Resource
-	private ICore core;
+    private ICore core;
 
     /**
      * Pre plug the module.

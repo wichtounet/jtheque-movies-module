@@ -171,12 +171,12 @@ public interface Movie extends CollectionData {
      *
      * @param image The image of the movie.
      */
-	void setImage(String image);
+    void setImage(String image);
 
     /**
      * Set the categories of the movie.
      *
-     * @param categories The categories of the movie. 
+     * @param categories The categories of the movie.
      */
     void setCategories(Collection<Category> categories);
 }

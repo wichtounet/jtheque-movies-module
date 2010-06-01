@@ -47,5 +47,5 @@ public interface ICleanController extends Controller {
     /**
      * Clean the current content.
      */
-	void clean();
+    void clean();
 }

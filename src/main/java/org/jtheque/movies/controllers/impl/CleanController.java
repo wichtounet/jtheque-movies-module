@@ -42,6 +42,11 @@ public final class CleanController extends AbstractController implements ICleanC
     @Resource
     private IMovieController movieController;
 
+    /**
+     * Construct a new CleanController.
+     *
+     * @param cleanView A proxy to the clean view.
+     */
     public CleanController(SwingSpringProxy<ICleanView> cleanView) {
         super();
 
@@ -87,5 +92,5 @@ public final class CleanController extends AbstractController implements ICleanC
      */
     private ICleanModel getViewModel() {
         return cleanView.get().getModel();
-	}
+    }
 }

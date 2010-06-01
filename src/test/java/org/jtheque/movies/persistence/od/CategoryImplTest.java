@@ -2,10 +2,12 @@ package org.jtheque.movies.persistence.od;
 
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.persistence.able.Entity;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

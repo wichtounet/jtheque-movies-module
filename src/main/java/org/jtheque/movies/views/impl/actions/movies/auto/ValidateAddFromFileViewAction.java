@@ -28,16 +28,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ValidateAddFromFileViewAction extends JThequeAction {
-	private final IAddFromFileController addFromFileController;
+    private final IAddFromFileController addFromFileController;
 
     /**
      * Construct a new ValidateAddFromFileViewAction.
+     *
      * @param addFromFileController
      */
     public ValidateAddFromFileViewAction(IAddFromFileController addFromFileController) {
         super("movie.auto.actions.add");
 
-	    this.addFromFileController = addFromFileController;
+        this.addFromFileController = addFromFileController;
     }
 
     @Override

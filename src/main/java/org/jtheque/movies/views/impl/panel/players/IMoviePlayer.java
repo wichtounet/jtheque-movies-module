@@ -1,6 +1,7 @@
 package org.jtheque.movies.views.impl.panel.players;
 
 import javax.swing.JComponent;
+
 import java.io.File;
 
 /*

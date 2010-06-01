@@ -16,10 +16,8 @@ package org.jtheque.movies.services;
  * limitations under the License.
  */
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.core.able.ICore;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
@@ -36,6 +34,7 @@ import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.io.FileUtils;
 import org.jtheque.utils.ui.ImageUtils;
 import org.jtheque.utils.unit.db.AbstractDBUnitTest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
@@ -45,6 +44,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -52,6 +52,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 import static org.junit.Assert.*;
 
@@ -113,7 +116,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
         BeanUtils.set(moviesModule, "config", new MovieConfiguration());
         BeanUtils.set(core, "application", new MoviesModuleTest.EmptyApplication());
-        
+
         moviesModule.getConfig().setFFmpegLocation(System.getenv("FFMPEG_HOME"));
         testFolder = System.getenv("JTHEQUE_TESTS");
     }
@@ -194,78 +197,78 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getMoviesOfCategory(){
+    public void getMoviesOfCategory() {
         Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 4"), false);
 
         assertEquals(2, movies.size());
 
         String[] moviesCategory4 = {"Movie 3", "Movie 4"};
 
-        for(Movie movie : movies){
-            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+        for (Movie movie : movies) {
+            if (Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1) {
                 fail("Movie not in results");
             }
         }
     }
 
     @Test
-    public void getMoviesOfLeafCategory(){
+    public void getMoviesOfLeafCategory() {
         Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 4"), true);
 
         assertEquals(2, movies.size());
 
         String[] moviesCategory4 = {"Movie 3", "Movie 4"};
 
-        for(Movie movie : movies){
-            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+        for (Movie movie : movies) {
+            if (Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1) {
                 fail("Movie not in results");
             }
         }
     }
 
     @Test
-    public void getMoviesOfNotLeafCategory(){
+    public void getMoviesOfNotLeafCategory() {
         Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 5"), false);
 
         assertEquals(1, movies.size());
 
         String[] moviesCategory4 = {"Movie 2"};
 
-        for(Movie movie : movies){
-            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+        for (Movie movie : movies) {
+            if (Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1) {
                 fail("Movie not in results");
             }
         }
     }
 
     @Test
-    public void getMoviesOfNotLeafCategory2(){
+    public void getMoviesOfNotLeafCategory2() {
         Collection<Movie> movies = moviesService.getMovies(daoCategories.getCategory("Category 5"), true);
 
         assertEquals(3, movies.size());
 
         String[] moviesCategory4 = {"Movie 2", "Movie 3", "Movie 4"};
 
-        for(Movie movie : movies){
-            if(Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1){
+        for (Movie movie : movies) {
+            if (Arrays.binarySearch(moviesCategory4, movie.getTitle()) == -1) {
                 fail("Movie not in results");
             }
         }
     }
-    
+
     @Test
-    public void getDataType(){
+    public void getDataType() {
         assertEquals("Movies", moviesService.getDataType());
     }
 
     @Test
-    public void thumbnailIsNotUsed(){
+    public void thumbnailIsNotUsed() {
         assertTrue(moviesService.thumbnailIsNotUsed("Test.jpg"));
         assertFalse(moviesService.thumbnailIsNotUsed("Movie 1.jpg"));
     }
 
     @Test
-    public void getMoviesWithInvalidFiles(){
+    public void getMoviesWithInvalidFiles() {
         Movie movie1 = moviesService.getMovie("Movie 1");
         Movie movie2 = moviesService.getMovie("Movie 2");
 
@@ -277,8 +280,8 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
         assertEquals(3, movies.size());
 
-        for(Movie m : movies){
-            if(Arrays.binarySearch(titles, m.getTitle()) == -1){
+        for (Movie m : movies) {
+            if (Arrays.binarySearch(titles, m.getTitle()) == -1) {
                 fail("The returned movies are not the good");
             }
         }
@@ -291,7 +294,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void saveImage(){
+    public void saveImage() {
         BufferedImage image = ImageUtils.openCompatibleImageFromFileSystem(testFolder + "test.jpg");
 
         Movie movie = moviesService.getMovie("Movie 1");
@@ -303,7 +306,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void fillInformations(){
+    public void fillInformations() {
         Movie movie1 = moviesService.getMovie("Movie 1");
         Movie movie2 = moviesService.getMovie("Movie 2");
 

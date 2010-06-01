@@ -5,6 +5,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 
 import javax.annotation.Resource;
 import javax.swing.JComponent;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -32,24 +33,24 @@ import java.util.Collection;
 abstract class AbstractSimpleCategoryParser implements FileParser {
     private final Collection<Category> categories = new ArrayList<Category>(5);
 
-	@Resource
-	private ICategoriesService categoriesService;
+    @Resource
+    private ICategoriesService categoriesService;
 
-	/**
-	 * Add category to the list. If there category doesn't exists, it will be created.
-	 *
-	 * @param name The name of the category. 
-	 */
-	void addCategory(String name){
-		if (categoriesService.exists(name)) {
-			categories.add(categoriesService.getCategory(name));
-		} else {
-			Category category = categoriesService.getEmptyCategory();
-			category.setTitle(name);                        
+    /**
+     * Add category to the list. If there category doesn't exists, it will be created.
+     *
+     * @param name The name of the category.
+     */
+    void addCategory(String name) {
+        if (categoriesService.exists(name)) {
+            categories.add(categoriesService.getCategory(name));
+        } else {
+            Category category = categoriesService.getEmptyCategory();
+            category.setTitle(name);
 
-			categories.add(category);
-		}
-	}
+            categories.add(category);
+        }
+    }
 
     @Override
     public Collection<Category> getExtractedCategories() {

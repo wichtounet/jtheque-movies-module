@@ -6,6 +6,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 
 import javax.swing.table.AbstractTableModel;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +30,10 @@ import java.util.List;
 /**
  * A table model for invalid files.
  *
- * @author Baptiste Wicht 
+ * @author Baptiste Wicht
  */
 public final class FilesTableModel extends AbstractTableModel implements Internationalizable {
-    private IMoviesService moviesService;
+    private final IMoviesService moviesService;
 
     /**
      * The different columns of the files table model.
@@ -43,13 +44,15 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
         int NAME = 0;
         int FILE = 1;
     }
-    
+
     private String[] headers;
 
     private final List<Movie> movies = new ArrayList<Movie>(25);
 
     /**
      * Construct a new <code>FilmsToBuyTableModel</code>.
+     *
+     * @param moviesService The movies service.
      */
     public FilesTableModel(IMoviesService moviesService) {
         super();
@@ -102,7 +105,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
 
     @Override
     public void setValueAt(Object value, int rowIndex, int columnIndex) {
-        if (value != null && columnIndex == Columns.FILE){
+        if (value != null && columnIndex == Columns.FILE) {
             Movie movie = movies.get(rowIndex);
 
             movie.setFile(((File) value).getAbsolutePath());
@@ -123,7 +126,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
-        if(columnIndex == Columns.FILE){
+        if (columnIndex == Columns.FILE) {
             return File.class;
         }
 
@@ -131,8 +134,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
     }
 
     /**
-     * Refresh the data. 
-     *
+     * Refresh the data.
      */
     public void refresh() {
         movies.clear();

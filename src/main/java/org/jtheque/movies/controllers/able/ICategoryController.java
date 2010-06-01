@@ -44,6 +44,6 @@ public interface ICategoryController extends Controller {
      */
     void save(String name, Category parent);
 
-	@Override
-	ICategoryView getView();
+    @Override
+    ICategoryView getView();
 }

@@ -30,33 +30,35 @@ public final class CategoriesComboModel extends SimpleListModel<Category> implem
     private final Category emptyCategory;
 
     /**
-	 * Construct a new CategoriesComboMode.
-	 */
-	public CategoriesComboModel(ICategoriesService categoriesService){
-		super();
+     * Construct a new CategoriesComboMode.
+     *
+     * @param categoriesService The categories service.
+     */
+    public CategoriesComboModel(ICategoriesService categoriesService) {
+        super();
 
-	    emptyCategory = categoriesService.getEmptyCategory();
+        emptyCategory = categoriesService.getEmptyCategory();
         emptyCategory.setTitle(" ");
 
         addElement(emptyCategory);
 
-		categoriesService.addDataListener(this);
-	}
+        categoriesService.addDataListener(this);
+    }
 
     /**
-	 * Return the selected data in the model.
-	 *
-	 * @return The data who's selected.
-	 */
-	public Category getSelectedCategory(){
+     * Return the selected data in the model.
+     *
+     * @return The data who's selected.
+     */
+    public Category getSelectedCategory() {
         Category selected = getSelectedItem();
 
-		return selected == emptyCategory ? null : selected;
-	}
+        return selected == emptyCategory ? null : selected;
+    }
 
     @Override
     public void setSelectedItem(Object anObject) {
-        if(anObject == null){
+        if (anObject == null) {
             super.setSelectedItem(emptyCategory);
         }
 
@@ -64,9 +66,9 @@ public final class CategoriesComboModel extends SimpleListModel<Category> implem
     }
 
     @Override
-	public void dataChanged(){
-		setElements(emptyCategory);
+    public void dataChanged() {
+        setElements(emptyCategory);
 
-		fireContentsChanged(this, 0, getSize());
+        fireContentsChanged(this, 0, getSize());
 	}
 }

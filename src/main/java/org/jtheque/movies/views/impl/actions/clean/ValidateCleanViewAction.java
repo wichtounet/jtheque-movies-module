@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ValidateCleanViewAction extends JThequeAction {
-	private final ICleanController cleanController;
+    private final ICleanController cleanController;
 
     /**
      * Construct a new ValidateCleanViewAction.
+     *
      * @param cleanController
      */
     public ValidateCleanViewAction(ICleanController cleanController) {
         super("movie.actions.clean.validate");
 
-	    this.cleanController = cleanController;
+        this.cleanController = cleanController;
     }
 
     @Override

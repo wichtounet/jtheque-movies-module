@@ -10,6 +10,7 @@ import org.jtheque.movies.utils.Resolution;
 import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.io.FileUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -224,7 +226,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void memento(){
+    public void memento() {
         movie.setTitle("Title before");
         movie.setFile("File before");
         movie.setResolution(new Resolution("450x600"));
@@ -243,7 +245,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void getFileSize(){
+    public void getFileSize() {
         assertEquals(0, movie.getFileSize());
 
         File f = FileUtils.getAnExistingFile();
@@ -254,7 +256,7 @@ public class MovieImplTest {
     }
 
     @Test
-    public void getLastModifiedData(){
+    public void getLastModifiedData() {
         assertNull(movie.getFileLastModifiedDate());
 
         File f = FileUtils.getAnExistingFile();

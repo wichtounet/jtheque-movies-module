@@ -30,6 +30,7 @@ import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.annotation.Resource;
+
 import java.util.Collection;
 
 /**
@@ -67,7 +68,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 
-	    addConstraint(fileChooser, new ValidFileConstraint(Movie.FILE, 200));
+        addConstraint(fileChooser, new ValidFileConstraint(Movie.FILE, 200));
 
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 

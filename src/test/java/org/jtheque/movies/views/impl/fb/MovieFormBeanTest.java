@@ -26,12 +26,14 @@ import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.persistence.able.Note;
 import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.StringUtils;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -47,7 +49,7 @@ public class MovieFormBeanTest {
     private IDaoNotes daoNotes;
 
     @Test
-    public void fillMovie(){
+    public void fillMovie() {
         IMovieFormBean fb = new MovieFormBean();
 
         PreciseDuration duration = new PreciseDuration(22L);

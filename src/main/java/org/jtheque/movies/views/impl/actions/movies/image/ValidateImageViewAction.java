@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ValidateImageViewAction extends JThequeAction {
-	private final IImageController imageController;
+    private final IImageController imageController;
 
     /**
      * Construct a new ValidateImageViewAction.
+     *
      * @param imageController
      */
     public ValidateImageViewAction(IImageController imageController) {
         super("movie.image.actions.validate");
 
-	    this.imageController = imageController;
+        this.imageController = imageController;
     }
 
     @Override

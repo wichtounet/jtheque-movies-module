@@ -1,6 +1,5 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jdesktop.swingx.JXImagePanel;
 import org.jtheque.errors.able.IError;
 import org.jtheque.i18n.able.ILanguageService;
 import org.jtheque.movies.IMoviesModule;
@@ -22,14 +21,17 @@ import org.jtheque.ui.utils.components.Borders;
 import org.jtheque.ui.utils.components.IconListRenderer;
 import org.jtheque.ui.utils.components.JThequeI18nLabel;
 import org.jtheque.ui.utils.components.JThequeLabel;
+import org.jtheque.ui.utils.models.SimpleListModel;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
-import org.jtheque.ui.utils.models.SimpleListModel;
+
+import org.jdesktop.swingx.JXImagePanel;
 
 import javax.annotation.Resource;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
@@ -83,8 +85,8 @@ public final class ViewMoviePanel extends MoviePanel {
         super(IMovieView.VIEW_VIEW);
     }
 
-	@Override
-	protected void buildView(I18nPanelBuilder builder) {
+    @Override
+    protected void buildView(I18nPanelBuilder builder) {
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));
@@ -93,7 +95,7 @@ public final class ViewMoviePanel extends MoviePanel {
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
         JButton button = title.addButton(new PlayMovieAction(movieController, getService(IResourceService.class)),
-		        builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
+                builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
         builder.setDefaultInsets(new Insets(2, 3, 2, 3));
@@ -102,7 +104,7 @@ public final class ViewMoviePanel extends MoviePanel {
 
         buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", movieController), buttons.gbcSet(0, 0));
         buttons.addButton(new DeleteMovieAction(getService(ILanguageService.class), getService(IUIUtils.class), movieController),
-		        buttons.gbcSet(1, 0));
+                buttons.gbcSet(1, 0));
 
         addFileField(builder);
         addNoteField(builder);
@@ -113,7 +115,7 @@ public final class ViewMoviePanel extends MoviePanel {
         addImagePanel(center);
 
         addFileInformations(builder);
-	}
+    }
 
     /**
      * Add the field for the file.
@@ -186,11 +188,11 @@ public final class ViewMoviePanel extends MoviePanel {
 
         if (StringUtils.isNotEmpty(movie.getImage())) {
             imagePanel.setImage(getService(IResourceService.class).getFileImage(
-		            getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage()));
+                    getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage()));
         } else {
             imagePanel.setImage(null);
         }
-        
+
         categoriesModel.setElements(movie.getCategories());
     }
 

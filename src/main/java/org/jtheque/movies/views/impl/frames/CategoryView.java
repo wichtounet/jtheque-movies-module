@@ -27,10 +27,10 @@ import org.jtheque.movies.views.impl.models.CategoryModel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.constraints.MaxLengthConstraint;
 import org.jtheque.ui.utils.filthy.FilthyRenderer;
+import org.jtheque.ui.utils.filthy.FilthyTextField;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
-import org.jtheque.ui.utils.filthy.FilthyTextField;
 
 import javax.annotation.Resource;
 import javax.swing.Action;
@@ -48,7 +48,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
     @Resource
     private ICategoriesService categoriesService;
-	
+
     @Override
     protected void initView() {
         setModel(new CategoryModel());
@@ -79,7 +79,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
         fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
-	    addConstraint(fieldName.getField(), new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
+        addConstraint(fieldName.getField(), new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 

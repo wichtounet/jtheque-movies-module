@@ -39,8 +39,8 @@ import java.util.Map;
  * @author Baptiste Wicht
  */
 public final class MoviesSorter {
-    private ICategoriesService categoriesService;
-    private IMoviesService moviesService;
+    private final ICategoriesService categoriesService;
+    private final IMoviesService moviesService;
 
     /**
      * Utility class, not instanciable.
@@ -153,5 +153,5 @@ public final class MoviesSorter {
                 root.add(movie);
             }
         }
-	}
+    }
 }

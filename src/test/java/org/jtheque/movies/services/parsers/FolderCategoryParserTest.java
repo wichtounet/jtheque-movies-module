@@ -20,6 +20,7 @@ import org.jtheque.core.utils.SystemProperty;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.impl.parsers.FolderCategoryParser;
 import org.jtheque.utils.io.FileUtils;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +30,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.io.IOException;
 

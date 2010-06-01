@@ -21,8 +21,6 @@ import org.jtheque.movies.views.able.IFilesView;
 import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
-import javax.annotation.Resource;
-
 /**
  * Controller for the files view.
  *

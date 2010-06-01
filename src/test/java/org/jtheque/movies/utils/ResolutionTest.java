@@ -17,10 +17,12 @@ package org.jtheque.movies.utils;
  */
 
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ResolutionTest {
     private Resolution resolution1;
@@ -39,24 +41,24 @@ public class ResolutionTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void emptyResolution(){
+    public void emptyResolution() {
         new Resolution("");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void invalidResolution(){
-        new Resolution("450 780");        
+    public void invalidResolution() {
+        new Resolution("450 780");
     }
 
     @Test
-    public void testToString(){
+    public void testToString() {
         assertEquals("0480x0640", resolution1.toString());
         assertEquals("0480x0640", resolution2.toString());
         assertEquals("0396x0728", resolution3.toString());
     }
 
     @Test
-    public void testEquals(){
+    public void testEquals() {
         assertEquals(resolution1, resolution1);
         assertEquals(resolution2, resolution2);
         assertEquals(resolution1, resolution2);
@@ -75,7 +77,7 @@ public class ResolutionTest {
     }
 
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         assertEquals(resolution1.hashCode(), resolution2.hashCode());
         assertFalse(resolution3.hashCode() == resolution2.hashCode());
         assertFalse(resolution3.hashCode() == resolution1.hashCode());

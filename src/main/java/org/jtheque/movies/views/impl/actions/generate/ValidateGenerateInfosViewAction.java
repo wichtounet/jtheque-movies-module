@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ValidateGenerateInfosViewAction extends JThequeAction {
-	private final IGenerateInfosController generateInfosController;
+    private final IGenerateInfosController generateInfosController;
 
     /**
      * Construct a new ValidateCleanViewAction.
+     *
      * @param generateInfosController
      */
     public ValidateGenerateInfosViewAction(IGenerateInfosController generateInfosController) {
         super("movie.actions.generate.validate");
 
-	    this.generateInfosController = generateInfosController;
+        this.generateInfosController = generateInfosController;
     }
 
     @Override

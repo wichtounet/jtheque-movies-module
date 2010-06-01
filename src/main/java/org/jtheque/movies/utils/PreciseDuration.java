@@ -120,5 +120,5 @@ public final class PreciseDuration {
         result = Constants.HASH_CODE_START * result + (int) milliSeconds;
 
         return result;
-	}
+    }
 }

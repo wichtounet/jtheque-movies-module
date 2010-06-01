@@ -29,22 +29,23 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class DeleteMovieAction extends JThequeAction {
-	private final ILanguageService languageService;
-	private final IMovieController movieController;
-	private final IUIUtils uiUtils;
+    private final ILanguageService languageService;
+    private final IMovieController movieController;
+    private final IUIUtils uiUtils;
 
     /**
      * Construct a new DeleteMovieAction.
-     * @param languageService
-     * @param uiUtils
-     * @param movieController
+     *
+     * @param languageService The language service.
+     * @param uiUtils         The ui utils.
+     * @param movieController The movie controller.
      */
     public DeleteMovieAction(ILanguageService languageService, IUIUtils uiUtils, IMovieController movieController) {
         super("movie.actions.delete");
 
-	    this.languageService = languageService;
-	    this.uiUtils = uiUtils;
-	    this.movieController = movieController;
+        this.languageService = languageService;
+        this.uiUtils = uiUtils;
+        this.movieController = movieController;
     }
 
     @Override

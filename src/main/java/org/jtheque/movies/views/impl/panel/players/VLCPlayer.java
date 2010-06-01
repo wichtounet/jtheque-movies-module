@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.panel.players;
  * limitations under the License.
  */
 
-import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
-
 import javax.swing.JComponent;
+
 import java.io.File;
+
+import chrriis.dj.nativeswing.swtimpl.components.JVLCPlayer;
 
 /**
  * A VLC player implementation.

@@ -30,6 +30,7 @@ import org.jtheque.utils.bean.HashCodeUtils;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.swing.Icon;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -175,7 +176,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     @Override
     public void saveToMemento() {
         mementoState = true;
-        
+
         memento = BeanUtils.createQuickMemento(this, FIELDS);
     }
 

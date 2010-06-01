@@ -29,10 +29,12 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class CollapseAction extends JThequeSimpleAction {
-	private IMovieView movieView;
+    private IMovieView movieView;
 
     /**
      * Construct a new CollapseAction.
+     *
+     * @param resourceService The resource service.
      */
     public CollapseAction(IResourceService resourceService) {
         super();

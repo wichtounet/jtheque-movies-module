@@ -53,7 +53,7 @@ public interface IImageController extends Controller {
     void generateTimeImage(String time);
 
     /**
-     * Save the current image to the current movie. 
+     * Save the current image to the current movie.
      */
     void save();
 }

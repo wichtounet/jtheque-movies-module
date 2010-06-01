@@ -26,9 +26,11 @@ import org.jtheque.utils.ScannerUtils;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.io.SimpleApplicationConsumer;
 import org.jtheque.utils.ui.ImageUtils;
+
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +62,7 @@ public final class FFMpegService implements IFFMpegService {
         if (testFFMpegIsInstalled()) {
             String line = ScannerUtils.getLineStartingWith(getInformations(f), "Stream #0.0: Video:");
 
-            if(StringUtils.isNotEmpty(line)){
+            if (StringUtils.isNotEmpty(line)) {
                 String resolution = PATTERN.split(line)[2].trim();
 
                 if (resolution.contains(" ")) {
@@ -79,7 +81,7 @@ public final class FFMpegService implements IFFMpegService {
         if (testFFMpegIsInstalled()) {
             String line = ScannerUtils.getLineStartingWith(getInformations(f), "Duration:");
 
-            if(StringUtils.isNotEmpty(line)){
+            if (StringUtils.isNotEmpty(line)) {
                 return new PreciseDuration(formatDuration(line));
             }
         }
@@ -91,20 +93,19 @@ public final class FFMpegService implements IFFMpegService {
      * Format the duration of the movie.
      *
      * @param line The line of the duration.
-     *
-     * @return The duration. 
+     * @return The duration.
      */
     private static CharSequence formatDuration(String line) {
         StringBuilder duration = new StringBuilder(line.substring(10, line.indexOf(',')));
 
         String milliSeconds = MILLISECONDS_PATTERN.split(duration)[1];
 
-        while(milliSeconds.length() != 3){
-            if(milliSeconds.length() > 3){
+        while (milliSeconds.length() != 3) {
+            if (milliSeconds.length() > 3) {
                 duration.deleteCharAt(duration.length() - 1);
             }
 
-            if(milliSeconds.length() < 3){
+            if (milliSeconds.length() < 3) {
                 duration.append(0);
             }
 
@@ -134,7 +135,7 @@ public final class FFMpegService implements IFFMpegService {
             try {
                 p.consume();
             } catch (IOException e) {
-            LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
+                LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
             }
 
             return ImageUtils.createThumbnail(openImage(new File(fileName)), THUMBNAIL_WIDTH);
@@ -152,7 +153,6 @@ public final class FFMpegService implements IFFMpegService {
      * Open the image specified by a file.
      *
      * @param file The file of the image.
-     *
      * @return The thumbnail of the image.
      */
     private static BufferedImage openImage(File file) {
@@ -210,5 +210,5 @@ public final class FFMpegService implements IFFMpegService {
      */
     private static String getRandomTime() {
         return String.valueOf(RANDOM.nextInt(MAX_RANDOM_TIME) + 1);
-	}
+    }
 }

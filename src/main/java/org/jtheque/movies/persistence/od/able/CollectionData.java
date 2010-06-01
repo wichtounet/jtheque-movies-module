@@ -19,6 +19,11 @@ import org.jtheque.primary.able.od.Data;
  * limitations under the License.
  */
 
+/**
+ * A data who depends on a collection.
+ *
+ * @author Baptiste Wicht
+ */
 public interface CollectionData extends Data {
     /**
      * Return the collection.

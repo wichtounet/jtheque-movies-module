@@ -17,18 +17,20 @@ package org.jtheque.movies.services.impl;
  */
 
 import org.jtheque.core.utils.SystemProperty;
+
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileFilter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class PictureFileNameFilterTest {
     private final FileFilter filter = new PictureFileNameFilter();
-    
+
     @Test
-    public void acceptPicturesFiles(){
+    public void acceptPicturesFiles() {
         assertTrue(filter.accept(new File(SystemProperty.USER_DIR.get())));
         assertTrue(filter.accept(new File("test.jpg")));
         assertTrue(filter.accept(new File("test.png")));
@@ -37,7 +39,7 @@ public class PictureFileNameFilterTest {
     }
 
     @Test
-    public void refuseOtherFiles(){
+    public void refuseOtherFiles() {
         assertFalse(filter.accept(new File("test.avi")));
         assertFalse(filter.accept(new File("test.exe")));
         assertFalse(filter.accept(new File("test.tiff")));

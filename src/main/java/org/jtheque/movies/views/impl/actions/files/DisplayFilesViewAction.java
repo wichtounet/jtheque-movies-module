@@ -27,17 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class DisplayFilesViewAction extends JThequeAction {
-	private final IFilesController filesController;
+    private final IFilesController filesController;
 
     /**
      * Construct a new DisplayFilesViewAction.
-     * 
-     * @param filesController
+     *
+     * @param filesController The files controller.
      */
     public DisplayFilesViewAction(IFilesController filesController) {
         super("movie.files");
 
-	    this.filesController = filesController;
+        this.filesController = filesController;
     }
 
     @Override

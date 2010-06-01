@@ -20,6 +20,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.primary.able.views.ViewMode;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,7 @@ public class CategoryModelTest {
     private ICategoryModel model;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         model = new CategoryModel();
     }
 

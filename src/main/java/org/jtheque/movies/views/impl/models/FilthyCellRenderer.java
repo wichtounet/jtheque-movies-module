@@ -21,6 +21,7 @@ import org.jtheque.resources.able.IResourceService;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
+
 import java.awt.Color;
 import java.awt.Component;
 
@@ -30,11 +31,12 @@ import java.awt.Component;
  * @author Baptiste Wicht
  */
 public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
-    private IResourceService resourceService;
+    private final IResourceService resourceService;
 
     /**
      * Construct a new FilthyCellRenderer.
-     * @param resourceService
+     *
+     * @param resourceService The resource service.
      */
     public FilthyCellRenderer(IResourceService resourceService) {
         super();

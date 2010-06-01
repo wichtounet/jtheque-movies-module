@@ -29,33 +29,33 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class DeleteUnusedThumbnailsAction extends JThequeAction {
-	private final IMoviesModule moviesModule;
-	private final IMoviesService moviesService;
+    private final IMoviesModule moviesModule;
+    private final IMoviesService moviesService;
 
     /**
      * Construct a new DeleteUnusedThumbnailsAction.
      *
-     * @param moviesModule
-     * @param moviesService
+     * @param moviesModule  The movies module.
+     * @param moviesService The movies service.
      */
     public DeleteUnusedThumbnailsAction(IMoviesModule moviesModule, IMoviesService moviesService) {
         super("movie.actions.clean.thumbnails");
-	    
-	    this.moviesModule = moviesModule;
-	    this.moviesService = moviesService;
+
+        this.moviesModule = moviesModule;
+        this.moviesService = moviesService;
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
         File folder = new File(moviesModule.getThumbnailFolderPath());
 
-        for(File f : folder.listFiles()){
+        for (File f : folder.listFiles()) {
             String name = f.getName();
 
-            if(moviesService.thumbnailIsNotUsed(name)){
+            if (moviesService.thumbnailIsNotUsed(name)) {
                 boolean delete = f.delete();
 
-                if(!delete){
+                if (!delete) {
                     f.deleteOnExit();
                 }
             }

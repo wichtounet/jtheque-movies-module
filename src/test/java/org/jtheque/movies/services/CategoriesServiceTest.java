@@ -16,14 +16,13 @@ package org.jtheque.movies.services;
  * limitations under the License.
  */
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import org.jtheque.collections.able.Collection;
-import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.utils.unit.db.AbstractDBUnitTest;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.LoggerFactory;
@@ -33,6 +32,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 
 import static org.junit.Assert.*;
 
@@ -86,7 +88,7 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void exists(){
+    public void exists() {
         assertFalse(categoriesService.exists("Category 00"));
         assertTrue(categoriesService.exists("Category 1"));
     }
@@ -107,7 +109,7 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void getDataType(){
+    public void getDataType() {
         assertEquals("Categories", categoriesService.getDataType());
     }
 }

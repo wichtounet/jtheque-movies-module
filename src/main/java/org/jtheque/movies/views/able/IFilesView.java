@@ -25,8 +25,7 @@ import org.jtheque.ui.able.IView;
  */
 public interface IFilesView extends IView {
     /**
-     * Refresh the data of the view. 
-     *
+     * Refresh the data of the view.
      */
     void refreshData();
 }

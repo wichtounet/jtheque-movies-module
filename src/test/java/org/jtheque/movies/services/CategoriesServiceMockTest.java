@@ -23,6 +23,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.impl.CategoriesService;
 import org.jtheque.persistence.able.DataListener;
 import org.jtheque.utils.collections.CollectionUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.LoggerFactory;

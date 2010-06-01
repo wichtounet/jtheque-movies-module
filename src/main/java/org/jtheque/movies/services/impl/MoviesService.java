@@ -28,11 +28,13 @@ import org.jtheque.persistence.able.DataListener;
 import org.jtheque.utils.collections.CollectionUtils;
 import org.jtheque.utils.collections.Filter;
 import org.jtheque.utils.io.FileUtils;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -162,7 +164,7 @@ public final class MoviesService implements IMoviesService {
 
         try {
             ImageIO.write(image, "png", new File(folder + imageName));
-            
+
             movie.setImage(imageName);
         } catch (IOException e) {
             LoggerFactory.getLogger(getClass()).error(e.getMessage(), e);
@@ -189,8 +191,8 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     public boolean thumbnailIsNotUsed(String name) {
-        for(Movie movie : getMovies()){
-            if(name.equals(movie.getImage())){
+        for (Movie movie : getMovies()) {
+            if (name.equals(movie.getImage())) {
                 return false;
             }
         }
@@ -248,7 +250,7 @@ public final class MoviesService implements IMoviesService {
 
     @Override
     @Transactional
-    public void clearAll(){
+    public void clearAll() {
         daoMovies.clearAll();
     }
 
@@ -275,7 +277,7 @@ public final class MoviesService implements IMoviesService {
         /**
          * Construct a new CategoriesFilter.
          *
-         * @param categories The categories to filter with. 
+         * @param categories The categories to filter with.
          */
         private CategoriesFilter(Collection<Category> categories) {
             super();
@@ -285,8 +287,8 @@ public final class MoviesService implements IMoviesService {
 
         @Override
         public boolean accept(Movie movie) {
-            for(Category cat : categories){
-                if(movie.isOfCategory(cat)){
+            for (Category cat : categories) {
+                if (movie.isOfCategory(cat)) {
                     return true;
                 }
             }

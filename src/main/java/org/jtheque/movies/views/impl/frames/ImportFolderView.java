@@ -28,11 +28,12 @@ import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
 import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
-import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.ui.utils.models.SimpleListModel;
+import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.swing.JList;
 import javax.swing.KeyStroke;
+
 import java.awt.GridBagConstraints;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -115,7 +116,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
         }
 
         builder.addButtonBar(builder.gbcSet(0, ++i, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 0, 1, 1.0, 0.0),
-                new ImportFilesAction(this, getService(IFilesService.class)), 
+                new ImportFilesAction(this, getService(IFilesService.class)),
                 getCloseAction("movie.auto.folder.actions.cancel"));
     }
 

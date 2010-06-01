@@ -29,5 +29,5 @@ public final class PictureFileNameFilter extends SimpleFilter {
      */
     public PictureFileNameFilter() {
         super("Photos", "png,jpg,jpeg,gif");
-	}
+    }
 }

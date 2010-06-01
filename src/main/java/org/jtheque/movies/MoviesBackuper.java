@@ -16,6 +16,7 @@ import org.jtheque.utils.bean.Version;
 import org.jtheque.xml.utils.Node;
 
 import javax.annotation.Resource;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -42,17 +43,17 @@ public class MoviesBackuper implements ModuleBackuper {
 
     private static final Version BACKUP_VERSION = new Version("1.0");
 
-	@Resource
-	private IDaoCategories daoCategories;
+    @Resource
+    private IDaoCategories daoCategories;
 
-	@Resource
-	private IDaoMovies daoMovies;
+    @Resource
+    private IDaoMovies daoMovies;
 
-	@Resource
-	private IDaoCollections daoCollections;
+    @Resource
+    private IDaoCollections daoCollections;
 
-	@Resource
-	private IDaoNotes daoNotes;
+    @Resource
+    private IDaoNotes daoNotes;
 
     @Override
     public String getId() {
@@ -82,7 +83,7 @@ public class MoviesBackuper implements ModuleBackuper {
     }
 
     private void addCategories(Collection<Node> nodes) {
-        for(Category category : daoCategories.getAll()){
+        for (Category category : daoCategories.getAll()) {
             Node node = new Node("category");
 
             node.addSimpleChildValue("id", category.getId());
@@ -95,7 +96,7 @@ public class MoviesBackuper implements ModuleBackuper {
     }
 
     private void addMovies(Collection<Node> nodes) {
-        for(Movie movie : daoMovies.getAll()){
+        for (Movie movie : daoMovies.getAll()) {
             Node node = new Node("movie");
 
             node.addSimpleChildValue("id", movie.getId());
@@ -107,7 +108,7 @@ public class MoviesBackuper implements ModuleBackuper {
             node.addSimpleChildValue("resolution", movie.getResolution() == null ? "" : movie.getResolution().toString());
             node.addSimpleChildValue("collection", movie.getTheCollection() == null ? -1 : movie.getTheCollection().getId());
 
-            for(Category category : movie.getCategories()){
+            for (Category category : movie.getCategories()) {
                 node.addSimpleChildValue("category", category.getId());
             }
 
@@ -128,10 +129,10 @@ public class MoviesBackuper implements ModuleBackuper {
     private void restoreCategories(Iterator<Node> nodeIterator) {
         Collection<Category> categories = new ArrayList<Category>(25);
 
-        while(nodeIterator.hasNext()){
+        while (nodeIterator.hasNext()) {
             Node node = nodeIterator.next();
 
-            if("category".equals(node.getName())){
+            if ("category".equals(node.getName())) {
                 Category category = daoCategories.create();
 
                 category.getTemporaryContext().setId(node.getChildIntValue("id"));
@@ -147,7 +148,7 @@ public class MoviesBackuper implements ModuleBackuper {
             }
         }
 
-        for(Category category : categories){
+        for (Category category : categories) {
             category.setParent(daoCategories.getCategoryByTemporaryId(category.getTemporaryParent()));
 
             daoCategories.save(category);
@@ -155,10 +156,10 @@ public class MoviesBackuper implements ModuleBackuper {
     }
 
     private void restoreMovies(Iterator<Node> nodeIterator) {
-        while(nodeIterator.hasNext()){
+        while (nodeIterator.hasNext()) {
             Node node = nodeIterator.next();
 
-            if("movie".equals(node.getName())){
+            if ("movie".equals(node.getName())) {
                 Movie movie = daoMovies.create();
 
                 movie.setTitle(node.getChildValue("title"));
@@ -168,13 +169,13 @@ public class MoviesBackuper implements ModuleBackuper {
 
                 long duration = node.getChildLongValue("duration");
 
-                if(duration != 0L){
+                if (duration != 0L) {
                     movie.setDuration(new PreciseDuration(duration));
                 }
-                
+
                 String resolution = node.getChildValue("resolution");
 
-                if(StringUtils.isNotEmpty(resolution)){
+                if (StringUtils.isNotEmpty(resolution)) {
                     movie.setResolution(new Resolution(resolution));
                 }
 
@@ -182,8 +183,8 @@ public class MoviesBackuper implements ModuleBackuper {
 
                 Collection<Category> categories = new ArrayList<Category>(5);
 
-                for(Node catNode : node.getChildrens()){
-                    if("category".equals(catNode.getName())){
+                for (Node catNode : node.getChildrens()) {
+                    if ("category".equals(catNode.getName())) {
                         categories.add(daoCategories.getCategoryByTemporaryId(catNode.getInt()));
                     }
                 }

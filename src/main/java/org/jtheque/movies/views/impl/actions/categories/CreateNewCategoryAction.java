@@ -27,17 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class CreateNewCategoryAction extends JThequeAction {
-	private final ICategoryController categoryController;
+    private final ICategoryController categoryController;
 
     /**
      * Construct a new CreateNewCategoryAction.
-     * 
-     * @param categoryController
+     *
+     * @param categoryController The category controller.
      */
     public CreateNewCategoryAction(ICategoryController categoryController) {
         super("category.actions.new");
 
-	    this.categoryController = categoryController;
+        this.categoryController = categoryController;
     }
 
     @Override

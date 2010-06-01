@@ -24,6 +24,7 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.utils.bean.BeanUtils;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -54,7 +57,7 @@ public class FFMpegServiceTest {
     private String testFolder;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         BeanUtils.set(moviesModule, "config", new MovieConfiguration());
         BeanUtils.set(core, "application", new MoviesModuleTest.EmptyApplication());
 
@@ -63,21 +66,21 @@ public class FFMpegServiceTest {
     }
 
     @Test
-    public void getResolution(){
+    public void getResolution() {
         Resolution resolution = ffmMpegService.getResolution(new File(testFolder + "gok.avi"));
 
         assertEquals("0640x0480", resolution.toString());
     }
 
     @Test
-    public void getDuration(){
+    public void getDuration() {
         PreciseDuration duration = ffmMpegService.getDuration(new File(testFolder + "gok.avi"));
 
         assertEquals("00:58:13.200", duration.toString());
     }
 
     @Test
-    public void generateRandomPreviewImage(){
+    public void generateRandomPreviewImage() {
         BufferedImage image = ffmMpegService.generateRandomPreviewImage(new File(testFolder + "gok.avi"));
 
         assertNotNull(image);
@@ -86,7 +89,7 @@ public class FFMpegServiceTest {
     }
 
     @Test
-    public void generatePreviewImage(){
+    public void generatePreviewImage() {
         BufferedImage image = ffmMpegService.generatePreviewImage(new File(testFolder + "gok.avi"), "5");
 
         assertNotNull(image);
@@ -95,7 +98,7 @@ public class FFMpegServiceTest {
     }
 
     @Test
-    public void testGenerateImageFromUserInput(){
+    public void testGenerateImageFromUserInput() {
         BufferedImage image = ffmMpegService.generateImageFromUserInput(new File(testFolder + "test.jpg"));
 
         assertNotNull(image);

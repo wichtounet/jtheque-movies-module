@@ -27,17 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class EditImageAction extends JThequeAction {
-	private final IImageController imageController;
+    private final IImageController imageController;
 
     /**
      * Construct a new AcPrintFilm.
      *
-     * @param imageController
+     * @param imageController The image controller.
      */
     public EditImageAction(IImageController imageController) {
         super("movie.actions.image");
 
-	    this.imageController = imageController;
+        this.imageController = imageController;
     }
 
     @Override

@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.panel.players;
  * limitations under the License.
  */
 
-import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
-
 import javax.swing.JComponent;
+
 import java.io.File;
+
+import chrriis.dj.nativeswing.swtimpl.components.win32.JWMediaPlayer;
 
 /**
  * A WMP player implementation.
@@ -30,7 +31,7 @@ public final class WMPPlayer implements IMoviePlayer {
     private final JWMediaPlayer player;
 
     /**
-     * Construct a new WMPPlayer. 
+     * Construct a new WMPPlayer.
      */
     public WMPPlayer() {
         super();

@@ -16,7 +16,6 @@ package org.jtheque.movies.views.impl;
  * limitations under the License.
  */
 
-import org.jdesktop.swingx.JXTree;
 import org.jtheque.errors.able.IError;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -43,17 +42,20 @@ import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
 import org.jtheque.primary.utils.views.tree.TreeElement;
 import org.jtheque.resources.able.IResourceService;
 import org.jtheque.ui.utils.actions.DisplayViewAction;
+import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
 import org.jtheque.ui.utils.components.Borders;
-import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.ui.utils.components.CardPanel;
 import org.jtheque.ui.utils.filthy.FilthyCardPanel;
-import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
+import org.jtheque.utils.ui.GridBagUtils;
+
+import org.jdesktop.swingx.JXTree;
 
 import javax.annotation.Resource;
 import javax.swing.JLabel;
 import javax.swing.tree.TreePath;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -66,7 +68,7 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentObjectListener, IMovieView, DisplayListListener {
-	private static final double LIST_COLUMN = 0.3;
+    private static final double LIST_COLUMN = 0.3;
 
     private final JThequeTreeModel treeModel = new JThequeTreeModel(new CategoryElement("Movies"));
 
@@ -97,122 +99,122 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     }
 
     @Override
-	protected void buildView(I18nPanelBuilder builder) {
-		setModel(new MoviesModel(moviesService));
+    protected void buildView(I18nPanelBuilder builder) {
+        setModel(new MoviesModel(moviesService));
 
-		moviesSorter = new MoviesSorter(categoriesService, moviesService);
+        moviesSorter = new MoviesSorter(categoriesService, moviesService);
 
-		buildPanelList(builder);
-		buildPanelMovie(builder);
+        buildPanelList(builder);
+        buildPanelMovie(builder);
 
-		treeMovies.addTreeSelectionListener(movieController);
+        treeMovies.addTreeSelectionListener(movieController);
 
-		selectFirst();
+        selectFirst();
 
-		movieController.view(getSelectedMovie());
+        movieController.view(getSelectedMovie());
 
         getModel().addCurrentObjectListener(this);
         getModel().addDisplayListListener(this);
-	}
+    }
 
-	/**
-	 * Build the internal panel list.
-	 *
-	 * @param parent The parent builder.
-	 */
-	private void buildPanelList(I18nPanelBuilder parent) {
-		parent.setDefaultInsets(new Insets(2, 2, 2, 5));
+    /**
+     * Build the internal panel list.
+     *
+     * @param parent The parent builder.
+     */
+    private void buildPanelList(I18nPanelBuilder parent) {
+        parent.setDefaultInsets(new Insets(2, 2, 2, 5));
 
-		I18nPanelBuilder builder = parent.addPanel(new BorderLayout(2, 2),
-				parent.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, LIST_COLUMN, 1.0));
+        I18nPanelBuilder builder = parent.addPanel(new BorderLayout(2, 2),
+                parent.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, LIST_COLUMN, 1.0));
 
-		parent.setDefaultInsets(new Insets(2, 2, 2, 2));
+        parent.setDefaultInsets(new Insets(2, 2, 2, 2));
 
-		builder.getPanel().setBorder(Borders.createEmptyBorder(10, 10, 10, 20));
-		builder.getPanel().setMinimumSize(new Dimension(165, 400));
+        builder.getPanel().setBorder(Borders.createEmptyBorder(10, 10, 10, 20));
+        builder.getPanel().setMinimumSize(new Dimension(165, 400));
 
-		addTitle(builder);
-		addTree(builder);
-		addActions(builder);
-	}
+        addTitle(builder);
+        addTree(builder);
+        addActions(builder);
+    }
 
-	/**
-	 * Add the title of the tree to the builder.
-	 *
-	 * @param builder The panel builder.
-	 */
-	private void addTitle(I18nPanelBuilder builder) {
-		I18nPanelBuilder titleBuilder = builder.addPanel(BorderLayout.NORTH);
+    /**
+     * Add the title of the tree to the builder.
+     *
+     * @param builder The panel builder.
+     */
+    private void addTitle(I18nPanelBuilder builder) {
+        I18nPanelBuilder titleBuilder = builder.addPanel(BorderLayout.NORTH);
 
-		JLabel label = titleBuilder.addI18nLabel("movie.panel.list.title",
-				titleBuilder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
+        JLabel label = titleBuilder.addI18nLabel("movie.panel.list.title",
+                titleBuilder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
 
-		IResourceService resourceService = getService(IResourceService.class);
+        IResourceService resourceService = getService(IResourceService.class);
 
-		titleBuilder.addButton(new RefreshAction(this, resourceService), titleBuilder.gbcSet(1, 0));
-		titleBuilder.addButton(new ExpandAction(this, resourceService), titleBuilder.gbcSet(2, 0));
-		titleBuilder.addButton(new CollapseAction(resourceService), titleBuilder.gbcSet(3, 0));
+        titleBuilder.addButton(new RefreshAction(this, resourceService), titleBuilder.gbcSet(1, 0));
+        titleBuilder.addButton(new ExpandAction(this, resourceService), titleBuilder.gbcSet(2, 0));
+        titleBuilder.addButton(new CollapseAction(resourceService), titleBuilder.gbcSet(3, 0));
 
-		label.setFont(TITLE_FONT.deriveFont(25.0f));
-	}
+        label.setFont(TITLE_FONT.deriveFont(25.0f));
+    }
 
-	/**
-	 * Add the tree to the builder.
-	 *
-	 * @param builder The panel builder.
-	 */
-	private void addTree(PanelBuilder builder) {
-		moviesSorter.sort(treeModel);
+    /**
+     * Add the tree to the builder.
+     *
+     * @param builder The panel builder.
+     */
+    private void addTree(PanelBuilder builder) {
+        moviesSorter.sort(treeModel);
 
-		treeMovies = (JXTree) builder.addScrolledTree(treeModel,
+        treeMovies = (JXTree) builder.addScrolledTree(treeModel,
                 new FilthyCellRenderer(getService(IResourceService.class)), BorderLayout.CENTER);
-	}
+    }
 
-	/**
-	 * Add the add actions to the view.
-	 *
-	 * @param builder The panel builder.
-	 */
-	private void addActions(I18nPanelBuilder builder) {
-		I18nPanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
+    /**
+     * Add the add actions to the view.
+     *
+     * @param builder The panel builder.
+     */
+    private void addActions(I18nPanelBuilder builder) {
+        I18nPanelBuilder panelButtons = builder.addPanel(BorderLayout.SOUTH);
 
-		panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
-				builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
+        panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
+                builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
 
-		DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
-		autoAddAction.setView(addFromFileView);
+        DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
+        autoAddAction.setView(addFromFileView);
 
-		panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", movieController),
-				builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-		panelButtons.addButton(autoAddAction,
-				builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
-	}
+        panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", movieController),
+                builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
+        panelButtons.addButton(autoAddAction,
+                builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
+    }
 
-	/**
-	 * Build the internal panel film.
-	 *
-	 * @param parent The parent builder.
-	 */
-	private void buildPanelMovie(PanelBuilder parent) {
-		layeredPanel = new FilthyCardPanel<MoviePanel>();
+    /**
+     * Build the internal panel film.
+     *
+     * @param parent The parent builder.
+     */
+    private void buildPanelMovie(PanelBuilder parent) {
+        layeredPanel = new FilthyCardPanel<MoviePanel>();
 
-		layeredPanel.addLayer(viewMoviePanel, viewMoviePanel.getKey());
-		layeredPanel.addLayer(editMoviePanel, editMoviePanel.getKey());
+        layeredPanel.addLayer(viewMoviePanel, viewMoviePanel.getKey());
+        layeredPanel.addLayer(editMoviePanel, editMoviePanel.getKey());
 
-		setDisplayedView(VIEW_VIEW);
+        setDisplayedView(VIEW_VIEW);
 
-		parent.add(layeredPanel, parent.gbcSet(1, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, 1 - LIST_COLUMN, 1.0));
-	}
+        parent.add(layeredPanel, parent.gbcSet(1, 0, GridBagUtils.BOTH, GridBagUtils.FIRST_LINE_START, 1 - LIST_COLUMN, 1.0));
+    }
 
-	@Override
-	public void displayListChanged() {
-		moviesSorter.sort(treeModel);
-	}
+    @Override
+    public void displayListChanged() {
+        moviesSorter.sort(treeModel);
+    }
 
-	@Override
-	public void validate(Collection<IError> errors) {
-		layeredPanel.getCurrentLayer().validate(errors);
-	}
+    @Override
+    public void validate(Collection<IError> errors) {
+        layeredPanel.getCurrentLayer().validate(errors);
+    }
 
     @Override
     public void objectChanged(ObjectChangedEvent event) {
@@ -321,12 +323,12 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         return treeMovies.getSelectionPath() == null ? null : (Movie) treeMovies.getSelectionPath().getLastPathComponent();
     }
 
-	@Override
-	public IMoviesModel getModel() {
-		return (IMoviesModel) super.getModel();
-	}
+    @Override
+    public IMoviesModel getModel() {
+        return (IMoviesModel) super.getModel();
+    }
 
-	@Override
+    @Override
     public void expandAll() {
         treeMovies.expandAll();
     }
@@ -337,7 +339,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     }
 
     @Override
-    public void resort(){
+    public void resort() {
         displayListChanged();
     }
 

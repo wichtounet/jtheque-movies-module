@@ -29,6 +29,7 @@ import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +83,7 @@ public final class FilesService implements IFilesService {
 
         File file = new File(filePath);
 
-        if(ffMpegService.ffmpegIsInstalled()){
+        if (ffMpegService.ffmpegIsInstalled()) {
             movie.setResolution(ffMpegService.getResolution(file));
             movie.setDuration(ffMpegService.getDuration(file));
 

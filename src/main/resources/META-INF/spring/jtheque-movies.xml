@@ -20,11 +20,11 @@
     <bean class="org.jtheque.movies.views.impl.frames.AddFromFileView" lazy-init="true">
         <constructor-arg>
             <util:list>
-                <ref bean="staticCategoryParser" />
-                <ref bean="folderCategoryParser" />
-                <ref bean="toCharCategoryParser" />
-                <ref bean="betweenCharCategoryParser1" />
-                <ref bean="betweenCharCategoryParser2" />
+                <ref bean="staticCategoryParser"/>
+                <ref bean="folderCategoryParser"/>
+                <ref bean="toCharCategoryParser"/>
+                <ref bean="betweenCharCategoryParser1"/>
+                <ref bean="betweenCharCategoryParser2"/>
             </util:list>
         </constructor-arg>
     </bean>
@@ -59,7 +59,7 @@
     <bean class="org.jtheque.movies.MoviesMenu"/>
     <bean class="org.jtheque.movies.persistence.MoviesSchema"/>
 
-    <bean class="org.jtheque.primary.utils.choice.ChoiceActionsPostProcessor" />
+    <bean class="org.jtheque.primary.utils.choice.ChoiceActionsPostProcessor"/>
 
     <bean class="org.jtheque.movies.views.impl.choice.ModifyChoiceAction"/>
     <bean class="org.jtheque.movies.views.impl.choice.DeleteChoiceAction"/>
@@ -69,7 +69,7 @@
 
     <osgi:reference id="choiceController" interface="org.jtheque.primary.able.controller.IChoiceController"/>
     <osgi:reference id="primaryUtils" interface="org.jtheque.primary.able.IPrimaryUtils"/>
-    
+
     <osgi:reference id="languageService" interface="org.jtheque.i18n.able.ILanguageService"/>
     <osgi:reference id="errorService" interface="org.jtheque.errors.able.IErrorService"/>
     <osgi:reference id="resourceService" interface="org.jtheque.resources.able.IResourceService"/>
@@ -86,7 +86,7 @@
     <osgi:reference id="daoCollections" interface="org.jtheque.collections.able.IDaoCollections"/>
     <osgi:reference id="daoNotes" interface="org.jtheque.persistence.able.IDaoNotes"/>
 
-    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" />
+    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule"/>
 
     <bean id="panelConfigMovies" class="org.jtheque.movies.views.impl.JPanelConfigMovies" lazy-init="true"/>
     <bean id="movieView" class="org.jtheque.movies.views.impl.MovieView" lazy-init="true">
@@ -165,11 +165,11 @@
     <bean class="org.jtheque.movies.views.impl.frames.ImportFolderView" lazy-init="true">
         <constructor-arg>
             <util:list>
-                <ref bean="staticCategoryParser" />
-                <ref bean="folderCategoryParser" />
-                <ref bean="toCharCategoryParser" />
-                <ref bean="betweenCharCategoryParser1" />
-                <ref bean="betweenCharCategoryParser2" />
+                <ref bean="staticCategoryParser"/>
+                <ref bean="folderCategoryParser"/>
+                <ref bean="toCharCategoryParser"/>
+                <ref bean="betweenCharCategoryParser1"/>
+                <ref bean="betweenCharCategoryParser2"/>
             </util:list>
         </constructor-arg>
     </bean>
@@ -178,18 +178,23 @@
         <constructor-arg ref="nameCleaners"/>
     </bean>
 
-    <bean id="staticCategoryParser" class="org.jtheque.movies.services.impl.parsers.StaticCategoryParser" lazy-init="true">
-        <constructor-arg ref="categoriesService" />
+    <bean id="staticCategoryParser" class="org.jtheque.movies.services.impl.parsers.StaticCategoryParser"
+          lazy-init="true">
+        <constructor-arg ref="categoriesService"/>
     </bean>
-    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser" lazy-init="true"/>
-    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser" lazy-init="true">
+    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"
+          lazy-init="true"/>
+    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser"
+          lazy-init="true">
         <constructor-arg value="-"/>
     </bean>
-    <bean id="betweenCharCategoryParser1" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser" lazy-init="true">
+    <bean id="betweenCharCategoryParser1" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser"
+          lazy-init="true">
         <constructor-arg value="{"/>
         <constructor-arg value="}"/>
     </bean>
-    <bean id="betweenCharCategoryParser2" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser" lazy-init="true">
+    <bean id="betweenCharCategoryParser2" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser"
+          lazy-init="true">
         <constructor-arg value="["/>
         <constructor-arg value="]"/>
     </bean>

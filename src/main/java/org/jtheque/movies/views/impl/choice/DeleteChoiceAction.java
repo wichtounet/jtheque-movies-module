@@ -20,9 +20,9 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
 import org.jtheque.primary.utils.choice.AbstractPrimaryDeleteChoiceAction;
 import org.jtheque.primary.utils.choice.Deleter;
+import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
 
 import javax.annotation.Resource;
 
@@ -32,11 +32,11 @@ import javax.annotation.Resource;
  * @author Baptiste Wicht
  */
 public final class DeleteChoiceAction extends AbstractPrimaryDeleteChoiceAction {
-	@Resource
-	private IMoviesService moviesService;
+    @Resource
+    private IMoviesService moviesService;
 
-	@Resource
-	private ICategoriesService categoriesService;
+    @Resource
+    private ICategoriesService categoriesService;
 
     /**
      * Construct a new DeleteChoiceAction.

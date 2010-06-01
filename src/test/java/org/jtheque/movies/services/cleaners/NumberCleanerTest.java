@@ -18,6 +18,7 @@ package org.jtheque.movies.services.cleaners;
 
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.services.impl.cleaners.NumberCleaner;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

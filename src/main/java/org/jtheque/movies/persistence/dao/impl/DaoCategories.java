@@ -22,16 +22,18 @@ import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
+import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.able.IDaoPersistenceContext;
+import org.jtheque.persistence.able.QueryMapper;
 import org.jtheque.persistence.utils.CachedJDBCDao;
 import org.jtheque.persistence.utils.Query;
-import org.jtheque.persistence.able.Entity;
-import org.jtheque.persistence.able.QueryMapper;
-import org.jtheque.persistence.able.IDaoPersistenceContext;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.collections.CollectionUtils;
+
 import org.springframework.jdbc.core.RowMapper;
 
 import javax.annotation.Resource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -71,8 +73,8 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
 
     @Override
     public Category getCategoryByTemporaryId(int id) {
-        for(Category category : getAll()){
-            if(category.getTemporaryContext().getId() == id){
+        for (Category category : getAll()) {
+            if (category.getTemporaryContext().getId() == id) {
                 return category;
             }
         }
@@ -236,9 +238,9 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
 
             if (id) {
                 values[3] = category.getId();
-			}
+            }
 
-			return values;
-		}
+            return values;
+        }
     }
 }

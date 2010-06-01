@@ -1,7 +1,7 @@
 package org.jtheque.movies;
 
-import org.jtheque.states.utils.AbstractState;
 import org.jtheque.states.able.State;
+import org.jtheque.states.utils.AbstractState;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

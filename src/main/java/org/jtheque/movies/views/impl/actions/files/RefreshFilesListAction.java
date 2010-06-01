@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class RefreshFilesListAction extends JThequeAction {
-	private final IFilesController filesController;
+    private final IFilesController filesController;
 
     /**
      * Construct a new RefreshFilesListAction.
+     *
      * @param filesController
      */
     public RefreshFilesListAction(IFilesController filesController) {
         super("files.actions.refresh");
 
-	    this.filesController = filesController;
+        this.filesController = filesController;
     }
 
     @Override

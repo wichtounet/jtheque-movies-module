@@ -29,19 +29,20 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class CleanMovieAction extends JThequeAction {
-	private final IMovieController movieController;
-	private final ICleanController cleanController;
+    private final IMovieController movieController;
+    private final ICleanController cleanController;
 
     /**
      * Construct a new AcPrintFilm.
-     * @param movieController
-     * @param cleanController
+     *
+     * @param movieController The movie controller.
+     * @param cleanController The clean controller.
      */
     public CleanMovieAction(IMovieController movieController, ICleanController cleanController) {
         super("movie.actions.clean.movie");
 
-	    this.movieController = movieController;
-	    this.cleanController = cleanController;
+        this.movieController = movieController;
+        this.cleanController = cleanController;
     }
 
     @Override

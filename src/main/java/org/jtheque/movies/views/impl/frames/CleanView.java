@@ -29,6 +29,7 @@ import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.annotation.Resource;
 import javax.swing.JCheckBox;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -81,8 +82,8 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
         checkBoxSub = builder.addI18nCheckBox("movie.clean.subcategories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 
         builder.addButtonBar(builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
-		        new ValidateCleanViewAction(cleanController),
-		        getCloseAction("movie.auto.actions.cancel"));
+                new ValidateCleanViewAction(cleanController),
+                getCloseAction("movie.auto.actions.cancel"));
     }
 
     @Override

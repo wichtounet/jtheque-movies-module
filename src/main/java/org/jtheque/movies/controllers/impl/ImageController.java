@@ -28,6 +28,7 @@ import org.jtheque.utils.StringUtils;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
+
 import java.io.File;
 
 /**
@@ -36,7 +37,7 @@ import java.io.File;
  * @author Baptiste Wicht
  */
 public final class ImageController extends AbstractController implements IImageController {
-    private SwingSpringProxy<IImageView> imageView;
+    private final SwingSpringProxy<IImageView> imageView;
 
     @Resource
     private IMovieController movieController;

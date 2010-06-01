@@ -28,6 +28,7 @@ import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.views.utils.AbstractController;
 
 import javax.annotation.Resource;
+
 import java.util.Collection;
 
 /**
@@ -47,6 +48,11 @@ public final class AddFromFileController extends AbstractController implements I
     @Resource
     private IMovieController movieController;
 
+    /**
+     * Create a new AddFromFileController.
+     *
+     * @param addFromFileView A proxy to the add from file view.
+     */
     public AddFromFileController(SwingSpringProxy<IAddFromFileView> addFromFileView) {
         super();
 

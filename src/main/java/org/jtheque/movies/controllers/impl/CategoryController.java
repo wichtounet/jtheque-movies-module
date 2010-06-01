@@ -21,8 +21,8 @@ import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
-import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
 import org.jtheque.primary.able.views.ViewMode;
+import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
 import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.undo.able.IUndoRedoService;
 import org.jtheque.views.utils.AbstractController;
@@ -40,6 +40,11 @@ public final class CategoryController extends AbstractController implements ICat
     @Resource
     private ICategoriesService categoriesService;
 
+    /**
+     * Construct a new CategoryController.
+     *
+     * @param categoryView A proxy to the category view.
+     */
     public CategoryController(SwingSpringProxy<ICategoryView> categoryView) {
         super();
 
@@ -87,7 +92,7 @@ public final class CategoryController extends AbstractController implements ICat
     /**
      * Return the current category.
      *
-     * @return The current category. 
+     * @return The current category.
      */
     private Category getCurrentCategory() {
         return categoryView.get().getModel().getCategory();

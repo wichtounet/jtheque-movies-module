@@ -21,6 +21,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.views.able.models.ICleanModel;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class CleanModelTest {
     private ICleanModel model;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         model = new CleanModel();
     }
 

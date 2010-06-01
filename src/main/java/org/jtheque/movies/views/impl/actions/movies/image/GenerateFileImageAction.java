@@ -28,16 +28,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class GenerateFileImageAction extends JThequeAction {
-	private final IImageController imageController;
+    private final IImageController imageController;
 
     /**
      * Construct a new GenerateFileImageAction.
-     * @param imageController
+     *
+     * @param imageController The image controller.
      */
     public GenerateFileImageAction(IImageController imageController) {
         super("movie.image.actions.file");
 
-	    this.imageController = imageController;
+        this.imageController = imageController;
     }
 
     @Override

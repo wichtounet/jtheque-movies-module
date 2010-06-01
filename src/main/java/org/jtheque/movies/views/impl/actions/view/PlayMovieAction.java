@@ -29,17 +29,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class PlayMovieAction extends JThequeAction {
-	private final IMovieController movieController;
+    private final IMovieController movieController;
 
     /**
      * Construct a new PlayMovieAction.
      *
-     * @param movieController
+     * @param movieController The movie controller.
      */
     public PlayMovieAction(IMovieController movieController, IResourceService resourceService) {
         super("movie.actions.view");
 
-	    this.movieController = movieController;
+        this.movieController = movieController;
 
         setIcon(resourceService.getIcon(MoviesResources.PLAY_ICON));
     }

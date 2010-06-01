@@ -70,5 +70,5 @@ public interface Category extends CollectionData {
      * @return The id of the parent category.
      * @see #setTemporaryParent(int)
      */
-	int getTemporaryParent();
+    int getTemporaryParent();
 }

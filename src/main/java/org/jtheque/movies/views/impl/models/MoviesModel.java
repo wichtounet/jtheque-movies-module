@@ -19,8 +19,8 @@ package org.jtheque.movies.views.impl.models;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.models.IMoviesModel;
-import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 import org.jtheque.primary.utils.views.PrincipalDataModel;
+import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 
 import java.util.Collection;
 
@@ -32,17 +32,19 @@ import java.util.Collection;
 public final class MoviesModel extends PrincipalDataModel<Movie> implements IMoviesModel {
     private Movie currentMovie;
 
-	private final IMoviesService moviesService;
+    private final IMoviesService moviesService;
 
-	/**
+    /**
      * Construct a new MoviesModel.
+     *
+     * @param moviesService The movies service.
      */
     public MoviesModel(IMoviesService moviesService) {
         super();
-		
-		this.moviesService = moviesService;
 
-		moviesService.addDataListener(this);
+        this.moviesService = moviesService;
+
+        moviesService.addDataListener(this);
     }
 
     @Override

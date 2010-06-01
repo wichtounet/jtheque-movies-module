@@ -43,11 +43,11 @@ public final class MoviesMenu extends OSGIMenu {
         IMoviesModule moviesModule = getService(IMoviesModule.class);
         ICategoryController categoryController = getService(ICategoryController.class);
         IChoiceController choiceController = getService(IChoiceController.class);
-		IFilesController filesController = getService(IFilesController.class);
+        IFilesController filesController = getService(IFilesController.class);
         IMoviesService moviesService = getService(IMoviesService.class);
         IGenerateInfosView generateInfosView = getService(IGenerateInfosView.class);
         IImportFolderView importFolderView = getService(IImportFolderView.class);
-	    
+
         return features(
                 createMainFeature(500, "category.menu.title",
                         createSubFeature(1, new CreateNewCategoryAction(categoryController)),

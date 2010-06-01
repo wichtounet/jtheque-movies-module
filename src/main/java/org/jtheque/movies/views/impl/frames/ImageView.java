@@ -16,7 +16,6 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jdesktop.swingx.JXImagePanel;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.impl.ImageController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -35,8 +34,11 @@ import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
 
+import org.jdesktop.swingx.JXImagePanel;
+
 import javax.annotation.Resource;
 import javax.swing.text.NumberFormatter;
+
 import java.awt.image.BufferedImage;
 import java.text.NumberFormat;
 
@@ -113,10 +115,10 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
     @Override
     public void displayMovie(Movie movie) {
         if (StringUtils.isNotEmpty(movie.getImage())) {
-	        String resource = moviesModule.getThumbnailFolderPath() + movie.getImage();
+            String resource = moviesModule.getThumbnailFolderPath() + movie.getImage();
 
             getService(IResourceService.class).invalidateImage(resource);
-            
+
             setImage(getService(IResourceService.class).getFileImage(resource));
         }
     }
@@ -139,5 +141,5 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
     @Override
     public BufferedImage getImage() {
         return (BufferedImage) imagePanel.getImage();
-	}
+    }
 }

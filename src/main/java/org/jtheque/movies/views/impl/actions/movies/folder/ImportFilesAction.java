@@ -35,13 +35,14 @@ public final class ImportFilesAction extends JThequeAction {
 
     /**
      * Create a new AcSearchTitles action.
-     * @param importFolderView
-     * @param filesService
+     *
+     * @param importFolderView The  import folder view.
+     * @param filesService     The files service.
      */
     public ImportFilesAction(IImportFolderView importFolderView, IFilesService filesService) {
         super("generic.view.actions.search");
-	    this.importFolderView = importFolderView;
-	    this.filesService = filesService;
+        this.importFolderView = importFolderView;
+        this.filesService = filesService;
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.jtheque.movies.views.impl.panel;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
+
 import java.awt.Component;
 import java.io.File;
 
@@ -31,9 +32,9 @@ public final class FileRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
-        File file = (File)value;
+        File file = (File) value;
 
-        if(file != null){
+        if (file != null) {
             setText(file.getAbsolutePath());
         }
 

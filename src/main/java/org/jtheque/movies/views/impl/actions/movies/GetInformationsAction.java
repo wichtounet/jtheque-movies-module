@@ -33,22 +33,22 @@ import java.io.File;
 public final class GetInformationsAction extends JThequeAction {
     private final EditMoviePanel editMoviePanel;
 
-	private final IFFMpegService ffMpegService;
-	private final IErrorService errorService;
+    private final IFFMpegService ffMpegService;
+    private final IErrorService errorService;
 
     /**
      * Construct a new GetInformationsAction.
      *
      * @param editMoviePanel The edit movie panel.
-     * @param ffMpegService
-     * @param errorService
+     * @param ffMpegService  The ffmpeg service.
+     * @param errorService   The error service.
      */
     public GetInformationsAction(EditMoviePanel editMoviePanel, IFFMpegService ffMpegService, IErrorService errorService) {
         super("movie.actions.infos");
 
         this.editMoviePanel = editMoviePanel;
-	    this.ffMpegService = ffMpegService;
-	    this.errorService = errorService;
+        this.ffMpegService = ffMpegService;
+        this.errorService = errorService;
     }
 
     @Override

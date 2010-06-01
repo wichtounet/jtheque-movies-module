@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl.models;
  */
 
 import org.jtheque.primary.utils.views.tree.TreeElement;
+
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -25,7 +26,7 @@ import static org.junit.Assert.*;
 
 public class CategoryElementTest {
     @Test
-    public void getElementName(){
+    public void getElementName() {
         TreeElement element = new CategoryElement("Super category");
 
         assertEquals("Super category", element.getElementName());
@@ -36,7 +37,7 @@ public class CategoryElementTest {
     }
 
     @Test
-    public void add(){
+    public void add() {
         TreeElement element = new CategoryElement("Test");
 
         TreeElement child1 = new CategoryElement("Child 1");
@@ -55,7 +56,7 @@ public class CategoryElementTest {
     }
 
     @Test
-    public void addAll(){
+    public void addAll() {
         TreeElement element = new CategoryElement("Test");
 
         TreeElement child1 = new CategoryElement("Child 1");
@@ -70,7 +71,7 @@ public class CategoryElementTest {
     }
 
     @Test
-    public void clear(){
+    public void clear() {
         TreeElement element = new CategoryElement("Test");
 
         TreeElement child1 = new CategoryElement("Child 1");

@@ -4,6 +4,7 @@ import org.jtheque.movies.services.impl.parsers.FileParser;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+
 import java.awt.Color;
 
 /*

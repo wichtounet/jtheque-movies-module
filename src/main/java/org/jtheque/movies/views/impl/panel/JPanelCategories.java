@@ -31,17 +31,18 @@ import org.jtheque.primary.utils.choice.ChoiceViewAction;
 import org.jtheque.resources.able.IResourceService;
 import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
+import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
-import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
-import org.jtheque.utils.collections.ArrayUtils;
-import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.ui.utils.components.IconListRenderer;
 import org.jtheque.ui.utils.models.SimpleListModel;
+import org.jtheque.utils.collections.ArrayUtils;
+import org.jtheque.utils.ui.GridBagUtils;
 
 import javax.annotation.Resource;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.util.Arrays;
@@ -68,9 +69,9 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
     @Resource
     private ICategoryController categoryController;
 
-	@Override
-	protected void buildView(I18nPanelBuilder builder) {
-		categoriesModel = new CategoriesListModel(categoriesService);
+    @Override
+    protected void buildView(I18nPanelBuilder builder) {
+        categoriesModel = new CategoriesListModel(categoriesService);
 
         double anHalf = 0.5;
 
@@ -99,7 +100,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
                 builder.gbcSet(2, 0));
         manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController),
                 builder.gbcSet(3, 0));
-	}
+    }
 
     @Override
     public void fillFilm(IMovieFormBean fb) {

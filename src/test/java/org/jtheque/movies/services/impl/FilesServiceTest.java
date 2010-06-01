@@ -16,8 +16,8 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.core.able.ICore;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
@@ -32,6 +32,7 @@ import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.unit.db.AbstractDBUnitTest;
 import org.jtheque.utils.unit.file.FileUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +43,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -86,7 +88,7 @@ public class FilesServiceTest extends AbstractDBUnitTest {
     }
 
     @Before
-    public void setUpAll(){
+    public void setUpAll() {
         BeanUtils.set(moviesModule, "config", new MovieConfiguration());
         BeanUtils.set(core, "application", new MoviesModuleTest.EmptyApplication());
 
@@ -111,12 +113,12 @@ public class FilesServiceTest extends AbstractDBUnitTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         FileUnit.clearTestFileSystem();
     }
 
     @Test
-    public void importMovies(){
+    public void importMovies() {
         Collection<File> files = new ArrayList<File>(5);
         Collection<FileParser> parsers = new ArrayList<FileParser>(1);
 
@@ -138,7 +140,7 @@ public class FilesServiceTest extends AbstractDBUnitTest {
     }
 
     @Test
-    public void testGetMovieFiles(){
+    public void testGetMovieFiles() {
         FileUnit.addFile("Movie 1.avi");
         FileUnit.addFile("Movie 2.avi");
         FileUnit.addFile("Test 2.jpg");

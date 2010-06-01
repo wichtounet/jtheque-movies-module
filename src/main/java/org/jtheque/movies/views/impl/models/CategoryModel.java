@@ -43,7 +43,7 @@ public final class CategoryModel implements ICategoryModel {
     public Category getCategory() {
         return category;
     }
-    
+
     @Override
     public void setCategory(Category category) {
         this.category = category;

@@ -27,17 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class QuitPlayerViewAction extends JThequeAction {
-	private final IMovieController movieController;
+    private final IMovieController movieController;
 
     /**
      * Construct a new AcPrintFilm.
      *
-     * @param movieController
+     * @param movieController The movie controller.
      */
     public QuitPlayerViewAction(IMovieController movieController) {
         super("movie.actions.view.quit");
 
-	    this.movieController = movieController;
+        this.movieController = movieController;
     }
 
     @Override

@@ -50,7 +50,7 @@ public interface IMovieController extends IPrincipalController<Movie> {
 
     /**
      * Play the current movie using a viewer depending on the current configuration of
-     * the user. 
+     * the user.
      */
     void playCurrentMovie();
 }

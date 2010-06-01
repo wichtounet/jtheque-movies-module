@@ -27,16 +27,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class SaveMovieAction extends JThequeAction {
-	private final IMovieController movieController;
+    private final IMovieController movieController;
 
     /**
      * Construct a new SaveMovieAction.
+     *
      * @param movieController
      */
     public SaveMovieAction(IMovieController movieController) {
         super("movie.actions.save");
 
-	    this.movieController = movieController;
+        this.movieController = movieController;
     }
 
     @Override

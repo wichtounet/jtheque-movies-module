@@ -13,6 +13,7 @@ import org.jtheque.utils.ui.GridBagUtils;
 import javax.annotation.Resource;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+
 import java.util.Collections;
 import java.util.Map;
 
@@ -45,53 +46,53 @@ public final class JPanelConfigMovies extends OSGIBuildedPanel implements IOpeni
     @Resource
     private IMoviesModule moviesModule;
 
-	@Override
+    @Override
     public String getTitleKey() {
         return "movie.config";
     }
 
-	@Override
-	protected void buildView(I18nPanelBuilder builder) {
-		addOpeningField(builder);
-		addFFMPEGField(builder);
+    @Override
+    protected void buildView(I18nPanelBuilder builder) {
+        addOpeningField(builder);
+        addFFMPEGField(builder);
 
-		fillAllFields();
-	}
+        fillAllFields();
+    }
 
-	/**
-	 * Add the field the configure the opening system to use.
-	 *
-	 * @param parent The parent to add.
-	 */
-	private void addOpeningField(I18nPanelBuilder parent) {
-		I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-		builder.setI18nTitleBorder("movie.config.opening");
+    /**
+     * Add the field the configure the opening system to use.
+     *
+     * @param parent The parent to add.
+     */
+    private void addOpeningField(I18nPanelBuilder parent) {
+        I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        builder.setI18nTitleBorder("movie.config.opening");
 
-		combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        combo = builder.add(new JComboBox(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
 
-		combo.addItem(IMovieConfiguration.Opening.SYSTEM);
+        combo.addItem(IMovieConfiguration.Opening.SYSTEM);
 
-		if (OSUtils.isLinux()) {
-			combo.addItem(IMovieConfiguration.Opening.VLC);
-		} else if (OSUtils.isWindows()) {
-			combo.addItem(IMovieConfiguration.Opening.WMP);
-		}
-	}
+        if (OSUtils.isLinux()) {
+            combo.addItem(IMovieConfiguration.Opening.VLC);
+        } else if (OSUtils.isWindows()) {
+            combo.addItem(IMovieConfiguration.Opening.WMP);
+        }
+    }
 
-	/**
-	 * Add the ffmpeg field to configure the location of ffmpeg.
-	 *
-	 * @param parent The panel builder.
-	 */
-	private void addFFMPEGField(I18nPanelBuilder parent) {
-		I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
-		builder.setI18nTitleBorder("movie.config.ffmpeg");
+    /**
+     * Add the ffmpeg field to configure the location of ffmpeg.
+     *
+     * @param parent The panel builder.
+     */
+    private void addFFMPEGField(I18nPanelBuilder parent) {
+        I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
+        builder.setI18nTitleBorder("movie.config.ffmpeg");
 
-		fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
-		fileChooser.setFilesOnly();
-		fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
-		fileChooser.setTextKey("movie.config.ffmpeg.file");
-	}
+        fileChooser = builder.add(new FileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        fileChooser.setFilesOnly();
+        fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
+        fileChooser.setTextKey("movie.config.ffmpeg.file");
+    }
 
     /**
      * Fill all the fields with the current informations.
@@ -112,12 +113,12 @@ public final class JPanelConfigMovies extends OSGIBuildedPanel implements IOpeni
         fillAllFields();
     }
 
-	@Override
-	public Map<Object, Constraint> getConstraints() {
-		return Collections.emptyMap();
-	}
+    @Override
+    public Map<Object, Constraint> getConstraints() {
+        return Collections.emptyMap();
+    }
 
-	@Override
+    @Override
     public JComponent getComponent() {
         return this;
     }

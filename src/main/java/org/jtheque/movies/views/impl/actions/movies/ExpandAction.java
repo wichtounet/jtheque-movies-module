@@ -29,17 +29,17 @@ import java.awt.event.ActionEvent;
  * @author Baptiste Wicht
  */
 public final class ExpandAction extends JThequeSimpleAction {
-	private final IMovieView movieView;
+    private final IMovieView movieView;
 
     /**
      * Construct a new ExpandAction.
      *
-     * @param movieView
+     * @param movieView The movie view.
      */
     public ExpandAction(IMovieView movieView, IResourceService resourceService) {
         super();
 
-	    this.movieView = movieView;
+        this.movieView = movieView;
 
         setIcon(resourceService.getIcon(MoviesResources.EXPAND_ICON));
     }
@@ -47,5 +47,5 @@ public final class ExpandAction extends JThequeSimpleAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         movieView.expandAll();
-	}
+    }
 }

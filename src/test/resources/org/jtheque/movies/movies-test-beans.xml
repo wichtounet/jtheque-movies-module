@@ -7,13 +7,13 @@
             http://www.springframework.org/schema/beans/spring-beans.xsd
             http://www.springframework.org/schema/util
             http://www.springframework.org/schema/util/spring-util.xsd">
-    
+
     <bean id="moviesModule" class="org.jtheque.movies.MoviesModule">
         <constructor-arg index="0">
             <util:list/>
         </constructor-arg>
         <constructor-arg index="1">
-            <null />
+            <null/>
         </constructor-arg>
     </bean>
 
@@ -25,15 +25,18 @@
     <bean id="filesService" class="org.jtheque.movies.services.impl.FilesService"/>
     <bean id="ffmpegService" class="org.jtheque.movies.services.impl.FFMpegService"/>
 
-    <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser" scope="prototype">
+    <bean id="betweenCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.BetweenCharCategoryParser"
+          scope="prototype">
         <constructor-arg value="{"/>
         <constructor-arg value="}"/>
     </bean>
 
-    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser" scope="prototype">
+    <bean id="toCharCategoryParser" class="org.jtheque.movies.services.impl.parsers.ToCharCategoryParser"
+          scope="prototype">
         <constructor-arg value="-"/>
     </bean>
 
-    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser" scope="prototype"/>
+    <bean id="folderCategoryParser" class="org.jtheque.movies.services.impl.parsers.FolderCategoryParser"
+          scope="prototype"/>
 
 </beans>

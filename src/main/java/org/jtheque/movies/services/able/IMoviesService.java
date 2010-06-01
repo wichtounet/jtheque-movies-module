@@ -113,13 +113,12 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * @param title The title to search for.
      * @return The Movie with the specified title if there is one else null.
      */
-	Movie getMovie(String title);
+    Movie getMovie(String title);
 
     /**
      * Indicate if a thumbnail is not used in any movies.
      *
      * @param name The name of the thumbnail.
-     *
      * @return true if the thumbnail is not used else false.
      */
     boolean thumbnailIsNotUsed(String name);
@@ -127,7 +126,7 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
     /**
      * Return all the movies with invalid files.
      *
-     * @return A Collection containing all the movies with invalid files. 
+     * @return A Collection containing all the movies with invalid files.
      */
     Collection<? extends Movie> getMoviesWithInvalidFiles();
 }
