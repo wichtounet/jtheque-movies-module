@@ -6,7 +6,7 @@
             <classpath>org/jtheque/movies/i18n/movies_fr.properties</classpath>
         </i18nResource>
     </i18n>
-    <resources>
+    <images>
         <resource name="movies.collapse.icon">
             <classpath>org/jtheque/movies/images/collapse.png</classpath>
         </resource>
@@ -25,5 +25,5 @@
         <resource name="movies.movie.icon">
             <classpath>org/jtheque/movies/images/movie.png</classpath>
         </resource>
-    </resources>
+    </images>
 </config>
