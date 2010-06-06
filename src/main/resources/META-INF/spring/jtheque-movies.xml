@@ -72,7 +72,7 @@
 
     <osgi:reference id="languageService" interface="org.jtheque.i18n.able.ILanguageService"/>
     <osgi:reference id="errorService" interface="org.jtheque.errors.able.IErrorService"/>
-    <osgi:reference id="resourceService" interface="org.jtheque.resources.able.IResourceService"/>
+    <osgi:reference id="imageService" interface="org.jtheque.images.able.IImageService"/>
     <osgi:reference id="schemaService" interface="org.jtheque.schemas.able.ISchemaService"/>
     <osgi:reference id="stateService" interface="org.jtheque.states.able.IStateService"/>
     <osgi:reference id="viewService" interface="org.jtheque.views.able.IViewService"/>

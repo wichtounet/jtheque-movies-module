@@ -40,7 +40,7 @@ import org.jtheque.primary.utils.views.listeners.DisplayListListener;
 import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
 import org.jtheque.primary.utils.views.tree.TreeElement;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.DisplayViewAction;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
@@ -149,11 +149,11 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         JLabel label = titleBuilder.addI18nLabel("movie.panel.list.title",
                 titleBuilder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
 
-        IResourceService resourceService = getService(IResourceService.class);
+        IImageService imageService = getService(IImageService.class);
 
-        titleBuilder.addButton(new RefreshAction(this, resourceService), titleBuilder.gbcSet(1, 0));
-        titleBuilder.addButton(new ExpandAction(this, resourceService), titleBuilder.gbcSet(2, 0));
-        titleBuilder.addButton(new CollapseAction(resourceService), titleBuilder.gbcSet(3, 0));
+        titleBuilder.addButton(new RefreshAction(this, imageService), titleBuilder.gbcSet(1, 0));
+        titleBuilder.addButton(new ExpandAction(this, imageService), titleBuilder.gbcSet(2, 0));
+        titleBuilder.addButton(new CollapseAction(imageService), titleBuilder.gbcSet(3, 0));
 
         label.setFont(TITLE_FONT.deriveFont(25.0f));
     }
@@ -167,7 +167,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         moviesSorter.sort(treeModel);
 
         treeMovies = (JXTree) builder.addScrolledTree(treeModel,
-                new FilthyCellRenderer(getService(IResourceService.class)), BorderLayout.CENTER);
+                new FilthyCellRenderer(getService(IImageService.class)), BorderLayout.CENTER);
     }
 
     /**

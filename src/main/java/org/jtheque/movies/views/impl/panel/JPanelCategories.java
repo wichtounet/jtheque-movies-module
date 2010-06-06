@@ -28,7 +28,7 @@ import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.utils.choice.ChoiceViewAction;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
@@ -76,7 +76,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
         double anHalf = 0.5;
 
         ListCellRenderer renderer = new IconListRenderer(
-                getService(IResourceService.class).getIcon(MoviesResources.BOX_ICON));
+                getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         listCategories = builder.addScrolledList(categoriesModel, renderer,
                 builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, anHalf, 1.0));

@@ -18,7 +18,7 @@ package org.jtheque.movies.views.impl.actions.view;
 
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.controllers.able.IMovieController;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.JThequeAction;
 
 import java.awt.event.ActionEvent;
@@ -36,12 +36,12 @@ public final class PlayMovieAction extends JThequeAction {
      *
      * @param movieController The movie controller.
      */
-    public PlayMovieAction(IMovieController movieController, IResourceService resourceService) {
+    public PlayMovieAction(IMovieController movieController, IImageService imageService) {
         super("movie.actions.view");
 
         this.movieController = movieController;
 
-        setIcon(resourceService.getIcon(MoviesResources.PLAY_ICON));
+        setIcon(imageService.getIcon(MoviesResources.PLAY_ICON));
     }
 
     @Override

@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.actions.movies;
 
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 
 import java.awt.event.ActionEvent;
@@ -36,12 +36,12 @@ public final class RefreshAction extends JThequeSimpleAction {
      *
      * @param movieView The movie view.
      */
-    public RefreshAction(IMovieView movieView, IResourceService resourceService) {
+    public RefreshAction(IMovieView movieView, IImageService imageService) {
         super();
 
         this.movieView = movieView;
 
-        setIcon(resourceService.getIcon(MoviesResources.REFRESH_ICON));
+        setIcon(imageService.getIcon(MoviesResources.REFRESH_ICON));
     }
 
     @Override

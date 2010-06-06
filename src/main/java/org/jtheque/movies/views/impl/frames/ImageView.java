@@ -25,7 +25,7 @@ import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageActio
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateTimeImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.ValidateImageViewAction;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.able.IModel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
@@ -117,9 +117,9 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         if (StringUtils.isNotEmpty(movie.getImage())) {
             String resource = moviesModule.getThumbnailFolderPath() + movie.getImage();
 
-            getService(IResourceService.class).invalidateImage(resource);
+            getService(IImageService.class).invalidateImage(resource);
 
-            setImage(getService(IResourceService.class).getFileImage(resource));
+            setImage(getService(IImageService.class).getFileImage(resource));
         }
     }
 

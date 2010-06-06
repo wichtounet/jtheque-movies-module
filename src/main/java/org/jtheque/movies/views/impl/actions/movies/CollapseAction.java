@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.actions.movies;
 
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 
 import java.awt.event.ActionEvent;
@@ -34,12 +34,12 @@ public final class CollapseAction extends JThequeSimpleAction {
     /**
      * Construct a new CollapseAction.
      *
-     * @param resourceService The resource service.
+     * @param imageService The resource service.
      */
-    public CollapseAction(IResourceService resourceService) {
+    public CollapseAction(IImageService imageService) {
         super();
 
-        setIcon(resourceService.getIcon(MoviesResources.COLLAPSE_ICON));
+        setIcon(imageService.getIcon(MoviesResources.COLLAPSE_ICON));
     }
 
     @Override

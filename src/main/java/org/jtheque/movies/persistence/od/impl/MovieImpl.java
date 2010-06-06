@@ -23,7 +23,7 @@ import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.persistence.able.Note;
 import org.jtheque.primary.utils.AbstractData;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.EqualsUtils;
 import org.jtheque.utils.bean.HashCodeUtils;
@@ -146,8 +146,8 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public Icon getIcon(IResourceService resourceService) {
-        return resourceService.getIcon(MoviesResources.MOVIE_ICON);
+    public Icon getIcon(IImageService imageService) {
+        return imageService.getIcon(MoviesResources.MOVIE_ICON);
     }
 
     @Override

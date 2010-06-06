@@ -13,7 +13,7 @@ import org.jtheque.movies.views.impl.actions.view.PlayMovieAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.primary.utils.views.actions.ManualEditPrincipalAction;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
@@ -94,7 +94,7 @@ public final class ViewMoviePanel extends MoviePanel {
         titleLabel = title.add(new JThequeLabel("", TITLE_FONT.deriveFont(TITLE_FONT_SIZE), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(new PlayMovieAction(movieController, getService(IResourceService.class)),
+        JButton button = title.addButton(new PlayMovieAction(movieController, getService(IImageService.class)),
                 builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
@@ -148,7 +148,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private void addCategoriesView(PanelBuilder builder) {
         categoriesModel = new SimpleListModel<Category>();
 
-        ListCellRenderer renderer = new IconListRenderer(getService(IResourceService.class).getIcon(MoviesResources.BOX_ICON));
+        ListCellRenderer renderer = new IconListRenderer(getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         builder.addScrolledList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }
@@ -187,7 +187,7 @@ public final class ViewMoviePanel extends MoviePanel {
         labelResolution.setTextKey("movie.view.file.resolution", movie.getResolution());
 
         if (StringUtils.isNotEmpty(movie.getImage())) {
-            imagePanel.setImage(getService(IResourceService.class).getFileImage(
+            imagePanel.setImage(getService(IImageService.class).getFileImage(
                     getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage()));
         } else {
             imagePanel.setImage(null);

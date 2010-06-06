@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.models;
  */
 
 import org.jtheque.primary.utils.views.tree.TreeElement;
-import org.jtheque.resources.able.IResourceService;
+import org.jtheque.images.able.IImageService;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -31,17 +31,17 @@ import java.awt.Component;
  * @author Baptiste Wicht
  */
 public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
-    private final IResourceService resourceService;
+    private final IImageService imageService;
 
     /**
      * Construct a new FilthyCellRenderer.
      *
-     * @param resourceService The resource service.
+     * @param imageService The resource service.
      */
-    public FilthyCellRenderer(IResourceService resourceService) {
+    public FilthyCellRenderer(IImageService imageService) {
         super();
 
-        this.resourceService = resourceService;
+        this.imageService = imageService;
 
         setOpaque(false);
 
@@ -62,8 +62,8 @@ public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
 
         setText(element.getElementName());
 
-        if (element.getIcon(resourceService) != null) {
-            setIcon(element.getIcon(resourceService));
+        if (element.getIcon(imageService) != null) {
+            setIcon(element.getIcon(imageService));
         }
 
         return this;
