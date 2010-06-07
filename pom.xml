@@ -65,7 +65,6 @@
                         <Module-UpdateUrl>http://jtheque.developpez.com/public/versions/MoviesModule.versions
                         </Module-UpdateUrl>
                         <Module-Config>org/jtheque/movies/module.xml</Module-Config>
-                        <Module-Libs>org.jtheque.dj-native-swing-0.9.9.jar</Module-Libs>
                         <Module-Dependencies>org.jtheque.primary.utils</Module-Dependencies>
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
                             org.jtheque.file.able, org.springframework.jdbc.support

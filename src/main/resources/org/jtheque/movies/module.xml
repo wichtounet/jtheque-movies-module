@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+    <resources>
+        <resource id="org.jtheque.dj-native-swing" version="0.9.9"
+                  url="http://jtheque.developpez.com/resources/org.jtheque.native-swing/descriptor.xml"/>
+    </resources>
+
     <i18n>
         <i18nResource name="jtheque-movies" version="1.0">
             <classpath>org/jtheque/movies/i18n/movies_en.properties</classpath>
             <classpath>org/jtheque/movies/i18n/movies_fr.properties</classpath>
         </i18nResource>
     </i18n>
+
     <images>
         <resource name="movies.collapse.icon">
             <classpath>org/jtheque/movies/images/collapse.png</classpath>
