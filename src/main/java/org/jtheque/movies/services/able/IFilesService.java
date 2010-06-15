@@ -33,16 +33,17 @@ public interface IFilesService {
      *
      * @param filePath The path to the file of the movie.
      * @param parsers  The parsers.
+     *
      * @return The created Movie.
      */
     Movie createMovie(String filePath, Collection<FileParser> parsers);
 
     /**
-     * Return all the files who are movies on the specified folder.
-     * The search is made in a recursive way. It seems that the sub folders
-     * are also taken.
+     * Return all the files who are movies on the specified folder. The search is made in a recursive way. It seems that
+     * the sub folders are also taken.
      *
      * @param folder The folder to read.
+     *
      * @return All the files of the specified folder.
      */
     Collection<File> getMovieFiles(File folder);

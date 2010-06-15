@@ -32,6 +32,7 @@ public interface IFFMpegService {
      * Return the resolution of the movie specified by the file.
      *
      * @param f The file of the movie.
+     *
      * @return The resolution of the file else null if this not possible to get that information.
      */
     Resolution getResolution(File f);
@@ -40,6 +41,7 @@ public interface IFFMpegService {
      * Return the duration of the movie specified by the file.
      *
      * @param f The file of the movie.
+     *
      * @return The duration of the file else null if this not possible to get that information.
      */
     PreciseDuration getDuration(File f);
@@ -48,6 +50,7 @@ public interface IFFMpegService {
      * Generate a random preview image from the movie file.
      *
      * @param file The file of the movie.
+     *
      * @return A random preview image else null if this not possible to get that information.
      */
     BufferedImage generateRandomPreviewImage(File file);
@@ -57,6 +60,7 @@ public interface IFFMpegService {
      *
      * @param file The file of the movie.
      * @param time The time at which we must get the image.
+     *
      * @return The preview image at the specified time else null if this not possible to get that information.
      */
     BufferedImage generatePreviewImage(File file, String time);
@@ -65,8 +69,9 @@ public interface IFFMpegService {
      * Generate a preview image from a file specified by the user.
      *
      * @param file The file specified by the user.
-     * @return The image specified by the user scaled and stored to be a preview image else
-     *         null if this not possible to get that information.
+     *
+     * @return The image specified by the user scaled and stored to be a preview image else null if this not possible to
+     *         get that information.
      */
     BufferedImage generateImageFromUserInput(File file);
 

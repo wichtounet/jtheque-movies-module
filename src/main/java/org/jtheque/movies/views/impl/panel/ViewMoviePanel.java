@@ -2,6 +2,7 @@ package org.jtheque.movies.views.impl.panel;
 
 import org.jtheque.errors.able.IError;
 import org.jtheque.i18n.able.ILanguageService;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.controllers.able.IMovieController;
@@ -13,7 +14,6 @@ import org.jtheque.movies.views.impl.actions.view.PlayMovieAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.primary.utils.views.actions.ManualEditPrincipalAction;
-import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;

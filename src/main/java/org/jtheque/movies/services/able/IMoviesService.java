@@ -51,8 +51,8 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      *
      * @param category           The category to get the movies from.
      * @param includeSubCategory boolean tag indicating if we must include (true) the subcategories or not (false).
-     * @return A Set containing all the movies of the specified category and eventually the subcategories if
-     *         specified.
+     *
+     * @return A Set containing all the movies of the specified category and eventually the subcategories if specified.
      */
     Set<Movie> getMovies(Category category, boolean includeSubCategory);
 
@@ -76,6 +76,7 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * Indicate if the specified file still exists in the application.
      *
      * @param file The file to test.
+     *
      * @return true if the file exists else false.
      */
     boolean fileExists(String file);
@@ -85,6 +86,7 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      *
      * @param movie The movie to exclude from the search.
      * @param file  The file to search for.
+     *
      * @return true if the file in an other movie than the specified one else false.
      */
     boolean fileExistsInOtherMovie(Movie movie, String file);
@@ -111,6 +113,7 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * Return the movie of the specified title.
      *
      * @param title The title to search for.
+     *
      * @return The Movie with the specified title if there is one else null.
      */
     Movie getMovie(String title);
@@ -119,6 +122,7 @@ public interface IMoviesService extends DataContainer<Movie>, DataService<Movie>
      * Indicate if a thumbnail is not used in any movies.
      *
      * @param name The name of the thumbnail.
+     *
      * @return true if the thumbnail is not used else false.
      */
     boolean thumbnailIsNotUsed(String name);

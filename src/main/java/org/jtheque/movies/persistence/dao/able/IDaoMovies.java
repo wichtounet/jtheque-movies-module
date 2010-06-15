@@ -41,6 +41,7 @@ public interface IDaoMovies extends Dao<Movie> {
      * Return the movie of the specified ID.
      *
      * @param id The searched ID.
+     *
      * @return The movie of the specified id if found else null.
      */
     Movie getMovie(int id);
@@ -49,6 +50,7 @@ public interface IDaoMovies extends Dao<Movie> {
      * Return the movie of the specified title.
      *
      * @param title The title to search for.
+     *
      * @return The movie with the specified title if there is one else null.
      */
     Movie getMovie(String title);

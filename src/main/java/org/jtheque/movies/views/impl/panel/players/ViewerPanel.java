@@ -32,8 +32,8 @@ import java.awt.Insets;
 import java.io.File;
 
 /**
- * A abstract viewer panel. This class construct the base of a frame and let the
- * extended class to build the rest of the view.
+ * A abstract viewer panel. This class construct the base of a frame and let the extended class to build the rest of the
+ * view.
  *
  * @author Baptiste Wicht
  */

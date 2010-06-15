@@ -41,6 +41,7 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      * Test if a category exists or not.
      *
      * @param category The category to test.
+     *
      * @return true if the category exists else false.
      */
     boolean exists(String category);
@@ -49,6 +50,7 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      * Return the category of the specified name.
      *
      * @param name The name of the category.
+     *
      * @return The category.
      */
     Category getCategory(String name);
@@ -65,6 +67,7 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      *
      * @param title    The title to search for.
      * @param category The category to exclude from search.
+     *
      * @return true if this title exists in other category else false.
      */
     boolean existsInOtherCategory(String title, Category category);
@@ -73,6 +76,7 @@ public interface ICategoriesService extends DataContainer<Category>, DataService
      * Return all the sub categories of the specified category.
      *
      * @param category The categories to get the child for.
+     *
      * @return A Collection containing all the sub categories of the specified category.
      */
     Collection<Category> getSubCategories(Category category);

@@ -93,6 +93,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      * Return all the films of the collection.
      *
      * @param collection The collection.
+     *
      * @return A List containing all the films of the collections.
      */
     private Collection<? extends Data> getMovies(org.jtheque.collections.able.Collection collection) {
@@ -306,6 +307,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
          *
          * @param movie The movie to use to fill the array.
          * @param id    Indicate if we must add the id to the array.
+         *
          * @return The filled array.
          */
         private Object[] fillArray(Movie movie, boolean id) {

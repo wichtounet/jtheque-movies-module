@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl;
  */
 
 import org.jtheque.errors.able.IError;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -40,7 +41,6 @@ import org.jtheque.primary.utils.views.listeners.DisplayListListener;
 import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
 import org.jtheque.primary.utils.views.tree.TreeElement;
-import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.DisplayViewAction;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
@@ -247,6 +247,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
      * @param movie The movie to select.
      * @param root  The current element to search in.
      * @param path  The current search path.
+     *
      * @return true if the movie has been selected else false.
      */
     private boolean select(Movie movie, TreeElement root, TreePath path) {
@@ -285,6 +286,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
      *
      * @param root The element to start the search for.
      * @param path The current search path.
+     *
      * @return true if the first movie has been selected else false.
      */
     private boolean selectFirst(TreeElement root, TreePath path) {

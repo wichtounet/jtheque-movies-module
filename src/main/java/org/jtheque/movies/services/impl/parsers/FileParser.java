@@ -54,6 +54,7 @@ public interface FileParser {
      * Clear the filename. It seems delete the parts referring to categories.
      *
      * @param fileName The file name to clear.
+     *
      * @return the cleared filename.
      */
     String clearFileName(String fileName);
@@ -66,8 +67,8 @@ public interface FileParser {
     Collection<Category> getExtractedCategories();
 
     /**
-     * Indicate if the parser has a custom view or if we just need to use a simple check box with the
-     * title of the parser.
+     * Indicate if the parser has a custom view or if we just need to use a simple check box with the title of the
+     * parser.
      *
      * @return true if the parser has custom view else false.
      */
@@ -77,6 +78,7 @@ public interface FileParser {
      * Return the custom view of the parser.
      *
      * @return The custom view of the parser or null if the parser has no custom view.
+     *
      * @see #hasCustomView()
      */
     JComponent getCustomView();

@@ -22,8 +22,7 @@ import org.jtheque.ui.able.IWindowView;
 import java.awt.image.BufferedImage;
 
 /**
- * An image view specification. This view enable the user to generate and configure a
- * preview image for a movie.
+ * An image view specification. This view enable the user to generate and configure a preview image for a movie.
  *
  * @author Baptiste Wicht
  */

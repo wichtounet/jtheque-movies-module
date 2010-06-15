@@ -16,8 +16,8 @@ package org.jtheque.movies.views.impl.models;
  * limitations under the License.
  */
 
-import org.jtheque.primary.utils.views.tree.TreeElement;
 import org.jtheque.images.able.IImageService;
+import org.jtheque.primary.utils.views.tree.TreeElement;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;

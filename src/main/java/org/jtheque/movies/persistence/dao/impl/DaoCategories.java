@@ -91,6 +91,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
      * Return all the categories of the specified collection.
      *
      * @param collection The collection to collect categories from.
+     *
      * @return A List containing all the categories of the collection.
      */
     private java.util.Collection<? extends Data> getCategories(Collection collection) {
@@ -195,6 +196,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
          * Create a category with the given title.
          *
          * @param title The title of the new category.
+         *
          * @return A category with the given title.
          */
         private Category createCategory(String title) {
@@ -227,6 +229,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
          *
          * @param category The category to use to fill the array.
          * @param id       Indicate if we must add the id to the array.
+         *
          * @return The filled array.
          */
         private static Object[] fillArray(Category category, boolean id) {

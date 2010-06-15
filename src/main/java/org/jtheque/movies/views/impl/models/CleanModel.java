@@ -21,8 +21,7 @@ import org.jtheque.movies.views.able.models.ICleanModel;
  */
 
 /**
- * A clean model implementation. This model store the current category or movie of the
- * clean view.
+ * A clean model implementation. This model store the current category or movie of the clean view.
  *
  * @author Baptiste Wicht
  */

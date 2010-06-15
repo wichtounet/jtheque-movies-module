@@ -16,6 +16,7 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
+import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.impl.ImageController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -25,7 +26,6 @@ import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageActio
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.GenerateTimeImageAction;
 import org.jtheque.movies.views.impl.actions.movies.image.ValidateImageViewAction;
-import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.able.IModel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;

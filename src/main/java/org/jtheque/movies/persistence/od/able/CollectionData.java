@@ -43,6 +43,7 @@ public interface CollectionData extends Data {
      * Test if the movie is in the specified collection.
      *
      * @param collection The collection to test.
+     *
      * @return true if the movie is in the specified collection else false.
      */
     boolean isInCollection(Collection collection);

@@ -93,6 +93,7 @@ public final class FFMpegService implements IFFMpegService {
      * Format the duration of the movie.
      *
      * @param line The line of the duration.
+     *
      * @return The duration.
      */
     private static CharSequence formatDuration(String line) {
@@ -153,6 +154,7 @@ public final class FFMpegService implements IFFMpegService {
      * Open the image specified by a file.
      *
      * @param file The file of the image.
+     *
      * @return The thumbnail of the image.
      */
     private static BufferedImage openImage(File file) {
@@ -185,6 +187,7 @@ public final class FFMpegService implements IFFMpegService {
      * Return the FFmpeg informations of the specified files.
      *
      * @param f The file to the informations from.
+     *
      * @return A Scanner on the informations result.
      */
     private Scanner getInformations(File f) {

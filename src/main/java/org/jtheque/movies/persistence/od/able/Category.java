@@ -56,9 +56,8 @@ public interface Category extends CollectionData {
     void setParent(Category parent);
 
     /**
-     * Set the temporary parent. This method is used when we cannot get the category
-     * referenced by the specified id. This method must not be used once the cache of categories
-     * is loaded.
+     * Set the temporary parent. This method is used when we cannot get the category referenced by the specified id.
+     * This method must not be used once the cache of categories is loaded.
      *
      * @param parentId The id of the parent category.
      */
@@ -68,6 +67,7 @@ public interface Category extends CollectionData {
      * Return the id of the temporary parent category.
      *
      * @return The id of the parent category.
+     *
      * @see #setTemporaryParent(int)
      */
     int getTemporaryParent();

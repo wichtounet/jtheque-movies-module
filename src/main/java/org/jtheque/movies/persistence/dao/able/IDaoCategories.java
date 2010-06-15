@@ -40,6 +40,7 @@ public interface IDaoCategories extends Dao<Category> {
      * Return the category with the specified id.
      *
      * @param id The id to search for.
+     *
      * @return The category with this ID else null.
      */
     Category getCategory(int id);
@@ -48,6 +49,7 @@ public interface IDaoCategories extends Dao<Category> {
      * Return the category of the specified name.
      *
      * @param name The name of the category.
+     *
      * @return the category of the specified name if it exists else null.
      */
     Category getCategory(String name);

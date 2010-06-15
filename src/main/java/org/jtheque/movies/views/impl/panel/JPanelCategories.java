@@ -17,6 +17,7 @@ package org.jtheque.movies.views.impl.panel;
  */
 
 import org.jtheque.errors.able.IError;
+import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -28,7 +29,6 @@ import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.utils.choice.ChoiceViewAction;
-import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;

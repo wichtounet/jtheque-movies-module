@@ -65,8 +65,8 @@ public final class CategoriesListModel extends SimpleListModel<Category> impleme
     }
 
     /**
-     * Set the linked model of this model. It seems that, when we must reload the data, we remove from this model the data of
-     * the linked model.
+     * Set the linked model of this model. It seems that, when we must reload the data, we remove from this model the
+     * data of the linked model.
      *
      * @param linkedModel The model to link to.
      */

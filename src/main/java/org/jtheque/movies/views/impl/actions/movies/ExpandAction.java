@@ -1,8 +1,8 @@
 package org.jtheque.movies.views.impl.actions.movies;
 
+import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.images.able.IImageService;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 
 import java.awt.event.ActionEvent;

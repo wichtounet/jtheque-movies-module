@@ -38,6 +38,7 @@ public interface NameCleaner {
      *
      * @param name  The name to clear.
      * @param movie The movie to clean the name for.
+     *
      * @return the cleared name.
      */
     String clearName(Movie movie, String name);

@@ -70,5 +70,5 @@ public final class CategoriesComboModel extends SimpleListModel<Category> implem
         setElements(emptyCategory);
 
         fireContentsChanged(this, 0, getSize());
-	}
+    }
 }

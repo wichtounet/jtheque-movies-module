@@ -113,6 +113,7 @@ public interface Movie extends CollectionData {
      * Indicate if the movie if of the specified category.
      *
      * @param category The searched category.
+     *
      * @return true if the movie is of the specified category else false.
      */
     boolean isOfCategory(Category category);

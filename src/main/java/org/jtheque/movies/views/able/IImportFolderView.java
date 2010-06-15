@@ -44,6 +44,7 @@ public interface IImportFolderView extends IView {
      * Validate the content of the view at the specified phase.
      *
      * @param phase The phase to validate.
+     *
      * @return true if the view is valid else false.
      */
     boolean validateContent(Phase phase);
