@@ -41,6 +41,8 @@ public final class StaticCategoryParser implements FileParser {
 
     /**
      * Construct a new StaticCategoryParser.
+     *
+     * @param categoriesService The categories service.
      */
     public StaticCategoryParser(ICategoriesService categoriesService) {
         super();

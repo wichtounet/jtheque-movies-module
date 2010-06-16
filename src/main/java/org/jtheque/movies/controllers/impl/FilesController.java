@@ -29,6 +29,11 @@ import org.jtheque.views.utils.AbstractController;
 public final class FilesController extends AbstractController implements IFilesController {
     private final SwingSpringProxy<IFilesView> filesView;
 
+    /**
+     * Construct a new FilesController.
+     *
+     * @param filesView The proxy to the Swing View.
+     */
     public FilesController(SwingSpringProxy<IFilesView> filesView) {
         super();
 

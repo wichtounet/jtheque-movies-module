@@ -31,6 +31,11 @@ public interface NameCleaner {
      */
     String getTitleKey();
 
+    /**
+     * Return the i18n replaces of the title of the cleaner.
+     *
+     * @return An array containing all the replaces for the title. 
+     */
     Object[] getTitleReplaces();
 
     /**

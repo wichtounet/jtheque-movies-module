@@ -48,6 +48,11 @@ public final class ImageController extends AbstractController implements IImageC
     @Resource
     private IMoviesService moviesService;
 
+    /**
+     * Construct a new ImageController.
+     *
+     * @param imageView The proxy to the swing view.
+     */
     public ImageController(SwingSpringProxy<IImageView> imageView) {
         super();
 

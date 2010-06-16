@@ -91,6 +91,12 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     private final MoviePanel viewMoviePanel;
     private final MoviePanel editMoviePanel;
 
+    /**
+     * Create a new MovieView.
+     *
+     * @param viewMoviePanel The panel to view movie.
+     * @param editMoviePanel The panel to edit movie. 
+     */
     public MovieView(MoviePanel viewMoviePanel, MoviePanel editMoviePanel) {
         super();
 

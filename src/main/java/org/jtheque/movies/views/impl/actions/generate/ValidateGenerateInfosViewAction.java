@@ -32,7 +32,7 @@ public final class ValidateGenerateInfosViewAction extends JThequeAction {
     /**
      * Construct a new ValidateCleanViewAction.
      *
-     * @param generateInfosController
+     * @param generateInfosController The generate informations controller. 
      */
     public ValidateGenerateInfosViewAction(IGenerateInfosController generateInfosController) {
         super("movie.actions.generate.validate");

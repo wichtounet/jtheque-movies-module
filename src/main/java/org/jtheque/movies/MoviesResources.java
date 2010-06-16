@@ -32,6 +32,11 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
+/**
+ * An interface to describe the image resources of the module.
+ *
+ * @author Baptiste Wicht
+ */
 public interface MoviesResources {
     String COLLAPSE_ICON = "movies.collapse.icon";
     String EXPAND_ICON = "movies.expand.icon";

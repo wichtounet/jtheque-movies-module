@@ -33,7 +33,7 @@ public final class ValidateAddFromFileViewAction extends JThequeAction {
     /**
      * Construct a new ValidateAddFromFileViewAction.
      *
-     * @param addFromFileController
+     * @param addFromFileController The controller of add from file view. 
      */
     public ValidateAddFromFileViewAction(IAddFromFileController addFromFileController) {
         super("movie.auto.actions.add");

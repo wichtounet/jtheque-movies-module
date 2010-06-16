@@ -35,6 +35,7 @@ public final class ExpandAction extends JThequeSimpleAction {
      * Construct a new ExpandAction.
      *
      * @param movieView The movie view.
+     * @param imageService The image service.
      */
     public ExpandAction(IMovieView movieView, IImageService imageService) {
         super();

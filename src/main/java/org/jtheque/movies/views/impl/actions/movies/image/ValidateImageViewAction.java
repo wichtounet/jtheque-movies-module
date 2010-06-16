@@ -32,7 +32,7 @@ public final class ValidateImageViewAction extends JThequeAction {
     /**
      * Construct a new ValidateImageViewAction.
      *
-     * @param imageController
+     * @param imageController The image controller. 
      */
     public ValidateImageViewAction(IImageController imageController) {
         super("movie.image.actions.validate");

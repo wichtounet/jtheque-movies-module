@@ -19,13 +19,28 @@ import org.jtheque.primary.utils.controller.AbstractControllerState;
  * limitations under the License.
  */
 
+/**
+ * A Movie controller state.
+ *
+ * @author Baptiste Wicht
+ */
 public abstract class MovieState extends AbstractControllerState {
     private IMovieController controller;
 
+    /**
+     * Return the movie controller of the state.
+     *
+     * @return The movie controller of the state.
+     */
     IMovieController getController() {
         return controller;
     }
 
+    /**
+     * Set the controller of the state.
+     *
+     * @param controller The movie controller. 
+     */
     public void setController(IMovieController controller) {
         this.controller = controller;
     }

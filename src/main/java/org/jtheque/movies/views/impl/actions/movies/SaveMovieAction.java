@@ -32,7 +32,7 @@ public final class SaveMovieAction extends JThequeAction {
     /**
      * Construct a new SaveMovieAction.
      *
-     * @param movieController
+     * @param movieController The movie controller. 
      */
     public SaveMovieAction(IMovieController movieController) {
         super("movie.actions.save");

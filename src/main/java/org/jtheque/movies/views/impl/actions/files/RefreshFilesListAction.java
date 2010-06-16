@@ -32,7 +32,7 @@ public final class RefreshFilesListAction extends JThequeAction {
     /**
      * Construct a new RefreshFilesListAction.
      *
-     * @param filesController
+     * @param filesController The files controller. 
      */
     public RefreshFilesListAction(IFilesController filesController) {
         super("files.actions.refresh");

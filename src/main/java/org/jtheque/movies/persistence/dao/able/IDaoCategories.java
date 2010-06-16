@@ -54,5 +54,11 @@ public interface IDaoCategories extends Dao<Category> {
      */
     Category getCategory(String name);
 
+    /**
+     * Return the category with the given temporary id.
+     *
+     * @param id The temporary id of the category.
+     * @return The Category with the specified temporary id if there is one otherwise null.
+     */
     Category getCategoryByTemporaryId(int id);
 }

@@ -38,6 +38,11 @@ import java.util.List;
  * limitations under the License.
  */
 
+/**
+ * A backuper for the movies. It backups the movies and the categories.
+ *
+ * @author Baptiste Wicht
+ */
 public class MoviesBackuper implements ModuleBackuper {
     private static final String[] DEPENDENCIES = {"jtheque-primary-backuper"};
 
@@ -82,6 +87,11 @@ public class MoviesBackuper implements ModuleBackuper {
         return backup;
     }
 
+    /**
+     * Add the categories to the nodes.
+     *
+     * @param nodes The nodes collection to fill.
+     */
     private void addCategories(Collection<Node> nodes) {
         for (Category category : daoCategories.getAll()) {
             Node node = new Node("category");
@@ -95,6 +105,11 @@ public class MoviesBackuper implements ModuleBackuper {
         }
     }
 
+    /**
+     * Add the movies to the nodes collection.
+     *
+     * @param nodes The nodes collections to fill. 
+     */
     private void addMovies(Collection<Node> nodes) {
         for (Movie movie : daoMovies.getAll()) {
             Node node = new Node("movie");
@@ -126,6 +141,11 @@ public class MoviesBackuper implements ModuleBackuper {
         restoreMovies(nodes.iterator());
     }
 
+    /**
+     * Restore the categories.
+     *
+     * @param nodeIterator The iterator to the nodes.
+     */
     private void restoreCategories(Iterator<Node> nodeIterator) {
         Collection<Category> categories = new ArrayList<Category>(25);
 
@@ -155,6 +175,11 @@ public class MoviesBackuper implements ModuleBackuper {
         }
     }
 
+    /**
+     * Restore the movies.
+     *
+     * @param nodeIterator The iterator on the nodes.
+     */
     private void restoreMovies(Iterator<Node> nodeIterator) {
         while (nodeIterator.hasNext()) {
             Node node = nodeIterator.next();

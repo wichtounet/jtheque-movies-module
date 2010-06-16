@@ -32,6 +32,11 @@ import javax.annotation.Resource;
 public final class GenerateInfosController extends AbstractController implements IGenerateInfosController {
     private final SwingSpringProxy<IGenerateInfosView> generateInfosView;
 
+    /**
+     * Create a new GenerateInfosController.
+     *
+     * @param generateInfosView The proxy to the Swing view.
+     */
     public GenerateInfosController(SwingSpringProxy<IGenerateInfosView> generateInfosView) {
         super();
 

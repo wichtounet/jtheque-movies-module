@@ -44,6 +44,9 @@ public final class MoviesSorter {
 
     /**
      * Utility class, not instanciable.
+     *
+     * @param categoriesService The categories service.
+     * @param moviesService     The movies service.
      */
     public MoviesSorter(ICategoriesService categoriesService, IMoviesService moviesService) {
         super();

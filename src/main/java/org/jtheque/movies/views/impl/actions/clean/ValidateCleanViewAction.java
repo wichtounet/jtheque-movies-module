@@ -32,7 +32,7 @@ public final class ValidateCleanViewAction extends JThequeAction {
     /**
      * Construct a new ValidateCleanViewAction.
      *
-     * @param cleanController
+     * @param cleanController The clean controller. 
      */
     public ValidateCleanViewAction(ICleanController cleanController) {
         super("movie.actions.clean.validate");

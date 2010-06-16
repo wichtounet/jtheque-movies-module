@@ -45,7 +45,8 @@ public final class ViewerPanel extends JPanel {
     /**
      * Construct a new ViewerPanel.
      *
-     * @param player The movie player.
+     * @param player          The movie player.
+     * @param movieController The movie controller.
      */
     public ViewerPanel(IMoviePlayer player, IMovieController movieController) {
         super();

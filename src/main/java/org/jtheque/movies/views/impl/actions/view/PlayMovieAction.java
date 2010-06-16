@@ -35,6 +35,7 @@ public final class PlayMovieAction extends JThequeAction {
      * Construct a new PlayMovieAction.
      *
      * @param movieController The movie controller.
+     * @param imageService    The image service.
      */
     public PlayMovieAction(IMovieController movieController, IImageService imageService) {
         super("movie.actions.view");

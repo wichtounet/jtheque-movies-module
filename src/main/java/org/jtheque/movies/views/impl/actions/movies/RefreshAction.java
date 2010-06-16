@@ -34,7 +34,8 @@ public final class RefreshAction extends JThequeSimpleAction {
     /**
      * Construct a new RefreshAction.
      *
-     * @param movieView The movie view.
+     * @param movieView    The movie view.
+     * @param imageService The image service.
      */
     public RefreshAction(IMovieView movieView, IImageService imageService) {
         super();
