@@ -56,6 +56,9 @@
         <property name="schemaService" ref="schemaService"/>
     </bean>
 
+
+    <bean id="panelConfigMovies" class="org.jtheque.movies.views.impl.JPanelConfigMovies" lazy-init="true"/>
+
     <bean class="org.jtheque.movies.MoviesMenu"/>
     <bean class="org.jtheque.movies.persistence.MoviesSchema"/>
 
@@ -86,9 +89,8 @@
     <osgi:reference id="daoCollections" interface="org.jtheque.collections.able.IDaoCollections"/>
     <osgi:reference id="daoNotes" interface="org.jtheque.persistence.able.IDaoNotes"/>
 
-    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule"/>
+    <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" />
 
-    <bean id="panelConfigMovies" class="org.jtheque.movies.views.impl.JPanelConfigMovies" lazy-init="true"/>
     <bean id="movieView" class="org.jtheque.movies.views.impl.MovieView" lazy-init="true">
         <constructor-arg index="0" ref="viewMoviePanel"/>
         <constructor-arg index="1" ref="editMoviePanel"/>

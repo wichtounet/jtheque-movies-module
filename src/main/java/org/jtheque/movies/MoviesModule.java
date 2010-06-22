@@ -18,19 +18,14 @@ package org.jtheque.movies;
 
 import org.jtheque.collections.able.ICollectionsService;
 import org.jtheque.core.able.ICore;
+import org.jtheque.modules.able.IModuleService;
+import org.jtheque.modules.utils.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.IOpeningConfigView;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.primary.utils.DataTypeManager;
-import org.jtheque.spring.utils.SwingSpringProxy;
 import org.jtheque.states.able.IStateService;
 import org.jtheque.utils.io.FileUtils;
-
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -45,7 +40,7 @@ import chrriis.dj.nativeswing.swtimpl.NativeInterface;
  *
  * @author Baptiste Wicht
  */
-public final class MoviesModule implements IMoviesModule, ApplicationContextAware {
+public final class MoviesModule extends SwingModule implements IMoviesModule {
     private IMovieConfiguration config;
 
     private String thumbnailFolderPath;
@@ -58,6 +53,10 @@ public final class MoviesModule implements IMoviesModule, ApplicationContextAwar
 
     @Resource
     private ICore core;
+
+    public MoviesModule() {
+        super("org.jtheque.movies", new String[]{"movieView", "panelConfigMovies"});
+    }
 
     /**
      * Pre plug the module.
@@ -103,11 +102,5 @@ public final class MoviesModule implements IMoviesModule, ApplicationContextAwar
         }
 
         return thumbnailFolderPath;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        new SwingSpringProxy<IMovieView>(IMovieView.class, applicationContext).get();
-        new SwingSpringProxy<IOpeningConfigView>(IOpeningConfigView.class, applicationContext).get();
     }
 }
