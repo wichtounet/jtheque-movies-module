@@ -52,7 +52,7 @@
                         <Spring-Context>*;create-asynchronously:=false;publish-context:=false;timeout:=15
                         </Spring-Context>
                         <Module-Core>2.1.0</Module-Core>
-                        <Module-UpdateUrl>http://jtheque.developpez.com/descriptors/jtheque-movies-module.xml
+                        <Module-UpdateUrl>http://jtheque.baptiste-wicht.com/files/descriptors/jtheque-movies-module.xml
                         </Module-UpdateUrl>
                         <Module-Dependencies>org.jtheque.primary.utils</Module-Dependencies>
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
