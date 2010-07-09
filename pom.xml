@@ -52,12 +52,13 @@
                         <Spring-Context>*;create-asynchronously:=false;publish-context:=false;timeout:=15
                         </Spring-Context>
                         <Module-Core>2.1.0</Module-Core>
-                        <Module-UpdateUrl>http://jtheque.developpez.com/public/versions/MoviesModule.versions
+                        <Module-UpdateUrl>http://jtheque.baptiste-wicht.com/files/descriptors/jtheque-movies-module.xml
                         </Module-UpdateUrl>
                         <Module-Dependencies>org.jtheque.primary.utils</Module-Dependencies>
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
                             org.jtheque.file.able, org.springframework.jdbc.support
                         </DynamicImport-Package>
+                        <Module-Collection>true</Module-Collection>
                     </instructions>
                 </configuration>
             </plugin>
@@ -290,7 +291,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>3.0.0.RELEASE</version>
+            <version>3.0.3.RELEASE</version>
             <scope>test</scope>
         </dependency>
 

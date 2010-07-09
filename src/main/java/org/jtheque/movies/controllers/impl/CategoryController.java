@@ -17,6 +17,7 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -71,7 +72,7 @@ public final class CategoryController extends AbstractController implements ICat
     @Override
     public void save(String title, Category parent) {
         if (categoriesService.existsInOtherCategory(title, getCurrentCategory())) {
-            getService(IErrorService.class).addInternationalizedError("category.errors.exists");
+            getService(IErrorService.class).addError(Errors.newI18nError("category.errors.exists"));
         } else {
             getCurrentCategory().setTitle(title);
             getCurrentCategory().setParent(parent);

@@ -17,6 +17,7 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.controllers.able.IAddFromFileController;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -67,7 +68,7 @@ public final class AddFromFileController extends AbstractController implements I
     @Override
     public void add(String filePath, Collection<FileParser> parsers) {
         if (moviesService.fileExists(filePath)) {
-            getService(IErrorService.class).addInternationalizedError("movie.errors.existingfile");
+            getService(IErrorService.class).addError(Errors.newI18nError("movie.errors.existingfile"));
         } else {
             Movie movie = filesService.createMovie(filePath, parsers);
 

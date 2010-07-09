@@ -24,8 +24,8 @@ import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
 import org.jtheque.movies.views.impl.models.CategoriesComboModel;
 import org.jtheque.movies.views.impl.models.CategoryModel;
+import org.jtheque.ui.able.constraints.Constraints;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.utils.constraints.MaxLengthConstraint;
 import org.jtheque.ui.utils.filthy.FilthyRenderer;
 import org.jtheque.ui.utils.filthy.FilthyTextField;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
@@ -79,7 +79,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
         fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
-        addConstraint(fieldName.getField(), new MaxLengthConstraint(Category.NAME_LENGTH, Category.NAME, false, false));
+        addConstraint(fieldName.getField(), Constraints.max(Category.NAME_LENGTH, Category.NAME, false, false));
 
         builder.addI18nLabel(Category.PARENT, builder.gbcSet(0, 1));
 

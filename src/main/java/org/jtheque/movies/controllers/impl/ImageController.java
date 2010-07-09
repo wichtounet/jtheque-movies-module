@@ -17,6 +17,7 @@ package org.jtheque.movies.controllers.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.controllers.able.IImageController;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -127,6 +128,6 @@ public final class ImageController extends AbstractController implements IImageC
      * Display a file not found error.
      */
     private void displayFileNotFoundError() {
-        getService(IErrorService.class).addInternationalizedError("movie.errors.filenotfound");
+        getService(IErrorService.class).addError(Errors.newI18nError("movie.errors.filenotfound"));
     }
 }

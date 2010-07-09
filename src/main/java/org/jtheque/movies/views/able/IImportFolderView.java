@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.ui.able.IView;
+import org.jtheque.ui.able.IWindowView;
 
 import java.io.File;
 import java.util.Collection;
@@ -27,7 +27,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface IImportFolderView extends IView {
+public interface IImportFolderView extends IWindowView {
     /**
      * Return the path to the specified folder.
      *
@@ -48,16 +48,6 @@ public interface IImportFolderView extends IView {
      * @return true if the view is valid else false.
      */
     boolean validateContent(Phase phase);
-
-    /**
-     * Stop the wait animation.
-     */
-    void stopWait();
-
-    /**
-     * Start the wait animation.
-     */
-    void startWait();
 
     /**
      * Set the files of the view.

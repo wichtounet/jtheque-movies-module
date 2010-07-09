@@ -19,8 +19,7 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.ui.utils.actions.JThequeAction;
-import org.jtheque.utils.ui.SwingUtils;
-import org.jtheque.utils.ui.edt.SimpleTask;
+import org.jtheque.utils.ui.SimpleSwingWorker;
 
 import java.awt.event.ActionEvent;
 
@@ -48,34 +47,30 @@ public final class ImportFilesAction extends JThequeAction {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FILES)) {
-            SwingUtils.execute(new SimpleTask() {
-                @Override
-                public void run() {
-                    importFolderView.startWait();
-
-                    new Thread(new ImportFilesRunnable()).start();
-                }
-            });
+            new ImportFilesWorker().start();
         }
     }
 
     /**
-     * A runnable for search titles.
+     * A runnable for import files.
      *
      * @author Baptiste Wicht
      */
-    private final class ImportFilesRunnable implements Runnable {
+    private final class ImportFilesWorker extends SimpleSwingWorker {
         @Override
-        public void run() {
-            filesService.importMovies(importFolderView.getFiles(), importFolderView.getSelectedParsers());
+        protected void before() {
+            importFolderView.getWindowState().startWait();
+        }
 
-            SwingUtils.execute(new SimpleTask() {
-                @Override
-                public void run() {
-                    importFolderView.stopWait();
-                    importFolderView.closeDown();
-                }
-            });
+        @Override
+        protected void done() {
+            importFolderView.getWindowState().stopWait();
+            importFolderView.closeDown();
+        }
+
+        @Override
+        protected void doWork() {
+            filesService.importMovies(importFolderView.getFiles(), importFolderView.getSelectedParsers());
         }
     }
 }

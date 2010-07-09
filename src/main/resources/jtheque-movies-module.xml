@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<module>	
+	<id>jtheque-movies-module</id> 
+	
+	<version name="1.4.0"> 
+		<libraries> 
+			<library> 
+				<name>org.jtheque.dj-native-swing</name>	
+				<url>http://jtheque.developpez.com/resources/org.jtheque.native-swing/descriptor.xml</url>	
+				<version>0.9.9</version>			
+			</library> 
+		</libraries> 
+	</version> 
+</module> 

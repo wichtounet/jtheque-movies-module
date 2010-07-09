@@ -17,6 +17,7 @@ package org.jtheque.movies.controllers.impl.states;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -75,7 +76,7 @@ public final class ModifyMovieState extends MovieState {
 
         //If the file has changed and the new file already exists in application
         if (moviesService.fileExistsInOtherMovie(movie, movie.getFile())) {
-            errorService.addInternationalizedError("movie.errors.existingfile");
+            errorService.addError(Errors.newI18nError("movie.errors.existingfile"));
 
             return null;
         }

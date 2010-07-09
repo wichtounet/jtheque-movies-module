@@ -19,8 +19,7 @@ package org.jtheque.movies.views.impl.actions.movies.folder;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.ui.utils.actions.JThequeAction;
-import org.jtheque.utils.ui.SwingUtils;
-import org.jtheque.utils.ui.edt.SimpleTask;
+import org.jtheque.utils.ui.SimpleSwingWorker;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -38,8 +37,8 @@ public final class SearchFilesAction extends JThequeAction {
     /**
      * Create a new AcSearchTitles action.
      *
-     * @param filesService The files service.
-     * @param importFolderView The import folder view. 
+     * @param filesService     The files service.
+     * @param importFolderView The import folder view.
      */
     public SearchFilesAction(IFilesService filesService, IImportFolderView importFolderView) {
         super("generic.view.actions.search");
@@ -51,7 +50,7 @@ public final class SearchFilesAction extends JThequeAction {
     @Override
     public void actionPerformed(ActionEvent arg0) {
         if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
-            new Thread(new SearchTitlesRunnable()).start();
+            new SearchTitlesWorker().start();
         }
     }
 
@@ -60,25 +59,23 @@ public final class SearchFilesAction extends JThequeAction {
      *
      * @author Baptiste Wicht
      */
-    private final class SearchTitlesRunnable implements Runnable {
+    private final class SearchTitlesWorker extends SimpleSwingWorker {
+        private Collection<File> files;
+
         @Override
-        public void run() {
-            SwingUtils.execute(new SimpleTask() {
-                @Override
-                public void run() {
-                    importFolderView.startWait();
-                }
-            });
+        protected void before() {
+            importFolderView.getWindowState().startWait();
+        }
 
-            final Collection<File> files = filesService.getMovieFiles(new File(importFolderView.getFolderPath()));
+        @Override
+        protected void done() {
+            importFolderView.setFiles(files);
+            importFolderView.getWindowState().stopWait();
+        }
 
-            SwingUtils.execute(new SimpleTask() {
-                @Override
-                public void run() {
-                    importFolderView.setFiles(files);
-                    importFolderView.stopWait();
-                }
-            });
+        @Override
+        protected void doWork() {
+            files = filesService.getMovieFiles(new File(importFolderView.getFolderPath()));
         }
     }
 }
