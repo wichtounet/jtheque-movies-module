@@ -141,7 +141,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     }
 
     @Override
-    protected void validate(Collection<IError> errors) {
+    public void validate(Collection<IError> errors) {
         if (Phase.CHOOSE_FOLDER == phase) {
             ValidationUtils.rejectIfEmpty(directoryChooser.getFilePath(), "movie.auto.folder.errors.folderEmpty", errors);
         } else if (Phase.CHOOSE_FILES == phase) {

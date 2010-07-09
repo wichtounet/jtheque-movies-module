@@ -1,6 +1,7 @@
 package org.jtheque.movies.views.impl.actions.movies;
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.views.impl.panel.EditMoviePanel;
 import org.jtheque.ui.utils.actions.JThequeAction;
@@ -32,7 +33,6 @@ import java.io.File;
  */
 public final class GetInformationsAction extends JThequeAction {
     private final EditMoviePanel editMoviePanel;
-
     private final IFFMpegService ffMpegService;
     private final IErrorService errorService;
 
@@ -61,7 +61,7 @@ public final class GetInformationsAction extends JThequeAction {
             editMoviePanel.setResolution(ffMpegService.getResolution(file));
             editMoviePanel.setDuration(ffMpegService.getDuration(file));
         } else {
-            errorService.addInternationalizedError("movie.errors.filenotfound");
+            errorService.addError(Errors.newI18nError("movie.errors.filenotfound"));
         }
     }
 }

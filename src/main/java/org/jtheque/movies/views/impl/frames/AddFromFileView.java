@@ -25,7 +25,7 @@ import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileView
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.utils.constraints.ValidFileConstraint;
+import org.jtheque.ui.able.constraints.Constraints;
 import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
 import org.jtheque.utils.ui.GridBagUtils;
 
@@ -68,7 +68,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 
-        addConstraint(fileChooser, new ValidFileConstraint(Movie.FILE, 200));
+        addConstraint(fileChooser, Constraints.validFile(Movie.FILE, 200));
 
         builder.addI18nLabel("movie.auto.categories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 

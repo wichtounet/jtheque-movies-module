@@ -352,7 +352,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     }
 
     @Override
-    public Integer getPosition() {
+    public int getPosition() {
         return 5;
     }
 

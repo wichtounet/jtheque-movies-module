@@ -5,7 +5,7 @@ import org.jtheque.movies.IMoviesModule;
 import org.jtheque.ui.utils.builded.OSGIBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.components.FileChooserPanel;
-import org.jtheque.ui.utils.constraints.Constraint;
+import org.jtheque.ui.able.constraints.Constraint;
 import org.jtheque.utils.OSUtils;
 import org.jtheque.utils.io.SimpleFilter;
 import org.jtheque.utils.ui.GridBagUtils;

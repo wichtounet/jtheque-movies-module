@@ -58,6 +58,7 @@
                         <DynamicImport-Package>org.jtheque.persistence.utils, org.jtheque.schemas.able,
                             org.jtheque.file.able, org.springframework.jdbc.support
                         </DynamicImport-Package>
+                        <Module-Collection>true</Module-Collection>
                     </instructions>
                 </configuration>
             </plugin>

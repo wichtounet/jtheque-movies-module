@@ -17,6 +17,7 @@ package org.jtheque.movies.services.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.services.able.IFFMpegService;
@@ -170,7 +171,7 @@ public final class FFMpegService implements IFFMpegService {
         boolean notInstalled = !ffmpegIsInstalled();
 
         if (notInstalled) {
-            errorService.addInternationalizedError("movie.errors.ffmpeg");
+            errorService.addError(Errors.newI18nError("movie.errors.ffmpeg"));
         }
 
         return !notInstalled;

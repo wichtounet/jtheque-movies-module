@@ -17,6 +17,7 @@ package org.jtheque.movies.services.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -70,7 +71,7 @@ public final class FilesService implements IFilesService {
         }
 
         if (fileNotCreated) {
-            errorService.addInternationalizedError("movie.errors.filenotcreated");
+            errorService.addError(Errors.newI18nError("movie.errors.filenotcreated"));
         }
     }
 

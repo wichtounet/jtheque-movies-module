@@ -31,8 +31,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -78,7 +76,7 @@ public class MoviesModuleTest {
         }
 
         @Override
-        public String getLicenceFilePath() {
+        public String getLicenseFilePath() {
             return null;
         }
 
@@ -93,7 +91,7 @@ public class MoviesModuleTest {
         }
 
         @Override
-        public boolean isDisplayLicence() {
+        public boolean isDisplayLicense() {
             return false;
         }
 
@@ -140,16 +138,6 @@ public class MoviesModuleTest {
         @Override
         public String getProperty(String key) {
             return null;
-        }
-
-        @Override
-        public boolean isModuleDiscovery() {
-            return true;
-        }
-
-        @Override
-        public Set<String> getModules() {
-            return Collections.emptySet();
         }
     }
 }
