@@ -21,13 +21,12 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
-import org.jtheque.movies.views.impl.actions.categories.ValidateCategoryViewAction;
 import org.jtheque.movies.views.impl.models.CategoriesComboModel;
 import org.jtheque.movies.views.impl.models.CategoryModel;
+import org.jtheque.ui.able.components.TextField;
+import org.jtheque.ui.able.components.filthy.Filthy;
 import org.jtheque.ui.able.constraints.Constraints;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.utils.filthy.FilthyRenderer;
-import org.jtheque.ui.utils.filthy.FilthyTextField;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 import org.jtheque.utils.ui.SwingUtils;
@@ -41,7 +40,7 @@ import javax.swing.Action;
  * @author Baptiste Wicht
  */
 public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryModel> implements ICategoryView {
-    private FilthyTextField fieldName;
+    private TextField fieldName;
     private CategoriesComboModel categoriesModel;
 
     private static final int FIELD_COLUMNS = 15;
@@ -74,9 +73,9 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
     protected void buildView(I18nPanelBuilder builder) {
         builder.addI18nLabel(Category.NAME, builder.gbcSet(0, 0));
 
-        Action saveAction = new ValidateCategoryViewAction();
+        Action saveAction = getAction("category.actions.ok");
 
-        fieldName = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
+        fieldName = builder.add(Filthy.newTextField(FIELD_COLUMNS), builder.gbcSet(1, 0));
         SwingUtils.addFieldValidateAction(fieldName, saveAction);
 
         addConstraint(fieldName.getField(), Constraints.max(Category.NAME_LENGTH, Category.NAME, false, false));
@@ -85,9 +84,11 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
 
         categoriesModel = new CategoriesComboModel(categoriesService);
 
-        builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 1));
+        builder.addComboBox(categoriesModel, Filthy.newListRenderer(), builder.gbcSet(1, 1));
 
-        builder.addButtonBar(builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1), saveAction, getCloseAction("category.actions.cancel"));
+        builder.addButtonBar(builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1),
+                saveAction,
+                getAction("category.actions.cancel"));
     }
 
     @Override

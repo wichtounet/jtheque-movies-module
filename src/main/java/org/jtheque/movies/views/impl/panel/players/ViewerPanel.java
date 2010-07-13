@@ -16,8 +16,8 @@ package org.jtheque.movies.views.impl.panel.players;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.IMovieController;
-import org.jtheque.movies.views.impl.actions.view.QuitPlayerViewAction;
+import org.jtheque.ui.able.IController;
+import org.jtheque.ui.utils.actions.ActionFactory;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -48,33 +48,33 @@ public final class ViewerPanel extends JPanel {
      * @param player          The movie player.
      * @param movieController The movie controller.
      */
-    public ViewerPanel(IMoviePlayer player, IMovieController movieController) {
+    public ViewerPanel(IMoviePlayer player, IController movieController) {
         super();
 
         this.player = player;
 
         setLayout(new BorderLayout());
 
-        GridBagConstraints cons = new GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
         Container playerFilePanel = new JPanel(new GridBagLayout());
 
         JComponent playerFileLabel = new JLabel("File: ");
         playerFileLabel.setOpaque(false);
-        cons.gridx = 0;
-        cons.gridy = 0;
-        cons.insets = new Insets(2, 2, 2, 0);
-        cons.fill = GridBagConstraints.HORIZONTAL;
-        playerFilePanel.add(playerFileLabel, cons);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(2, 2, 2, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        playerFilePanel.add(playerFileLabel, gbc);
 
         labelFile = new JLabel();
-        cons.gridx++;
-        cons.weightx = 1;
+        gbc.gridx++;
+        gbc.weightx = 1;
 
-        playerFilePanel.add(labelFile, cons);
+        playerFilePanel.add(labelFile, gbc);
 
-        cons.gridx++;
+        gbc.gridx++;
 
-        playerFilePanel.add(new JButton(new QuitPlayerViewAction(movieController)), cons);
+        playerFilePanel.add(new JButton(ActionFactory.createAction("movie.actions.view.quit", movieController)), gbc);
 
         add(playerFilePanel, BorderLayout.NORTH);
 

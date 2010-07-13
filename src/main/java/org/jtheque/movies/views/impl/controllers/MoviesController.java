@@ -1,11 +1,15 @@
-package org.jtheque.movies.views.impl.actions;
+package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.ui.utils.actions.JThequeAction;
+import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.utils.AbstractController;
 
-import java.awt.event.ActionEvent;
+import javax.annotation.Resource;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -23,30 +27,26 @@ import java.io.File;
  * limitations under the License.
  */
 
-/**
- * Action to delete the unused thumbnails file.
- *
- * @author Baptiste Wicht
- */
-public final class DeleteUnusedThumbnailsAction extends JThequeAction {
-    private final IMoviesModule moviesModule;
-    private final IMoviesService moviesService;
+public class MoviesController extends AbstractController {
+    @Resource
+    private IMovieView movieView;
 
-    /**
-     * Construct a new DeleteUnusedThumbnailsAction.
-     *
-     * @param moviesModule  The movies module.
-     * @param moviesService The movies service.
-     */
-    public DeleteUnusedThumbnailsAction(IMoviesModule moviesModule, IMoviesService moviesService) {
-        super("movie.actions.clean.thumbnails");
+    @Resource
+    private IMoviesService moviesService;
 
-        this.moviesModule = moviesModule;
-        this.moviesService = moviesService;
-    }
+    @Resource
+    private IMoviesModule moviesModule;
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
+    protected Map<String, String> getTranslations() {
+        Map<String, String> translations = new HashMap<String, String>(3);
+
+        translations.put("movie.actions.clean.thumbnails", "cleanThumbnails");
+
+        return translations;
+    }
+
+    private void cleanThumbnails() {
         File folder = new File(moviesModule.getThumbnailFolderPath());
 
         for (File f : folder.listFiles()) {

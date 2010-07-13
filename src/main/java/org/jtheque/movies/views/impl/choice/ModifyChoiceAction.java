@@ -16,10 +16,11 @@ package org.jtheque.movies.views.impl.choice;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.primary.utils.choice.AbstractModifyChoiceAction;
+import org.jtheque.ui.able.IController;
 
 import javax.annotation.Resource;
 
@@ -30,7 +31,10 @@ import javax.annotation.Resource;
  */
 public final class ModifyChoiceAction extends AbstractModifyChoiceAction {
     @Resource
-    private ICategoryController categoryController;
+    private ICategoryView categoryView;
+
+    @Resource
+    private IController categoryController;
 
     @Override
     public boolean canDoAction(String action) {
@@ -44,8 +48,8 @@ public final class ModifyChoiceAction extends AbstractModifyChoiceAction {
         }
 
         if (ICategoriesService.DATA_TYPE.equals(getContent())) {
-            categoryController.editCategory((Category) getSelectedItem());
-            categoryController.displayView();
+            categoryView.getModel().setCategory((Category) getSelectedItem());
+            categoryController.handleAction("edit");
         }
     }
 }

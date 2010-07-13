@@ -16,11 +16,9 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.IFilesController;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IFilesView;
 import org.jtheque.movies.views.able.models.ICleanModel;
-import org.jtheque.movies.views.impl.actions.files.RefreshFilesListAction;
 import org.jtheque.movies.views.impl.models.FilesTableModel;
 import org.jtheque.movies.views.impl.panel.FileRenderer;
 import org.jtheque.movies.views.impl.panel.MovieChooserEditor;
@@ -44,15 +42,11 @@ public final class FilesView extends SwingFilthyBuildedDialogView<ICleanModel> i
     private FilesTableModel tableModel;
 
     @Resource
-    private IFilesController filesController;
-
-    @Resource
     private IMoviesService moviesService;
 
     @Override
     protected void initView() {
         setTitleKey("files.title");
-        setResizable(true);
     }
 
     @Override
@@ -70,7 +64,9 @@ public final class FilesView extends SwingFilthyBuildedDialogView<ICleanModel> i
 
         builder.addScrolled(tableMovies, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.BASELINE_LEADING, 1.0, 1.0));
 
-        builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL), new RefreshFilesListAction(filesController), getCloseAction("files.actions.close"));
+        builder.addButtonBar(builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL),
+                getAction("files.actions.refresh"),
+                getAction("files.actions.close"));
     }
 
     @Override

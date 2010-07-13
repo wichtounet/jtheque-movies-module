@@ -18,16 +18,12 @@ package org.jtheque.movies.views.impl;
 
 import org.jtheque.errors.able.IError;
 import org.jtheque.images.able.IImageService;
-import org.jtheque.movies.controllers.able.IMovieController;
+import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
-import org.jtheque.movies.views.impl.actions.movies.CollapseAction;
-import org.jtheque.movies.views.impl.actions.movies.ExpandAction;
-import org.jtheque.movies.views.impl.actions.movies.RefreshAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoryElement;
 import org.jtheque.movies.views.impl.models.FilthyCellRenderer;
@@ -35,19 +31,19 @@ import org.jtheque.movies.views.impl.models.MoviesModel;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
 import org.jtheque.movies.views.impl.sort.MoviesSorter;
 import org.jtheque.persistence.able.Entity;
-import org.jtheque.primary.utils.views.actions.CreateNewPrincipalAction;
+import org.jtheque.primary.able.controller.IPrincipalController;
 import org.jtheque.primary.utils.views.listeners.CurrentObjectListener;
 import org.jtheque.primary.utils.views.listeners.DisplayListListener;
 import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
 import org.jtheque.primary.utils.views.tree.TreeElement;
-import org.jtheque.ui.utils.actions.DisplayViewAction;
+import org.jtheque.ui.able.components.Borders;
+import org.jtheque.ui.able.components.CardPanel;
+import org.jtheque.ui.able.components.filthy.Filthy;
+import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
-import org.jtheque.ui.utils.components.Borders;
-import org.jtheque.ui.utils.components.CardPanel;
-import org.jtheque.ui.utils.filthy.FilthyCardPanel;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import org.jdesktop.swingx.JXTree;
@@ -61,6 +57,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Insets;
 import java.util.Collection;
+
+import static org.jtheque.ui.able.components.filthy.FilthyConstants.TITLE_FONT;
 
 /**
  * Panel to display movies.
@@ -83,10 +81,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     private ICategoriesService categoriesService;
 
     @Resource
-    private IMovieController movieController;
-
-    @Resource
-    private IAddFromFileView addFromFileView;
+    private IPrincipalController<Movie> movieController;
 
     private final MoviePanel viewMoviePanel;
     private final MoviePanel editMoviePanel;
@@ -116,8 +111,6 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         treeMovies.addTreeSelectionListener(movieController);
 
         selectFirst();
-
-        movieController.view(getSelectedMovie());
 
         getModel().addCurrentObjectListener(this);
         getModel().addDisplayListListener(this);
@@ -157,9 +150,15 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
 
         IImageService imageService = getService(IImageService.class);
 
-        titleBuilder.addButton(new RefreshAction(this, imageService), titleBuilder.gbcSet(1, 0));
-        titleBuilder.addButton(new ExpandAction(this, imageService), titleBuilder.gbcSet(2, 0));
-        titleBuilder.addButton(new CollapseAction(imageService), titleBuilder.gbcSet(3, 0));
+        titleBuilder.addButton(
+                ActionFactory.createAction("refresh", imageService.getIcon(MoviesResources.REFRESH_ICON), movieController),
+                titleBuilder.gbcSet(1, 0));
+        titleBuilder.addButton(
+                ActionFactory.createAction("expand", imageService.getIcon(MoviesResources.EXPAND_ICON), movieController),
+                titleBuilder.gbcSet(2, 0));
+        titleBuilder.addButton(
+                ActionFactory.createAction("collapse", imageService.getIcon(MoviesResources.COLLAPSE_ICON), movieController),
+                titleBuilder.gbcSet(3, 0));
 
         label.setFont(TITLE_FONT.deriveFont(25.0f));
     }
@@ -187,12 +186,9 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
 
-        DisplayViewAction autoAddAction = new DisplayViewAction("movie.auto.actions.add");
-        autoAddAction.setView(addFromFileView);
-
-        panelButtons.addButton(new CreateNewPrincipalAction("movie.actions.add", movieController),
+        panelButtons.addButton(ActionFactory.createAction("movie.actions.add", movieController),
                 builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-        panelButtons.addButton(autoAddAction,
+        panelButtons.addButton(ActionFactory.createAction("movie.auto.actions.add", movieController),
                 builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
     }
 
@@ -202,7 +198,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
      * @param parent The parent builder.
      */
     private void buildPanelMovie(PanelBuilder parent) {
-        layeredPanel = new FilthyCardPanel<MoviePanel>();
+        layeredPanel = Filthy.newCardPanel();
 
         layeredPanel.addLayer(viewMoviePanel, viewMoviePanel.getKey());
         layeredPanel.addLayer(editMoviePanel, editMoviePanel.getKey());

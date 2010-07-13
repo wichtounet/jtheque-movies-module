@@ -17,6 +17,7 @@ package org.jtheque.movies.views.able;
  */
 
 import org.jtheque.movies.persistence.od.able.Movie;
+import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
 import org.jtheque.ui.able.IView;
@@ -90,4 +91,7 @@ public interface IMovieView extends IView, MainComponent {
      * @return The selected movie.
      */
     Movie getSelectedMovie();
+
+    @Override
+    IMoviesModel getModel();
 }

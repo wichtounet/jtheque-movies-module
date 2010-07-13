@@ -19,22 +19,21 @@ package org.jtheque.movies.views.impl.panel;
 import org.jtheque.errors.able.IError;
 import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.MoviesResources;
-import org.jtheque.movies.controllers.able.ICategoryController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoriesView;
-import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.primary.able.controller.IChoiceController;
-import org.jtheque.primary.utils.choice.ChoiceViewAction;
+import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.components.Components;
 import org.jtheque.ui.utils.ValidationUtils;
+import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
-import org.jtheque.ui.utils.components.IconListRenderer;
 import org.jtheque.ui.utils.models.SimpleListModel;
 import org.jtheque.utils.collections.ArrayUtils;
 import org.jtheque.utils.ui.GridBagUtils;
@@ -67,7 +66,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
     private IChoiceController choiceController;
 
     @Resource
-    private ICategoryController categoryController;
+    private IController categoryController;
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
@@ -75,7 +74,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
 
         double anHalf = 0.5;
 
-        ListCellRenderer renderer = new IconListRenderer(
+        ListCellRenderer renderer = Components.newIconListRenderer(
                 getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         listCategories = builder.addScrolledList(categoriesModel, renderer,
@@ -95,11 +94,9 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
         I18nPanelBuilder manageButtons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 0));
 
         manageButtons.addI18nLabel("category.view.manage", Font.BOLD, builder.gbcSet(0, 0));
-        manageButtons.addButton(new CreateNewCategoryAction(categoryController), builder.gbcSet(1, 0));
-        manageButtons.addButton(new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE, choiceController),
-                builder.gbcSet(2, 0));
-        manageButtons.addButton(new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController),
-                builder.gbcSet(3, 0));
+        manageButtons.addButton(ActionFactory.createAction("category.actions.new", categoryController), builder.gbcSet(1, 0));
+        manageButtons.addButton(ActionFactory.createAction("category.actions.edit", choiceController), builder.gbcSet(2, 0));
+        manageButtons.addButton(ActionFactory.createAction("category.actions.delete", choiceController), builder.gbcSet(3, 0));
     }
 
     @Override

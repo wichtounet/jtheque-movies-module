@@ -16,18 +16,15 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.ICleanController;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.models.ICleanModel;
-import org.jtheque.movies.views.impl.actions.clean.ValidateCleanViewAction;
 import org.jtheque.movies.views.impl.models.CleanModel;
 import org.jtheque.movies.views.impl.panel.containers.CleanerContainer;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 
-import javax.annotation.Resource;
 import javax.swing.JCheckBox;
 
 import java.util.ArrayList;
@@ -42,9 +39,6 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
     private final Collection<CleanerContainer> cleanerContainers;
 
     private JCheckBox checkBoxSub;
-
-    @Resource
-    private ICleanController cleanController;
 
     /**
      * Construct a new CleanView.
@@ -82,8 +76,8 @@ public final class CleanView extends SwingFilthyBuildedDialogView<ICleanModel> i
         checkBoxSub = builder.addI18nCheckBox("movie.clean.subcategories", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
 
         builder.addButtonBar(builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL),
-                new ValidateCleanViewAction(cleanController),
-                getCloseAction("movie.auto.actions.cancel"));
+                getAction("movie.actions.clean.validate"),
+                getAction("movie.auto.actions.cancel"));
     }
 
     @Override

@@ -147,13 +147,13 @@
             </bean>
         </constructor-arg>
         <constructor-arg>
-            <bean class="org.jtheque.movies.controllers.impl.states.ViewMovieState"/>
+            <bean class="org.jtheque.movies.views.impl.controllers.states.ViewMovieState"/>
         </constructor-arg>
         <constructor-arg>
-            <bean class="org.jtheque.movies.controllers.impl.states.ModifyMovieState"/>
+            <bean class="org.jtheque.movies.views.impl.controllers.states.ModifyMovieState"/>
         </constructor-arg>
         <constructor-arg>
-            <bean class="org.jtheque.movies.controllers.impl.states.CreateMovieState"/>
+            <bean class="org.jtheque.movies.views.impl.controllers.states.CreateMovieState"/>
         </constructor-arg>
     </bean>
 

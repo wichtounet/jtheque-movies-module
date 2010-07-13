@@ -23,6 +23,7 @@ import org.jtheque.modules.utils.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.primary.able.IPrimaryUtils;
+import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.utils.DataTypeManager;
 import org.jtheque.states.able.IStateService;
 import org.jtheque.utils.io.FileUtils;
@@ -52,6 +53,9 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     private IPrimaryUtils primaryUtils;
 
     @Resource
+    private IChoiceController choiceController;
+
+    @Resource
     private ICore core;
 
     public MoviesModule() {
@@ -67,6 +71,10 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
 
         config = stateService.getState(new MovieConfiguration());
 
+        choiceController.registerAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE);
+        choiceController.registerAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE);
+        choiceController.registerAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE);
+        
         DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");

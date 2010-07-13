@@ -18,18 +18,14 @@ package org.jtheque.movies.views.impl.frames;
 
 import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.IMoviesModule;
-import org.jtheque.movies.controllers.impl.ImageController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
 import org.jtheque.movies.views.able.IImageView;
-import org.jtheque.movies.views.impl.actions.movies.image.GenerateFileImageAction;
-import org.jtheque.movies.views.impl.actions.movies.image.GenerateRandomImageAction;
-import org.jtheque.movies.views.impl.actions.movies.image.GenerateTimeImageAction;
-import org.jtheque.movies.views.impl.actions.movies.image.ValidateImageViewAction;
 import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.able.components.FileChooser;
+import org.jtheque.ui.able.components.TextField;
+import org.jtheque.ui.able.components.filthy.Filthy;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
-import org.jtheque.ui.utils.filthy.FilthyFormattedTextField;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
@@ -48,13 +44,10 @@ import java.text.NumberFormat;
  * @author Baptiste Wicht
  */
 public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implements IImageView {
-    private FilthyFormattedTextField timeTextField;
-    private FilthyFileChooserPanel imageChooser;
+    private TextField timeTextField;
+    private FileChooser imageChooser;
 
     private JXImagePanel imagePanel;
-
-    @Resource
-    private ImageController imageController;
 
     @Resource
     private IMoviesModule moviesModule;
@@ -73,7 +66,8 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         imagePanel.setOpaque(false);
 
         builder.addButtonBar(builder.gbcSet(0, 3, GridBagUtils.HORIZONTAL),
-                new ValidateImageViewAction(imageController), getCloseAction("movie.image.actions.cancel"));
+                getAction("movie.image.actions.validate"),
+                getAction("movie.image.actions.cancel"));
     }
 
     /**
@@ -85,15 +79,15 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.ABOVE_BASELINE_LEADING, 3, 1));
         builder.setI18nTitleBorder("movie.image.ffmpeg");
 
-        builder.addButton(new GenerateRandomImageAction(imageController), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
+        builder.addButton(getAction("movie.image.actions.ffmpeg.random"), builder.gbcSet(0, 0, GridBagUtils.NONE, 0, 1));
 
         builder.addI18nLabel("movie.image.file.time", builder.gbcSet(0, 1));
 
-        timeTextField = builder.add(new FilthyFormattedTextField(new NumberFormatter(NumberFormat.getIntegerInstance())),
+        timeTextField = builder.add(Filthy.newFormattedField(new NumberFormatter(NumberFormat.getIntegerInstance())),
                 builder.gbcSet(1, 1));
         timeTextField.getField().setColumns(5);
 
-        builder.addButton(new GenerateTimeImageAction(imageController), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
+        builder.addButton(getAction("movie.image.actions.ffmpeg.fixed"), builder.gbcSet(2, 1, GridBagUtils.NONE, 0, 1));
     }
 
     /**
@@ -105,11 +99,11 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
         builder.setI18nTitleBorder("movie.image.file");
 
-        imageChooser = builder.add(new FilthyFileChooserPanel(true), builder.gbcSet(0, 0));
+        imageChooser = builder.add(Filthy.newFileChooserPanel(true), builder.gbcSet(0, 0));
         imageChooser.setTextKey("movie.image.file.location");
         imageChooser.setFileFilter(new PictureFileNameFilter());
 
-        builder.addButton(new GenerateFileImageAction(imageController), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
+        builder.addButton(getAction("movie.image.actions.file"), builder.gbcSet(1, 0, GridBagUtils.NONE, 0, 1));
     }
 
     @Override

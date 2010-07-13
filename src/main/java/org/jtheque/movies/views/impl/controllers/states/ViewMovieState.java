@@ -1,4 +1,4 @@
-package org.jtheque.movies.controllers.impl.states;
+package org.jtheque.movies.views.impl.controllers.states;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -19,9 +19,9 @@ package org.jtheque.movies.controllers.impl.states;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.od.Data;
+import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
 import org.jtheque.undo.able.IUndoRedoService;
 
@@ -32,30 +32,24 @@ import javax.annotation.Resource;
  *
  * @author Baptiste Wicht
  */
-public final class ViewMovieState extends MovieState {
+public final class ViewMovieState extends AbstractControllerState {
     @Resource
     private IMoviesService moviesService;
 
     @Resource
-    private IUndoRedoService undoRedoService;
+    private IMovieView movieView;
 
-    /**
-     * Return the model of the view.
-     *
-     * @return The model of the view.
-     */
-    private IMoviesModel getViewModel() {
-        return getController().getViewModel();
-    }
+    @Resource
+    private IUndoRedoService undoRedoService;
 
     @Override
     public void apply() {
-        getController().getView().setDisplayedView(IMovieView.VIEW_VIEW);
+        movieView.setDisplayedView(IMovieView.VIEW_VIEW);
 
-        Movie current = getController().getView().getSelectedMovie();
+        Movie current = movieView.getSelectedMovie();
 
-        if (current != getViewModel().getCurrentMovie()) {
-            getController().getView().select(getViewModel().getCurrentMovie());
+        if (current != movieView.getModel().getCurrentMovie()) {
+            movieView.select(movieView.getModel().getCurrentMovie());
         }
     }
 
@@ -66,7 +60,7 @@ public final class ViewMovieState extends MovieState {
 
     @Override
     public ControllerState manualEdit() {
-        if (getViewModel().getCurrentMovie() == null) {
+        if (movieView.getModel().getCurrentMovie() == null) {
             return null;
         }
 
@@ -75,12 +69,12 @@ public final class ViewMovieState extends MovieState {
 
     @Override
     public ControllerState delete() {
-        boolean deleted = moviesService.delete(getViewModel().getCurrentMovie());
+        boolean deleted = moviesService.delete(movieView.getModel().getCurrentMovie());
 
         if (deleted) {
-            undoRedoService.addEdit(new GenericDataDeletedEdit<Movie>(moviesService, getViewModel().getCurrentMovie()));
+            undoRedoService.addEdit(new GenericDataDeletedEdit<Movie>(moviesService, movieView.getModel().getCurrentMovie()));
 
-            getController().getView().selectFirst();
+            movieView.selectFirst();
         }
 
         return null;
@@ -90,7 +84,7 @@ public final class ViewMovieState extends MovieState {
     public ControllerState view(Data data) {
         Movie movie = (Movie) data;
 
-        getViewModel().setCurrentMovie(movie);
+        movieView.getModel().setCurrentMovie(movie);
 
         return null;
     }

@@ -16,20 +16,15 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.IAddFromFileController;
-import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
-import org.jtheque.movies.views.impl.actions.movies.auto.ValidateAddFromFileViewAction;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
-import org.jtheque.ui.able.IUIUtils;
-import org.jtheque.ui.utils.builders.I18nPanelBuilder;
+import org.jtheque.ui.able.components.FileChooser;
+import org.jtheque.ui.able.components.filthy.Filthy;
 import org.jtheque.ui.able.constraints.Constraints;
-import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
+import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.utils.ui.GridBagUtils;
-
-import javax.annotation.Resource;
 
 import java.util.Collection;
 
@@ -39,14 +34,8 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class AddFromFileView extends AbstractParserView implements IAddFromFileView {
-    private FilthyFileChooserPanel fileChooser;
-
-    @Resource
-    private IAddFromFileController addFromFileController;
-
-    @Resource
-    private IMovieController movieController;
-
+    private FileChooser fileChooser;
+    
     /**
      * Construct a new Category View.
      *
@@ -64,7 +53,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
-        fileChooser = builder.add(new FilthyFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        fileChooser = builder.add(Filthy.newFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 
@@ -78,16 +67,9 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
             builder.add(container.getImpl(), builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL));
         }
 
-        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL), new ValidateAddFromFileViewAction(addFromFileController), getCloseAction("movie.auto.actions.cancel"));
-    }
-
-    @Override
-    public void display() {
-        if (movieController.isEditing()) {
-            getService(IUIUtils.class).displayI18nText("movie.dialogs.currentEdit");
-        } else {
-            super.display();
-        }
+        builder.addButtonBar(builder.gbcSet(0, ++i, GridBagUtils.HORIZONTAL),
+                getAction("movie.auto.actions.add"),
+                getAction("movie.auto.actions.cancel"));
     }
 
     @Override

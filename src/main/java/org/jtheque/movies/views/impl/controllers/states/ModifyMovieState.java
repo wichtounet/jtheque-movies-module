@@ -1,4 +1,4 @@
-package org.jtheque.movies.controllers.impl.states;
+package org.jtheque.movies.views.impl.controllers.states;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -21,28 +21,23 @@ import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
-import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
+import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.ui.able.IUIUtils;
-import org.jtheque.undo.able.IUndoRedoService;
 
 import javax.annotation.Resource;
 
 /**
- * A state of movie view correspond with a creation.
+ * A state of movie view correspond with a modify.
  *
  * @author Baptiste Wicht
  */
-public final class CreateMovieState extends MovieState {
+public final class ModifyMovieState extends AbstractControllerState {
     @Resource
     private IMoviesService moviesService;
-
-    @Resource
-    private IUndoRedoService undoRedoService;
 
     @Resource
     private IErrorService errorService;
@@ -50,80 +45,62 @@ public final class CreateMovieState extends MovieState {
     @Resource
     private IUIUtils uiUtils;
 
-    /**
-     * Return the model of the view.
-     *
-     * @return The model of the view.
-     */
-    private IMoviesModel getViewModel() {
-        return getController().getViewModel();
-    }
+    @Resource
+    private IMovieView movieView;
 
     @Override
     public void apply() {
-        getViewModel().setCurrentMovie(moviesService.getEmptyMovie());
-        getController().getView().setDisplayedView(IMovieView.EDIT_VIEW);
+        movieView.setDisplayedView(IMovieView.EDIT_VIEW);
+        movieView.getCurrentView().setMovie(movieView.getModel().getCurrentMovie());
+
+        movieView.getModel().getCurrentMovie().saveToMemento();
     }
 
     @Override
     public ControllerState save(FormBean bean) {
-        if (!getController().getView().validateContent()) {
+        if (!movieView.validateContent()) {
             return null;
         }
 
         IMovieFormBean infos = (IMovieFormBean) bean;
 
-        Movie movie = moviesService.getEmptyMovie();
+        Movie movie = movieView.getModel().getCurrentMovie();
 
         infos.fillMovie(movie);
 
-        if (moviesService.fileExists(movie.getFile())) {
+        //If the file has changed and the new file already exists in application
+        if (moviesService.fileExistsInOtherMovie(movie, movie.getFile())) {
             errorService.addError(Errors.newI18nError("movie.errors.existingfile"));
 
             return null;
         }
 
-        moviesService.create(movie);
+        moviesService.save(movie);
 
-        undoRedoService.addEdit(new GenericDataCreatedEdit<Movie>(moviesService, movie));
-
-        getController().getView().resort();
+        movieView.refreshData();
 
         return getController().getViewState();
     }
 
     @Override
     public ControllerState cancel() {
-        ControllerState nextState = null;
-
-        getController().getView().selectFirst();
-
-        if (moviesService.getMovies().size() <= 0) {
-            nextState = getController().getViewState();
-        }
-
-        return nextState;
-    }
-
-    @Override
-    public ControllerState view(Data data) {
-        switchMovie(data);
+        movieView.getModel().getCurrentMovie().restoreMemento();
 
         return getController().getViewState();
     }
 
-    /**
-     * Switch the current movie.
-     *
-     * @param data The new movie to display.
-     */
-    private void switchMovie(Data data) {
+    @Override
+    public ControllerState view(Data data) {
         Movie movie = (Movie) data;
 
         if (uiUtils.askI18nUserForConfirmation("movie.dialogs.confirmSave", "movie.dialogs.confirmSave.title")) {
             getController().save();
+        } else {
+            movieView.getModel().getCurrentMovie().restoreMemento();
         }
 
-        getViewModel().setCurrentMovie(movie);
+        movieView.getModel().setCurrentMovie(movie);
+
+        return getController().getViewState();
     }
 }

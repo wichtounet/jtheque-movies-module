@@ -17,17 +17,8 @@ package org.jtheque.movies;
  */
 
 import org.jtheque.features.able.IFeature;
-import org.jtheque.movies.controllers.able.ICategoryController;
-import org.jtheque.movies.controllers.able.IFilesController;
-import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.movies.services.able.IMoviesService;
-import org.jtheque.movies.views.able.IGenerateInfosView;
-import org.jtheque.movies.views.able.IImportFolderView;
-import org.jtheque.movies.views.impl.actions.DeleteUnusedThumbnailsAction;
-import org.jtheque.movies.views.impl.actions.categories.CreateNewCategoryAction;
-import org.jtheque.movies.views.impl.actions.files.DisplayFilesViewAction;
 import org.jtheque.primary.able.controller.IChoiceController;
-import org.jtheque.primary.utils.choice.ChoiceViewAction;
+import org.jtheque.ui.able.IController;
 import org.jtheque.views.utils.OSGIMenu;
 
 import java.util.List;
@@ -40,26 +31,25 @@ import java.util.List;
 public final class MoviesMenu extends OSGIMenu {
     @Override
     protected List<IFeature> getMenuMainFeatures() {
-        IMoviesModule moviesModule = getService(IMoviesModule.class);
-        ICategoryController categoryController = getService(ICategoryController.class);
-        IChoiceController choiceController = getService(IChoiceController.class);
-        IFilesController filesController = getService(IFilesController.class);
-        IMoviesService moviesService = getService(IMoviesService.class);
-        IGenerateInfosView generateInfosView = getService(IGenerateInfosView.class);
-        IImportFolderView importFolderView = getService(IImportFolderView.class);
+        IController choiceController = getService(IChoiceController.class);
+        IController categoryController = getBean("categoryController");
+        IController filesController = getBean("filesController");
+        IController importController = getBean("importController");
+        IController generateController = getBean("generateController");
+        IController moviesController = getBean("moviesController");
 
         return features(
                 createMainFeature(500, "category.menu.title",
-                        createSubFeature(1, new CreateNewCategoryAction(categoryController)),
-                        createSubFeature(2, new ChoiceViewAction("category.actions.edit", "edit", ICategoriesService.DATA_TYPE, choiceController)),
-                        createSubFeature(3, new ChoiceViewAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE, choiceController)),
-                        createSeparatedSubFeature(100, createDisplayViewAction("movie.auto.folder.actions.add", importFolderView))
+                        createSubFeature(1, createControllerAction("category.actions.new", categoryController)),
+                        createSubFeature(2, createControllerAction("category.actions.edit", choiceController)),
+                        createSubFeature(3, createControllerAction("category.actions.delete", choiceController)),
+                        createSeparatedSubFeature(100, createControllerAction("movie.auto.folder.actions.add", importController))
                 ),
                 createMainFeature(400, "movie.menu.title",
-                        createSubFeature(100, new ChoiceViewAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE, choiceController)),
-                        createSubFeature(101, createDisplayViewAction("movie.generate.infos", generateInfosView)),
-                        createSubFeature(102, new DisplayFilesViewAction(filesController)),
-                        createSubFeature(1, new DeleteUnusedThumbnailsAction(moviesModule, moviesService))
+                        createSubFeature(100, createControllerAction("movie.actions.clean.category", choiceController)),
+                        createSubFeature(101, createControllerAction("movie.generate.infos", generateController)),
+                        createSubFeature(102, createControllerAction("movie.files", filesController)),
+                        createSubFeature(1, createControllerAction("movie.actions.clean.thumbnails", moviesController))
                 ));
     }
 }

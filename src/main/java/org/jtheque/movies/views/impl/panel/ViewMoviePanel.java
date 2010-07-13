@@ -5,22 +5,19 @@ import org.jtheque.i18n.able.ILanguageService;
 import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesResources;
-import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.actions.movies.DeleteMovieAction;
-import org.jtheque.movies.views.impl.actions.view.PlayMovieAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.primary.utils.views.actions.ManualEditPrincipalAction;
-import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.components.Borders;
+import org.jtheque.ui.able.components.Components;
+import org.jtheque.ui.able.components.I18nLabel;
+import org.jtheque.ui.utils.actions.ActionFactory;
+import org.jtheque.ui.utils.actions.JThequeAction;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
-import org.jtheque.ui.utils.components.Borders;
-import org.jtheque.ui.utils.components.IconListRenderer;
-import org.jtheque.ui.utils.components.JThequeI18nLabel;
-import org.jtheque.ui.utils.components.JThequeLabel;
 import org.jtheque.ui.utils.models.SimpleListModel;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.ui.GridBagUtils;
@@ -36,6 +33,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Insets;
 import java.util.Collection;
+
+import static org.jtheque.ui.able.components.filthy.FilthyConstants.TITLE_FONT;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -62,10 +61,10 @@ public final class ViewMoviePanel extends MoviePanel {
     private JLabel titleLabel;
     private JLabel labelFile;
 
-    private JThequeI18nLabel labelDate;
-    private JThequeI18nLabel labelSize;
-    private JThequeI18nLabel labelDuration;
-    private JThequeI18nLabel labelResolution;
+    private I18nLabel labelDate;
+    private I18nLabel labelSize;
+    private I18nLabel labelDuration;
+    private I18nLabel labelResolution;
 
     private JXImagePanel notePanel;
     private JXImagePanel imagePanel;
@@ -76,7 +75,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private static final float BUTTON_FONT_SIZE = 14.0f;
 
     @Resource
-    private IMovieController movieController;
+    private IController movieController;
 
     /**
      * Construct a new ViewMoviePanel.
@@ -91,10 +90,13 @@ public final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));
 
-        titleLabel = title.add(new JThequeLabel("", TITLE_FONT.deriveFont(TITLE_FONT_SIZE), Color.white),
+        titleLabel = title.add(Components.newI18nLabel("", TITLE_FONT.deriveFont(TITLE_FONT_SIZE), Color.white),
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
-        JButton button = title.addButton(new PlayMovieAction(movieController, getService(IImageService.class)),
+        JThequeAction action = ActionFactory.createAction("movie.actions.view", movieController);
+        action.setIcon(getService(IImageService.class).getIcon(MoviesResources.PLAY_ICON));
+
+        JButton button = title.addButton(action,
                 builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
         button.setFont(button.getFont().deriveFont(Font.BOLD).deriveFont(BUTTON_FONT_SIZE));
 
@@ -102,9 +104,8 @@ public final class ViewMoviePanel extends MoviePanel {
 
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
 
-        buttons.addButton(new ManualEditPrincipalAction("movie.actions.edit", movieController), buttons.gbcSet(0, 0));
-        buttons.addButton(new DeleteMovieAction(getService(ILanguageService.class), getService(IUIUtils.class), movieController),
-                buttons.gbcSet(1, 0));
+        buttons.addButton(ActionFactory.createAction("movie.actions.edit", movieController), buttons.gbcSet(0, 0));
+        buttons.addButton(ActionFactory.createAction("movie.actions.delete", movieController), buttons.gbcSet(1, 0));
 
         addFileField(builder);
         addNoteField(builder);
@@ -148,7 +149,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private void addCategoriesView(PanelBuilder builder) {
         categoriesModel = new SimpleListModel<Category>();
 
-        ListCellRenderer renderer = new IconListRenderer(getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
+        ListCellRenderer renderer = Components.newIconListRenderer(getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         builder.addScrolledList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }

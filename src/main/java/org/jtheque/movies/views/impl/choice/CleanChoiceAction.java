@@ -16,9 +16,9 @@ package org.jtheque.movies.views.impl.choice;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.ICleanController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
+import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.primary.utils.choice.AbstractChoiceAction;
 
 import javax.annotation.Resource;
@@ -30,7 +30,7 @@ import javax.annotation.Resource;
  */
 public final class CleanChoiceAction extends AbstractChoiceAction {
     @Resource
-    private ICleanController cleanController;
+    private ICleanView cleanView;
 
     @Override
     public boolean canDoAction(String action) {
@@ -40,7 +40,8 @@ public final class CleanChoiceAction extends AbstractChoiceAction {
     @Override
     public void execute() {
         if (ICategoriesService.DATA_TYPE.equals(getContent())) {
-            cleanController.clean((Category) getSelectedItem());
+            cleanView.getModel().setCategory((Category) getSelectedItem());
+            cleanView.display();
         }
     }
 }

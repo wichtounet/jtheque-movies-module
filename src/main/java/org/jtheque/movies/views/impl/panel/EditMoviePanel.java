@@ -1,34 +1,27 @@
 package org.jtheque.movies.views.impl.panel;
 
 import org.jtheque.errors.able.IError;
-import org.jtheque.errors.able.IErrorService;
-import org.jtheque.movies.controllers.able.ICleanController;
-import org.jtheque.movies.controllers.able.IImageController;
-import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.actions.clean.CleanMovieAction;
-import org.jtheque.movies.views.impl.actions.movies.GetInformationsAction;
-import org.jtheque.movies.views.impl.actions.movies.SaveMovieAction;
-import org.jtheque.movies.views.impl.actions.movies.image.EditImageAction;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
 import org.jtheque.persistence.able.IDaoNotes;
 import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.primary.utils.views.NoteComboRenderer;
 import org.jtheque.primary.utils.views.NotesComboBoxModel;
-import org.jtheque.primary.utils.views.actions.CancelPrincipalAction;
+import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.components.Borders;
+import org.jtheque.ui.able.components.FileChooser;
+import org.jtheque.ui.able.components.TextField;
+import org.jtheque.ui.able.components.filthy.Filthy;
 import org.jtheque.ui.able.constraints.ConstraintManager;
+import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
-import org.jtheque.ui.utils.components.Borders;
-import org.jtheque.ui.utils.filthy.FilthyFileChooserPanel;
-import org.jtheque.ui.utils.filthy.FilthyFormattedTextField;
-import org.jtheque.ui.utils.filthy.FilthyTextField;
 import org.jtheque.utils.ui.GridBagUtils;
 
 import org.slf4j.LoggerFactory;
@@ -43,6 +36,8 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.text.ParseException;
 import java.util.Collection;
+
+import static org.jtheque.ui.able.components.filthy.FilthyConstants.INPUT_COLOR;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -66,10 +61,10 @@ import java.util.Collection;
  * @author Baptiste Wicht
  */
 public final class EditMoviePanel extends MoviePanel {
-    private FilthyTextField fieldTitle;
-    private FilthyFormattedTextField fieldDuration;
-    private FilthyFormattedTextField fieldResolution;
-    private FilthyFileChooserPanel fieldFile;
+    private TextField fieldTitle;
+    private TextField fieldDuration;
+    private TextField fieldResolution;
+    private FileChooser fieldFile;
 
     private NotesComboBoxModel modelNotes;
 
@@ -79,13 +74,13 @@ public final class EditMoviePanel extends MoviePanel {
     private ICategoriesView categoriesView;
 
     @Resource
-    private IMovieController movieController;
+    private IController movieController;
 
     @Resource
-    private IImageController imageController;
+    private IController imageController;
 
     @Resource
-    private ICleanController cleanController;
+    private IController cleanController;
 
     @Resource
     private IFFMpegService ffmMpegService;
@@ -116,9 +111,9 @@ public final class EditMoviePanel extends MoviePanel {
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 6, GridBagUtils.HORIZONTAL,
                 GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
-        buttons.addButton(new SaveMovieAction(movieController),
+        buttons.addButton(ActionFactory.createAction("movie.actions.save", movieController),
                 buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
-        buttons.addButton(new CancelPrincipalAction("movie.actions.cancel", movieController),
+        buttons.addButton(ActionFactory.createAction("movie.actions.cancel", movieController),
                 buttons.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING));
     }
 
@@ -130,13 +125,13 @@ public final class EditMoviePanel extends MoviePanel {
     private void addTitleField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.TITLE, builder.gbcSet(0, 0));
 
-        fieldTitle = builder.add(new FilthyTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL,
+        fieldTitle = builder.add(Filthy.newTextField(FIELD_COLUMNS), builder.gbcSet(1, 0, GridBagUtils.HORIZONTAL,
                 GridBagUtils.BASELINE_LEADING, 2, 1, 1.0, 0.0));
         ConstraintManager.configure(fieldTitle.getField(), Movie.TITLE);
 
-        builder.addButton(new CleanMovieAction(movieController, cleanController), builder.gbcSet(3, 0));
-        builder.addButton(new EditImageAction(imageController), builder.gbcSet(4, 0, GridBagUtils.NONE,
-                GridBagUtils.BASELINE_LEADING, 0, 1));
+        builder.addButton(ActionFactory.createAction("movie.actions.clean.movie", cleanController), builder.gbcSet(3, 0));
+        builder.addButton(ActionFactory.createAction("movie.actions.image", imageController),
+                builder.gbcSet(4, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 0, 1));
     }
 
     /**
@@ -147,7 +142,7 @@ public final class EditMoviePanel extends MoviePanel {
     private void addFileField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.FILE, builder.gbcSet(0, 1));
 
-        fieldFile = builder.add(new FilthyFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL,
+        fieldFile = builder.add(Filthy.newFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL,
                 GridBagUtils.BASELINE_LEADING, 0, 1));
         fieldFile.setFilesOnly();
         ConstraintManager.configure(fieldFile.getTextField(), Movie.FILE);
@@ -163,7 +158,7 @@ public final class EditMoviePanel extends MoviePanel {
         parent.addI18nLabel(Movie.RESOLUTION, parent.gbcSet(0, 3));
 
         try {
-            fieldDuration = new FilthyFormattedTextField(new MaskFormatter("##:##:##.###"));
+            fieldDuration = Filthy.newFormattedField(new MaskFormatter("##:##:##.###"));
             fieldDuration.setText("00:00:00:000");
             fieldDuration.getField().setColumns(10);
             parent.add(fieldDuration, parent.gbcSet(1, 2));
@@ -172,7 +167,7 @@ public final class EditMoviePanel extends MoviePanel {
         }
 
         try {
-            fieldResolution = new FilthyFormattedTextField(new MaskFormatter("####x####"));
+            fieldResolution = Filthy.newFormattedField(new MaskFormatter("####x####"));
             fieldResolution.setText("0000x0000");
             fieldResolution.getField().setColumns(10);
             parent.add(fieldResolution, parent.gbcSet(1, 3));
@@ -185,7 +180,7 @@ public final class EditMoviePanel extends MoviePanel {
 
         builder.getPanel().setBackground(Color.blue);
 
-        builder.addButton(new GetInformationsAction(this, ffmMpegService, getService(IErrorService.class)),
+        builder.addButton(ActionFactory.createAction("movie.actions.infos", movieController),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
     }
 

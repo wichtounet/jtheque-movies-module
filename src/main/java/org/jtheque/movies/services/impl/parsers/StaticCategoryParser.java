@@ -19,7 +19,7 @@ package org.jtheque.movies.services.impl.parsers;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
-import org.jtheque.ui.utils.filthy.FilthyComboBox;
+import org.jtheque.ui.able.components.filthy.Filthy;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -49,7 +49,7 @@ public final class StaticCategoryParser implements FileParser {
 
         categoriesModel = new DataContainerCachedComboBoxModel<Category>(categoriesService);
 
-        categoriesComboBox = new FilthyComboBox(categoriesModel);
+        categoriesComboBox = Filthy.newComboBox(categoriesModel);
     }
 
     @Override

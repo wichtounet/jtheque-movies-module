@@ -16,15 +16,13 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.movies.controllers.able.IGenerateInfosController;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.IGenerateInfosView;
-import org.jtheque.movies.views.impl.actions.generate.ValidateGenerateInfosViewAction;
 import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
 import org.jtheque.ui.able.IModel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.utils.filthy.FilthyRenderer;
+import org.jtheque.ui.able.components.filthy.Filthy;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 
@@ -47,9 +45,6 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
     @Resource
     private ICategoriesService categoriesService;
 
-    @Resource
-    private IGenerateInfosController generateInfosController;
-
     @Override
     protected void initView() {
         setTitleKey("movie.generate.title");
@@ -62,7 +57,7 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
 
         categoriesModel = new DataContainerCachedComboBoxModel<Category>(categoriesService);
 
-        builder.addComboBox(categoriesModel, new FilthyRenderer(), builder.gbcSet(1, 0));
+        builder.addComboBox(categoriesModel, Filthy.newListRenderer(), builder.gbcSet(1, 0));
 
         checkBoxDuration = builder.addI18nCheckBox("movie.infos.duration", builder.gbcSet(0, 1, GridBagUtils.HORIZONTAL, 2, 1));
         checkBoxResolution = builder.addI18nCheckBox("movie.infos.resolution", builder.gbcSet(0, 2, GridBagUtils.HORIZONTAL, 2, 1));
@@ -70,8 +65,8 @@ public final class GenerateInfosView extends SwingFilthyBuildedDialogView<IModel
         checkBoxSub = builder.addI18nCheckBox("movie.clean.subcategories", builder.gbcSet(0, 4, GridBagUtils.HORIZONTAL, 2, 1));
 
         builder.addButtonBar(builder.gbcSet(0, 5, GridBagUtils.HORIZONTAL, 2, 1),
-                new ValidateGenerateInfosViewAction(generateInfosController),
-                getCloseAction("movie.auto.actions.cancel"));
+                getAction("movie.actions.generate.validate"),
+                getAction("movie.auto.actions.cancel"));
     }
 
     @Override
