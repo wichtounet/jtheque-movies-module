@@ -17,7 +17,13 @@ package org.jtheque.movies;
  */
 
 import org.jtheque.features.able.IFeature;
+import org.jtheque.movies.views.able.ICategoryView;
+import org.jtheque.movies.views.able.IFilesView;
+import org.jtheque.movies.views.able.IGenerateInfosView;
+import org.jtheque.movies.views.able.IImportFolderView;
+import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.primary.able.controller.IChoiceController;
+import org.jtheque.primary.able.views.IChoiceView;
 import org.jtheque.ui.able.IController;
 import org.jtheque.views.utils.OSGIMenu;
 
@@ -31,12 +37,12 @@ import java.util.List;
 public final class MoviesMenu extends OSGIMenu {
     @Override
     protected List<IFeature> getMenuMainFeatures() {
-        IController choiceController = getService(IChoiceController.class);
-        IController categoryController = getBean("categoryController");
-        IController filesController = getBean("filesController");
-        IController importController = getBean("importController");
-        IController generateController = getBean("generateController");
-        IController moviesController = getBean("moviesController");
+        IController<IChoiceView> choiceController = getService(IChoiceController.class);
+        IController<ICategoryView> categoryController = getBean("categoryController");
+        IController<IFilesView> filesController = getBean("filesController");
+        IController<IImportFolderView> importController = getBean("importController");
+        IController<IGenerateInfosView> generateController = getBean("generateInfosController");
+        IController<IMovieView> moviesController = getBean("moviesController");
 
         return features(
                 createMainFeature(500, "category.menu.title",

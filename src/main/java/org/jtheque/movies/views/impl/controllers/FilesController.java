@@ -1,12 +1,7 @@
 package org.jtheque.movies.views.impl.controllers;
 
-import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IFilesView;
-import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.ui.utils.AbstractController;
-
-import javax.annotation.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,15 +22,10 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class FilesController extends AbstractController {
-    @Resource
-    private IFilesView filesView;
-
-    @Resource
-    private IMovieView movieView;
-
-    @Resource
-    private IMoviesService moviesService;
+public class FilesController extends AbstractController<IFilesView> {
+    public FilesController() {
+        super(IFilesView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -48,16 +38,16 @@ public class FilesController extends AbstractController {
         return translations;
     }
 
-    private void close(){
-        filesView.closeDown();
+    private void close() {
+        getView().closeDown();
     }
 
-    private void refresh(){
-        filesView.refreshData();
+    private void refresh() {
+        getView().refreshData();
     }
 
     public void displayFiles() {
         refresh();
-        filesView.display();
+        getView().display();
     }
 }

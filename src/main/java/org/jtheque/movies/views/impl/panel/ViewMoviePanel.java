@@ -24,7 +24,6 @@ import org.jtheque.utils.ui.GridBagUtils;
 
 import org.jdesktop.swingx.JXImagePanel;
 
-import javax.annotation.Resource;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.ListCellRenderer;
@@ -74,9 +73,6 @@ public final class ViewMoviePanel extends MoviePanel {
     private static final float TITLE_FONT_SIZE = 18.0f;
     private static final float BUTTON_FONT_SIZE = 14.0f;
 
-    @Resource
-    private IController movieController;
-
     /**
      * Construct a new ViewMoviePanel.
      */
@@ -86,6 +82,8 @@ public final class ViewMoviePanel extends MoviePanel {
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
+        IController movieController = getBean("movieController", IController.class);
+
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
         PanelBuilder title = builder.addPanel(builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 0, 1, 1.0, 0.0));

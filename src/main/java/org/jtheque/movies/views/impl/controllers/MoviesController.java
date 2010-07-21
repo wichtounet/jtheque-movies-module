@@ -27,15 +27,16 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class MoviesController extends AbstractController {
-    @Resource
-    private IMovieView movieView;
-
+public class MoviesController extends AbstractController<IMovieView> {
     @Resource
     private IMoviesService moviesService;
 
     @Resource
     private IMoviesModule moviesModule;
+
+    public MoviesController() {
+        super(IMovieView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {

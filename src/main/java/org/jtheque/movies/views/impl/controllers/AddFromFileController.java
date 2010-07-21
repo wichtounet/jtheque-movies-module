@@ -7,6 +7,7 @@ import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -30,21 +31,22 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class AddFromFileController extends AbstractController {
-    @Resource
-    private IAddFromFileView addFromFileView;
-
+public class AddFromFileController extends AbstractController<IAddFromFileView> {
     @Resource
     private IMoviesService moviesService;
 
     @Resource
-    private IMovieView movieView;
+    private IController<IMovieView> movieController;
 
     @Resource
     private IFilesService filesService;
 
     @Resource
     private IErrorService errorService;
+
+    public AddFromFileController() {
+        super(IAddFromFileView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -57,19 +59,19 @@ public class AddFromFileController extends AbstractController {
     }
 
     private void close() {
-        addFromFileView.closeDown();
+        getView().closeDown();
     }
 
     private void validate() {
-        if (addFromFileView.validateContent()) {
-            String filePath = addFromFileView.getFilePath();
+        if (getView().validateContent()) {
+            String filePath = getView().getFilePath();
 
             if (moviesService.fileExists(filePath)) {
                 errorService.addError(Errors.newI18nError("movie.errors.existingfile"));
             } else {
-                Movie movie = filesService.createMovie(filePath, addFromFileView.getSelectedParsers());
+                Movie movie = filesService.createMovie(filePath, getView().getSelectedParsers());
 
-                movieView.select(movie);
+                movieController.getView().select(movie);
 
                 close();
             }

@@ -177,7 +177,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     public void saveToMemento() {
         mementoState = true;
 
-        memento = BeanUtils.createQuickMemento(this, FIELDS);
+        memento = BeanUtils.createQuickMemento(this, MovieImpl.class, FIELDS);
     }
 
     @Override

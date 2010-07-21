@@ -18,7 +18,6 @@ package org.jtheque.movies;
 
 import org.jtheque.collections.able.ICollectionsService;
 import org.jtheque.core.able.ICore;
-import org.jtheque.modules.able.IModuleService;
 import org.jtheque.modules.utils.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -59,7 +58,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     private ICore core;
 
     public MoviesModule() {
-        super("org.jtheque.movies", new String[]{"movieView", "panelConfigMovies"});
+        super("org.jtheque.movies", new String[]{"panelConfigMovies"});
     }
 
     /**

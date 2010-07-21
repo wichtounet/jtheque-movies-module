@@ -55,8 +55,7 @@
         <property name="featureService" ref="featureService"/>
         <property name="schemaService" ref="schemaService"/>
     </bean>
-
-
+    
     <bean id="panelConfigMovies" class="org.jtheque.movies.views.impl.JPanelConfigMovies" lazy-init="true"/>
 
     <bean class="org.jtheque.movies.MoviesMenu"/>
@@ -91,78 +90,54 @@
 
     <bean id="moviesModule" class="org.jtheque.movies.MoviesModule" />
 
-    <bean id="movieView" class="org.jtheque.movies.views.impl.MovieView" lazy-init="true">
-        <constructor-arg index="0" ref="viewMoviePanel"/>
-        <constructor-arg index="1" ref="editMoviePanel"/>
+    <!-- Controllers -->
+
+    <bean id="movieController" class="org.jtheque.movies.views.impl.controllers.MovieController" lazy-init="true">
+        <property name="viewState">
+            <bean class="org.jtheque.movies.views.impl.controllers.states.ViewMovieState">
+                <property name="controller" ref="movieController" />
+            </bean>
+        </property>
+        <property name="modifyState">
+            <bean class="org.jtheque.movies.views.impl.controllers.states.ModifyMovieState">
+                <property name="controller" ref="movieController"/>
+            </bean>
+        </property>
+        <property name="newObjectState">
+            <bean class="org.jtheque.movies.views.impl.controllers.states.CreateMovieState">
+                <property name="controller" ref="movieController"/>
+            </bean>
+        </property>
     </bean>
 
-    <bean id="addFromFileController" class="org.jtheque.movies.controllers.impl.AddFromFileController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.IAddFromFileView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
+    <bean id="imageController" class="org.jtheque.movies.views.impl.controllers.ImageController"/>
+    <bean id="addFromFileController" class="org.jtheque.movies.views.impl.controllers.AddFromFileController"/>
+    <bean id="categoryController" class="org.jtheque.movies.views.impl.controllers.CategoryController"/>
+    <bean id="cleanController" class="org.jtheque.movies.views.impl.controllers.CleanController"/>
+    <bean id="filesController" class="org.jtheque.movies.views.impl.controllers.FilesController"/>
+    <bean id="generateInfosController" class="org.jtheque.movies.views.impl.controllers.GenerateInfosController"/>
+    <bean id="moviesController" class="org.jtheque.movies.views.impl.controllers.MoviesController"/>
+    <bean id="importController" class="org.jtheque.movies.views.impl.controllers.ImportController"/>
 
-    <bean id="categoryController" class="org.jtheque.movies.controllers.impl.CategoryController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.ICategoryView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-    <bean id="imageController" class="org.jtheque.movies.controllers.impl.ImageController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.IImageView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-    <bean id="cleanController" class="org.jtheque.movies.controllers.impl.CleanController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.ICleanView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-    <bean id="filesController" class="org.jtheque.movies.controllers.impl.FilesController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.IFilesView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-    <bean id="generateInfosController" class="org.jtheque.movies.controllers.impl.GenerateInfosController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.IGenerateInfosView"/>
-            </bean>
-        </constructor-arg>
-    </bean>
-
-    <bean id="movieController" class="org.jtheque.movies.controllers.impl.MovieController">
-        <constructor-arg>
-            <bean class="org.jtheque.spring.utils.SwingSpringProxy">
-                <constructor-arg value="org.jtheque.movies.views.able.IMovieView"/>
-            </bean>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="org.jtheque.movies.views.impl.controllers.states.ViewMovieState"/>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="org.jtheque.movies.views.impl.controllers.states.ModifyMovieState"/>
-        </constructor-arg>
-        <constructor-arg>
-            <bean class="org.jtheque.movies.views.impl.controllers.states.CreateMovieState"/>
-        </constructor-arg>
-    </bean>
+    <bean id="movieView" class="org.jtheque.movies.views.impl.MovieView" lazy-init="true"/>
 
     <bean class="org.jtheque.movies.views.impl.panel.JPanelCategories" lazy-init="true"/>
 
-    <bean class="org.jtheque.movies.views.impl.frames.ImageView" lazy-init="true"/>
-    <bean class="org.jtheque.movies.views.impl.frames.GenerateInfosView" lazy-init="true"/>
-    <bean class="org.jtheque.movies.views.impl.frames.FilesView" lazy-init="true"/>
-    <bean class="org.jtheque.movies.views.impl.frames.CategoryView" lazy-init="true"/>
+    <bean class="org.jtheque.movies.views.impl.frames.ImageView" lazy-init="true">
+        <property name="controller" ref="imageController"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.GenerateInfosView" lazy-init="true">
+        <property name="controller" ref="generateInfosController"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.FilesView" lazy-init="true">
+        <property name="controller" ref="filesController"/>
+    </bean>
+
+    <bean class="org.jtheque.movies.views.impl.frames.CategoryView" lazy-init="true">
+        <property name="controller" ref="categoryController"/>
+    </bean>
 
     <bean class="org.jtheque.movies.views.impl.frames.ImportFolderView" lazy-init="true">
         <constructor-arg>
@@ -174,11 +149,15 @@
                 <ref bean="betweenCharCategoryParser2"/>
             </util:list>
         </constructor-arg>
+        <property name="controller" ref="importController"/>
     </bean>
 
     <bean class="org.jtheque.movies.views.impl.frames.CleanView" lazy-init="true">
         <constructor-arg ref="nameCleaners"/>
+        <property name="controller" ref="cleanController"/>
     </bean>
+
+    <!-- Parsers and cleaners -->
 
     <bean id="staticCategoryParser" class="org.jtheque.movies.services.impl.parsers.StaticCategoryParser"
           lazy-init="true">

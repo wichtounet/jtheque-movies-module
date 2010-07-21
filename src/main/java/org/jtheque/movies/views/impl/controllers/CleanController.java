@@ -4,6 +4,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -27,15 +28,16 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class CleanController extends AbstractController {
+public class CleanController extends AbstractController<ICleanView> {
     @Resource
-    private ICleanView cleanView;
-
-    @Resource
-    private IMovieView movieView;
+    private IController<IMovieView> movieController;
 
     @Resource
     private IMoviesService moviesService;
+
+    public CleanController() {
+        super(ICleanView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -49,29 +51,29 @@ public class CleanController extends AbstractController {
     }
 
     private void close(){
-        cleanView.closeDown();
+        getView().closeDown();
     }
 
     private void cleanMovie() {
-        Movie movie = movieView.getModel().getCurrentMovie();
+        Movie movie = movieController.getView().getModel().getCurrentMovie();
 
         if (movie != null) {
-            cleanView.getModel().setMovie(movie);
-            cleanView.display();
+            getView().getModel().setMovie(movie);
+            getView().display();
         }
     }
 
     public void clean() {
-        if (cleanView.getModel().isMovieMode()) {
-            moviesService.clean(cleanView.getModel().getMovie(), cleanView.getSelectedCleaners());
+        if (getView().getModel().isMovieMode()) {
+            moviesService.clean(getView().getModel().getMovie(), getView().getSelectedCleaners());
 
-            movieView.refreshData();
+            movieController.getView().refreshData();
         } else {
             moviesService.clean(
-                    moviesService.getMovies(cleanView.getModel().getCategory(), cleanView.areSubCategoriesIncluded()),
-                    cleanView.getSelectedCleaners());
+                    moviesService.getMovies(getView().getModel().getCategory(), getView().areSubCategoriesIncluded()),
+                    getView().getSelectedCleaners());
         }
 
-        cleanView.closeDown();
+        getView().closeDown();
     }
 }

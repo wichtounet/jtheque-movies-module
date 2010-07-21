@@ -25,12 +25,13 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class GenerateInfosController extends AbstractController {
-    @Resource
-    private IGenerateInfosView generateInfosView;
-
+public class GenerateInfosController extends AbstractController<IGenerateInfosView> {
     @Resource
     private IMoviesService moviesService;
+
+    public GenerateInfosController() {
+        super(IGenerateInfosView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -40,23 +41,24 @@ public class GenerateInfosController extends AbstractController {
         translations.put("movie.auto.actions.cancel", "close");
         translations.put("movie.generate.infos", "display");
 
-        
+
         return translations;
     }
 
     private void close() {
-        generateInfosView.closeDown();
+        getView().closeDown();
     }
 
     private void display() {
-        generateInfosView.display();
+        getView().display();
     }
 
     private void generate() {
+        IGenerateInfosView view = getView();
+
         moviesService.fillInformations(
-                moviesService.getMovies(generateInfosView.getSelectedCategory(), generateInfosView.areSubCategoriesIncluded()),
-                generateInfosView.mustGenerateDuration(), generateInfosView.mustGenerateResolution(),
-                generateInfosView.mustGenerateImage());
+                moviesService.getMovies(view.getSelectedCategory(), view.areSubCategoriesIncluded()),
+                view.mustGenerateDuration(), view.mustGenerateResolution(), view.mustGenerateImage());
 
         close();
     }

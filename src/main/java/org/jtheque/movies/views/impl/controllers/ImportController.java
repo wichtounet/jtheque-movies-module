@@ -28,12 +28,13 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class ImportController extends AbstractController {
-    @Resource
-    private IImportFolderView importFolderView;
-
+public class ImportController extends AbstractController<IImportFolderView> {
     @Resource
     private IFilesService filesService;
+
+    public ImportController() {
+        super(IImportFolderView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -48,30 +49,30 @@ public class ImportController extends AbstractController {
         return translations;
     }
 
-    private void search(){
-        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
+    private void search() {
+        if (getView().validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
             new SearchTitlesWorker().start();
         }
     }
 
     private void delete() {
-        importFolderView.removeSelectedFile();
+        getView().removeSelectedFile();
     }
 
     private void close() {
-        importFolderView.closeDown();
+        getView().closeDown();
     }
 
     private void display() {
-        importFolderView.display();
+        getView().display();
     }
 
     private void importFiles() {
-        if (importFolderView.validateContent(IImportFolderView.Phase.CHOOSE_FILES)) {
+        if (getView().validateContent(IImportFolderView.Phase.CHOOSE_FILES)) {
             new ImportFilesWorker().start();
         }
     }
-    
+
     /**
      * A runnable for import files.
      *
@@ -81,13 +82,13 @@ public class ImportController extends AbstractController {
 
         @Override
         protected void done() {
-            importFolderView.getWindowState().stopWait();
-            importFolderView.closeDown();
+            getView().getWindowState().stopWait();
+            getView().closeDown();
         }
 
         @Override
         protected void doWork() {
-            filesService.importMovies(importFolderView.getFiles(), importFolderView.getSelectedParsers());
+            filesService.importMovies(getView().getFiles(), getView().getSelectedParsers());
         }
     }
 
@@ -101,18 +102,18 @@ public class ImportController extends AbstractController {
 
         @Override
         protected void before() {
-            importFolderView.getWindowState().startWait();
+            getView().getWindowState().startWait();
         }
 
         @Override
         protected void done() {
-            importFolderView.setFiles(files);
-            importFolderView.getWindowState().stopWait();
+            getView().setFiles(files);
+            getView().getWindowState().stopWait();
         }
 
         @Override
         protected void doWork() {
-            files = filesService.getMovieFiles(new File(importFolderView.getFolderPath()));
+            files = filesService.getMovieFiles(new File(getView().getFolderPath()));
         }
     }
 }

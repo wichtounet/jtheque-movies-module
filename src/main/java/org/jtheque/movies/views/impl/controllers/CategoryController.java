@@ -31,10 +31,7 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class CategoryController extends AbstractController {
-    @Resource
-    private ICategoryView categoryView;
-
+public class CategoryController extends AbstractController<ICategoryView> {
     @Resource
     private ICategoriesService categoriesService;
 
@@ -43,6 +40,10 @@ public class CategoryController extends AbstractController {
 
     @Resource
     private IErrorService errorService;
+
+    public CategoryController() {
+        super(ICategoryView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -55,25 +56,25 @@ public class CategoryController extends AbstractController {
         return translations;
     }
 
-    private void close(){
-        categoryView.closeDown();
+    private void close() {
+        getView().closeDown();
     }
 
     private void validate() {
-        if (categoryView.validateContent()) {
-            String title = categoryView.getCategoryName();
+        if (getView().validateContent()) {
+            String title = getView().getCategoryName();
 
             if (categoriesService.existsInOtherCategory(title, getCurrentCategory())) {
                 errorService.addError(Errors.newI18nError("category.errors.exists"));
             } else {
                 getCurrentCategory().setTitle(title);
-                getCurrentCategory().setParent(categoryView.getSelectedCategory());
+                getCurrentCategory().setParent(getView().getSelectedCategory());
 
-                if (categoryView.getModel().getState() == ViewMode.NEW) {
+                if (getView().getModel().getState() == ViewMode.NEW) {
                     categoriesService.create(getCurrentCategory());
 
                     undoRedoService.addEdit(new GenericDataCreatedEdit<Category>(categoriesService,
-                            categoryView.getModel().getCategory()));
+                            getView().getModel().getCategory()));
                 } else {
                     categoriesService.save(getCurrentCategory());
                 }
@@ -84,18 +85,18 @@ public class CategoryController extends AbstractController {
     }
 
     private void newCategory() {
-        categoryView.getModel().setState(ViewMode.NEW);
+        getView().getModel().setState(ViewMode.NEW);
 
-        categoryView.getModel().setCategory(categoriesService.getEmptyCategory());
-        categoryView.reload();
+        getView().getModel().setCategory(categoriesService.getEmptyCategory());
+        getView().reload();
 
-        categoryView.display();
+        getView().display();
     }
 
     private void editCategory(Category category) {
-        categoryView.getModel().setState(ViewMode.EDIT);
-        categoryView.getModel().setCategory(category);
-        categoryView.reload();
+        getView().getModel().setState(ViewMode.EDIT);
+        getView().getModel().setCategory(category);
+        getView().reload();
     }
 
     /**
@@ -104,6 +105,6 @@ public class CategoryController extends AbstractController {
      * @return The current category.
      */
     private Category getCurrentCategory() {
-        return categoryView.getModel().getCategory();
+        return getView().getModel().getCategory();
     }
 }

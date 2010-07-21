@@ -6,6 +6,9 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.movies.views.able.ICategoriesView;
+import org.jtheque.movies.views.able.ICleanView;
+import org.jtheque.movies.views.able.IEditMovieView;
+import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
@@ -60,7 +63,7 @@ import static org.jtheque.ui.able.components.filthy.FilthyConstants.INPUT_COLOR;
  *
  * @author Baptiste Wicht
  */
-public final class EditMoviePanel extends MoviePanel {
+public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     private TextField fieldTitle;
     private TextField fieldDuration;
     private TextField fieldResolution;
@@ -74,13 +77,10 @@ public final class EditMoviePanel extends MoviePanel {
     private ICategoriesView categoriesView;
 
     @Resource
-    private IController movieController;
+    private IController<IImageView> imageController;
 
     @Resource
-    private IController imageController;
-
-    @Resource
-    private IController cleanController;
+    private IController<ICleanView> cleanController;
 
     @Resource
     private IFFMpegService ffmMpegService;
@@ -111,6 +111,9 @@ public final class EditMoviePanel extends MoviePanel {
         PanelBuilder buttons = builder.addPanel(builder.gbcSet(0, 6, GridBagUtils.HORIZONTAL,
                 GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
+        @SuppressWarnings("unchecked") //Safe because of the Spring context
+        IController<IMovieView> movieController = getBean("movieController", IController.class);
+        
         buttons.addButton(ActionFactory.createAction("movie.actions.save", movieController),
                 buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
         buttons.addButton(ActionFactory.createAction("movie.actions.cancel", movieController),
@@ -179,6 +182,8 @@ public final class EditMoviePanel extends MoviePanel {
                 parent.addPanel(parent.gbcSet(2, 2, GridBagUtils.HORIZONTAL, GridBagUtils.LINE_START, 2, 2, 1.0, 0.0));
 
         builder.getPanel().setBackground(Color.blue);
+
+        IController movieController = getBean("movieController", IController.class);
 
         builder.addButton(ActionFactory.createAction("movie.actions.infos", movieController),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
@@ -252,31 +257,19 @@ public final class EditMoviePanel extends MoviePanel {
         return fb;
     }
 
-    /**
-     * Return the entered file path.
-     *
-     * @return The entered file path.
-     */
+    @Override
     public String getFilePath() {
         return fieldFile.getFilePath();
     }
 
-    /**
-     * Set the resolution.
-     *
-     * @param resolution The resolution to set.
-     */
+    @Override
     public void setResolution(Resolution resolution) {
         if (resolution != null) {
             fieldResolution.setText(resolution.toString());
         }
     }
 
-    /**
-     * Set the duration.
-     *
-     * @param duration The duration to set.
-     */
+    @Override
     public void setDuration(PreciseDuration duration) {
         if (duration != null) {
             fieldDuration.setText(duration.toString());

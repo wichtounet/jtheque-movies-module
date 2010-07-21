@@ -22,6 +22,7 @@ import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
+import org.jtheque.movies.views.able.IEditMovieView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
@@ -70,9 +71,11 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
 
     private final JThequeTreeModel treeModel = new JThequeTreeModel(new CategoryElement("Movies"));
 
-    private CardPanel<MoviePanel> layeredPanel;
-    private JXTree treeMovies;
-    private MoviesSorter moviesSorter;
+    @Resource
+    private MoviePanel viewMoviePanel;
+
+    @Resource
+    private MoviePanel editMoviePanel;
 
     @Resource
     private IMoviesService moviesService;
@@ -80,24 +83,12 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     @Resource
     private ICategoriesService categoriesService;
 
-    @Resource
-    private IPrincipalController<Movie> movieController;
+    private CardPanel<MoviePanel> layeredPanel;
+    private JXTree treeMovies;
+    private MoviesSorter moviesSorter;
 
-    private final MoviePanel viewMoviePanel;
-    private final MoviePanel editMoviePanel;
-
-    /**
-     * Create a new MovieView.
-     *
-     * @param viewMoviePanel The panel to view movie.
-     * @param editMoviePanel The panel to edit movie. 
-     */
-    public MovieView(MoviePanel viewMoviePanel, MoviePanel editMoviePanel) {
-        super();
-
-        this.viewMoviePanel = viewMoviePanel;
-        this.editMoviePanel = editMoviePanel;
-    }
+    //Don't use @Resource cause of circular references
+    private IPrincipalController<Movie, IMovieView> movieController;
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
@@ -108,7 +99,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         buildPanelList(builder);
         buildPanelMovie(builder);
 
-        treeMovies.addTreeSelectionListener(movieController);
+        treeMovies.addTreeSelectionListener(getMovieController());
 
         selectFirst();
 
@@ -151,13 +142,13 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         IImageService imageService = getService(IImageService.class);
 
         titleBuilder.addButton(
-                ActionFactory.createAction("refresh", imageService.getIcon(MoviesResources.REFRESH_ICON), movieController),
+                ActionFactory.createAction("refresh", imageService.getIcon(MoviesResources.REFRESH_ICON), getMovieController()),
                 titleBuilder.gbcSet(1, 0));
         titleBuilder.addButton(
-                ActionFactory.createAction("expand", imageService.getIcon(MoviesResources.EXPAND_ICON), movieController),
+                ActionFactory.createAction("expand", imageService.getIcon(MoviesResources.EXPAND_ICON), getMovieController()),
                 titleBuilder.gbcSet(2, 0));
         titleBuilder.addButton(
-                ActionFactory.createAction("collapse", imageService.getIcon(MoviesResources.COLLAPSE_ICON), movieController),
+                ActionFactory.createAction("collapse", imageService.getIcon(MoviesResources.COLLAPSE_ICON), getMovieController()),
                 titleBuilder.gbcSet(3, 0));
 
         label.setFont(TITLE_FONT.deriveFont(25.0f));
@@ -186,9 +177,9 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         panelButtons.addI18nLabel("movie.panel.list.new", Font.BOLD,
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
 
-        panelButtons.addButton(ActionFactory.createAction("movie.actions.add", movieController),
+        panelButtons.addButton(ActionFactory.createAction("movie.actions.add", getMovieController()),
                 builder.gbcSet(0, 1, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, LIST_COLUMN, 0.0));
-        panelButtons.addButton(ActionFactory.createAction("movie.auto.actions.add", movieController),
+        panelButtons.addButton(ActionFactory.createAction("movie.auto.actions.add", getMovieController()),
                 builder.gbcSet(0, 2, GridBagUtils.NONE, GridBagUtils.BASELINE_LEADING, 1, 1, LIST_COLUMN, 0.0, 10, 0));
     }
 
@@ -276,6 +267,15 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         return false;
     }
 
+    @SuppressWarnings("unchecked")
+    private IPrincipalController<Movie, IMovieView> getMovieController() {
+        if(movieController == null){
+            movieController =  getBean("movieController", IPrincipalController.class);
+        }
+
+        return movieController;
+    }
+
     @Override
     public void selectFirst() {
         if (treeModel.getChildCount(treeModel.getRoot()) > 0) {
@@ -355,5 +355,10 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     @Override
     public String getTitleKey() {
         return "data.titles.movie";
+    }
+
+    @Override
+    public IEditMovieView getEditMoviePanel() {
+        return (IEditMovieView) editMoviePanel;
     }
 }

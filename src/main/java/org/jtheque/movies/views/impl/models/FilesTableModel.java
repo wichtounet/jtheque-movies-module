@@ -72,7 +72,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
 
     @Override
     public int getColumnCount() {
-        return headers.length;
+        return headers == null ? 0 : 2;
     }
 
     @Override
@@ -116,7 +116,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
 
     @Override
     public String getColumnName(int column) {
-        return headers[column];
+        return headers == null ? "" : headers[column];
     }
 
     @Override

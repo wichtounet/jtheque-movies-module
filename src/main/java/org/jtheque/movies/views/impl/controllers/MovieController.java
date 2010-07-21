@@ -5,15 +5,15 @@ import org.jtheque.errors.utils.Errors;
 import org.jtheque.i18n.able.ILanguageService;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
+import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.movies.views.impl.panel.EditMoviePanel;
 import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
-import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.controller.PrincipalController;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.utils.DesktopUtils;
 import org.jtheque.utils.StringUtils;
@@ -41,18 +41,12 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class MovieController extends PrincipalController {
+public class MovieController extends PrincipalController<Movie, IMovieView> {
     @Resource
     private ILanguageService languageService;
 
     @Resource
     private IUIUtils uiUtils;
-
-    @Resource
-    private IMovieView movieView;
-
-    @Resource
-    private EditMoviePanel editMoviePanel;
 
     @Resource
     private IFFMpegService ffMpegService;
@@ -61,30 +55,18 @@ public class MovieController extends PrincipalController {
     private IErrorService errorService;
 
     @Resource
-    private IAddFromFileView addFromFileView;
-
-    @Resource
     private IMoviesModule moviesModule;
 
     @Resource
-    private IViews iViews;
+    private IViews views;
+
+    @Resource
+    private IController<IAddFromFileView> addFromFileController;
 
     private ViewerPanel currentViewer;
 
-    /**
-     * Create a new MovieController.
-     *
-     * @param viewState      The view state.
-     * @param modifyState    The modify state.
-     * @param newObjectState The new object state.
-     */
-    public MovieController(AbstractControllerState viewState, AbstractControllerState modifyState,
-                           AbstractControllerState newObjectState) {
-        super(viewState, modifyState, newObjectState, null);
-
-        viewState.setController(this);
-        modifyState.setController(this);
-        newObjectState.setController(this);
+    public MovieController() {
+        super(IMovieView.class);
     }
 
     @Override
@@ -109,14 +91,14 @@ public class MovieController extends PrincipalController {
 
     @Override
     public void save(){
-        save(movieView.fillMovieFormBean());
+        save(getView().fillMovieFormBean());
     }
 
     private void play(){
-        if (movieView.getModel().getCurrentMovie() != null) {
+        if (getView().getModel().getCurrentMovie() != null) {
             IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
 
-            String file = movieView.getModel().getCurrentMovie().getFile();
+            String file = getView().getModel().getCurrentMovie().getFile();
 
             switch (opening) {
                 case SYSTEM:
@@ -156,20 +138,20 @@ public class MovieController extends PrincipalController {
      * @param viewer The viewer to display.
      */
     private void setCurrentViewer(File file, ViewerPanel viewer) {
-        iViews.getMainView().setGlassPane(viewer);
+        views.getMainView().setGlassPane(viewer);
         viewer.setFile(file);
         viewer.setVisible(true);
         currentViewer = viewer;
     }
 
     private void infos() {
-        String filePath = editMoviePanel.getFilePath();
+        String filePath = getView().getEditMoviePanel().getFilePath();
 
         File file = new File(filePath);
 
         if (StringUtils.isNotEmpty(filePath) && file.exists()) {
-            editMoviePanel.setResolution(ffMpegService.getResolution(file));
-            editMoviePanel.setDuration(ffMpegService.getDuration(file));
+            getView().getEditMoviePanel().setResolution(ffMpegService.getResolution(file));
+            getView().getEditMoviePanel().setDuration(ffMpegService.getDuration(file));
         } else {
             errorService.addError(Errors.newI18nError("movie.errors.filenotfound"));
         }
@@ -177,7 +159,7 @@ public class MovieController extends PrincipalController {
 
     private void delete(){
         final boolean yes = uiUtils.getDelegate().askUserForConfirmation(
-                languageService.getMessage("movie.dialogs.confirmDelete", movieView.getModel().getCurrentMovie().getDisplayableText()),
+                languageService.getMessage("movie.dialogs.confirmDelete", getView().getModel().getCurrentMovie().getDisplayableText()),
                 languageService.getMessage("movie.dialogs.confirmDelete.title"));
 
         if (yes) {
@@ -186,22 +168,22 @@ public class MovieController extends PrincipalController {
     }
 
     private void collapse(){
-        movieView.collapseAll();
+        getView().collapseAll();
     }
 
     private void expand() {
-        movieView.expandAll();
+        getView().expandAll();
     }
 
     private void refresh() {
-        movieView.collapseAll();
+        getView().collapseAll();
     }
 
     private void quitViewer() {
         if (currentViewer != null) {
             currentViewer.stop();
             currentViewer.setVisible(false);
-            iViews.getMainView().setGlassPane(null);
+            views.getMainView().setGlassPane(null);
             currentViewer = null;
         }
     }
@@ -210,7 +192,7 @@ public class MovieController extends PrincipalController {
         if(isEditing()){
 
         } else {
-            addFromFileView.display();
+            addFromFileController.getView().display();
         }
     }
 

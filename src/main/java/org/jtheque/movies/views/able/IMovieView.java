@@ -94,4 +94,6 @@ public interface IMovieView extends IView, MainComponent {
 
     @Override
     IMoviesModel getModel();
+
+    IEditMovieView getEditMoviePanel();
 }

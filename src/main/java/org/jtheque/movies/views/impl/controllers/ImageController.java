@@ -7,6 +7,7 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.StringUtils;
 
@@ -32,13 +33,7 @@ import java.util.Map;
  * limitations under the License.
  */
 
-public class ImageController extends AbstractController {
-    @Resource
-    private IImageView imageView;
-
-    @Resource
-    private IMovieView movieView;
-
+public class ImageController extends AbstractController<IImageView> {
     @Resource
     private IMoviesService moviesService;
 
@@ -47,6 +42,13 @@ public class ImageController extends AbstractController {
 
     @Resource
     private IFFMpegService ffmpegService;
+
+    @Resource
+    private IController<IMovieView> movieController;
+
+    public ImageController() {
+        super(IImageView.class);
+    }
 
     @Override
     protected Map<String, String> getTranslations() {
@@ -63,12 +65,12 @@ public class ImageController extends AbstractController {
     }
 
     private void close(){
-        imageView.closeDown();
+        getView().closeDown();
     }
 
     private void edit(){
-        imageView.displayMovie(getCurrentMovie());
-        imageView.display();
+        getView().displayMovie(getCurrentMovie());
+        getView().display();
     }
 
     public void generateRandom() {
@@ -77,7 +79,7 @@ public class ImageController extends AbstractController {
         File file = new File(movie.getFile());
 
         if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
-            imageView.setImage(ffmpegService.generateRandomPreviewImage(file));
+            getView().setImage(ffmpegService.generateRandomPreviewImage(file));
         } else {
             displayFileNotFoundError();
         }
@@ -89,26 +91,26 @@ public class ImageController extends AbstractController {
         File file = new File(movie.getFile());
 
         if (StringUtils.isNotEmpty(movie.getFile()) && file.exists()) {
-            imageView.setImage(ffmpegService.generatePreviewImage(file, imageView.getTime()));
+            getView().setImage(ffmpegService.generatePreviewImage(file, getView().getTime()));
         } else {
             displayFileNotFoundError();
         }
     }
 
     private void generateFile(){
-        File file = new File(imageView.getImagePath());
+        File file = new File(getView().getImagePath());
 
-        if (StringUtils.isNotEmpty(imageView.getImagePath()) && file.exists()) {
-            imageView.setImage(ffmpegService.generateImageFromUserInput(file));
+        if (StringUtils.isNotEmpty(getView().getImagePath()) && file.exists()) {
+            getView().setImage(ffmpegService.generateImageFromUserInput(file));
         } else {
             displayFileNotFoundError();
         }
     }
 
     private void save(){
-        moviesService.saveImage(getCurrentMovie(), imageView.getImage());
+        moviesService.saveImage(getCurrentMovie(), getView().getImage());
 
-        imageView.closeDown();
+        getView().closeDown();
     }
 
     /**
@@ -117,7 +119,7 @@ public class ImageController extends AbstractController {
      * @return The current movie.
      */
     private Movie getCurrentMovie() {
-        return movieView.getModel().getCurrentMovie();
+        return movieController.getView().getModel().getCurrentMovie();
     }
 
     /**
