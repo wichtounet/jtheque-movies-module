@@ -46,7 +46,7 @@ import java.util.List;
 public class MoviesBackuper implements ModuleBackuper {
     private static final String[] DEPENDENCIES = {"jtheque-primary-backuper"};
 
-    private static final Version BACKUP_VERSION = new Version("1.0");
+    private static final Version BACKUP_VERSION = Version.get("1.0");
 
     @Resource
     private IDaoCategories daoCategories;

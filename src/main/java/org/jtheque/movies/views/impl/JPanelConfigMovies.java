@@ -88,7 +88,7 @@ public final class JPanelConfigMovies extends OSGIBuildedPanel implements IOpeni
         I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL));
         builder.setI18nTitleBorder("movie.config.ffmpeg");
 
-        fileChooser = builder.add(Components.newFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        fileChooser = builder.add(Components.newFileChooser(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setFileFilter(new SimpleFilter("Exe files", "exe"));
         fileChooser.setTextKey("movie.config.ffmpeg.file");

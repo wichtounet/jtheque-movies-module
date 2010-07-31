@@ -99,7 +99,7 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         I18nPanelBuilder builder = parent.addPanel(parent.gbcSet(0, 1, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
         builder.setI18nTitleBorder("movie.image.file");
 
-        imageChooser = builder.add(Filthy.newFileChooserPanel(true), builder.gbcSet(0, 0));
+        imageChooser = builder.add(Filthy.newFileChooser(true), builder.gbcSet(0, 0));
         imageChooser.setTextKey("movie.image.file.location");
         imageChooser.setFileFilter(new PictureFileNameFilter());
 

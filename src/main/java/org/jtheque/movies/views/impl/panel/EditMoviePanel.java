@@ -145,7 +145,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     private void addFileField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.FILE, builder.gbcSet(0, 1));
 
-        fieldFile = builder.add(Filthy.newFileChooserPanel(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL,
+        fieldFile = builder.add(Filthy.newFileChooser(false), builder.gbcSet(1, 1, GridBagUtils.HORIZONTAL,
                 GridBagUtils.BASELINE_LEADING, 0, 1));
         fieldFile.setFilesOnly();
         ConstraintManager.configure(fieldFile.getTextField(), Movie.FILE);

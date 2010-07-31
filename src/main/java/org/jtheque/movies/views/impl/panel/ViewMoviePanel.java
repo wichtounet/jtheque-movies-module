@@ -57,6 +57,9 @@ import static org.jtheque.ui.able.components.filthy.FilthyConstants.TITLE_FONT;
  * @author Baptiste Wicht
  */
 public final class ViewMoviePanel extends MoviePanel {
+    private static final float TITLE_FONT_SIZE = 18.0f;
+    private static final float BUTTON_FONT_SIZE = 14.0f;
+
     private JLabel titleLabel;
     private JLabel labelFile;
 
@@ -70,9 +73,6 @@ public final class ViewMoviePanel extends MoviePanel {
 
     private SimpleListModel<Category> categoriesModel;
 
-    private static final float TITLE_FONT_SIZE = 18.0f;
-    private static final float BUTTON_FONT_SIZE = 14.0f;
-
     /**
      * Construct a new ViewMoviePanel.
      */
@@ -82,7 +82,8 @@ public final class ViewMoviePanel extends MoviePanel {
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
-        IController movieController = getBean("movieController", IController.class);
+        @SuppressWarnings("unchecked") //Safe because of the Spring Container
+        IController<IMovieView> movieController = getBean("movieController", IController.class);
 
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 

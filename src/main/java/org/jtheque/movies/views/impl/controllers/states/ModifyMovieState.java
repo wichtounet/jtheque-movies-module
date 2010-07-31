@@ -16,8 +16,8 @@ package org.jtheque.movies.views.impl.controllers.states;
  * limitations under the License.
  */
 
+import org.jtheque.errors.able.Errors;
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.errors.utils.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -26,6 +26,7 @@ import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.able.IUIUtils;
 
 import javax.annotation.Resource;
@@ -46,25 +47,25 @@ public final class ModifyMovieState extends AbstractControllerState {
     private IUIUtils uiUtils;
 
     @Resource
-    private IMovieView movieView;
+    private IController<IMovieView> movieController;
 
     @Override
     public void apply() {
-        movieView.setDisplayedView(IMovieView.EDIT_VIEW);
-        movieView.getCurrentView().setMovie(movieView.getModel().getCurrentMovie());
+        getMovieView().setDisplayedView(IMovieView.EDIT_VIEW);
+        getMovieView().getCurrentView().setMovie(getMovieView().getModel().getCurrentMovie());
 
-        movieView.getModel().getCurrentMovie().saveToMemento();
+        getMovieView().getModel().getCurrentMovie().saveToMemento();
     }
 
     @Override
     public ControllerState save(FormBean bean) {
-        if (!movieView.validateContent()) {
+        if (!getMovieView().validateContent()) {
             return null;
         }
 
         IMovieFormBean infos = (IMovieFormBean) bean;
 
-        Movie movie = movieView.getModel().getCurrentMovie();
+        Movie movie = getMovieView().getModel().getCurrentMovie();
 
         infos.fillMovie(movie);
 
@@ -77,14 +78,14 @@ public final class ModifyMovieState extends AbstractControllerState {
 
         moviesService.save(movie);
 
-        movieView.refreshData();
+        getMovieView().refreshData();
 
         return getController().getViewState();
     }
 
     @Override
     public ControllerState cancel() {
-        movieView.getModel().getCurrentMovie().restoreMemento();
+        getMovieView().getModel().getCurrentMovie().restoreMemento();
 
         return getController().getViewState();
     }
@@ -96,11 +97,15 @@ public final class ModifyMovieState extends AbstractControllerState {
         if (uiUtils.askI18nUserForConfirmation("movie.dialogs.confirmSave", "movie.dialogs.confirmSave.title")) {
             getController().save();
         } else {
-            movieView.getModel().getCurrentMovie().restoreMemento();
+            getMovieView().getModel().getCurrentMovie().restoreMemento();
         }
 
-        movieView.getModel().setCurrentMovie(movie);
+        getMovieView().getModel().setCurrentMovie(movie);
 
         return getController().getViewState();
+    }
+
+    private IMovieView getMovieView(){
+        return movieController.getView();
     }
 }

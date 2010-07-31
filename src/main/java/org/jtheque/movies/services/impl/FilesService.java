@@ -17,7 +17,7 @@ package org.jtheque.movies.services.impl;
  */
 
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.errors.utils.Errors;
+import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;

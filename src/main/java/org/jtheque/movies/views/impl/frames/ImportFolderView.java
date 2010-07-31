@@ -76,7 +76,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
      * @param builder The parent builder
      */
     private void addDirectoryChooser(PanelBuilder builder) {
-        directoryChooser = builder.add(Filthy.newFileChooserPanel(), builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
+        directoryChooser = builder.add(Filthy.newFileChooser(), builder.gbcSet(0, 0, GridBagConstraints.HORIZONTAL, GridBagUtils.BELOW_BASELINE_LEADING, 1.0, 0.0));
         directoryChooser.setDirectoriesOnly();
         directoryChooser.setTextKey("movie.auto.folder.directory");
 

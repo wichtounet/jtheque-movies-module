@@ -53,7 +53,7 @@ public final class AddFromFileView extends AbstractParserView implements IAddFro
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
-        fileChooser = builder.add(Filthy.newFileChooserPanel(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
+        fileChooser = builder.add(Filthy.newFileChooser(), builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL));
         fileChooser.setFilesOnly();
         fileChooser.setTextKey("movie.auto.file");
 

@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.errors.utils.Errors;
+import org.jtheque.errors.able.Errors;
 import org.jtheque.i18n.able.ILanguageService;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;

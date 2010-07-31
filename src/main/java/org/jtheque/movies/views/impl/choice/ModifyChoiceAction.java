@@ -31,10 +31,7 @@ import javax.annotation.Resource;
  */
 public final class ModifyChoiceAction extends AbstractModifyChoiceAction {
     @Resource
-    private ICategoryView categoryView;
-
-    @Resource
-    private IController categoryController;
+    private IController<ICategoryView> categoryController;
 
     @Override
     public boolean canDoAction(String action) {
@@ -48,7 +45,7 @@ public final class ModifyChoiceAction extends AbstractModifyChoiceAction {
         }
 
         if (ICategoriesService.DATA_TYPE.equals(getContent())) {
-            categoryView.getModel().setCategory((Category) getSelectedItem());
+            categoryController.getView().getModel().setCategory((Category) getSelectedItem());
             categoryController.handleAction("edit");
         }
     }

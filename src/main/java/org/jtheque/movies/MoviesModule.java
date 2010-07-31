@@ -58,7 +58,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     private ICore core;
 
     public MoviesModule() {
-        super("org.jtheque.movies", new String[]{"panelConfigMovies"});
+        super("org.jtheque.movies", new String[]{"movieView", "panelConfigMovies"});
     }
 
     /**
@@ -78,7 +78,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
 
-        NativeInterface.open();
+        //NativeInterface.open(); ==> Deadlock
     }
 
     /**

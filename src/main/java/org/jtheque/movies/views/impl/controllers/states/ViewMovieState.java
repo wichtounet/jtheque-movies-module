@@ -23,6 +23,7 @@ import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
+import org.jtheque.ui.able.IController;
 import org.jtheque.undo.able.IUndoRedoService;
 
 import javax.annotation.Resource;
@@ -37,19 +38,19 @@ public final class ViewMovieState extends AbstractControllerState {
     private IMoviesService moviesService;
 
     @Resource
-    private IMovieView movieView;
+    private IUndoRedoService undoRedoService;
 
     @Resource
-    private IUndoRedoService undoRedoService;
+    private IController<IMovieView> movieController;
 
     @Override
     public void apply() {
-        movieView.setDisplayedView(IMovieView.VIEW_VIEW);
+        getMovieView().setDisplayedView(IMovieView.VIEW_VIEW);
 
-        Movie current = movieView.getSelectedMovie();
+        Movie current = getMovieView().getSelectedMovie();
 
-        if (current != movieView.getModel().getCurrentMovie()) {
-            movieView.select(movieView.getModel().getCurrentMovie());
+        if (current != getMovieView().getModel().getCurrentMovie()) {
+            getMovieView().select(getMovieView().getModel().getCurrentMovie());
         }
     }
 
@@ -60,7 +61,7 @@ public final class ViewMovieState extends AbstractControllerState {
 
     @Override
     public ControllerState manualEdit() {
-        if (movieView.getModel().getCurrentMovie() == null) {
+        if (getMovieView().getModel().getCurrentMovie() == null) {
             return null;
         }
 
@@ -69,12 +70,12 @@ public final class ViewMovieState extends AbstractControllerState {
 
     @Override
     public ControllerState delete() {
-        boolean deleted = moviesService.delete(movieView.getModel().getCurrentMovie());
+        boolean deleted = moviesService.delete(getMovieView().getModel().getCurrentMovie());
 
         if (deleted) {
-            undoRedoService.addEdit(new GenericDataDeletedEdit<Movie>(moviesService, movieView.getModel().getCurrentMovie()));
+            undoRedoService.addEdit(new GenericDataDeletedEdit<Movie>(moviesService, getMovieView().getModel().getCurrentMovie()));
 
-            movieView.selectFirst();
+            getMovieView().selectFirst();
         }
 
         return null;
@@ -84,8 +85,12 @@ public final class ViewMovieState extends AbstractControllerState {
     public ControllerState view(Data data) {
         Movie movie = (Movie) data;
 
-        movieView.getModel().setCurrentMovie(movie);
+        getMovieView().getModel().setCurrentMovie(movie);
 
         return null;
+    }
+
+    private IMovieView getMovieView() {
+        return movieController.getView();
     }
 }

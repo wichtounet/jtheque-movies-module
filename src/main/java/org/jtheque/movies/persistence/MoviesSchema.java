@@ -32,7 +32,7 @@ public final class MoviesSchema extends DefaultSchema {
      * Construct a new MoviesSchema.
      */
     public MoviesSchema() {
-        super(new Version("1.2"), "Movies-Schema", "PrimaryUtils-Schema");
+        super(Version.get("1.2"), "Movies-Schema", "PrimaryUtils-Schema");
     }
 
     @Override

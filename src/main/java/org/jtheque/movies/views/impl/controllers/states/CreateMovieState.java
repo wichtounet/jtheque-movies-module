@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.controllers.states;
  */
 
 import org.jtheque.errors.able.IErrorService;
-import org.jtheque.errors.utils.Errors;
+import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -27,6 +27,7 @@ import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
+import org.jtheque.ui.able.IController;
 import org.jtheque.ui.able.IUIUtils;
 import org.jtheque.undo.able.IUndoRedoService;
 
@@ -51,17 +52,17 @@ public final class CreateMovieState extends AbstractControllerState {
     private IUIUtils uiUtils;
 
     @Resource
-    private IMovieView movieView;
+    private IController<IMovieView> movieController;
 
     @Override
     public void apply() {
-        movieView.getModel().setCurrentMovie(moviesService.getEmptyMovie());
-        movieView.setDisplayedView(IMovieView.EDIT_VIEW);
+        getMovieView().getModel().setCurrentMovie(moviesService.getEmptyMovie());
+        getMovieView().setDisplayedView(IMovieView.EDIT_VIEW);
     }
 
     @Override
     public ControllerState save(FormBean bean) {
-        if (!movieView.validateContent()) {
+        if (!getMovieView().validateContent()) {
             return null;
         }
 
@@ -81,7 +82,7 @@ public final class CreateMovieState extends AbstractControllerState {
 
         undoRedoService.addEdit(new GenericDataCreatedEdit<Movie>(moviesService, movie));
 
-        movieView.resort();
+        getMovieView().resort();
 
         return getController().getViewState();
     }
@@ -90,7 +91,7 @@ public final class CreateMovieState extends AbstractControllerState {
     public ControllerState cancel() {
         ControllerState nextState = null;
 
-        movieView.selectFirst();
+        getMovieView().selectFirst();
 
         if (moviesService.getMovies().size() <= 0) {
             nextState = getController().getViewState();
@@ -118,6 +119,10 @@ public final class CreateMovieState extends AbstractControllerState {
             getController().save();
         }
 
-        movieView.getModel().setCurrentMovie(movie);
+        getMovieView().getModel().setCurrentMovie(movie);
+    }
+
+    private IMovieView getMovieView() {
+        return movieController.getView();
     }
 }
