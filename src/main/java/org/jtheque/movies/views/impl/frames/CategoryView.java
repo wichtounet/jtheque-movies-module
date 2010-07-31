@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.i18n.able.ILanguageService;
+import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
@@ -102,7 +102,7 @@ public final class CategoryView extends SwingFilthyBuildedDialogView<ICategoryMo
     }
 
     @Override
-    public void refreshText(ILanguageService languageService) {
+    public void refreshText(LanguageService languageService) {
         super.refreshText(languageService);
 
         if (getModel().getCategory() != null) {

@@ -71,7 +71,7 @@
 
     <osgi:reference id="choiceController" interface="org.jtheque.primary.able.controller.IChoiceController"/>
     <osgi:reference id="primaryUtils" interface="org.jtheque.primary.able.IPrimaryUtils"/>
-    <osgi:reference id="languageService" interface="org.jtheque.i18n.able.ILanguageService"/>
+    <osgi:reference id="languageService" interface="org.jtheque.i18n.able.LanguageService"/>
     <osgi:reference id="errorService" interface="org.jtheque.errors.able.IErrorService"/>
     <osgi:reference id="imageService" interface="org.jtheque.images.able.ImageService"/>
     <osgi:reference id="schemaService" interface="org.jtheque.schemas.able.ISchemaService"/>

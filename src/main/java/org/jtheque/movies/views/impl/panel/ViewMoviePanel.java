@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.impl.panel;
 
 import org.jtheque.errors.able.IError;
-import org.jtheque.i18n.able.ILanguageService;
+import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesResources;
@@ -177,7 +177,7 @@ public final class ViewMoviePanel extends MoviePanel {
 
     @Override
     public void setMovie(Movie movie) {
-        titleLabel.setText(getService(ILanguageService.class).getMessage("movie.view.movie.title", movie.getDisplayableText()));
+        titleLabel.setText(getService(LanguageService.class).getMessage("movie.view.movie.title", movie.getDisplayableText()));
         labelFile.setText(movie.getFile());
         notePanel.setImage(getService(IDaoNotes.class).getImage(movie.getNote()));
 

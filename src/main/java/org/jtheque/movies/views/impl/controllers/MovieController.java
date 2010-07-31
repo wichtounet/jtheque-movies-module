@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.errors.able.IErrorService;
 import org.jtheque.errors.able.Errors;
-import org.jtheque.i18n.able.ILanguageService;
+import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class MovieController extends PrincipalController<Movie, IMovieView> {
     @Resource
-    private ILanguageService languageService;
+    private LanguageService languageService;
 
     @Resource
     private IUIUtils uiUtils;

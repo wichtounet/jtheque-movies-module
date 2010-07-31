@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.models;
 
-import org.jtheque.i18n.able.ILanguageService;
+import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.i18n.able.Internationalizable;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -61,7 +61,7 @@ public final class FilesTableModel extends AbstractTableModel implements Interna
     }
 
     @Override
-    public void refreshText(ILanguageService languageService) {
+    public void refreshText(LanguageService languageService) {
         headers = new String[]{
                 languageService.getMessage("files.table.name"),
                 languageService.getMessage("files.table.file")
