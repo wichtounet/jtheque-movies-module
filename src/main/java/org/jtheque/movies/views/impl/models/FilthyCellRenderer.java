@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.models;
  * limitations under the License.
  */
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.primary.utils.views.tree.TreeElement;
 
 import javax.swing.JTree;
@@ -31,14 +31,14 @@ import java.awt.Component;
  * @author Baptiste Wicht
  */
 public final class FilthyCellRenderer extends DefaultTreeCellRenderer {
-    private final IImageService imageService;
+    private final ImageService imageService;
 
     /**
      * Construct a new FilthyCellRenderer.
      *
      * @param imageService The resource service.
      */
-    public FilthyCellRenderer(IImageService imageService) {
+    public FilthyCellRenderer(ImageService imageService) {
         super();
 
         this.imageService = imageService;

@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.actions.movies;
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.ui.utils.actions.JThequeSimpleAction;
@@ -37,7 +37,7 @@ public final class RefreshAction extends JThequeSimpleAction {
      * @param movieView    The movie view.
      * @param imageService The image service.
      */
-    public RefreshAction(IMovieView movieView, IImageService imageService) {
+    public RefreshAction(IMovieView movieView, ImageService imageService) {
         super();
 
         this.movieView = movieView;

@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.actions.view;
  * limitations under the License.
  */
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.ui.utils.actions.JThequeAction;
@@ -37,7 +37,7 @@ public final class PlayMovieAction extends JThequeAction {
      * @param movieController The movie controller.
      * @param imageService    The image service.
      */
-    public PlayMovieAction(IMovieController movieController, IImageService imageService) {
+    public PlayMovieAction(IMovieController movieController, ImageService imageService) {
         super("movie.actions.view");
 
         this.movieController = movieController;

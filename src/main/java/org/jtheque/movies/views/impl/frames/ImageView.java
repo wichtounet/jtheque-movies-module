@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.controllers.impl.ImageController;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -117,9 +117,9 @@ public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implem
         if (StringUtils.isNotEmpty(movie.getImage())) {
             String resource = moviesModule.getThumbnailFolderPath() + movie.getImage();
 
-            getService(IImageService.class).invalidateImage(resource);
+            getService(ImageService.class).invalidateImage(resource);
 
-            setImage(getService(IImageService.class).getFileImage(resource));
+            setImage(getService(ImageService.class).getImageFromFile(resource));
         }
     }
 
