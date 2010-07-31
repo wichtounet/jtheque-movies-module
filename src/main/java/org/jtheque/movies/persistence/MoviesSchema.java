@@ -19,7 +19,7 @@ package org.jtheque.movies.persistence;
 import org.jtheque.collections.able.IDaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
-import org.jtheque.schemas.utils.DefaultSchema;
+import org.jtheque.schemas.able.DefaultSchema;
 import org.jtheque.utils.bean.Version;
 
 /**

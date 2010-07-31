@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.panel;
 
 import org.jtheque.errors.able.IError;
 import org.jtheque.i18n.able.ILanguageService;
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -187,7 +187,7 @@ public final class ViewMoviePanel extends MoviePanel {
         labelResolution.setTextKey("movie.view.file.resolution", movie.getResolution());
 
         if (StringUtils.isNotEmpty(movie.getImage())) {
-            imagePanel.setImage(getService(IImageService.class).getFileImage(
+            imagePanel.setImage(getService(ImageService.class).getImageFromFile(
                     getBean(IMoviesModule.class).getThumbnailFolderPath() + movie.getImage()));
         } else {
             imagePanel.setImage(null);

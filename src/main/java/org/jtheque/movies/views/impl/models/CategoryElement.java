@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.models;
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.primary.utils.views.tree.TreeElement;
 
@@ -51,7 +51,7 @@ public final class CategoryElement implements TreeElement {
     }
 
     @Override
-    public Icon getIcon(IImageService imageService) {
+    public Icon getIcon(ImageService imageService) {
         return imageService.getIcon(MoviesResources.BOX_ICON);
     }
 

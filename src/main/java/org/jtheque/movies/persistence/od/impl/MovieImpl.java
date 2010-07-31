@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.od.impl;
  * limitations under the License.
  */
 
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -146,7 +146,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public Icon getIcon(IImageService imageService) {
+    public Icon getIcon(ImageService imageService) {
         return imageService.getIcon(MoviesResources.MOVIE_ICON);
     }
 

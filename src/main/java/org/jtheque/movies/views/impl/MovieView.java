@@ -19,6 +19,8 @@ package org.jtheque.movies.views.impl;
 import org.jtheque.errors.able.IError;
 import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.MoviesResources;
+import org.jtheque.images.able.ImageService;
+import org.jtheque.movies.controllers.able.IMovieController;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -139,7 +141,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         JLabel label = titleBuilder.addI18nLabel("movie.panel.list.title",
                 titleBuilder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.BASELINE_LEADING, 1.0, 0.0));
 
-        IImageService imageService = getService(IImageService.class);
+        ImageService imageService = getService(ImageService.class);
 
         titleBuilder.addButton(
                 ActionFactory.createAction("refresh", imageService.getIcon(MoviesResources.REFRESH_ICON), getMovieController()),
@@ -163,7 +165,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
         moviesSorter.sort(treeModel);
 
         treeMovies = (JXTree) builder.addScrolledTree(treeModel,
-                new FilthyCellRenderer(getService(IImageService.class)), BorderLayout.CENTER);
+                new FilthyCellRenderer(getService(ImageService.class)), BorderLayout.CENTER);
     }
 
     /**

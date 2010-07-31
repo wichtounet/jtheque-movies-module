@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.panel;
  */
 
 import org.jtheque.errors.able.IError;
-import org.jtheque.images.able.IImageService;
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
