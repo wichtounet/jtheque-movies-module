@@ -17,7 +17,7 @@ package org.jtheque.movies.services;
  */
 
 import org.jtheque.collections.able.Collection;
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.able.IPrimaryUtils;
@@ -51,7 +51,7 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
     private ICategoriesService categoriesService;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private IPrimaryUtils primaryUtils;

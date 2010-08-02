@@ -1,7 +1,7 @@
 package org.jtheque.movies.persistence.dao;
 
 import org.jtheque.collections.able.Collection;
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
@@ -56,7 +56,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
     private IDaoMovies daoMovies;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private IDaoCategories daoCategories;

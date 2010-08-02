@@ -17,7 +17,7 @@ package org.jtheque.movies.views.able;
  */
 
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.ui.able.IWindowView;
+import org.jtheque.ui.able.WindowView;
 
 import java.awt.image.BufferedImage;
 
@@ -26,7 +26,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Baptiste Wicht
  */
-public interface IImageView extends IWindowView {
+public interface IImageView extends WindowView {
     /**
      * Display the specified movie in the view.
      *

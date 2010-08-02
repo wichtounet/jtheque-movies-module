@@ -16,7 +16,7 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.core.able.ICore;
+import org.jtheque.core.able.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;
@@ -52,7 +52,7 @@ public class FFMpegServiceTest {
     private IMoviesModule moviesModule;
 
     @Resource
-    private ICore core;
+    private Core core;
 
     private String testFolder;
 

@@ -16,7 +16,7 @@ package org.jtheque.movies.views.able;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IError;
+import org.jtheque.errors.able.Error;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 
@@ -48,7 +48,7 @@ public interface ICategoriesView {
      *
      * @param errors The errors to fill.
      */
-    void validate(Collection<IError> errors);
+    void validate(Collection<Error> errors);
 
     /**
      * Return the implementation of the view.

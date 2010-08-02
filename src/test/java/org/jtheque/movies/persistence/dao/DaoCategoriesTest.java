@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.collections.impl.CollectionImpl;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -56,7 +56,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     private IDaoCategories daoCategories;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private DataSource dataSource;

@@ -16,7 +16,7 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -25,8 +25,7 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;
@@ -51,10 +50,10 @@ public final class FilesService implements IFilesService {
     private IFFMpegService ffMpegService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Resource
-    private IDaoNotes daoNotes;
+    private DaoNotes daoNotes;
 
     @Override
     public void importMovies(Collection<File> files, Collection<FileParser> parsers) {
@@ -79,7 +78,7 @@ public final class FilesService implements IFilesService {
     public Movie createMovie(String filePath, Collection<FileParser> parsers) {
         Movie movie = moviesService.getEmptyMovie();
 
-        movie.setNote(daoNotes.getNote(DaoNotes.NoteType.UNDEFINED));
+        movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED));
         movie.setFile(filePath);
 
         File file = new File(filePath);

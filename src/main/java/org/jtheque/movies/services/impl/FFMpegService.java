@@ -16,7 +16,7 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
@@ -56,7 +56,7 @@ public final class FFMpegService implements IFFMpegService {
     private IMoviesModule moviesModule;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Override
     public Resolution getResolution(File f) {

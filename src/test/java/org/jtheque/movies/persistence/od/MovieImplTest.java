@@ -7,8 +7,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.utils.io.FileUtils;
 
 import org.junit.Before;
@@ -49,7 +48,7 @@ public class MovieImplTest {
     private MovieImpl movie;
 
     @Resource
-    private IDaoNotes daoNotes;
+    private DaoNotes daoNotes;
 
     @Before
     public void setUp() {
@@ -125,13 +124,13 @@ public class MovieImplTest {
         movie.setId(123);
         movie.setTitle("Test");
         movie.setFile("C:\\test.dat");
-        movie.setNote(daoNotes.getNote(DaoNotes.NoteType.BAD));
+        movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.BAD));
 
         Movie movie2 = new MovieImpl();
         movie2.setId(123);
         movie2.setTitle("Test");
         movie2.setFile("C:\\test.dat");
-        movie2.setNote(daoNotes.getNote(DaoNotes.NoteType.BAD));
+        movie2.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.BAD));
 
         Category cat1 = new CategoryImpl("Test 1");
         cat1.setId(12);
@@ -182,13 +181,13 @@ public class MovieImplTest {
         movie.setId(123);
         movie.setTitle("Test");
         movie.setFile("C:\\test.dat");
-        movie.setNote(daoNotes.getNote(DaoNotes.NoteType.BAD));
+        movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.BAD));
 
         Movie movie2 = new MovieImpl();
         movie2.setId(123);
         movie2.setTitle("Test");
         movie2.setFile("C:\\test.dat");
-        movie2.setNote(daoNotes.getNote(DaoNotes.NoteType.BAD));
+        movie2.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.BAD));
 
         Category cat1 = new CategoryImpl("Test 1");
         cat1.setId(12);

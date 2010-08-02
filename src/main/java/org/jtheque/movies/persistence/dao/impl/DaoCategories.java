@@ -17,13 +17,13 @@ package org.jtheque.movies.persistence.dao.impl;
  */
 
 import org.jtheque.collections.able.Collection;
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.persistence.able.Entity;
-import org.jtheque.persistence.able.IDaoPersistenceContext;
+import org.jtheque.persistence.able.DaoPersistenceContext;
 import org.jtheque.persistence.able.QueryMapper;
 import org.jtheque.persistence.utils.CachedJDBCDao;
 import org.jtheque.persistence.utils.Query;
@@ -50,10 +50,10 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
     private final QueryMapper queryMapper = new CategoryQueryMapper();
 
     @Resource
-    private IDaoPersistenceContext daoPersistenceContext;
+    private DaoPersistenceContext daoPersistenceContext;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     /**
      * Construct a new DaoCategories.

@@ -18,12 +18,12 @@ package org.jtheque.movies.views.able.models;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.able.views.ViewMode;
-import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.able.Model;
 
 /**
  * @author Baptiste Wicht
  */
-public interface ICategoryModel extends IModel {
+public interface ICategoryModel extends Model {
     /**
      * Return the state of the model.
      *

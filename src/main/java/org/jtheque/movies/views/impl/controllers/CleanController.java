@@ -4,7 +4,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 public class CleanController extends AbstractController<ICleanView> {
     @Resource
-    private IController<IMovieView> movieController;
+    private Controller<IMovieView> movieController;
 
     @Resource
     private IMoviesService moviesService;

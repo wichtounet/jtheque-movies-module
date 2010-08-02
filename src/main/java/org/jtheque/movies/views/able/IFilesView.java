@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.able;
 
-import org.jtheque.ui.able.IView;
+import org.jtheque.ui.able.View;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -23,7 +23,7 @@ import org.jtheque.ui.able.IView;
  *
  * @author Baptiste Wicht
  */
-public interface IFilesView extends IView {
+public interface IFilesView extends View {
     /**
      * Refresh the data of the view.
      */

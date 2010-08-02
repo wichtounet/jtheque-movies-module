@@ -18,14 +18,14 @@ package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.views.able.models.ICategoryModel;
-import org.jtheque.ui.able.IView;
+import org.jtheque.ui.able.View;
 
 /**
  * A category view specification.
  *
  * @author Baptiste Wicht
  */
-public interface ICategoryView extends IView {
+public interface ICategoryView extends View {
     /**
      * Return the field containing the name of the kind.
      *

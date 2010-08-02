@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.ui.able.IView;
+import org.jtheque.ui.able.View;
 
 import java.util.Collection;
 
@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface IAddFromFileView extends IView {
+public interface IAddFromFileView extends View {
     /**
      * Return the file path.
      *

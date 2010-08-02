@@ -16,8 +16,6 @@ package org.jtheque.movies.views.impl.panel;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IError;
-import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -26,7 +24,7 @@ import org.jtheque.movies.views.able.ICategoriesView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.primary.able.controller.IChoiceController;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.able.components.Components;
 import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.actions.ActionFactory;
@@ -66,7 +64,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
     private IChoiceController choiceController;
 
     @Resource
-    private IController categoryController;
+    private Controller categoryController;
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
@@ -118,7 +116,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
     }
 
     @Override
-    public void validate(Collection<IError> errors) {
+    public void validate(Collection<org.jtheque.errors.able.Error> errors) {
         ValidationUtils.rejectIfEmpty(listCategoriesForFilm, "movie.categories", errors);
     }
 

@@ -1,13 +1,13 @@
 package org.jtheque.movies.views.impl.controllers;
 
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.StringUtils;
 
@@ -38,13 +38,13 @@ public class ImageController extends AbstractController<IImageView> {
     private IMoviesService moviesService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Resource
     private IFFMpegService ffmpegService;
 
     @Resource
-    private IController<IMovieView> movieController;
+    private Controller<IMovieView> movieController;
 
     public ImageController() {
         super(IImageView.class);

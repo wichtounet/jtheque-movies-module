@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.controllers;
 
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
 import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.movies.IMovieConfiguration;
@@ -13,11 +13,11 @@ import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
 import org.jtheque.primary.utils.controller.PrincipalController;
-import org.jtheque.ui.able.IController;
-import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.able.UIUtils;
 import org.jtheque.utils.DesktopUtils;
 import org.jtheque.utils.StringUtils;
-import org.jtheque.views.able.IViews;
+import org.jtheque.views.able.Views;
 
 import javax.annotation.Resource;
 
@@ -46,22 +46,22 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
     private LanguageService languageService;
 
     @Resource
-    private IUIUtils uiUtils;
+    private UIUtils uiUtils;
 
     @Resource
     private IFFMpegService ffMpegService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Resource
     private IMoviesModule moviesModule;
 
     @Resource
-    private IViews views;
+    private Views views;
 
     @Resource
-    private IController<IAddFromFileView> addFromFileController;
+    private Controller<IAddFromFileView> addFromFileController;
 
     private ViewerPanel currentViewer;
 

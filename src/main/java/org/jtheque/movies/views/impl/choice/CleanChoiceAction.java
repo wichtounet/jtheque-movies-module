@@ -20,7 +20,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.primary.utils.choice.AbstractChoiceAction;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 
 import javax.annotation.Resource;
 
@@ -31,7 +31,7 @@ import javax.annotation.Resource;
  */
 public final class CleanChoiceAction extends AbstractChoiceAction {
     @Resource
-    private IController<ICleanView> cleanController;
+    private Controller<ICleanView> cleanController;
 
     @Override
     public boolean canDoAction(String action) {
