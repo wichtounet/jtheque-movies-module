@@ -16,15 +16,15 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.ICollectionsService;
-import org.jtheque.core.able.ICore;
+import org.jtheque.collections.able.CollectionsService;
+import org.jtheque.core.able.Core;
 import org.jtheque.modules.utils.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.utils.DataTypeManager;
-import org.jtheque.states.able.IStateService;
+import org.jtheque.states.able.StateService;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.PostConstruct;
@@ -46,7 +46,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     private String thumbnailFolderPath;
 
     @Resource
-    private IStateService stateService;
+    private StateService stateService;
 
     @Resource
     private IPrimaryUtils primaryUtils;
@@ -55,7 +55,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     private IChoiceController choiceController;
 
     @Resource
-    private ICore core;
+    private Core core;
 
     public MoviesModule() {
         super("org.jtheque.movies", new String[]{"movieView", "panelConfigMovies"});
@@ -74,7 +74,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
         choiceController.registerAction("category.actions.delete", "delete", ICategoriesService.DATA_TYPE);
         choiceController.registerAction("movie.actions.clean.category", "clean", ICategoriesService.DATA_TYPE);
         
-        DataTypeManager.bindDataTypeToKey(ICollectionsService.DATA_TYPE, "data.titles.collection");
+        DataTypeManager.bindDataTypeToKey(CollectionsService.DATA_TYPE, "data.titles.collection");
         DataTypeManager.bindDataTypeToKey(ICategoriesService.DATA_TYPE, "data.titles.category");
         DataTypeManager.bindDataTypeToKey(IMoviesService.DATA_TYPE, "data.titles.movie");
 
@@ -88,7 +88,7 @@ public final class MoviesModule extends SwingModule implements IMoviesModule {
     public void unplug() {
         DataTypeManager.unbindDataType(ICategoriesService.DATA_TYPE);
         DataTypeManager.unbindDataType(IMoviesService.DATA_TYPE);
-        DataTypeManager.unbindDataType(ICollectionsService.DATA_TYPE);
+        DataTypeManager.unbindDataType(CollectionsService.DATA_TYPE);
 
         NativeInterface.runEventPump();
     }

@@ -1,6 +1,6 @@
 package org.jtheque.movies;
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.file.able.ModuleBackup;
 import org.jtheque.file.able.ModuleBackuper;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
@@ -9,8 +9,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.Version;
 import org.jtheque.xml.utils.Node;
@@ -55,10 +54,10 @@ public class MoviesBackuper implements ModuleBackuper {
     private IDaoMovies daoMovies;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
-    private IDaoNotes daoNotes;
+    private DaoNotes daoNotes;
 
     @Override
     public String getId() {
@@ -190,7 +189,7 @@ public class MoviesBackuper implements ModuleBackuper {
                 movie.setTitle(node.getChildValue("title"));
                 movie.setFile(node.getChildValue("file"));
                 movie.setImage(node.getChildValue("image"));
-                movie.setNote(daoNotes.getNote(DaoNotes.NoteType.getEnum(node.getChildIntValue("note"))));
+                movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.getEnum(node.getChildIntValue("note"))));
 
                 long duration = node.getChildLongValue("duration");
 

@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl.controllers.states;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -27,8 +27,8 @@ import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
-import org.jtheque.ui.able.IController;
-import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.able.UIUtils;
 import org.jtheque.undo.able.IUndoRedoService;
 
 import javax.annotation.Resource;
@@ -46,13 +46,13 @@ public final class CreateMovieState extends AbstractControllerState {
     private IUndoRedoService undoRedoService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Resource
-    private IUIUtils uiUtils;
+    private UIUtils uiUtils;
 
     @Resource
-    private IController<IMovieView> movieController;
+    private Controller<IMovieView> movieController;
 
     @Override
     public void apply() {

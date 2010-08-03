@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -27,10 +27,9 @@ import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.persistence.able.Entity;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.persistence.able.IDaoPersistenceContext;
+import org.jtheque.persistence.able.DaoNotes;
+import org.jtheque.persistence.able.DaoPersistenceContext;
 import org.jtheque.persistence.able.QueryMapper;
-import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.persistence.utils.CachedJDBCDao;
 import org.jtheque.persistence.utils.Query;
 import org.jtheque.primary.able.od.Data;
@@ -61,16 +60,16 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     private Collection<MovieCategoryRelation> relationsToCategories;
 
     @Resource
-    private IDaoPersistenceContext daoPersistenceContext;
+    private DaoPersistenceContext daoPersistenceContext;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private IDaoCategories daoCategories;
 
     @Resource
-    private IDaoNotes daoNotes;
+    private DaoNotes daoNotes;
 
     /**
      * Construct a new DaoMovies.
@@ -248,7 +247,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             }
 
             if (StringUtils.isNotEmpty(rs.getString("NOTE"))) {
-                movie.setNote(daoNotes.getNote(DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
+                movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
             } else {
                 movie.setNote(daoNotes.getDefaultNote());
             }

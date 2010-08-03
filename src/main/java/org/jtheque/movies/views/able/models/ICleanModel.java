@@ -18,14 +18,14 @@ package org.jtheque.movies.views.able.models;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.able.Model;
 
 /**
  * A clean model specification.
  *
  * @author Baptiste Wicht
  */
-public interface ICleanModel extends IModel {
+public interface ICleanModel extends Model {
     /**
      * Set the category to clean.
      *

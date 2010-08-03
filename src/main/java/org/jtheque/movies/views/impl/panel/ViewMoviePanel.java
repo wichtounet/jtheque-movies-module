@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.errors.able.IError;
+import org.jtheque.errors.able.Error;
 import org.jtheque.i18n.able.LanguageService;
 import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.IMoviesModule;
@@ -9,8 +9,8 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.ui.able.IController;
+import org.jtheque.persistence.able.DaoNotes;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.able.components.Borders;
 import org.jtheque.ui.able.components.Components;
 import org.jtheque.ui.able.components.I18nLabel;
@@ -83,7 +83,7 @@ public final class ViewMoviePanel extends MoviePanel {
     @Override
     protected void buildView(I18nPanelBuilder builder) {
         @SuppressWarnings("unchecked") //Safe because of the Spring Container
-        IController<IMovieView> movieController = getBean("movieController", IController.class);
+                Controller<IMovieView> movieController = getBean("movieController", Controller.class);
 
         setBorder(Borders.createEmptyBorder(0, 0, 0, 3));
 
@@ -179,7 +179,7 @@ public final class ViewMoviePanel extends MoviePanel {
     public void setMovie(Movie movie) {
         titleLabel.setText(getService(LanguageService.class).getMessage("movie.view.movie.title", movie.getDisplayableText()));
         labelFile.setText(movie.getFile());
-        notePanel.setImage(getService(IDaoNotes.class).getImage(movie.getNote()));
+        notePanel.setImage(getService(DaoNotes.class).getImage(movie.getNote()));
 
         labelDate.setTextKey("movie.view.file.date", movie.getFileLastModifiedDate());
         labelSize.setTextKey("movie.view.file.size", movie.getFileSize());
@@ -197,7 +197,7 @@ public final class ViewMoviePanel extends MoviePanel {
     }
 
     @Override
-    public void validate(Collection<IError> errors) {
+    public void validate(Collection<Error> errors) {
         //Nothing to validate
     }
 

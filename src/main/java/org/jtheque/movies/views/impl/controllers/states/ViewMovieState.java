@@ -23,7 +23,7 @@ import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.undo.able.IUndoRedoService;
 
 import javax.annotation.Resource;
@@ -41,7 +41,7 @@ public final class ViewMovieState extends AbstractControllerState {
     private IUndoRedoService undoRedoService;
 
     @Resource
-    private IController<IMovieView> movieController;
+    private Controller<IMovieView> movieController;
 
     @Override
     public void apply() {

@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.ui.able.IWindowView;
+import org.jtheque.ui.able.WindowView;
 
 import java.io.File;
 import java.util.Collection;
@@ -27,7 +27,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public interface IImportFolderView extends IWindowView {
+public interface IImportFolderView extends WindowView {
     /**
      * Return the path to the specified folder.
      *

@@ -16,9 +16,9 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.collections.impl.CollectionImpl;
-import org.jtheque.core.able.ICore;
+import org.jtheque.core.able.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;
@@ -72,7 +72,7 @@ public class FilesServiceTest extends AbstractDBUnitTest {
     private IMoviesModule moviesModule;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private DataSource dataSource;
@@ -81,7 +81,7 @@ public class FilesServiceTest extends AbstractDBUnitTest {
     private IPrimaryUtils primaryUtils;
 
     @Resource
-    private ICore core;
+    private Core core;
 
     public FilesServiceTest() {
         super("files.xml");

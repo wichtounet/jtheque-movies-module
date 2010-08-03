@@ -1,6 +1,5 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.errors.able.IError;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.utils.PreciseDuration;
@@ -12,11 +11,10 @@ import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
-import org.jtheque.persistence.able.IDaoNotes;
-import org.jtheque.persistence.impl.DaoNotes;
+import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.primary.utils.views.NoteComboRenderer;
 import org.jtheque.primary.utils.views.NotesComboBoxModel;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.able.components.Borders;
 import org.jtheque.ui.able.components.FileChooser;
 import org.jtheque.ui.able.components.TextField;
@@ -77,10 +75,10 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     private ICategoriesView categoriesView;
 
     @Resource
-    private IController<IImageView> imageController;
+    private Controller<IImageView> imageController;
 
     @Resource
-    private IController<ICleanView> cleanController;
+    private Controller<ICleanView> cleanController;
 
     @Resource
     private IFFMpegService ffmMpegService;
@@ -112,7 +110,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
                 GridBagUtils.FIRST_LINE_START, 0, 0, 1.0, 0.0));
 
         @SuppressWarnings("unchecked") //Safe because of the Spring context
-        IController<IMovieView> movieController = getBean("movieController", IController.class);
+                Controller<IMovieView> movieController = getBean("movieController", Controller.class);
         
         buttons.addButton(ActionFactory.createAction("movie.actions.save", movieController),
                 buttons.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 1.0, 1.0));
@@ -183,7 +181,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
 
         builder.getPanel().setBackground(Color.blue);
 
-        IController movieController = getBean("movieController", IController.class);
+        Controller movieController = getBean("movieController", Controller.class);
 
         builder.addButton(ActionFactory.createAction("movie.actions.infos", movieController),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
@@ -197,7 +195,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     private void addNoteField(I18nPanelBuilder builder) {
         builder.addI18nLabel(Movie.NOTE, builder.gbcSet(0, 4));
 
-        IDaoNotes daoNotes = getService(IDaoNotes.class);
+        DaoNotes daoNotes = getService(DaoNotes.class);
 
         modelNotes = new NotesComboBoxModel(daoNotes);
 
@@ -230,7 +228,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     }
 
     @Override
-    public void validate(Collection<IError> errors) {
+    public void validate(Collection<org.jtheque.errors.able.Error> errors) {
         ConstraintManager.validate(Movie.TITLE, fieldTitle.getText(), errors);
         ConstraintManager.validate(Movie.FILE, fieldFile.getFilePath(), errors);
 
@@ -249,7 +247,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
         if (modelNotes.getSelectedNote() != null) {
             fb.setNote(modelNotes.getSelectedNote());
         } else {
-            fb.setNote(getService(IDaoNotes.class).getNote(DaoNotes.NoteType.UNDEFINED));
+            fb.setNote(getService(DaoNotes.class).getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED));
         }
 
         categoriesView.fillFilm(fb);

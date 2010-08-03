@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.ui.able.IView;
+import org.jtheque.ui.able.View;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -24,7 +24,7 @@ import org.jtheque.ui.able.IView;
  *
  * @author Baptiste Wicht
  */
-public interface IGenerateInfosView extends IView {
+public interface IGenerateInfosView extends View {
     /**
      * Indicate if the user want to generate the duration.
      *

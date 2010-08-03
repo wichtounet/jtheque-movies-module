@@ -20,7 +20,7 @@ import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
-import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.able.Model;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.Collection;
  *
  * @author Baptiste Wicht
  */
-public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<IModel> {
+public abstract class AbstractParserView extends SwingFilthyBuildedDialogView<Model> {
     private final Collection<ParserContainer> parserContainers;
 
     /**

@@ -16,7 +16,7 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.core.able.ICore;
+import org.jtheque.core.able.Core;
 import org.jtheque.core.able.application.Application;
 import org.jtheque.core.utils.ImageType;
 import org.jtheque.utils.bean.BeanUtils;
@@ -45,7 +45,7 @@ public class MoviesModuleTest {
     private IMoviesModule moviesModule;
 
     @Resource
-    private ICore core;
+    private Core core;
 
     @Test
     public void testGetThumbnailFolderPath() throws Exception {

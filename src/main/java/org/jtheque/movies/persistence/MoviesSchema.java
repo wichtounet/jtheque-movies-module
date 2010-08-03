@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.schemas.able.DefaultSchema;
@@ -92,8 +92,8 @@ public final class MoviesSchema extends DefaultSchema {
     private void createReferentialIntegrityConstraints() {
         alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_MOVIE_FK) REFERENCES  " + IDaoMovies.TABLE + "(ID) ON UPDATE SET NULL");
         alterTable(IDaoMovies.MOVIES_CATEGORIES_TABLE, "ADD FOREIGN KEY (THE_CATEGORY_FK) REFERENCES " + IDaoCategories.TABLE + " (ID) ON UPDATE SET NULL");
-        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + IDaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
-        alterTable(IDaoMovies.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES " + IDaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
+        alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES  " + DaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
+        alterTable(IDaoMovies.TABLE, "ADD FOREIGN KEY (THE_COLLECTION_FK) REFERENCES " + DaoCollections.TABLE + " (ID) ON UPDATE SET NULL");
         alterTable(IDaoCategories.TABLE, "ADD FOREIGN KEY (THE_PARENT_FK) REFERENCES " + IDaoCategories.TABLE + " (ID) ON UPDATE SET NULL");
     }
 }

@@ -16,9 +16,9 @@ package org.jtheque.movies.services;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.IDaoCollections;
+import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.collections.impl.CollectionImpl;
-import org.jtheque.core.able.ICore;
+import org.jtheque.core.able.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;
@@ -74,7 +74,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     private IDaoCategories daoCategories;
 
     @Resource
-    private IDaoCollections daoCollections;
+    private DaoCollections daoCollections;
 
     @Resource
     private IMoviesModule moviesModule;
@@ -83,7 +83,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     private IPrimaryUtils primaryUtils;
 
     @Resource
-    private ICore core;
+    private Core core;
 
     @Resource
     private DataSource dataSource;

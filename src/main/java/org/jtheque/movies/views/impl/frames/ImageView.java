@@ -21,7 +21,7 @@ import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
 import org.jtheque.movies.views.able.IImageView;
-import org.jtheque.ui.able.IModel;
+import org.jtheque.ui.able.Model;
 import org.jtheque.ui.able.components.FileChooser;
 import org.jtheque.ui.able.components.TextField;
 import org.jtheque.ui.able.components.filthy.Filthy;
@@ -43,7 +43,7 @@ import java.text.NumberFormat;
  *
  * @author Baptiste Wicht
  */
-public final class ImageView extends SwingFilthyBuildedDialogView<IModel> implements IImageView {
+public final class ImageView extends SwingFilthyBuildedDialogView<Model> implements IImageView {
     private TextField timeTextField;
     private FileChooser imageChooser;
 

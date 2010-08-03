@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.impl.controllers;
 
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.errors.able.Errors;
-import org.jtheque.errors.able.IErrorService;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
@@ -39,7 +39,7 @@ public class CategoryController extends AbstractController<ICategoryView> {
     private IUndoRedoService undoRedoService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     public CategoryController() {
         super(ICategoryView.class);

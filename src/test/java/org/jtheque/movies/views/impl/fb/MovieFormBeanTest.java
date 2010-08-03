@@ -22,9 +22,8 @@ import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.IDaoNotes;
+import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.persistence.able.Note;
-import org.jtheque.persistence.impl.DaoNotes;
 import org.jtheque.utils.StringUtils;
 
 import org.junit.Test;
@@ -46,7 +45,7 @@ import static org.junit.Assert.*;
         "/org/jtheque/primary/spring/primary-test-beans.xml"})
 public class MovieFormBeanTest {
     @Resource
-    private IDaoNotes daoNotes;
+    private DaoNotes daoNotes;
 
     @Test
     public void fillMovie() {
@@ -54,7 +53,7 @@ public class MovieFormBeanTest {
 
         PreciseDuration duration = new PreciseDuration(22L);
         Resolution resolution = new Resolution("450x220");
-        Note note = daoNotes.getNote(DaoNotes.NoteType.UNDEFINED);
+        Note note = daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED);
 
         Collection<Category> categories = new HashSet<Category>(2);
 

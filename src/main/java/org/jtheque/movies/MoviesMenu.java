@@ -16,7 +16,7 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.features.able.IFeature;
+import org.jtheque.features.able.Feature;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.IFilesView;
 import org.jtheque.movies.views.able.IGenerateInfosView;
@@ -24,7 +24,7 @@ import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.able.views.IChoiceView;
-import org.jtheque.ui.able.IController;
+import org.jtheque.ui.able.Controller;
 import org.jtheque.views.utils.OSGIMenu;
 
 import java.util.List;
@@ -36,13 +36,13 @@ import java.util.List;
  */
 public final class MoviesMenu extends OSGIMenu {
     @Override
-    protected List<IFeature> getMenuMainFeatures() {
-        IController<IChoiceView> choiceController = getService(IChoiceController.class);
-        IController<ICategoryView> categoryController = getBean("categoryController");
-        IController<IFilesView> filesController = getBean("filesController");
-        IController<IImportFolderView> importController = getBean("importController");
-        IController<IGenerateInfosView> generateController = getBean("generateInfosController");
-        IController<IMovieView> moviesController = getBean("moviesController");
+    protected List<Feature> getMenuMainFeatures() {
+        Controller<IChoiceView> choiceController = getService(IChoiceController.class);
+        Controller<ICategoryView> categoryController = getBean("categoryController");
+        Controller<IFilesView> filesController = getBean("filesController");
+        Controller<IImportFolderView> importController = getBean("importController");
+        Controller<IGenerateInfosView> generateController = getBean("generateInfosController");
+        Controller<IMovieView> moviesController = getBean("moviesController");
 
         return features(
                 createMainFeature(500, "category.menu.title",

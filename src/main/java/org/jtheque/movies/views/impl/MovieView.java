@@ -16,7 +16,7 @@ package org.jtheque.movies.views.impl;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.IError;
+import org.jtheque.errors.able.Error;
 import org.jtheque.images.able.IImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.images.able.ImageService;
@@ -207,7 +207,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     }
 
     @Override
-    public void validate(Collection<IError> errors) {
+    public void validate(Collection<Error> errors) {
         layeredPanel.getCurrentLayer().validate(errors);
     }
 

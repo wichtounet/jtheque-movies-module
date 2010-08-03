@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.controllers.states;
  */
 
 import org.jtheque.errors.able.Errors;
-import org.jtheque.errors.able.IErrorService;
+import org.jtheque.errors.able.ErrorService;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -26,8 +26,8 @@ import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
-import org.jtheque.ui.able.IController;
-import org.jtheque.ui.able.IUIUtils;
+import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.able.UIUtils;
 
 import javax.annotation.Resource;
 
@@ -41,13 +41,13 @@ public final class ModifyMovieState extends AbstractControllerState {
     private IMoviesService moviesService;
 
     @Resource
-    private IErrorService errorService;
+    private ErrorService errorService;
 
     @Resource
-    private IUIUtils uiUtils;
+    private UIUtils uiUtils;
 
     @Resource
-    private IController<IMovieView> movieController;
+    private Controller<IMovieView> movieController;
 
     @Override
     public void apply() {
