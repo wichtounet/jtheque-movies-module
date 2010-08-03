@@ -78,7 +78,7 @@
     <osgi:reference id="stateService" interface="org.jtheque.states.able.IStateService"/>
     <osgi:reference id="viewService" interface="org.jtheque.views.able.IViewService"/>
     <osgi:reference id="featureService" interface="org.jtheque.features.able.IFeatureService"/>
-    <osgi:reference id="fileService" interface="org.jtheque.file.able.IFileService"/>
+    <osgi:reference id="fileService" interface="org.jtheque.file.able.FileService"/>
     <osgi:reference id="undoRedoService" interface="org.jtheque.undo.able.IUndoRedoService"/>
     <osgi:reference id="uiUtils" interface="org.jtheque.ui.able.IUIUtils"/>
     <osgi:reference id="core" interface="org.jtheque.core.able.ICore"/>
