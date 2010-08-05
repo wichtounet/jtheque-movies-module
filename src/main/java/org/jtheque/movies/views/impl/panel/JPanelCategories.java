@@ -16,6 +16,7 @@ package org.jtheque.movies.views.impl.panel;
  * limitations under the License.
  */
 
+import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -73,7 +74,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
         double anHalf = 0.5;
 
         ListCellRenderer renderer = Components.newIconListRenderer(
-                getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
+                getService(ImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         listCategories = builder.addScrolledList(categoriesModel, renderer,
                 builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, anHalf, 1.0));

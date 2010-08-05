@@ -3,13 +3,12 @@ package org.jtheque.movies.views.impl.controllers;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -38,16 +37,8 @@ public class MoviesController extends AbstractController<IMovieView> {
         super(IMovieView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("movie.actions.clean.thumbnails", "cleanThumbnails");
-
-        return translations;
-    }
-
-    private void cleanThumbnails() {
+    @Action("movie.actions.clean.thumbnails")
+    public void cleanThumbnails() {
         File folder = new File(moviesModule.getThumbnailFolderPath());
 
         for (File f : folder.listFiles()) {

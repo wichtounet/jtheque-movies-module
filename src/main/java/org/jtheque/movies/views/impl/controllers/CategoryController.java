@@ -7,13 +7,11 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.primary.able.views.ViewMode;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.undo.able.IUndoRedoService;
 
 import javax.annotation.Resource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -45,21 +43,12 @@ public class CategoryController extends AbstractController<ICategoryView> {
         super(ICategoryView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("category.actions.ok", "validate");
-        translations.put("category.actions.cancel", "close");
-        translations.put("category.actions.new", "newCategory");
-
-        return translations;
-    }
-
+    @Action("category.actions.cancel")
     private void close() {
         getView().closeDown();
     }
 
+    @Action("category.actions.ok")
     private void validate() {
         if (getView().validateContent()) {
             String title = getView().getCategoryName();
@@ -84,6 +73,7 @@ public class CategoryController extends AbstractController<ICategoryView> {
         }
     }
 
+    @Action("category.actions.new")
     private void newCategory() {
         getView().getModel().setState(ViewMode.NEW);
 

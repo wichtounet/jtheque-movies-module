@@ -82,17 +82,6 @@ public class CategoriesServiceMockTest {
     }
 
     @Test
-    public void testCreate() {
-        daoCategories.create(new CategoryImpl());
-
-        replay(daoCategories);
-
-        categoriesService.create(new CategoryImpl());
-
-        verify(daoCategories);
-    }
-
-    @Test
     public void testSave() {
         daoCategories.save(new CategoryImpl());
 

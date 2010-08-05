@@ -144,7 +144,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
     public void createCategory() {
         Category cat = new CategoryImpl("Created category");
 
-        daoCategories.create(cat);
+        daoCategories.save(cat);
 
         assertEquals(4, getRowCount("T_MOVIE_CATEGORIES"));
     }

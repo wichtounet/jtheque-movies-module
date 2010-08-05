@@ -104,17 +104,6 @@ public class MoviesServiceMockTest {
     }
 
     @Test
-    public void testCreate() {
-        daoMovies.create(new MovieImpl());
-
-        replay(daoMovies);
-
-        moviesService.create(new MovieImpl());
-
-        verify(daoMovies);
-    }
-
-    @Test
     public void testGetDatas() {
         expect(daoMovies.getMovies()).andReturn(CollectionUtils.<Movie>emptyList());
 

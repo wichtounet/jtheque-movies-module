@@ -248,7 +248,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
         if (modelNotes.getSelectedNote() != null) {
             fb.setNote(modelNotes.getSelectedNote());
         } else {
-            fb.setNote(getService(DaoNotes.class).getNote(Note.UNDEFINED));
+            fb.setNote(Note.UNDEFINED);
         }
 
         categoriesView.fillFilm(fb);

@@ -1,10 +1,8 @@
 package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.movies.views.able.IFilesView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.utils.AbstractController;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -27,25 +25,18 @@ public class FilesController extends AbstractController<IFilesView> {
         super(IFilesView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("files.actions.refresh", "refresh");
-        translations.put("files.actions.close", "close");
-        translations.put("movie.files", "displayFiles");
-
-        return translations;
-    }
-
+    @Action("files.actions.close")
     private void close() {
         getView().closeDown();
     }
+
+    @Action("iles.actions.refresh")
 
     private void refresh() {
         getView().refreshData();
     }
 
+    @Action("movie.files")
     public void displayFiles() {
         refresh();
         getView().display();

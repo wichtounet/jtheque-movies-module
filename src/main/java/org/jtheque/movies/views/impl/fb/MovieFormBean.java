@@ -85,7 +85,7 @@ public final class MovieFormBean implements IMovieFormBean {
                 "title='" + title + '\'' +
                 ", categories=" + categories +
                 ", file='" + file + '\'' +
-                ", note=" + note.getValue() +
+                ", note=" + note.intValue() +
                 ", duration=" + duration +
                 ", resolution=" + resolution +
                 '}';

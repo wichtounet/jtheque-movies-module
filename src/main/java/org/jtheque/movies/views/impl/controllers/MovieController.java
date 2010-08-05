@@ -13,6 +13,7 @@ import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
 import org.jtheque.primary.utils.controller.PrincipalController;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.able.UIUtils;
 import org.jtheque.utils.DesktopUtils;
@@ -22,8 +23,6 @@ import org.jtheque.views.able.Views;
 import javax.annotation.Resource;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -70,31 +69,28 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
     }
 
     @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("movie.actions.save", "save");
-        translations.put("movie.actions.cancel", "cancel");
-        translations.put("movie.actions.add", "create");
-        translations.put("movie.actions.delete", "manualEdit");
-        translations.put("movie.actions.edit", "edit");
-        translations.put("movie.actions.infos", "infos");
-        translations.put("movie.actions.view", "play");
-        translations.put("movie.actions.view.quit", "quitViewer");
-        translations.put("movie.auto.actions.add", "autoAdd");
-        translations.put("collapse", "collapse");
-        translations.put("refresh", "refresh");
-        translations.put("expand", "expand");
-
-        return translations;
+    public void handleAction(String actionName) {
+        if ("movie.actions.cancel".equals(actionName)) {
+            cancel();
+        } else if ("movie.actions.add".equals(actionName)) {
+            create();
+        } else if ("movie.actions.delete".equals(actionName)) {
+            delete();
+        } else if ("movie.actions.edit".equals(actionName)) {
+            manualEdit();
+        } else {
+            super.handleAction(actionName);
+        }
     }
 
     @Override
-    public void save(){
+    @Action("movie.actions.save")
+    public void save() {
         save(getView().fillMovieFormBean());
     }
 
-    private void play(){
+    @Action("movie.actions.view")
+    private void play() {
         if (getView().getModel().getCurrentMovie() != null) {
             IMovieConfiguration.Opening opening = moviesModule.getConfig().getOpeningSystem();
 
@@ -144,6 +140,7 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
         currentViewer = viewer;
     }
 
+    @Action("movie.actions.infos")
     private void infos() {
         String filePath = getView().getEditMoviePanel().getFilePath();
 
@@ -157,7 +154,8 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
         }
     }
 
-    private void delete(){
+    @Action("movie.actions.delete")
+    private void delete() {
         final boolean yes = uiUtils.getDelegate().askUserForConfirmation(
                 languageService.getMessage("movie.dialogs.confirmDelete", getView().getModel().getCurrentMovie().getDisplayableText()),
                 languageService.getMessage("movie.dialogs.confirmDelete.title"));
@@ -167,18 +165,22 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
         }
     }
 
-    private void collapse(){
+    @Action("collapse")
+    private void collapse() {
         getView().collapseAll();
     }
 
+    @Action("expand")
     private void expand() {
         getView().expandAll();
     }
 
+    @Action("refresh")
     private void refresh() {
         getView().collapseAll();
     }
 
+    @Action("movie.actions.view.quit")
     private void quitViewer() {
         if (currentViewer != null) {
             currentViewer.stop();
@@ -188,8 +190,9 @@ public class MovieController extends PrincipalController<Movie, IMovieView> {
         }
     }
 
-    private void autoAdd(){
-        if(isEditing()){
+    @Action("movie.auto.actions.add")
+    private void autoAdd() {
+        if (isEditing()) {
 
         } else {
             addFromFileController.getView().display();

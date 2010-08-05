@@ -2,6 +2,7 @@ package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.views.able.IImportFolderView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.ui.SimpleSwingWorker;
 
@@ -9,8 +10,6 @@ import javax.annotation.Resource;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -36,37 +35,29 @@ public class ImportController extends AbstractController<IImportFolderView> {
         super(IImportFolderView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("generic.view.actions.search", "search");
-        translations.put("movie.auto.folder.actions.add", "display");
-        translations.put("movie.auto.folder.actions.cancel", "close");
-        translations.put("generic.view.actions.delete", "delete");
-        translations.put("import.view.actions.import", "importFiles");
-
-        return translations;
-    }
-
+    @Action("generic.view.actions.search")
     private void search() {
         if (getView().validateContent(IImportFolderView.Phase.CHOOSE_FOLDER)) {
             new SearchTitlesWorker().start();
         }
     }
 
+    @Action("generic.view.actions.delete")
     private void delete() {
         getView().removeSelectedFile();
     }
 
+    @Action("movie.auto.folder.actions.cancel")
     private void close() {
         getView().closeDown();
     }
 
+    @Action("movie.auto.folder.actions.add")
     private void display() {
         getView().display();
     }
 
+    @Action("import.view.actions.import")
     private void importFiles() {
         if (getView().validateContent(IImportFolderView.Phase.CHOOSE_FILES)) {
             new ImportFilesWorker().start();
@@ -79,7 +70,6 @@ public class ImportController extends AbstractController<IImportFolderView> {
      * @author Baptiste Wicht
      */
     private final class ImportFilesWorker extends SimpleSwingWorker {
-
         @Override
         protected void done() {
             getView().getWindowState().stopWait();

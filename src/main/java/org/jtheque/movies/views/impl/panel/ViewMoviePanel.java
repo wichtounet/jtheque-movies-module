@@ -93,7 +93,7 @@ public final class ViewMoviePanel extends MoviePanel {
                 builder.gbcSet(0, 0, GridBagUtils.HORIZONTAL, GridBagUtils.FIRST_LINE_START, 1.0, 0.0));
 
         JThequeAction action = ActionFactory.createAction("movie.actions.view", movieController);
-        action.setIcon(getService(IImageService.class).getIcon(MoviesResources.PLAY_ICON));
+        action.setIcon(getService(ImageService.class).getIcon(MoviesResources.PLAY_ICON));
 
         JButton button = title.addButton(action,
                 builder.gbcSet(1, 0, GridBagUtils.NONE, GridBagUtils.BASELINE_TRAILING, 0, 1, 1.0, 0.0));
@@ -148,7 +148,7 @@ public final class ViewMoviePanel extends MoviePanel {
     private void addCategoriesView(PanelBuilder builder) {
         categoriesModel = new SimpleListModel<Category>();
 
-        ListCellRenderer renderer = Components.newIconListRenderer(getService(IImageService.class).getIcon(MoviesResources.BOX_ICON));
+        ListCellRenderer renderer = Components.newIconListRenderer(getService(ImageService.class).getIcon(MoviesResources.BOX_ICON));
 
         builder.addScrolledList(categoriesModel, renderer, builder.gbcSet(0, 0, GridBagUtils.BOTH, GridBagUtils.ABOVE_BASELINE_LEADING, -1, 1, 1.0, 1.0));
     }

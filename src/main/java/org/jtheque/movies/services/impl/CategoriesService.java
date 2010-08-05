@@ -52,7 +52,7 @@ public final class CategoriesService implements ICategoriesService {
     @Override
     @Transactional
     public void create(Category category) {
-        daoCategories.create(category);
+        daoCategories.save(category);
     }
 
     @Override

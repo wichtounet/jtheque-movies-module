@@ -7,6 +7,7 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.StringUtils;
@@ -14,8 +15,6 @@ import org.jtheque.utils.StringUtils;
 import javax.annotation.Resource;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -50,29 +49,18 @@ public class ImageController extends AbstractController<IImageView> {
         super(IImageView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("movie.image.actions.ffmpeg.random", "generateRandom");
-        translations.put("movie.image.actions.ffmpeg.fixed", "generateFixed");
-        translations.put("movie.image.actions.file", "generateFile");
-        translations.put("movie.image.actions.validate", "save");
-        translations.put("movie.image.actions.cancel", "close");
-        translations.put("movie.actions.image", "edit");
-        
-        return translations;
-    }
-
-    private void close(){
+    @Action("movie.image.actions.cancel")
+    private void close() {
         getView().closeDown();
     }
 
-    private void edit(){
+    @Action("movie.actions.image")
+    private void edit() {
         getView().displayMovie(getCurrentMovie());
         getView().display();
     }
 
+    @Action("movie.image.actions.ffmpeg.random")
     public void generateRandom() {
         Movie movie = getCurrentMovie();
 
@@ -85,7 +73,8 @@ public class ImageController extends AbstractController<IImageView> {
         }
     }
 
-    private void generateFixed(){
+    @Action("movie.image.actions.ffmpeg.fixed")
+    private void generateFixed() {
         Movie movie = getCurrentMovie();
 
         File file = new File(movie.getFile());
@@ -97,7 +86,8 @@ public class ImageController extends AbstractController<IImageView> {
         }
     }
 
-    private void generateFile(){
+    @Action("movie.image.actions.file")
+    private void generateFile() {
         File file = new File(getView().getImagePath());
 
         if (StringUtils.isNotEmpty(getView().getImagePath()) && file.exists()) {
@@ -107,7 +97,8 @@ public class ImageController extends AbstractController<IImageView> {
         }
     }
 
-    private void save(){
+    @Action("movie.image.actions.validate")
+    private void save() {
         moviesService.saveImage(getCurrentMovie(), getView().getImage());
 
         getView().closeDown();

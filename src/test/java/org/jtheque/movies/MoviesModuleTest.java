@@ -18,6 +18,7 @@ package org.jtheque.movies;
 
 import org.jtheque.core.able.Core;
 import org.jtheque.core.able.application.Application;
+import org.jtheque.core.able.application.ApplicationProperties;
 import org.jtheque.core.utils.ImageType;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.Version;
@@ -106,27 +107,7 @@ public class MoviesModuleTest {
         }
 
         @Override
-        public String getName() {
-            return null;
-        }
-
-        @Override
-        public String getAuthor() {
-            return null;
-        }
-
-        @Override
-        public String getEmail() {
-            return null;
-        }
-
-        @Override
-        public String getSite() {
-            return null;
-        }
-
-        @Override
-        public String getCopyright() {
+        public ApplicationProperties getI18nProperties() {
             return null;
         }
 

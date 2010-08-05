@@ -108,7 +108,7 @@ public final class MoviesService implements IMoviesService {
     @Override
     @Transactional
     public void create(Movie movie) {
-        daoMovies.create(movie);
+        daoMovies.save(movie);
     }
 
     @Override

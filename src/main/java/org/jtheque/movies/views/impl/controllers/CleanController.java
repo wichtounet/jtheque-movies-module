@@ -4,13 +4,11 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -39,21 +37,12 @@ public class CleanController extends AbstractController<ICleanView> {
         super(ICleanView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("movie.actions.clean.movie", "cleanMovie");
-        translations.put("movie.actions.clean.validate", "clean");
-        translations.put("movie.auto.actions.cancel", "close");
-
-        return translations;
-    }
-
-    private void close(){
+    @Action("movie.auto.actions.cancel")
+    private void close() {
         getView().closeDown();
     }
 
+    @Action("movie.actions.clean.movie")
     private void cleanMovie() {
         Movie movie = movieController.getView().getModel().getCurrentMovie();
 
@@ -63,6 +52,7 @@ public class CleanController extends AbstractController<ICleanView> {
         }
     }
 
+    @Action("movie.actions.clean.validate")
     public void clean() {
         if (getView().getModel().isMovieMode()) {
             moviesService.clean(getView().getModel().getMovie(), getView().getSelectedCleaners());

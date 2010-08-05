@@ -79,7 +79,7 @@ public final class FilesService implements IFilesService {
     public Movie createMovie(String filePath, Collection<FileParser> parsers) {
         Movie movie = moviesService.getEmptyMovie();
 
-        movie.setNote(daoNotes.getNote(Note.UNDEFINED));
+        movie.setNote(Note.UNDEFINED);
         movie.setFile(filePath);
 
         File file = new File(filePath);

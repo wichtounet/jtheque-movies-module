@@ -155,7 +155,7 @@ public class DaoMoviesTest extends AbstractDBUnitTest {
 
         movie.addCategory(daoCategories.getCategory(1));
 
-        daoMovies.create(movie);
+        daoMovies.save(movie);
 
         assertEquals(7, getRowCount("T_MOVIES"));
         assertEquals(9, getRowCount("T_MOVIES_CATEGORIES"));

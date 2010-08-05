@@ -7,13 +7,11 @@ import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.able.IMovieView;
+import org.jtheque.ui.able.Action;
 import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -48,20 +46,12 @@ public class AddFromFileController extends AbstractController<IAddFromFileView> 
         super(IAddFromFileView.class);
     }
 
-    @Override
-    protected Map<String, String> getTranslations() {
-        Map<String, String> translations = new HashMap<String, String>(3);
-
-        translations.put("movie.auto.actions.add", "validate");
-        translations.put("movie.auto.actions.cancel", "close");
-
-        return translations;
-    }
-
+    @Action("movie.auto.actions.cancel")
     private void close() {
         getView().closeDown();
     }
 
+    @Action("movie.auto.actions.add")
     private void validate() {
         if (getView().validateContent()) {
             String filePath = getView().getFilePath();
