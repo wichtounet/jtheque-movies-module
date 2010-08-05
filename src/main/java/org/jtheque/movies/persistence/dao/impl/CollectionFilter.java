@@ -25,7 +25,7 @@ import org.jtheque.utils.collections.Filter;
  *
  * @author Baptiste Wicht
  */
-class CollectionFilter implements Filter<CollectionData> {
+class CollectionFilter<T extends CollectionData> implements Filter<T> {
     private final Collection collection;
 
     /**
@@ -40,7 +40,7 @@ class CollectionFilter implements Filter<CollectionData> {
     }
 
     @Override
-    public boolean accept(CollectionData data) {
+    public boolean accept(T data) {
         return data.isInCollection(collection);
     }
 }

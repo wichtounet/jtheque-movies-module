@@ -12,6 +12,7 @@ import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
 import org.jtheque.persistence.able.DaoNotes;
+import org.jtheque.persistence.able.Note;
 import org.jtheque.primary.utils.views.NoteComboRenderer;
 import org.jtheque.primary.utils.views.NotesComboBoxModel;
 import org.jtheque.ui.able.Controller;
@@ -247,7 +248,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
         if (modelNotes.getSelectedNote() != null) {
             fb.setNote(modelNotes.getSelectedNote());
         } else {
-            fb.setNote(getService(DaoNotes.class).getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED));
+            fb.setNote(getService(DaoNotes.class).getNote(Note.UNDEFINED));
         }
 
         categoriesView.fillFilm(fb);

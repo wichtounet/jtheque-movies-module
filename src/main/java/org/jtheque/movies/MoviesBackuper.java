@@ -10,8 +10,10 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
 import org.jtheque.persistence.able.DaoNotes;
+import org.jtheque.persistence.able.Note;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.Version;
+import org.jtheque.utils.collections.CollectionUtils;
 import org.jtheque.xml.utils.Node;
 
 import javax.annotation.Resource;
@@ -19,7 +21,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -71,19 +72,12 @@ public class MoviesBackuper implements ModuleBackuper {
 
     @Override
     public ModuleBackup backup() {
-        ModuleBackup backup = new ModuleBackup();
-
-        backup.setId(getId());
-        backup.setVersion(BACKUP_VERSION);
-
         Collection<Node> nodes = new ArrayList<Node>(100);
 
         addCategories(nodes);
         addMovies(nodes);
 
-        backup.setNodes(nodes);
-
-        return backup;
+        return new ModuleBackup(BACKUP_VERSION, getId(), nodes);
     }
 
     /**
@@ -117,7 +111,7 @@ public class MoviesBackuper implements ModuleBackuper {
             node.addSimpleChildValue("title", movie.getTitle());
             node.addSimpleChildValue("file", movie.getFile());
             node.addSimpleChildValue("image", movie.getImage());
-            node.addSimpleChildValue("note", movie.getNote().getValue().ordinal());
+            node.addSimpleChildValue("note", movie.getNote().intValue());
             node.addSimpleChildValue("duration", movie.getDuration() == null ? 0 : movie.getDuration().getTime());
             node.addSimpleChildValue("resolution", movie.getResolution() == null ? "" : movie.getResolution().toString());
             node.addSimpleChildValue("collection", movie.getTheCollection() == null ? -1 : movie.getTheCollection().getId());
@@ -134,7 +128,7 @@ public class MoviesBackuper implements ModuleBackuper {
     public void restore(ModuleBackup backup) {
         assert getId().equals(backup.getId()) : "This backuper can only restore its own backups";
 
-        List<Node> nodes = backup.getNodes();
+        Collection<Node> nodes = CollectionUtils.copyOf(backup.getNodes());
 
         restoreCategories(nodes.iterator());
         restoreMovies(nodes.iterator());
@@ -159,7 +153,7 @@ public class MoviesBackuper implements ModuleBackuper {
                 category.setTheCollection(daoCollections.getCollectionByTemporaryId(node.getChildIntValue("collection")));
                 category.setTemporaryParent(node.getChildIntValue("parent"));
 
-                daoCategories.create(category);
+                daoCategories.save(category);
 
                 categories.add(category);
 
@@ -189,7 +183,7 @@ public class MoviesBackuper implements ModuleBackuper {
                 movie.setTitle(node.getChildValue("title"));
                 movie.setFile(node.getChildValue("file"));
                 movie.setImage(node.getChildValue("image"));
-                movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.getEnum(node.getChildIntValue("note"))));
+                movie.setNote(Note.fromIntValue(node.getChildIntValue("note")));
 
                 long duration = node.getChildLongValue("duration");
 
@@ -215,7 +209,7 @@ public class MoviesBackuper implements ModuleBackuper {
 
                 movie.setCategories(categories);
 
-                daoMovies.create(movie);
+                daoMovies.save(movie);
 
                 nodeIterator.remove();
             }

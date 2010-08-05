@@ -20,14 +20,13 @@ import org.jtheque.collections.able.Collection;
 import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.persistence.able.Entity;
 import org.jtheque.persistence.able.DaoPersistenceContext;
+import org.jtheque.persistence.able.Entity;
 import org.jtheque.persistence.able.QueryMapper;
 import org.jtheque.persistence.utils.CachedJDBCDao;
+import org.jtheque.persistence.utils.EntityUtils;
 import org.jtheque.persistence.utils.Query;
-import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -64,7 +63,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
 
     @Override
     public java.util.Collection<Category> getCategories() {
-        List<Category> categories = (List<Category>) getCategories(daoCollections.getCurrentCollection());
+        List<Category> categories = getCategories(daoCollections.getCurrentCollection());
 
         Collections.sort(categories);
 
@@ -73,13 +72,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
 
     @Override
     public Category getCategoryByTemporaryId(int id) {
-        for (Category category : getAll()) {
-            if (category.getTemporaryContext().getId() == id) {
-                return category;
-            }
-        }
-
-        return null;
+        return EntityUtils.getByTemporaryId(getAll(), id);
     }
 
     @Override
@@ -94,16 +87,16 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
      *
      * @return A List containing all the categories of the collection.
      */
-    private java.util.Collection<? extends Data> getCategories(Collection collection) {
+    private List<Category> getCategories(Collection collection) {
         if (collection == null || !collection.isSaved()) {
-            return getAll();
+            return (List<Category>) getAll();
         }
 
         load();
 
-        java.util.Collection<CollectionData> categories = new ArrayList<CollectionData>(getCache().values());
+        List<Category> categories = new ArrayList<Category>(getCache().values());
 
-        CollectionUtils.filter(categories, new CollectionFilter(collection));
+        CollectionUtils.filter(categories, new CollectionFilter<Category>(collection));
 
         return categories;
     }
@@ -135,10 +128,12 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
     }
 
     @Override
-    public void create(Category entity) {
-        entity.setTheCollection(daoCollections.getCurrentCollection());
+    public void save(Category entity) {
+        if (!entity.isSaved()) {
+            entity.setTheCollection(daoCollections.getCurrentCollection());
+        }
 
-        super.create(entity);
+        super.save(entity);
     }
 
     @Override
@@ -154,20 +149,6 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
         for (Category category : categories) {
             category.setParent(getCache().get(category.getTemporaryParent()));
         }
-
-        setCacheEntirelyLoaded();
-    }
-
-    @Override
-    protected void load(int i) {
-        Category category = daoPersistenceContext.getDataByID(TABLE, i, rowMapper);
-
-        getCache().put(i, category);
-    }
-
-    @Override
-    public boolean exists(Category entity) {
-        return getCategory(entity.getTitle()) != null;
     }
 
     /**

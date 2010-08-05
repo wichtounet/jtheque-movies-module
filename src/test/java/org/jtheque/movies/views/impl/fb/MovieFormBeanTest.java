@@ -53,7 +53,7 @@ public class MovieFormBeanTest {
 
         PreciseDuration duration = new PreciseDuration(22L);
         Resolution resolution = new Resolution("450x220");
-        Note note = daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED);
+        Note note = daoNotes.getNote(Note.UNDEFINED);
 
         Collection<Category> categories = new HashSet<Category>(2);
 

@@ -26,6 +26,7 @@ import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.persistence.able.DaoNotes;
+import org.jtheque.persistence.able.Note;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;
@@ -78,7 +79,7 @@ public final class FilesService implements IFilesService {
     public Movie createMovie(String filePath, Collection<FileParser> parsers) {
         Movie movie = moviesService.getEmptyMovie();
 
-        movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.UNDEFINED));
+        movie.setNote(daoNotes.getNote(Note.UNDEFINED));
         movie.setFile(filePath);
 
         File file = new File(filePath);

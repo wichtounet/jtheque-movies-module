@@ -20,19 +20,18 @@ import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.Entity;
 import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.persistence.able.DaoPersistenceContext;
+import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.able.Note;
 import org.jtheque.persistence.able.QueryMapper;
 import org.jtheque.persistence.utils.CachedJDBCDao;
 import org.jtheque.persistence.utils.Query;
-import org.jtheque.primary.able.od.Data;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.collections.CollectionUtils;
 
@@ -79,9 +78,8 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Collection<Movie> getMovies() {
-        List<Movie> films = (List<Movie>) getMovies(daoCollections.getCurrentCollection());
+        List<Movie> films = getMovies(daoCollections.getCurrentCollection());
 
         Collections.sort(films);
 
@@ -95,16 +93,16 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      *
      * @return A List containing all the films of the collections.
      */
-    private Collection<? extends Data> getMovies(org.jtheque.collections.able.Collection collection) {
+    private List<Movie> getMovies(org.jtheque.collections.able.Collection collection) {
         if (collection == null || !collection.isSaved()) {
-            return getAll();
+            return (List<Movie>) getAll();
         }
 
         load();
 
-        Collection<CollectionData> movies = new ArrayList<CollectionData>(getCache().values());
+        List<Movie> movies = new ArrayList<Movie>(getCache().values());
 
-        CollectionUtils.filter(movies, new CollectionFilter(collection));
+        CollectionUtils.filter(movies, new CollectionFilter<Movie>(collection));
 
         return movies;
     }
@@ -122,11 +120,6 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
     }
 
     @Override
-    public boolean exists(Movie entity) {
-        return getMovie(entity.getTitle()) != null;
-    }
-
-    @Override
     public Movie getMovie(String title) {
         for (Movie movie : getMovies()) {
             if (movie.getTitle().equals(title)) {
@@ -139,9 +132,15 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
 
     @Override
     public void save(Movie movie) {
-        super.save(movie);
+        if (movie.isSaved()) {
+            super.save(movie);
 
-        daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
+            daoPersistenceContext.getTemplate().update("DELETE FROM " + MOVIES_CATEGORIES_TABLE + " WHERE THE_MOVIE_FK = ?", movie.getId());
+        } else {
+            movie.setTheCollection(daoCollections.getCurrentCollection());
+
+            super.save(movie);
+        }
 
         createLinks(movie);
     }
@@ -155,17 +154,6 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
         for (Category category : movie.getCategories()) {
             daoPersistenceContext.getTemplate().update("INSERT INTO " + MOVIES_CATEGORIES_TABLE + " (THE_MOVIE_FK, THE_CATEGORY_FK) VALUES(?,?)", movie.getId(), category.getId());
         }
-    }
-
-    @Override
-    public void create(Movie movie) {
-        movie.setTheCollection(daoCollections.getCurrentCollection());
-
-        //First we create the movie in the table
-        super.create(movie);
-
-        //next, we can create the links to the categories
-        createLinks(movie);
     }
 
     @Override
@@ -193,16 +181,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             getCache().put(movie.getId(), movie);
         }
 
-        setCacheEntirelyLoaded();
-
         relationsToCategories.clear();
-    }
-
-    @Override
-    protected void load(int i) {
-        Movie book = daoPersistenceContext.getDataByID(TABLE, i, rowMapper);
-
-        getCache().put(i, book);
     }
 
     /**
@@ -247,7 +226,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             }
 
             if (StringUtils.isNotEmpty(rs.getString("NOTE"))) {
-                movie.setNote(daoNotes.getNote(org.jtheque.persistence.impl.DaoNotes.NoteType.getEnum(rs.getInt("NOTE"))));
+                movie.setNote(Note.fromIntValue(rs.getInt("NOTE")));
             } else {
                 movie.setNote(daoNotes.getDefaultNote());
             }
@@ -313,7 +292,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
             Object[] values = new Object[7 + (id ? 1 : 0)];
 
             values[0] = movie.getTitle();
-            values[1] = movie.getNote() == null ? daoNotes.getDefaultNote().getValue().intValue() : movie.getNote().getValue().intValue();
+            values[1] = movie.getNote() == null ? daoNotes.getDefaultNote().intValue() : movie.getNote().intValue();
             values[2] = movie.getFile();
             values[3] = movie.getResolution() == null ? "" : movie.getResolution().toString();
             values[4] = movie.getDuration() == null ? 0 : movie.getDuration().getTime();
