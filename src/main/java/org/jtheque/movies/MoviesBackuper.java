@@ -13,14 +13,12 @@ import org.jtheque.persistence.able.DaoNotes;
 import org.jtheque.persistence.able.Note;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.Version;
-import org.jtheque.utils.collections.CollectionUtils;
 import org.jtheque.xml.utils.Node;
 
 import javax.annotation.Resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -99,7 +97,7 @@ public class MoviesBackuper implements ModuleBackuper {
     /**
      * Add the movies to the nodes collection.
      *
-     * @param nodes The nodes collections to fill. 
+     * @param nodes The nodes collections to fill.
      */
     private void addMovies(Collection<Node> nodes) {
         for (Movie movie : daoMovies.getAll()) {
@@ -126,23 +124,21 @@ public class MoviesBackuper implements ModuleBackuper {
     public void restore(ModuleBackup backup) {
         assert getId().equals(backup.getId()) : "This backuper can only restore its own backups";
 
-        Collection<Node> nodes = CollectionUtils.copyOf(backup.getNodes());
+        Collection<Node> nodes = backup.getNodes();
 
-        restoreCategories(nodes.iterator());
-        restoreMovies(nodes.iterator());
+        restoreCategories(nodes);
+        restoreMovies(nodes);
     }
 
     /**
      * Restore the categories.
      *
-     * @param nodeIterator The iterator to the nodes.
+     * @param nodes The iterator to the nodes.
      */
-    private void restoreCategories(Iterator<Node> nodeIterator) {
+    private void restoreCategories(Iterable<Node> nodes) {
         Collection<Category> categories = new ArrayList<Category>(25);
 
-        while (nodeIterator.hasNext()) {
-            Node node = nodeIterator.next();
-
+        for (Node node : nodes) {
             if ("category".equals(node.getName())) {
                 Category category = daoCategories.create();
 
@@ -154,8 +150,6 @@ public class MoviesBackuper implements ModuleBackuper {
                 daoCategories.save(category);
 
                 categories.add(category);
-
-                nodeIterator.remove();
             }
         }
 
@@ -169,12 +163,10 @@ public class MoviesBackuper implements ModuleBackuper {
     /**
      * Restore the movies.
      *
-     * @param nodeIterator The iterator on the nodes.
+     * @param nodes The iterator on the nodes.
      */
-    private void restoreMovies(Iterator<Node> nodeIterator) {
-        while (nodeIterator.hasNext()) {
-            Node node = nodeIterator.next();
-
+    private void restoreMovies(Iterable<Node> nodes) {
+        for (Node node : nodes) {
             if ("movie".equals(node.getName())) {
                 Movie movie = daoMovies.create();
 
@@ -188,15 +180,13 @@ public class MoviesBackuper implements ModuleBackuper {
                 restoreDuration(node, movie);
                 restoreResolution(node, movie);
                 restoreCategories(node, movie);
-                
-                daoMovies.save(movie);
 
-                nodeIterator.remove();
+                daoMovies.save(movie);
             }
         }
     }
 
-    private void restoreDuration(Node node, Movie movie) {
+    private static void restoreDuration(Node node, Movie movie) {
         long duration = node.getChildLongValue("duration");
 
         if (duration != 0L) {
@@ -204,7 +194,7 @@ public class MoviesBackuper implements ModuleBackuper {
         }
     }
 
-    private void restoreResolution(Node node, Movie movie) {
+    private static void restoreResolution(Node node, Movie movie) {
         String resolution = node.getChildValue("resolution");
 
         if (StringUtils.isNotEmpty(resolution)) {
