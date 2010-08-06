@@ -16,9 +16,9 @@ package org.jtheque.movies.services;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.utils.unit.db.AbstractDBUnitTest;
@@ -73,7 +73,7 @@ public class CategoriesServiceTest extends AbstractDBUnitTest {
 
         primaryUtils.setPrimaryImpl("Movies");
 
-        Collection collection = new CollectionImpl();
+        DataCollection collection = new DataCollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);

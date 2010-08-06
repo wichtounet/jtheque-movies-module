@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.od.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.utils.AbstractData;
 import org.jtheque.utils.bean.EqualsUtils;
@@ -41,7 +41,7 @@ public final class CategoryImpl extends AbstractData implements Category {
     /**
      * The collection.
      */
-    private Collection theCollection;
+    private DataCollection theCollection;
 
     /**
      * The id of the parent, used only at cache loading to facilitate loading.
@@ -79,12 +79,12 @@ public final class CategoryImpl extends AbstractData implements Category {
     }
 
     @Override
-    public Collection getTheCollection() {
+    public DataCollection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(Collection theCollection) {
+    public void setTheCollection(DataCollection theCollection) {
         this.theCollection = theCollection;
     }
 
@@ -111,7 +111,7 @@ public final class CategoryImpl extends AbstractData implements Category {
     //Utility methods
 
     @Override
-    public boolean isInCollection(Collection collection) {
+    public boolean isInCollection(DataCollection collection) {
         return theCollection != null && theCollection.equals(collection);
     }
 

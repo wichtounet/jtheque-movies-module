@@ -182,7 +182,8 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
 
         builder.getPanel().setBackground(Color.blue);
 
-        Controller movieController = getBean("movieController", Controller.class);
+        @SuppressWarnings("unchecked")
+        Controller<IMovieView> movieController = getBean("movieController", Controller.class);
 
         builder.addButton(ActionFactory.createAction("movie.actions.infos", movieController),
                 builder.gbcSet(0, 0, GridBagUtils.NONE, GridBagUtils.LINE_START, 1.0, 1.0));
@@ -198,7 +199,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
 
         DaoNotes daoNotes = getService(DaoNotes.class);
 
-        modelNotes = new NotesComboBoxModel(daoNotes);
+        modelNotes = new NotesComboBoxModel();
 
         JComboBox box = new JComboBox(modelNotes);
         box.setRenderer(new NoteComboRenderer(daoNotes));

@@ -33,6 +33,8 @@ import java.util.List;
  * @author Baptiste Wicht
  */
 public final class FilesTableModel extends AbstractTableModel implements Internationalizable {
+    private static final long serialVersionUID = -2504312759517887700L;
+    
     private final IMoviesService moviesService;
 
     /**

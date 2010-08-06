@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.collections.able.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -36,6 +36,7 @@ import javax.annotation.Resource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
     }
 
     @Override
-    public java.util.Collection<Category> getCategories() {
+    public Collection<Category> getCategories() {
         List<Category> categories = getCategories(daoCollections.getCurrentCollection());
 
         Collections.sort(categories);
@@ -87,7 +88,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
      *
      * @return A List containing all the categories of the collection.
      */
-    private List<Category> getCategories(Collection collection) {
+    private List<Category> getCategories(DataCollection collection) {
         if (collection == null || !collection.isSaved()) {
             return (List<Category>) getAll();
         }
@@ -138,7 +139,7 @@ public final class DaoCategories extends CachedJDBCDao<Category> implements IDao
 
     @Override
     protected void loadCache() {
-        java.util.Collection<Category> categories = daoPersistenceContext.getSortedList(TABLE, rowMapper);
+        Collection<Category> categories = daoPersistenceContext.getSortedList(TABLE, rowMapper);
 
         //First we loads the categories
         for (Category category : categories) {

@@ -27,6 +27,8 @@ import org.jtheque.ui.utils.models.SimpleListModel;
  * @author Baptiste Wicht
  */
 public final class CategoriesComboModel extends SimpleListModel<Category> implements DataListener {
+    private static final long serialVersionUID = 3871732632536802192L;
+    
     private final Category emptyCategory;
 
     /**

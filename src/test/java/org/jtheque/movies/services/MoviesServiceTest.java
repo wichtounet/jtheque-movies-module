@@ -17,7 +17,8 @@ package org.jtheque.movies.services;
  */
 
 import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.core.able.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
@@ -88,7 +89,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
     @Resource
     private DataSource dataSource;
 
-    private org.jtheque.collections.able.Collection collection;
+    private DataCollection collection;
 
     private String testFolder;
 
@@ -106,7 +107,7 @@ public class MoviesServiceTest extends AbstractDBUnitTest {
 
         primaryUtils.setPrimaryImpl("Movies");
 
-        collection = new CollectionImpl();
+        collection = new DataCollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);

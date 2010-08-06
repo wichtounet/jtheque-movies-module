@@ -1,6 +1,6 @@
 package org.jtheque.movies.persistence.od.able;
 
-import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.primary.able.od.Data;
 
 /*
@@ -30,14 +30,14 @@ public interface CollectionData extends Data {
      *
      * @return The collection.
      */
-    Collection getTheCollection();
+    DataCollection getTheCollection();
 
     /**
      * Set the collection of the movie.
      *
      * @param theCollection The collection of the movie.
      */
-    void setTheCollection(Collection theCollection);
+    void setTheCollection(DataCollection theCollection);
 
     /**
      * Test if the movie is in the specified collection.
@@ -46,5 +46,5 @@ public interface CollectionData extends Data {
      *
      * @return true if the movie is in the specified collection else false.
      */
-    boolean isInCollection(Collection collection);
+    boolean isInCollection(DataCollection collection);
 }

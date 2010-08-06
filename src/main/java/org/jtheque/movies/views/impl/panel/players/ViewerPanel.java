@@ -16,6 +16,7 @@ package org.jtheque.movies.views.impl.panel.players;
  * limitations under the License.
  */
 
+import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.ui.able.Controller;
 import org.jtheque.ui.utils.actions.ActionFactory;
 
@@ -48,7 +49,7 @@ public final class ViewerPanel extends JPanel {
      * @param player          The movie player.
      * @param movieController The movie controller.
      */
-    public ViewerPanel(IMoviePlayer player, Controller movieController) {
+    public ViewerPanel(IMoviePlayer player, Controller<IMovieView> movieController) {
         super();
 
         this.player = player;

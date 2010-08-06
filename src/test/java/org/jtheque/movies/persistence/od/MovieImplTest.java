@@ -1,7 +1,7 @@
 package org.jtheque.movies.persistence.od;
 
-import org.jtheque.collections.able.Collection;
-import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
@@ -83,10 +83,10 @@ public class MovieImplTest {
 
     @Test
     public void testIsInCollection() {
-        Collection collection1 = new CollectionImpl();
+        DataCollection collection1 = new DataCollectionImpl();
         collection1.setId(10);
 
-        Collection collection2 = new CollectionImpl();
+        DataCollection collection2 = new DataCollectionImpl();
         collection2.setId(12);
 
         assertFalse(movie.isInCollection(collection1));

@@ -16,6 +16,7 @@ package org.jtheque.movies.persistence.od.impl;
  * limitations under the License.
  */
 
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -50,7 +51,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     private Set<Category> categories = new HashSet<Category>(6);
     private String file;
     private Note note;
-    private org.jtheque.collections.able.Collection theCollection;
+    private DataCollection theCollection;
     private PreciseDuration duration;
     private Resolution resolution;
 
@@ -59,12 +60,12 @@ public final class MovieImpl extends AbstractData implements Movie {
     //Data methods
 
     @Override
-    public org.jtheque.collections.able.Collection getTheCollection() {
+    public DataCollection getTheCollection() {
         return theCollection;
     }
 
     @Override
-    public void setTheCollection(org.jtheque.collections.able.Collection theCollection) {
+    public void setTheCollection(DataCollection theCollection) {
         this.theCollection = theCollection;
     }
 
@@ -198,7 +199,7 @@ public final class MovieImpl extends AbstractData implements Movie {
     }
 
     @Override
-    public boolean isInCollection(org.jtheque.collections.able.Collection collection) {
+    public boolean isInCollection(DataCollection collection) {
         return theCollection != null && theCollection.equals(collection);
     }
 

@@ -17,7 +17,8 @@ package org.jtheque.movies.services.impl;
  */
 
 import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.core.able.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
@@ -103,7 +104,7 @@ public class FilesServiceTest extends AbstractDBUnitTest {
 
         primaryUtils.setPrimaryImpl("Movies");
 
-        org.jtheque.collections.able.Collection collection = new CollectionImpl();
+        DataCollection collection = new DataCollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);

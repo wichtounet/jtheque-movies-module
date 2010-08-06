@@ -46,8 +46,6 @@ import java.util.Iterator;
 public class MoviesBackuper implements ModuleBackuper {
     private static final String[] DEPENDENCIES = {"jtheque-primary-backuper"};
 
-    private static final Version BACKUP_VERSION = Version.get("1.0");
-
     @Resource
     private IDaoCategories daoCategories;
 
@@ -77,7 +75,7 @@ public class MoviesBackuper implements ModuleBackuper {
         addCategories(nodes);
         addMovies(nodes);
 
-        return new ModuleBackup(BACKUP_VERSION, getId(), nodes);
+        return new ModuleBackup(Version.get("1.0"), getId(), nodes);
     }
 
     /**
@@ -185,34 +183,44 @@ public class MoviesBackuper implements ModuleBackuper {
                 movie.setImage(node.getChildValue("image"));
                 movie.setNote(Note.fromIntValue(node.getChildIntValue("note")));
 
-                long duration = node.getChildLongValue("duration");
-
-                if (duration != 0L) {
-                    movie.setDuration(new PreciseDuration(duration));
-                }
-
-                String resolution = node.getChildValue("resolution");
-
-                if (StringUtils.isNotEmpty(resolution)) {
-                    movie.setResolution(new Resolution(resolution));
-                }
-
                 movie.setTheCollection(daoCollections.getCollectionByTemporaryId(node.getChildIntValue("collection")));
 
-                Collection<Category> categories = new ArrayList<Category>(5);
-
-                for (Node catNode : node.getChildrens()) {
-                    if ("category".equals(catNode.getName())) {
-                        categories.add(daoCategories.getCategoryByTemporaryId(catNode.getInt()));
-                    }
-                }
-
-                movie.setCategories(categories);
-
+                restoreDuration(node, movie);
+                restoreResolution(node, movie);
+                restoreCategories(node, movie);
+                
                 daoMovies.save(movie);
 
                 nodeIterator.remove();
             }
         }
+    }
+
+    private void restoreDuration(Node node, Movie movie) {
+        long duration = node.getChildLongValue("duration");
+
+        if (duration != 0L) {
+            movie.setDuration(new PreciseDuration(duration));
+        }
+    }
+
+    private void restoreResolution(Node node, Movie movie) {
+        String resolution = node.getChildValue("resolution");
+
+        if (StringUtils.isNotEmpty(resolution)) {
+            movie.setResolution(new Resolution(resolution));
+        }
+    }
+
+    private void restoreCategories(Node node, Movie movie) {
+        Collection<Category> categories = new ArrayList<Category>(5);
+
+        for (Node catNode : node.getChildrens()) {
+            if ("category".equals(catNode.getName())) {
+                categories.add(daoCategories.getCategoryByTemporaryId(catNode.getInt()));
+            }
+        }
+
+        movie.setCategories(categories);
     }
 }

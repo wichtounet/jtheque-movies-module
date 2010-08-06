@@ -17,6 +17,7 @@ package org.jtheque.movies.persistence.dao.impl;
  */
 
 import org.jtheque.collections.able.DaoCollections;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -93,7 +94,7 @@ public final class DaoMovies extends CachedJDBCDao<Movie> implements IDaoMovies 
      *
      * @return A List containing all the films of the collections.
      */
-    private List<Movie> getMovies(org.jtheque.collections.able.Collection collection) {
+    private List<Movie> getMovies(DataCollection collection) {
         if (collection == null || !collection.isSaved()) {
             return (List<Movie>) getAll();
         }

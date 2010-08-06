@@ -22,6 +22,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoriesView;
+import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.models.CategoriesListModel;
 import org.jtheque.primary.able.controller.IChoiceController;
@@ -65,7 +66,7 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
     private IChoiceController choiceController;
 
     @Resource
-    private Controller categoryController;
+    private Controller<ICategoryView> categoryController;
 
     @Override
     protected void buildView(I18nPanelBuilder builder) {
@@ -127,6 +128,8 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
      * @author Baptiste Wicht
      */
     private final class AcAddToList extends JThequeSimpleAction {
+        private static final long serialVersionUID = -330415352827742843L;
+
         /**
          * Construct a new AcAddToList action with a text ">>".
          */
@@ -157,6 +160,8 @@ public final class JPanelCategories extends OSGIFilthyBuildedPanel implements IC
      * @author Baptiste Wicht
      */
     private final class AcRemoveFromList extends JThequeSimpleAction {
+        private static final long serialVersionUID = 4590966825608130118L;
+
         /**
          * Construct a new AcRemoveFromList action with a text <<.
          */

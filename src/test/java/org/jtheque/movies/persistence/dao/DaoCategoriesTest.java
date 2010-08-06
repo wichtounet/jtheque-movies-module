@@ -17,7 +17,8 @@ package org.jtheque.movies.persistence.dao;
  */
 
 import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.impl.CollectionImpl;
+import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
@@ -78,7 +79,7 @@ public class DaoCategoriesTest extends AbstractDBUnitTest {
 
         primaryUtils.setPrimaryImpl("Movies");
 
-        org.jtheque.collections.able.Collection collection = new CollectionImpl();
+        DataCollection collection = new DataCollectionImpl();
         collection.setId(1);
         collection.setPassword("");
         collection.setProtection(false);

@@ -27,6 +27,8 @@ import org.jtheque.ui.utils.models.SimpleListModel;
  * @author Baptiste Wicht
  */
 public final class CategoriesListModel extends SimpleListModel<Category> implements DataListener {
+    private static final long serialVersionUID = 5034627720516465375L;
+    
     private final ICategoriesService categoriesService;
 
     private SimpleListModel<Category> linkedModel;

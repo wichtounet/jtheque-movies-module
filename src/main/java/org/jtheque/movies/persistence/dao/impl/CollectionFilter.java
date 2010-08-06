@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.Collection;
+import org.jtheque.collections.able.DataCollection;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.utils.collections.Filter;
 
@@ -26,14 +26,14 @@ import org.jtheque.utils.collections.Filter;
  * @author Baptiste Wicht
  */
 class CollectionFilter<T extends CollectionData> implements Filter<T> {
-    private final Collection collection;
+    private final DataCollection collection;
 
     /**
      * Construct a new CollectionFilter.
      *
      * @param collection The collection to filter with.
      */
-    CollectionFilter(Collection collection) {
+    CollectionFilter(DataCollection collection) {
         super();
 
         this.collection = collection;
