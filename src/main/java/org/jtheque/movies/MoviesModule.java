@@ -18,7 +18,7 @@ package org.jtheque.movies;
 
 import org.jtheque.collections.able.CollectionsService;
 import org.jtheque.core.able.Core;
-import org.jtheque.modules.utils.SwingModule;
+import org.jtheque.modules.able.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.primary.able.IPrimaryUtils;

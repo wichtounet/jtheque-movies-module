@@ -87,7 +87,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     private JXTree treeMovies;
     private MoviesSorter moviesSorter;
 
-    //Don't use @Resource cause of circular references
+    //Don't use @ResourceImpl cause of circular references
     private IPrincipalController<Movie, IMovieView> movieController;
 
     @Override
