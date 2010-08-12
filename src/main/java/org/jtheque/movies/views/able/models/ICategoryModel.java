@@ -18,7 +18,7 @@ package org.jtheque.movies.views.able.models;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.able.views.ViewMode;
-import org.jtheque.ui.able.Model;
+import org.jtheque.ui.Model;
 
 /**
  * @author Baptiste Wicht

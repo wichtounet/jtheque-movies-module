@@ -22,7 +22,7 @@ import org.jtheque.movies.persistence.od.impl.CategoryImpl;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.Note;
 import org.jtheque.utils.StringUtils;
 
 import org.junit.Test;

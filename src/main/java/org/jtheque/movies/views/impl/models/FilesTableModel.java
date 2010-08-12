@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.impl.models;
 
-import org.jtheque.i18n.able.LanguageService;
-import org.jtheque.i18n.able.Internationalizable;
+import org.jtheque.i18n.Internationalizable;
+import org.jtheque.i18n.LanguageService;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 

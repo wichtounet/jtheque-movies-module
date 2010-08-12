@@ -16,10 +16,10 @@ package org.jtheque.movies.persistence;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.DaoCollections;
+import org.jtheque.collections.DaoCollections;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
-import org.jtheque.schemas.able.DefaultSchema;
+import org.jtheque.schemas.DefaultSchema;
 import org.jtheque.utils.bean.Version;
 
 /**

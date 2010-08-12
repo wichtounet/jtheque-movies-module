@@ -17,7 +17,7 @@ package org.jtheque.movies.persistence.dao.able;
  */
 
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.persistence.able.Dao;
+import org.jtheque.persistence.Dao;
 
 import java.util.Collection;
 

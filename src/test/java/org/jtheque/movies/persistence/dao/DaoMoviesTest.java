@@ -1,7 +1,7 @@
 package org.jtheque.movies.persistence.dao;
 
-import org.jtheque.collections.able.DataCollection;
-import org.jtheque.collections.able.DaoCollections;
+import org.jtheque.collections.DataCollection;
+import org.jtheque.collections.DaoCollections;
 import org.jtheque.collections.impl.DataCollectionImpl;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;

@@ -16,12 +16,11 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.Error;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
-import org.jtheque.ui.able.components.FileChooser;
-import org.jtheque.ui.able.components.filthy.Filthy;
+import org.jtheque.ui.components.FileChooser;
+import org.jtheque.ui.components.filthy.Filthy;
 import org.jtheque.ui.utils.ValidationUtils;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
@@ -138,7 +137,7 @@ public final class ImportFolderView extends AbstractParserView implements IImpor
     }
 
     @Override
-    public void validate(Collection<Error> errors) {
+    public void validate(Collection<org.jtheque.errors.Error> errors) {
         if (Phase.CHOOSE_FOLDER == phase) {
             ValidationUtils.rejectIfEmpty(directoryChooser.getFilePath(), "movie.auto.folder.errors.folderEmpty", errors);
         } else if (Phase.CHOOSE_FILES == phase) {

@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.ui.able.View;
+import org.jtheque.ui.View;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

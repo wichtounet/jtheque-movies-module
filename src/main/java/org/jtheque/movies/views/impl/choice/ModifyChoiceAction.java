@@ -20,7 +20,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.primary.utils.choice.AbstractModifyChoiceAction;
-import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.Controller;
 
 import javax.annotation.Resource;
 

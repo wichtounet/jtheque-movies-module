@@ -16,9 +16,8 @@ package org.jtheque.movies.views.impl;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.Error;
+import org.jtheque.images.ImageService;
 import org.jtheque.movies.MoviesResources;
-import org.jtheque.images.able.ImageService;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
@@ -31,16 +30,16 @@ import org.jtheque.movies.views.impl.models.FilthyCellRenderer;
 import org.jtheque.movies.views.impl.models.MoviesModel;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
 import org.jtheque.movies.views.impl.sort.MoviesSorter;
-import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.Entity;
 import org.jtheque.primary.able.controller.IPrincipalController;
 import org.jtheque.primary.utils.views.listeners.CurrentObjectListener;
 import org.jtheque.primary.utils.views.listeners.DisplayListListener;
 import org.jtheque.primary.utils.views.listeners.ObjectChangedEvent;
 import org.jtheque.primary.utils.views.tree.JThequeTreeModel;
 import org.jtheque.primary.utils.views.tree.TreeElement;
-import org.jtheque.ui.able.components.Borders;
-import org.jtheque.ui.able.components.CardPanel;
-import org.jtheque.ui.able.components.filthy.Filthy;
+import org.jtheque.ui.components.Borders;
+import org.jtheque.ui.components.CardPanel;
+import org.jtheque.ui.components.filthy.Filthy;
 import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.builded.OSGIFilthyBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
@@ -59,7 +58,7 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.util.Collection;
 
-import static org.jtheque.ui.able.components.filthy.FilthyConstants.TITLE_FONT;
+import static org.jtheque.ui.components.filthy.FilthyConstants.TITLE_FONT;
 
 /**
  * Panel to display movies.
@@ -205,7 +204,7 @@ public final class MovieView extends OSGIFilthyBuildedPanel implements CurrentOb
     }
 
     @Override
-    public void validate(Collection<Error> errors) {
+    public void validate(Collection<org.jtheque.errors.Error> errors) {
         layeredPanel.getCurrentLayer().validate(errors);
     }
 

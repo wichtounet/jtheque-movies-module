@@ -16,15 +16,15 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.images.able.ImageService;
+import org.jtheque.images.ImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.PictureFileNameFilter;
 import org.jtheque.movies.views.able.IImageView;
-import org.jtheque.ui.able.Model;
-import org.jtheque.ui.able.components.FileChooser;
-import org.jtheque.ui.able.components.TextField;
-import org.jtheque.ui.able.components.filthy.Filthy;
+import org.jtheque.ui.Model;
+import org.jtheque.ui.components.FileChooser;
+import org.jtheque.ui.components.TextField;
+import org.jtheque.ui.components.filthy.Filthy;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.StringUtils;

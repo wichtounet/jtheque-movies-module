@@ -18,7 +18,7 @@ package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.views.able.models.ICategoryModel;
-import org.jtheque.ui.able.View;
+import org.jtheque.ui.View;
 
 /**
  * A category view specification.

@@ -21,7 +21,7 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.MoviesService;
-import org.jtheque.persistence.able.DataListener;
+import org.jtheque.persistence.DataListener;
 import org.jtheque.utils.collections.CollectionUtils;
 
 import org.junit.Before;

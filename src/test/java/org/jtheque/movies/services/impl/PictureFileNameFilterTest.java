@@ -16,7 +16,7 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.core.utils.SystemProperty;
+import org.jtheque.utils.SystemProperty;
 
 import org.junit.Test;
 

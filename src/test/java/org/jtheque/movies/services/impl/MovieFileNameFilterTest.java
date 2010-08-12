@@ -1,6 +1,6 @@
 package org.jtheque.movies.services.impl;
 
-import org.jtheque.core.utils.SystemProperty;
+import org.jtheque.utils.SystemProperty;
 
 import org.junit.Test;
 

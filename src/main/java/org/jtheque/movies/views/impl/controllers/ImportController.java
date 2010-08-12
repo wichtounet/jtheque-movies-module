@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.views.able.IImportFolderView;
-import org.jtheque.ui.able.Action;
+import org.jtheque.ui.Action;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.ui.SimpleSwingWorker;
 

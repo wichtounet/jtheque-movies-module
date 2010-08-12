@@ -18,7 +18,7 @@ package org.jtheque.movies.views.impl.models;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
-import org.jtheque.persistence.able.DataListener;
+import org.jtheque.persistence.DataListener;
 import org.jtheque.ui.utils.models.SimpleListModel;
 
 /**

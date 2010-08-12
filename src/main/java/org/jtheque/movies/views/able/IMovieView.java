@@ -20,8 +20,8 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.models.IMoviesModel;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.panel.MoviePanel;
-import org.jtheque.ui.able.View;
-import org.jtheque.views.able.components.MainComponent;
+import org.jtheque.ui.View;
+import org.jtheque.views.components.MainComponent;
 
 /**
  * @author Baptiste Wicht

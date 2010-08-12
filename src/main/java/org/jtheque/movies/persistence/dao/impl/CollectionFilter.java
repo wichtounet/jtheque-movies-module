@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.dao.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.DataCollection;
 import org.jtheque.movies.persistence.od.able.CollectionData;
 import org.jtheque.utils.collections.Filter;
 

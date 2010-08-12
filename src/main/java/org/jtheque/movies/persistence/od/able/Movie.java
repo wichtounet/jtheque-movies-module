@@ -18,7 +18,7 @@ package org.jtheque.movies.persistence.od.able;
 
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.Note;
 
 import java.util.Collection;
 import java.util.Date;

@@ -2,7 +2,7 @@ package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
 import org.jtheque.movies.views.able.models.ICleanModel;
-import org.jtheque.ui.able.View;
+import org.jtheque.ui.View;
 
 import java.util.Collection;
 

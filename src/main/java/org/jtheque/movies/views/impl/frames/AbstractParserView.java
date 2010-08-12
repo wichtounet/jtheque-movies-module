@@ -20,7 +20,7 @@ import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.impl.panel.containers.CustomParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
 import org.jtheque.movies.views.impl.panel.containers.SimpleParserContainer;
-import org.jtheque.ui.able.Model;
+import org.jtheque.ui.Model;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 
 import java.util.ArrayList;

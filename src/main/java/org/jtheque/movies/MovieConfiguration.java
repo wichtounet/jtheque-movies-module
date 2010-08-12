@@ -1,6 +1,6 @@
 package org.jtheque.movies;
 
-import org.jtheque.states.able.State;
+import org.jtheque.states.State;
 import org.jtheque.states.utils.AbstractState;
 
 /*

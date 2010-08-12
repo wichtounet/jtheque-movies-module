@@ -20,9 +20,9 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.impl.parsers.FileParser;
 import org.jtheque.movies.views.able.IAddFromFileView;
 import org.jtheque.movies.views.impl.panel.containers.ParserContainer;
-import org.jtheque.ui.able.components.FileChooser;
-import org.jtheque.ui.able.components.filthy.Filthy;
-import org.jtheque.ui.able.constraints.Constraints;
+import org.jtheque.ui.components.FileChooser;
+import org.jtheque.ui.components.filthy.Filthy;
+import org.jtheque.ui.constraints.Constraints;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.utils.ui.GridBagUtils;
 

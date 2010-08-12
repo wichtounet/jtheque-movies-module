@@ -20,9 +20,9 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.IGenerateInfosView;
 import org.jtheque.primary.utils.views.DataContainerCachedComboBoxModel;
-import org.jtheque.ui.able.Model;
+import org.jtheque.ui.Model;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
-import org.jtheque.ui.able.components.filthy.Filthy;
+import org.jtheque.ui.components.filthy.Filthy;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;
 

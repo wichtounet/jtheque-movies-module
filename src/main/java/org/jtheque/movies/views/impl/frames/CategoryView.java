@@ -16,16 +16,16 @@ package org.jtheque.movies.views.impl.frames;
  * limitations under the License.
  */
 
-import org.jtheque.i18n.able.LanguageService;
+import org.jtheque.i18n.LanguageService;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.models.ICategoryModel;
 import org.jtheque.movies.views.impl.models.CategoriesComboModel;
 import org.jtheque.movies.views.impl.models.CategoryModel;
-import org.jtheque.ui.able.components.TextField;
-import org.jtheque.ui.able.components.filthy.Filthy;
-import org.jtheque.ui.able.constraints.Constraints;
+import org.jtheque.ui.components.TextField;
+import org.jtheque.ui.components.filthy.Filthy;
+import org.jtheque.ui.constraints.Constraints;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.windows.dialogs.SwingFilthyBuildedDialogView;
 import org.jtheque.utils.ui.GridBagUtils;

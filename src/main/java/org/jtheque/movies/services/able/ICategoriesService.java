@@ -1,7 +1,7 @@
 package org.jtheque.movies.services.able;
 
 import org.jtheque.movies.persistence.od.able.Category;
-import org.jtheque.persistence.able.DataContainer;
+import org.jtheque.persistence.DataContainer;
 import org.jtheque.primary.able.services.DataService;
 
 import java.util.Collection;

@@ -16,9 +16,9 @@ package org.jtheque.movies.services.parsers;
  * limitations under the License.
  */
 
-import org.jtheque.core.utils.SystemProperty;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.services.impl.parsers.FolderCategoryParser;
+import org.jtheque.utils.SystemProperty;
 import org.jtheque.utils.io.FileUtils;
 
 import org.junit.AfterClass;

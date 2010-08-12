@@ -20,7 +20,7 @@ import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.Note;
 import org.jtheque.primary.able.controller.FormBean;
 
 import java.util.Collection;

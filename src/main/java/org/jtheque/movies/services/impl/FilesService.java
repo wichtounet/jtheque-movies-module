@@ -16,8 +16,8 @@ package org.jtheque.movies.services.impl;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.ErrorService;
-import org.jtheque.errors.able.Errors;
+import org.jtheque.errors.ErrorService;
+import org.jtheque.errors.Errors;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.ICategoriesService;
@@ -25,8 +25,8 @@ import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IFilesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.persistence.able.DaoNotes;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.DaoNotes;
+import org.jtheque.persistence.Note;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.Resource;

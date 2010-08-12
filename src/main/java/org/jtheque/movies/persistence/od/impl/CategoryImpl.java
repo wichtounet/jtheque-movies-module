@@ -16,7 +16,7 @@ package org.jtheque.movies.persistence.od.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.DataCollection;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.primary.utils.AbstractData;
 import org.jtheque.utils.bean.EqualsUtils;

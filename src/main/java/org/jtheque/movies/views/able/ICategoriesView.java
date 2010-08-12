@@ -16,7 +16,7 @@ package org.jtheque.movies.views.able;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.Error;
+import org.jtheque.errors.Error;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 

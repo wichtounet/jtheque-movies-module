@@ -16,7 +16,7 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.features.able.Feature;
+import org.jtheque.features.Feature;
 import org.jtheque.movies.views.able.ICategoryView;
 import org.jtheque.movies.views.able.IFilesView;
 import org.jtheque.movies.views.able.IGenerateInfosView;
@@ -24,7 +24,7 @@ import org.jtheque.movies.views.able.IImportFolderView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.able.views.IChoiceView;
-import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.Controller;
 import org.jtheque.views.utils.OSGIMenu;
 
 import java.util.List;

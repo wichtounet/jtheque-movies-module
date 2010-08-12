@@ -23,8 +23,8 @@ import org.jtheque.primary.able.controller.ControllerState;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataDeletedEdit;
-import org.jtheque.ui.able.Controller;
-import org.jtheque.undo.able.IUndoRedoService;
+import org.jtheque.ui.Controller;
+import org.jtheque.undo.IUndoRedoService;
 
 import javax.annotation.Resource;
 

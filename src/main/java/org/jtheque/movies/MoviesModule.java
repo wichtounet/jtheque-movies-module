@@ -16,15 +16,15 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.CollectionsService;
-import org.jtheque.core.able.Core;
-import org.jtheque.modules.able.SwingModule;
+import org.jtheque.collections.CollectionsService;
+import org.jtheque.core.Core;
+import org.jtheque.modules.SwingModule;
 import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.primary.able.IPrimaryUtils;
 import org.jtheque.primary.able.controller.IChoiceController;
 import org.jtheque.primary.utils.DataTypeManager;
-import org.jtheque.states.able.StateService;
+import org.jtheque.states.StateService;
 import org.jtheque.utils.io.FileUtils;
 
 import javax.annotation.PostConstruct;

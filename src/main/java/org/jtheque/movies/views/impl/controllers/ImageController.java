@@ -1,14 +1,14 @@
 package org.jtheque.movies.views.impl.controllers;
 
-import org.jtheque.errors.able.ErrorService;
-import org.jtheque.errors.able.Errors;
+import org.jtheque.errors.Errors;
+import org.jtheque.errors.ErrorService;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.ui.able.Action;
-import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.Action;
+import org.jtheque.ui.Controller;
 import org.jtheque.ui.utils.AbstractController;
 import org.jtheque.utils.StringUtils;
 

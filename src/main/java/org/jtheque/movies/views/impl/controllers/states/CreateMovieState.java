@@ -16,8 +16,8 @@ package org.jtheque.movies.views.impl.controllers.states;
  * limitations under the License.
  */
 
-import org.jtheque.errors.able.ErrorService;
-import org.jtheque.errors.able.Errors;
+import org.jtheque.errors.ErrorService;
+import org.jtheque.errors.Errors;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IMovieView;
@@ -27,9 +27,9 @@ import org.jtheque.primary.able.controller.FormBean;
 import org.jtheque.primary.able.od.Data;
 import org.jtheque.primary.utils.controller.AbstractControllerState;
 import org.jtheque.primary.utils.edits.GenericDataCreatedEdit;
-import org.jtheque.ui.able.Controller;
-import org.jtheque.ui.able.UIUtils;
-import org.jtheque.undo.able.IUndoRedoService;
+import org.jtheque.ui.Controller;
+import org.jtheque.ui.UIUtils;
+import org.jtheque.undo.IUndoRedoService;
 
 import javax.annotation.Resource;
 

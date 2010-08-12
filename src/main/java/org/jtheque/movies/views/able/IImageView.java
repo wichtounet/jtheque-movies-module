@@ -17,7 +17,7 @@ package org.jtheque.movies.views.able;
  */
 
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.ui.able.WindowView;
+import org.jtheque.ui.WindowView;
 
 import java.awt.image.BufferedImage;
 

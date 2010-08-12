@@ -4,8 +4,8 @@ import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.ICleanView;
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.ui.able.Action;
-import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.Action;
+import org.jtheque.ui.Controller;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;

@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.panel.containers;
  */
 
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.ui.able.components.JThequeCheckBox;
+import org.jtheque.ui.components.JThequeCheckBox;
 
 import java.awt.Color;
 

@@ -1,7 +1,7 @@
 package org.jtheque.movies.persistence.od;
 
 import org.jtheque.movies.persistence.od.impl.CategoryImpl;
-import org.jtheque.persistence.able.Entity;
+import org.jtheque.persistence.Entity;
 
 import org.junit.Before;
 import org.junit.Test;

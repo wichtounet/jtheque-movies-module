@@ -16,10 +16,10 @@ package org.jtheque.movies.services;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.DaoCollections;
+import org.jtheque.collections.DataCollection;
 import org.jtheque.collections.impl.DataCollectionImpl;
-import org.jtheque.core.able.Core;
+import org.jtheque.core.Core;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MovieConfiguration;
 import org.jtheque.movies.MoviesModuleTest;

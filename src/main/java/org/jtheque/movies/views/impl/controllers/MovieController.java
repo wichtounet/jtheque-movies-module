@@ -1,8 +1,8 @@
 package org.jtheque.movies.views.impl.controllers;
 
-import org.jtheque.errors.able.ErrorService;
-import org.jtheque.errors.able.Errors;
-import org.jtheque.i18n.able.LanguageService;
+import org.jtheque.errors.ErrorService;
+import org.jtheque.errors.Errors;
+import org.jtheque.i18n.LanguageService;
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.persistence.od.able.Movie;
@@ -13,12 +13,12 @@ import org.jtheque.movies.views.impl.panel.players.VLCPlayer;
 import org.jtheque.movies.views.impl.panel.players.ViewerPanel;
 import org.jtheque.movies.views.impl.panel.players.WMPPlayer;
 import org.jtheque.primary.utils.controller.PrincipalController;
-import org.jtheque.ui.able.Action;
-import org.jtheque.ui.able.Controller;
-import org.jtheque.ui.able.UIUtils;
+import org.jtheque.ui.Action;
+import org.jtheque.ui.UIUtils;
+import org.jtheque.ui.Controller;
 import org.jtheque.utils.DesktopUtils;
 import org.jtheque.utils.StringUtils;
-import org.jtheque.views.able.Views;
+import org.jtheque.views.Views;
 
 import javax.annotation.Resource;
 

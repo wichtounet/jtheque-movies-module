@@ -16,8 +16,8 @@ package org.jtheque.movies.persistence.dao.impl;
  * limitations under the License.
  */
 
-import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.DaoCollections;
+import org.jtheque.collections.DataCollection;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
@@ -26,11 +26,11 @@ import org.jtheque.movies.persistence.od.impl.MovieCategoryRelation;
 import org.jtheque.movies.persistence.od.impl.MovieImpl;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.DaoNotes;
-import org.jtheque.persistence.able.DaoPersistenceContext;
-import org.jtheque.persistence.able.Entity;
-import org.jtheque.persistence.able.Note;
-import org.jtheque.persistence.able.QueryMapper;
+import org.jtheque.persistence.Entity;
+import org.jtheque.persistence.Note;
+import org.jtheque.persistence.QueryMapper;
+import org.jtheque.persistence.DaoNotes;
+import org.jtheque.persistence.DaoPersistenceContext;
 import org.jtheque.persistence.utils.CachedJDBCDao;
 import org.jtheque.persistence.utils.Query;
 import org.jtheque.utils.StringUtils;

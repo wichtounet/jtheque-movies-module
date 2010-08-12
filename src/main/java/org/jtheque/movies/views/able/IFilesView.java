@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.able;
 
-import org.jtheque.ui.able.View;
+import org.jtheque.ui.View;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

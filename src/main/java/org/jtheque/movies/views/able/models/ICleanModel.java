@@ -18,7 +18,7 @@ package org.jtheque.movies.views.able.models;
 
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
-import org.jtheque.ui.able.Model;
+import org.jtheque.ui.Model;
 
 /**
  * A clean model specification.

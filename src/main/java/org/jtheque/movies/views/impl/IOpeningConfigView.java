@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl;
 
-import org.jtheque.views.able.components.ConfigTabComponent;
+import org.jtheque.views.components.ConfigTabComponent;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

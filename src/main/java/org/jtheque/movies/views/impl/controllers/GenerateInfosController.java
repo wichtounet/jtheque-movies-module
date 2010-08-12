@@ -2,7 +2,7 @@ package org.jtheque.movies.views.impl.controllers;
 
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.views.able.IGenerateInfosView;
-import org.jtheque.ui.able.Action;
+import org.jtheque.ui.Action;
 import org.jtheque.ui.utils.AbstractController;
 
 import javax.annotation.Resource;

@@ -24,7 +24,7 @@ import org.jtheque.movies.services.able.ICategoriesService;
 import org.jtheque.movies.services.able.IFFMpegService;
 import org.jtheque.movies.services.able.IMoviesService;
 import org.jtheque.movies.services.impl.cleaners.NameCleaner;
-import org.jtheque.persistence.able.DataListener;
+import org.jtheque.persistence.DataListener;
 import org.jtheque.utils.collections.CollectionUtils;
 import org.jtheque.utils.collections.Filter;
 import org.jtheque.utils.io.FileUtils;

@@ -1,19 +1,19 @@
 package org.jtheque.movies.views.impl.panel;
 
-import org.jtheque.errors.able.Error;
-import org.jtheque.i18n.able.LanguageService;
-import org.jtheque.images.able.ImageService;
+import org.jtheque.errors.Error;
+import org.jtheque.i18n.LanguageService;
+import org.jtheque.images.ImageService;
 import org.jtheque.movies.IMoviesModule;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
-import org.jtheque.persistence.able.DaoNotes;
-import org.jtheque.ui.able.Controller;
-import org.jtheque.ui.able.components.Borders;
-import org.jtheque.ui.able.components.Components;
-import org.jtheque.ui.able.components.I18nLabel;
+import org.jtheque.persistence.DaoNotes;
+import org.jtheque.ui.Controller;
+import org.jtheque.ui.components.Borders;
+import org.jtheque.ui.components.Components;
+import org.jtheque.ui.components.I18nLabel;
 import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.actions.JThequeAction;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
@@ -33,7 +33,7 @@ import java.awt.Font;
 import java.awt.Insets;
 import java.util.Collection;
 
-import static org.jtheque.ui.able.components.filthy.FilthyConstants.TITLE_FONT;
+import static org.jtheque.ui.components.filthy.FilthyConstants.TITLE_FONT;
 
 /*
  * Copyright JTheque (Baptiste Wicht)

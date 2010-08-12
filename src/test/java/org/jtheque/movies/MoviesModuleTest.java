@@ -16,9 +16,9 @@ package org.jtheque.movies;
  * limitations under the License.
  */
 
-import org.jtheque.core.able.Core;
-import org.jtheque.core.able.application.Application;
-import org.jtheque.core.able.application.ApplicationProperties;
+import org.jtheque.core.Core;
+import org.jtheque.core.application.Application;
+import org.jtheque.core.application.ApplicationProperties;
 import org.jtheque.core.utils.ImageType;
 import org.jtheque.utils.bean.BeanUtils;
 import org.jtheque.utils.bean.Version;

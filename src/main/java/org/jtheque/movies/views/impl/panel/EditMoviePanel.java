@@ -11,16 +11,16 @@ import org.jtheque.movies.views.able.IImageView;
 import org.jtheque.movies.views.able.IMovieView;
 import org.jtheque.movies.views.impl.fb.IMovieFormBean;
 import org.jtheque.movies.views.impl.fb.MovieFormBean;
-import org.jtheque.persistence.able.DaoNotes;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.Note;
+import org.jtheque.persistence.DaoNotes;
 import org.jtheque.primary.utils.views.NoteComboRenderer;
 import org.jtheque.primary.utils.views.NotesComboBoxModel;
-import org.jtheque.ui.able.Controller;
-import org.jtheque.ui.able.components.Borders;
-import org.jtheque.ui.able.components.FileChooser;
-import org.jtheque.ui.able.components.TextField;
-import org.jtheque.ui.able.components.filthy.Filthy;
-import org.jtheque.ui.able.constraints.ConstraintManager;
+import org.jtheque.ui.Controller;
+import org.jtheque.ui.components.Borders;
+import org.jtheque.ui.components.FileChooser;
+import org.jtheque.ui.components.TextField;
+import org.jtheque.ui.components.filthy.Filthy;
+import org.jtheque.ui.constraints.ConstraintManager;
 import org.jtheque.ui.utils.actions.ActionFactory;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.ui.utils.builders.PanelBuilder;
@@ -39,7 +39,7 @@ import java.awt.Insets;
 import java.text.ParseException;
 import java.util.Collection;
 
-import static org.jtheque.ui.able.components.filthy.FilthyConstants.INPUT_COLOR;
+import static org.jtheque.ui.components.filthy.FilthyConstants.INPUT_COLOR;
 
 /*
  * Copyright JTheque (Baptiste Wicht)
@@ -230,7 +230,7 @@ public final class EditMoviePanel extends MoviePanel implements IEditMovieView {
     }
 
     @Override
-    public void validate(Collection<org.jtheque.errors.able.Error> errors) {
+    public void validate(Collection<org.jtheque.errors.Error> errors) {
         ConstraintManager.validate(Movie.TITLE, fieldTitle.getText(), errors);
         ConstraintManager.validate(Movie.FILE, fieldFile.getFilePath(), errors);
 

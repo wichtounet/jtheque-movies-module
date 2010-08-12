@@ -1,7 +1,7 @@
 package org.jtheque.movies.views.able;
 
 import org.jtheque.movies.services.impl.parsers.FileParser;
-import org.jtheque.ui.able.View;
+import org.jtheque.ui.View;
 
 import java.util.Collection;
 

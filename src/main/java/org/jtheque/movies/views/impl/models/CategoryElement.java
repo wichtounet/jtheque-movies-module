@@ -1,6 +1,6 @@
 package org.jtheque.movies.views.impl.models;
 
-import org.jtheque.images.able.ImageService;
+import org.jtheque.images.ImageService;
 import org.jtheque.movies.MoviesResources;
 import org.jtheque.primary.utils.views.tree.TreeElement;
 

@@ -1,6 +1,6 @@
 package org.jtheque.movies.persistence.od.able;
 
-import org.jtheque.collections.able.DataCollection;
+import org.jtheque.collections.DataCollection;
 import org.jtheque.primary.able.od.Data;
 
 /*

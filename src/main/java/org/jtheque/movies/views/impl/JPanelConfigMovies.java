@@ -2,9 +2,9 @@ package org.jtheque.movies.views.impl;
 
 import org.jtheque.movies.IMovieConfiguration;
 import org.jtheque.movies.IMoviesModule;
-import org.jtheque.ui.able.components.Components;
-import org.jtheque.ui.able.components.FileChooser;
-import org.jtheque.ui.able.constraints.Constraint;
+import org.jtheque.ui.components.Components;
+import org.jtheque.ui.components.FileChooser;
+import org.jtheque.ui.constraints.Constraint;
 import org.jtheque.ui.utils.builded.OSGIBuildedPanel;
 import org.jtheque.ui.utils.builders.I18nPanelBuilder;
 import org.jtheque.utils.OSUtils;

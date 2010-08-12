@@ -1,16 +1,16 @@
 package org.jtheque.movies;
 
-import org.jtheque.collections.able.DaoCollections;
-import org.jtheque.file.able.ModuleBackup;
-import org.jtheque.file.able.ModuleBackuper;
+import org.jtheque.collections.DaoCollections;
+import org.jtheque.file.ModuleBackup;
+import org.jtheque.file.ModuleBackuper;
 import org.jtheque.movies.persistence.dao.able.IDaoCategories;
 import org.jtheque.movies.persistence.dao.able.IDaoMovies;
 import org.jtheque.movies.persistence.od.able.Category;
 import org.jtheque.movies.persistence.od.able.Movie;
 import org.jtheque.movies.utils.PreciseDuration;
 import org.jtheque.movies.utils.Resolution;
-import org.jtheque.persistence.able.DaoNotes;
-import org.jtheque.persistence.able.Note;
+import org.jtheque.persistence.DaoNotes;
+import org.jtheque.persistence.Note;
 import org.jtheque.utils.StringUtils;
 import org.jtheque.utils.bean.Version;
 import org.jtheque.xml.utils.Node;

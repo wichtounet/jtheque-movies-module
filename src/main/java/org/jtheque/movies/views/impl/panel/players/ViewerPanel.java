@@ -17,7 +17,7 @@ package org.jtheque.movies.views.impl.panel.players;
  */
 
 import org.jtheque.movies.views.able.IMovieView;
-import org.jtheque.ui.able.Controller;
+import org.jtheque.ui.Controller;
 import org.jtheque.ui.utils.actions.ActionFactory;
 
 import javax.swing.JButton;
