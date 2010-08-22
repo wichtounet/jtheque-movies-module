@@ -92,7 +92,7 @@ public class MoviesModuleTest {
         }
 
         @Override
-        public boolean isDisplayLicense() {
+        public boolean isLicenseDisplayed() {
             return false;
         }
 
